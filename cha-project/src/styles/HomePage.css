@@ -1,0 +1,60 @@
+.main {
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+    overflow: hidden;
+  }
+  
+  .intro {
+    position: absolute;
+    color: White
+  }
+  
+  .banner {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: black;
+  }
+
+  .banner h2 {
+    font-family: "Felgine";
+  }
+
+  .images {
+    display: flex;
+  }
+
+  .left-img {
+    width: 60vw;
+  }
+  
+  .right-img {
+    width: 40vw;
+  }
+  
+  /* .images img {
+    object-fit: cover
+  } */
+
+
+  
+  /* @media (min-width: 768px) {
+    .main {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .images {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .intro {
+      max-width: none;
+      flex: 1;
+    }
+    .images img {
+      flex: 1;
+    }
+  } */

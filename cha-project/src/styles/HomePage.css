@@ -1,0 +1,95 @@
+.main {
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+    overflow: hidden;
+  }
+
+  .introBG {
+    background-color: black;
+    position: absolute;
+    width: 40%;
+    height: 20vw;
+    opacity: 35%;
+    margin-left: 4em;
+    margin-top: 4em;
+  }
+  
+  .intro {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    color: White;
+    background-color: transparent;
+    width: 30%;
+    letter-spacing: 1px;
+    margin-left: 4.5em;
+    margin-top: 5em;
+  }
+
+  .introText {
+    line-height: 0.5em;
+    font-size: 3vw;
+    font-family: "Felgine";
+    margin: -3% 0;
+  }
+
+  .introBrand {
+    line-height: 0.5em;
+    font-size: 3vw;
+    font-family: "Felgine";
+    color: #E7E0D5;
+  }
+
+  .introDesc {
+    line-height: 1.7em;
+    font-family: "Noto Serif TC";
+    font-size: 1.5vw;
+    margin: -3% 0;
+  }
+
+  .banner {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: black;
+    text-align:left
+  }
+
+  .images {
+    display: flex;
+  }
+
+  .left-img {
+    width: 60vw;
+  }
+  
+  .right-img {
+    width: 40vw;
+  }
+  
+  /* .images img {
+    object-fit: cover
+  } */
+
+
+  
+  /* @media (min-width: 768px) {
+    .main {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .images {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .intro {
+      max-width: none;
+      flex: 1;
+    }
+    .images img {
+      flex: 1;
+    }
+  } */

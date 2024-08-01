@@ -1,17 +1,21 @@
 /* src/components/Header.css */
 
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: transparent;
-  border-bottom: 1px solid #dee2e6;
+  font-family: "felgine";
 }
 
 .brand {
   font-size: 1.5rem;
   font-weight: bold;
+  color: white;
 }
 
 .nav ul {
@@ -22,7 +26,7 @@
 
 .nav a {
   text-decoration: none;
-  color: #007bff;
+  color: white;
 }
 
 .nav a:hover {

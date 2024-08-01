@@ -1,24 +1,33 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
-// import Home from './pages/Home';
-import About from './pages/About';
+import NavBar from './pages/NavBar';
 import LandingPage from './pages/LandingPage';
-import Login from './pages/Login';
+import About from './pages/About';
+import { HomePage } from './pages/HomePage';
+
+const AppContent = () => {
+    const location = useLocation();
+
+    return (
+        <>
+            {location.pathname === '/' ? <Header /> : <NavBar />}
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/homepage" element={<HomePage />} />
+                <Route path="/about" element={<About />} />
+            </Routes>
+        </>
+    );
+};
 
 function App() {
-  return (
-    <Router>
-      {/* <Header /> */}
-      <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/about" element={<About />} />
-        <Route path="/landingpage" element={<LandingPage />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <AppContent />
+        </Router>
+    );
 }
 
 export default App;

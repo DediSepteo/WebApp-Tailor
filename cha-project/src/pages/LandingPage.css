@@ -7,7 +7,8 @@
   transform: translate(-50%, -50%);
   text-align: center;
   color: white;
-  z-index: 2; /* Ensure text is above the darken filter */
+  z-index: 2;
+  text-align: left;
 }
 
 .darken-image {
@@ -23,6 +24,8 @@
   padding-left: 0;
   margin-right: auto;
   margin-left: auto;
+  position: absolute;
+  top: 0;
 }
 
 .img-compare {

@@ -4,8 +4,18 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: "Montserrat-Bold";
+    src: local("Montserrat-Bold"), url(../fonts/Montserrat-Bold.ttf) format("truetype");
+}
 
 @font-face {
     font-family: "Felgine";
     src: local("Felgine"), url(../fonts/Felgine-Regular.otf) format("opentype");
+}
+
+@font-face {
+    font-family: "Noto Serif TC";
+    src: local("Noto Serif TC"), url(../fonts/NotoSerifTC-VariableFont_wght.ttf) format("truetype");
+    font-weight: 600
 }

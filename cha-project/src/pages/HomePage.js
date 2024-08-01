@@ -1,14 +1,15 @@
 import "../styles/HomePage.css"
-import "../assets/homeBanner1.png"
 import "./NavBar"
 
 export const HomePage = () => {
     return (
         <main className="main">
             <div className="banner">
+                <div className="introBG" />
                 <div className="intro">
-                    <h2>Welcome to BrandTailors Co.</h2>
-                    <p>Combining tradition with cutting-edge AI to craft bespoke clothing that fits you perfectly.</p>
+                    <p className="introText">Welcome to</p>
+                    <p className="introBrand">BrandTailors Co.</p>
+                    <pre className="introDesc">Combining tradition with {'\n'}cutting-edge AI to craft bespoke {'\n'}clothing that fits you perfectly.</pre>
                 </div>
                 <div className="images">
                     <img src={require("../assets/homeBanner1.png")} alt="Tailoring" className="left-img" />

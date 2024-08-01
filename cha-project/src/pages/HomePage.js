@@ -1,5 +1,6 @@
 import "../styles/HomePage.css"
 import "../assets/homeBanner1.png"
+import "./NavBar"
 
 export const HomePage = () => {
     return (

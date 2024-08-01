@@ -1,4 +1,5 @@
 import "../styles/HomePage.css"
+import "./NavBar"
 
 export const HomePage = () => {
     return (

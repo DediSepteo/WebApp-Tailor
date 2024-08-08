@@ -5,6 +5,7 @@ import Header from './components/Header';
 import NavBar from './pages/NavBar';
 import LandingPage from './pages/LandingPage';
 import About from './pages/About';
+import Login from './pages/login'
 import { HomePage } from './pages/HomePage';
 
 const AppContent = () => {
@@ -12,11 +13,12 @@ const AppContent = () => {
 
     return (
         <>
-            {location.pathname === '/' ? <Header /> : <NavBar />}
+            {location.pathname !== '/login' && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/homepage" element={<HomePage />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </>
     );

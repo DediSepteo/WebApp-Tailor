@@ -2,171 +2,171 @@
 
 /* Base Styles */
 .brand {
-    text-align: center;
-    margin-top: 25%;
-    margin-bottom: 25%;
-    font-size: 3.2em;
-    color: #1C2D5B;
-    font-family: 'Felgine';
-    src: local('Felgine'), url(../fonts/Felgine-Regular.otf) format('opentype');
+  text-align: center;
+  margin-top: 25%;
+  margin-bottom: 25%;
+  font-size: 3.2em;
+  color: #1c2d5b;
+  font-family: "Felgine";
+  src: local("Felgine"), url(../fonts/Felgine-Regular.otf) format("opentype");
 }
 
 .subtitle {
-    text-align: end;
-    padding-right: 4em;
-    font-size: 1.2em;
-    color: #1C2D5B;
-    font-family: 'Noto-Serif-TC';
+  text-align: end;
+  padding-right: 4em;
+  font-size: 1.2em;
+  color: #1c2d5b;
+  font-family: "Noto-Serif-TC";
 }
 
 .pageContainer {
-    display: flex;
-    flex-direction: row;
-    min-height: 100vh;
-    background-color: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: #ffffff;
 }
 
 .brandContainer {
-    flex: 30%;
-    background-color: #C7E1D4;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
+  flex: 30%;
+  background-color: #c7e1d4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
 }
 
 .formContainer {
-    flex: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    padding: 20px;
-    box-sizing: border-box; /* Ensure padding is included in width calculation */
+  flex: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  padding: 20px;
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
 }
 
 .title {
-    font-size: 46px;
-    color: #1C2D5B;
-    font-family: 'Felgine';
-    src: local('Felgine'), url(../fonts/Felgine-Regular.otf) format('opentype');
-    margin-bottom: 30px;
+  font-size: 46px;
+  color: #1c2d5b;
+  font-family: "Felgine";
+  src: local("Felgine"), url(../fonts/Felgine-Regular.otf) format("opentype");
+  margin-bottom: 30px;
 }
 
 /* Form Styles */
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  width: 100%;
 }
 
 .inputContainer {
-    position: relative;
-    width: 60%;
-    margin-bottom: 2em;
+  position: relative;
+  width: 60%;
+  margin-bottom: 2em;
 }
 
 .inputField {
-    width: 100%; /* Ensures input takes full container width */
-    height: 42px;
-    padding: 10px;
-    padding-right: 40px; /* Space for the icon */
-    font-size: 16px;
-    border: 1px solid #d9d9d9;
-    box-sizing: border-box;
+  width: 100%; /* Ensures input takes full container width */
+  height: 42px;
+  padding: 10px;
+  padding-right: 40px; /* Space for the icon */
+  font-size: 16px;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
 }
 
 .icon {
-    position: absolute;
-    top: 50%;
-    right: 18px; /* Adjust as needed */
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: grey;
-    font-size: 20px; /* Adjust icon size */
+  position: absolute;
+  top: 50%;
+  right: 18px; /* Adjust as needed */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: grey;
+  font-size: 20px; /* Adjust icon size */
 }
 
-button {
-    width: 60%; /* Match button width with input width */
-    height: 40px; /* Adjust height as needed */
-    font-size: 16px;
-    background-color: #1C2D5B;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.button {
+  width: 60%; /* Match button width with input width */
+  height: 40px; /* Adjust height as needed */
+  font-size: 16px;
+  background-color: #1c2d5b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* Media Queries */
 
 /* For tablets and smaller screens */
 @media (max-width: 768px) {
-    .title {
-        font-size: 36px;
-        margin-top: 100px;
-        margin-bottom: 70px;
-    }
+  .title {
+    font-size: 36px;
+    margin-top: 100px;
+    margin-bottom: 70px;
+  }
 
-    .subtitle {
-        text-align: center;
-        padding-right: 0;
-        font-size: 16px;
-    }
+  .subtitle {
+    text-align: center;
+    padding-right: 0;
+    font-size: 16px;
+  }
 
-    .pageContainer {
-        flex-direction: column;
-    }
+  .pageContainer {
+    flex-direction: column;
+  }
 
-    .brandContainer {
-        flex: 100%;
-        padding: 10px; /* Adjust padding for smaller screens */
-    }
+  .brandContainer {
+    flex: 100%;
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
 
-    .formContainer {
-        flex: 100%;
-        padding: 10px;
-    }
+  .formContainer {
+    flex: 100%;
+    padding: 10px;
+  }
 
-    .inputContainer,
-    button {
-        width: 80%; /* Adjust width for smaller screens */
-    }
+  .inputContainer,
+  button {
+    width: 80%; /* Adjust width for smaller screens */
+  }
 
-    .inputField {
-        height: 45px; /* Adjust height for smaller screens */
-    }
+  .inputField {
+    height: 45px; /* Adjust height for smaller screens */
+  }
 
-    button {
-        height: 45px; /* Adjust height for smaller screens */
-    }
+  button {
+    height: 45px; /* Adjust height for smaller screens */
+  }
 }
 
 /* For mobile screens */
 @media (max-width: 480px) {
-    .title {
-        font-size: 28px;
-        margin-top: 100px;
-        margin-bottom: 50px;
-    }
+  .title {
+    font-size: 28px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+  }
 
-    .subtitle {
-        font-size: 14px;
-    }
+  .subtitle {
+    font-size: 14px;
+  }
 
-    .formContainer {
-        padding: 10px; /* Adjust padding for mobile screens */
-    }
+  .formContainer {
+    padding: 10px; /* Adjust padding for mobile screens */
+  }
 
-    .inputContainer,
-    button {
-        width: 90%; /* Adjust width for mobile screens */
-    }
+  .inputContainer,
+  button {
+    width: 90%; /* Adjust width for mobile screens */
+  }
 
-    .inputField {
-        height: 40px; /* Adjust height for mobile screens */
-    }
+  .inputField {
+    height: 40px; /* Adjust height for mobile screens */
+  }
 
-    button {
-        height: 40px; /* Adjust height for mobile screens */
-    }
+  button {
+    height: 40px; /* Adjust height for mobile screens */
+  }
 }

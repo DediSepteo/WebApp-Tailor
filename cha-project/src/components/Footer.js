@@ -3,16 +3,16 @@ import { IoLocationSharp } from "react-icons/io5";
 import { AiFillClockCircle } from "react-icons/ai";
 import { IoMail } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
-import "../styles/Footer.css"
+import styles from "../styles/Footer.module.css"; // Updated import
 
 const Footer = () => {
     return (
-        <div className="footer">
-            <div className="info">
-                <h2 className="brand">
+        <div className={styles.footer}> {/* Apply the CSS module class */}
+            <div className={styles.info}> {/* Apply the CSS module class */}
+                <h2 className={styles.brand}> {/* Apply the CSS module class */}
                     SnapStitch
                 </h2>
-                <div className="copyright">
+                <div className={styles.copyright}> {/* Apply the CSS module class */}
                     <div>
                         Copyright © 2024 SnapStitch
                     </div>
@@ -21,7 +21,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="support">
+            <div className={styles.support}> {/* Apply the CSS module class */}
                 <h3>Support</h3>
                 <ul>
                     <li>Help center</li>
@@ -31,21 +31,21 @@ const Footer = () => {
                     <li>Status</li>
                 </ul>
             </div>
-            <div className="contact">
+            <div className={styles.contact}> {/* Apply the CSS module class */}
                 <h3>Contact Us</h3>
-                <div className="location">
+                <div className={styles.location}> {/* Apply the CSS module class */}
                     <IoLocationSharp />
                     123 Sunshine Street, Level 5, Singapore 456789
                 </div>
-                <div className="open_hrs">
+                <div className={styles.open_hrs}> {/* Apply the CSS module class */}
                     <AiFillClockCircle />
                     Mon - Fri: 11am - 8pm | Sat: 11am - 6pm
                 </div>
-                <div className="mail">
+                <div className={styles.mail}> {/* Apply the CSS module class */}
                     <IoMail />
                     queuecut@snapstitch.com
                 </div>
-                <div className="tel">
+                <div className={styles.tel}> {/* Apply the CSS module class */}
                     <FaPhoneAlt />
                     +65 1234 5678
                 </div>
@@ -54,4 +54,4 @@ const Footer = () => {
     )
 }
 
-export default Footer
+export default Footer;

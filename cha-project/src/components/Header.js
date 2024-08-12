@@ -1,7 +1,7 @@
 // src/components/Header.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../styles/Header.module.css'; // Importing CSS for styling
+import styles from '../styles/Header.module.css';
 import { FaRegUser } from "react-icons/fa6";
 
 const Header = () => {

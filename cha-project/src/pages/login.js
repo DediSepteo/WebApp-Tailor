@@ -35,7 +35,7 @@ function Login() {
           <p className="homeText">Back to Home</p>
         </div>
         <p className="title">Sign In</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form">
           <div className="inputContainer">
             <input
               type="email"
@@ -69,19 +69,19 @@ function Login() {
               />
               Remember Password
             </label>
-            <a href="ForgotPassword.js">
+            <a href="ForgotPassword.js" className="anchor">
               Forgot Password?
             </a>
           </div>
           <button className="submitButton" type="submit">Sign In</button>
           <div className="separator">or</div>
           <button className="googleButton">
-            <FcGoogle className="googleIcon"/>
+            <FcGoogle className="googleIcon" />
             Sign In With Google
           </button>
-          <p>
+          <p style={{ fontFamily: 'Montserrat-Regular' }}>
             Don't have an account?
-            <a href="Register.js" style={{marginLeft: '4px'}}>Sign Up</a>
+            <a href="Register.js" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</a>
           </p>
         </form>
       </div>

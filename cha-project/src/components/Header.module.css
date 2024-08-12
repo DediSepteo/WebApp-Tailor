@@ -1,4 +1,4 @@
-/* src/components/Header.css */
+/* src/components/Header.module.css */
 
 .header {
   position: sticky;
@@ -21,6 +21,7 @@
   list-style: none;
   display: flex;
   gap: 1rem;
+  color: white;
 }
 
 .nav a {

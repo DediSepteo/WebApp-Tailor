@@ -1,25 +1,19 @@
-html, body {
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }  
+html,
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .brand {
-    text-align: center;
-    margin-top: 25%;
-    margin-bottom: 25%;
-    font-size: 3.2em;
-    color: #1C2D5B;
-    font-family: 'Felgine';
-    font-weight: lighter;
-    src: local('Felgine'), url(../fonts/Felgine-Regular.otf) format('opentype');
   text-align: center;
   margin-top: 25%;
   margin-bottom: 25%;
   font-size: 3.2em;
   color: #1c2d5b;
   font-family: "Felgine";
+  font-weight: lighter;
   src: local("Felgine"), url(../fonts/Felgine-Regular.otf) format("opentype");
 }
 
@@ -32,32 +26,27 @@ html, body {
 }
 
 .homeContainer {
-    position: absolute;
-    top: 20px;
-    right: 35px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: grey;
-    cursor: pointer;
-    z-index: 10;
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: grey;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .homeIcon {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .homeText {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-
 .pageContainer {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    min-height: 100vh;
-    background-color: #FFFFFF;
+  position: relative;
   display: flex;
   flex-direction: row;
   min-height: 100vh;
@@ -65,35 +54,23 @@ html, body {
 }
 
 .brandContainer {
-    flex: 30%;
-    background-color: #C7E1D4;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 1%;
   flex: 30%;
   background-color: #c7e1d4;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
+  justify-content: center;
+  padding: 1%;
 }
 
 .formContainer {
-    flex: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative;
   flex: 70%;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
+  justify-content: center;
+  align-items: center;
   padding: 20px;
-  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  box-sizing: border-box;
+  position: relative;
 }
 
 .title {
@@ -105,14 +82,10 @@ html, body {
 }
 
 /* Form Styles */
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+.form {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
+  align-items: center;
   width: 100%;
 }
 
@@ -123,279 +96,207 @@ form {
 }
 
 .inputField {
-  width: 100%; /* Ensures input takes full container width */
+  width: 100%;
   height: 42px;
   padding: 10px;
-  padding-right: 40px; /* Space for the icon */
+  padding-right: 40px;
   font-size: 16px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid grey;
   box-sizing: border-box;
-    width: 100%;
-    height: 42px;
-    padding: 10px;
-    padding-right: 40px;
-    font-size: 16px;
-    border: 1px solid grey;
-    box-sizing: border-box;
 }
 
 .inputField::placeholder {
-    font-family: 'Noto-Serif-TC';
+  font-family: "Noto-Serif-TC";
 }
 
 .icon {
-    position: absolute;
-    top: 50%;
-    right: 18px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: grey;
-    font-size: 20px;
-}
-
-.checkboxContainer {
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-    margin-bottom: 20px;
-    margin-top: -10px;
-    font-family: 'Noto-Serif-TC';
-    color: grey;
-}
-
-a {
-    color: #1C2D5B;
-  }
-  
-  a:visited {
-    color: #1C2D5B;
-  }
-  
-  a:hover {
-    color: #1C2D5B;
-  }
-  
-  a:active {
-    color: grey;
-  }
-
-.submitButton {
-    width: 60%;
-    height: 40px;
-    font-size: 16px;
-    background-color: #1C2D5B;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-.separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    width: 45%;
-    color: grey;
-}
-  
-.separator::before,
-.separator::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid grey;
-    width: 45%;
-    margin-top: 1%;
-}
-  
-.separator:not(:empty)::before {
-    margin-right: .25em;
-}
-  
-.separator:not(:empty)::after {
-    margin-left: .25em;
-}
-
-.googleButton {
-    width: 60%;
-    height: 40px;
-    font-size: 16px;
-    color: grey;
-    background-color: #FFFFFF;
-    border: 1px solid grey;
-    cursor: pointer;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.googleIcon {
-    font-size: 20px;
   position: absolute;
   top: 50%;
-  right: 18px; /* Adjust as needed */
+  right: 18px;
   transform: translateY(-50%);
   cursor: pointer;
   color: grey;
-  font-size: 20px; /* Adjust icon size */
+  font-size: 20px;
 }
 
-.button {
-  width: 60%; /* Match button width with input width */
-  height: 40px; /* Adjust height as needed */
+.checkboxContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-bottom: 20px;
+  margin-top: -10px;
+  font-family: "Noto-Serif-TC";
+  color: grey;
+}
+
+.anchor {
+  color: #1c2d5b;
+}
+
+.a:visited {
+  color: #1c2d5b;
+}
+
+.a:hover {
+  color: #1c2d5b;
+}
+
+.a:active {
+  color: grey;
+}
+
+.submitButton {
+  width: 60%;
+  height: 40px;
   font-size: 16px;
   background-color: #1c2d5b;
   color: white;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
+  font-family: "Montserrat-Regular";
 }
 
-/*---------------------- Media Queries ----------------------*/
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  width: 45%;
+  color: grey;
+  font-family: "Montserrat-Regular";
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid grey;
+  width: 45%;
+  margin-top: 1%;
+}
+
+.separator:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.googleButton {
+  width: 60%;
+  height: 40px;
+  font-size: 16px;
+  color: grey;
+  background-color: #ffffff;
+  border: 1px solid grey;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Montserrat-Regular";
+  font-weight: bold;
+}
+
+.googleIcon {
+  font-size: 20px;
+}
 
 /* For tablets and smaller screens */
 @media (max-width: 768px) {
-    .title {
-        font-size: 6vw;
-        margin-top: 10vh;
-        margin-bottom: 7vh;
-    }
   .title {
-    font-size: 36px;
-    margin-top: 100px;
-    margin-bottom: 70px;
+    font-size: 6vw;
+    margin-top: 10vh;
+    margin-bottom: 7vh;
   }
 
-    .subtitle {
-        text-align: center;
-        padding-right: 2vw;
-        font-size: 4vw;
-    }
   .subtitle {
     text-align: center;
-    padding-right: 0;
-    font-size: 16px;
+    padding-right: 2vw;
+    font-size: 4vw;
   }
 
   .pageContainer {
     flex-direction: column;
   }
 
-    .brandContainer {
-        flex: 100%;
-        padding: 2vw;
-    }
-
-    .homeContainer {
-        top: 10px;
-        right: 10px;
-    }
   .brandContainer {
     flex: 100%;
-    padding: 10px; /* Adjust padding for smaller screens */
+    padding: 2vw;
   }
 
-    .formContainer {
-        flex: 100%;
-        padding: 2vw;
-    }
+  .homeContainer {
+    top: 10px;
+    right: 10px;
+  }
+
   .formContainer {
     flex: 100%;
-    padding: 10px;
+    padding: 2vw;
   }
 
-    .inputContainer,
-    .googleButton,
-    .submitButton,
-    .checkboxContainer {
-        width: 80vw;
-    }
   .inputContainer,
-  button {
-    width: 80%; /* Adjust width for smaller screens */
+  .googleButton,
+  .submitButton,
+  .checkboxContainer {
+    width: 80vw;
   }
 
-    .inputField {
-        height: 8vh;
-    }
   .inputField {
-    height: 45px; /* Adjust height for smaller screens */
+    height: 8vh;
   }
 
-    .googleButton,
-    .submitButton {
-        height: 8vh;
-    }
-  button {
-    height: 45px; /* Adjust height for smaller screens */
+  .googleButton,
+  .submitButton {
+    height: 8vh;
   }
 }
 
 /* For mobile screens */
 @media (max-width: 480px) {
-    .title {
-        font-size: 7vw;
-        margin-top: 10vh;
-        margin-bottom: 5vh;
-    }
   .title {
-    font-size: 28px;
-    margin-top: 100px;
-    margin-bottom: 50px;
+    font-size: 7vw;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
   }
 
-    .subtitle {
-        font-size: 5vw;
-    }
-
-    .formContainer {
-        padding: 2vw;
-    }
-
-    .homeContainer {
-        top: 15px;
-        right: 15px;
-        gap: 4px;
-    }
-
-    .homeText {
-        font-size: 14px;
-    }
   .subtitle {
+    font-size: 5vw;
+  }
+
+  .formContainer {
+    padding: 2vw;
+  }
+
+  .homeContainer {
+    top: 15px;
+    right: 15px;
+    gap: 4px;
+  }
+
+  .homeText {
     font-size: 14px;
   }
 
-    .homeIcon {
-        font-size: 20px;
-    }
-  .formContainer {
-    padding: 10px; /* Adjust padding for mobile screens */
+  .homeIcon {
+    font-size: 20px;
   }
 
-    .inputContainer,
-    .googleButton,
-    .submitButton {
-        width: 85vw;
-        height: 12vw;
-    }
   .inputContainer,
-  button {
-    width: 90%; /* Adjust width for mobile screens */
+  .googleButton,
+  .submitButton {
+    width: 85vw;
+    height: 12vw;
   }
 
-    .inputField {
-        height: 6vh;
-    }
   .inputField {
-    height: 40px; /* Adjust height for mobile screens */
+    height: 6vh;
   }
 
-    button {
-        height: 6vh;
-    }
   button {
-    height: 40px; /* Adjust height for mobile screens */
+    height: 6vh;
   }
 }

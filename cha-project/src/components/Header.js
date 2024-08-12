@@ -2,16 +2,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Header.css'; // Importing CSS for styling
+import { FaRegUser } from "react-icons/fa6";
 
 const Header = () => {
     return (
-        <header className="header">
-            <div className="brand">
+        <header className={styles.header}>
+            <div className={styles.brand}>
                 BrandTailors Co.
             </div>
-            <nav className="nav">
+            <nav className={styles.nav}>
                 <ul>
                     <li><Link to="/home">Home</Link></li>
+                    <li><Link to="/login"> <FaRegUser /> Login / Register</Link></li>
                     <li><Link to="/about">About</Link></li>
                 </ul>
             </nav>

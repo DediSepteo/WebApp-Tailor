@@ -18,5 +18,9 @@
 @font-face {
     font-family: "Noto Serif TC";
     src: local("Noto Serif TC"), url(../fonts/NotoSerifTC-VariableFont_wght.ttf) format("truetype");
-    font-weight: 600
+}
+
+@font-face {
+    font-family: "IBMPlexSerif-Light";
+    src: local("IBMPlexSerif-Light"), url(../fonts/IBMPlexSerif-Light.ttf) format("truetype");
 }

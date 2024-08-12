@@ -1,4 +1,4 @@
-/* src/components/Header.css */
+/* src/components/Header.module.css */
 
 .header {
   position: sticky;
@@ -7,14 +7,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 1rem;
   background-color: transparent;
   font-family: "felgine";
 }
 
 .brand {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 2em;
   color: white;
 }
 
@@ -22,6 +21,7 @@
   list-style: none;
   display: flex;
   gap: 1rem;
+  color: white;
 }
 
 .nav a {

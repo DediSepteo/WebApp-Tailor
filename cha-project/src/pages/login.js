@@ -76,12 +76,12 @@ function Login() {
           <button className="submitButton" type="submit">Sign In</button>
           <div className="separator">or</div>
           <button className="googleButton">
-            <FcGoogle className="googleIcon"/>
+            <FcGoogle className="googleIcon" />
             Sign In With Google
           </button>
-          <p style={{fontFamily: 'Montserrat-Regular'}}>
+          <p style={{ fontFamily: 'Montserrat-Regular' }}>
             Don't have an account?
-            <a href="Register.js" className='anchor' style={{marginLeft: '4px', fontWeight: 'bold'}}>Sign Up</a>
+            <a href="Register.js" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</a>
           </p>
         </form>
       </div>

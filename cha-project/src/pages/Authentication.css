@@ -27,8 +27,8 @@ body {
 
 .homeContainer {
   position: absolute;
-  top: 20px;
-  right: 35px;
+  top: 30px;
+  right: 40px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -43,6 +43,8 @@ body {
 
 .homeText {
   font-size: 16px;
+  color: grey;
+  text-decoration: none;
 }
 
 .pageContainer {

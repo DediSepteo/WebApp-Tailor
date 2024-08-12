@@ -84,7 +84,7 @@ const LandingPage = () => {
                 </div>
             </div>
             <div className="bottom-nav">
-                <Link to="/HomePage" className="bottom-nav-link">
+                <Link to="/Home" className="bottom-nav-link">
                     No, just take me to home &#8250;
                 </Link>
             </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import './login.css';
+import { Link } from 'react-router-dom';
+import './Authentication.css';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineHome } from "react-icons/ai";
@@ -32,7 +33,7 @@ function Login() {
       <div className="formContainer">
         <div className="homeContainer">
           <AiOutlineHome className="homeIcon" />
-          <p className="homeText">Back to Home</p>
+          <Link to="/Home" className="homeText">Back to Home</Link>
         </div>
         <p className="title">Sign In</p>
         <form onSubmit={handleSubmit} className="form">
@@ -69,9 +70,9 @@ function Login() {
               />
               Remember Password
             </label>
-            <a href="ForgotPassword.js" className="anchor">
+            <Link to="/ForgotPassword" className="anchor">
               Forgot Password?
-            </a>
+            </Link>
           </div>
           <button className="submitButton" type="submit">Sign In</button>
           <div className="separator">or</div>
@@ -81,7 +82,7 @@ function Login() {
           </button>
           <p style={{ fontFamily: 'Montserrat-Regular' }}>
             Don't have an account?
-            <a href="Register.js" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</a>
+            <Link to="/Register" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
           </p>
         </form>
       </div>

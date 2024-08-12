@@ -1,0 +1,34 @@
+h3 {
+    
+}
+
+.footer {
+    display:flex;
+    background-color: #C7E1D4;
+    flex-direction: row;
+    font-family: "Montserrat-Regular";
+    color: #1C2D5B;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand {
+    color: #1C2D5B;
+    font-family: "Noto Serif TC";   
+    font-weight: 700;
+    font-size: 1.3em;
+}
+
+.copyright {
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+

@@ -82,7 +82,7 @@ html, body {
 }
 
 /* Form Styles */
-form {
+.form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -129,7 +129,7 @@ form {
     color: grey;
 }
 
-a {
+.anchor {
     color: #1C2D5B;
   }
   
@@ -154,6 +154,7 @@ a {
     border: none;
     cursor: pointer;
     margin-bottom: 10px;
+    font-family: 'Montserrat-Regular';
 }
 
 .separator {
@@ -163,6 +164,7 @@ a {
     position: relative;
     width: 45%;
     color: grey;
+    font-family: 'Montserrat-Regular';
 }
   
 .separator::before,
@@ -195,6 +197,8 @@ a {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    font-family: 'Montserrat-Regular';
+    font-weight: bold;
 }
 
 .googleIcon {

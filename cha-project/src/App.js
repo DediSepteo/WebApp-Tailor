@@ -3,12 +3,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer'
-import NavBar from './pages/NavBar';
+import NavBar from './components/NavBar';
 import LandingPage from './pages/LandingPage';
 import About from './pages/About';
 import { Home } from './pages/Home';
 import { Shop } from './pages/Shop';
-import Login from './pages/Login'
+import Login from './pages/login'
 import Register from './pages/Register'
 
 const AppContent = () => {

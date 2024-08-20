@@ -32,7 +32,9 @@ function Login() {
       </div>
       <div className="formContainer">
         <div className="homeContainer">
-          <AiOutlineHome className="homeIcon" />
+          <Link>
+            <AiOutlineHome className="homeIcon" />
+          </Link>
           <Link to="/Home" className="homeText">Back to Home</Link>
         </div>
         <p className="title">Sign In</p>

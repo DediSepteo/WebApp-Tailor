@@ -9,10 +9,73 @@
     display: flex;
     align-items: center;
     column-gap: 9%;
+    width: 90%
 }
 
+.darkenDiv {
+    position:absolute;
+    width: 100vw;
+    height: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.sideNav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #C1E2D2;
+    width: 35%;
+    height: 50em;
+    z-index:2;
+    display: flex;
+    flex-direction: column;
+}
+
+.sideNavHead {
+    padding: 0.8em 1.5em;
+    font-size: 1.5em;
+    font-family: "Felgine";
+    color: #1C2D5B;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 12em;
+    border-bottom: 0.2em solid white;
+}
+
+.sideNavLinks {
+    display:flex;
+    flex-direction: column;
+    gap: 3em;
+    text-align: left;
+    padding: 2em 3em;
+    font-family: "Montserrat";
+    border-bottom: 0.2em solid white;
+}
+
+.sideShopDiv {
+    padding: 0.5em 0;
+    align-items: center;
+    display: flex; 
+    flex-direction: row;
+    height: 0;
+}
+
+.sideShopDiv div {
+    padding-top: 0.25em;
+    font-size: 1.7em;
+}
+
+.sideLink {
+    color: #1C2D5B;
+    text-decoration: none;
+    user-select: none;
+    width: fit-content;
+}
+
+
 .logo { 
-    margin-top: 2px;
     flex: 0.2;
     font-family: "Felgine";
     font-size: 1.4em;
@@ -32,25 +95,27 @@
 .link {
     color: #1C2D5B;
     text-decoration: none;
+    user-select: none;
 }
+
 
 .linkActive {
     flex-direction: column;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 /* Custom underline for link */
 .linkActive::after {
     color: black;
     content: "";
-    width: 90%;     
+    width: 2.6em;     
     height: 0.1em;
     background-color: black;
+    align-self: center;
 }
 
-.loginDiv { 
+.sideDiv { 
     color: #1C2D5B;
     font-family: "Montserrat-Bold";
     display: flex;
@@ -61,10 +126,25 @@
     gap: 1em;
 }
 
+.loginLink {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+}
+
+.loginLink:visited {
+    color: inherit;
+}
+
 .icons { 
     display: flex;
     align-items: center;
-    font-size: 1.2em;
+    font-size: 1.4em;
+    background-color: none;
+}
+
+.icons:hover {
+    cursor: pointer;
 }
 
 .loginText { 
@@ -72,11 +152,18 @@
     margin-left: 0.5em;
     text-align: center;
     white-space: nowrap;
+    user-select: none;
+}
+
+.loginText:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .colNavbar { 
     display: none;
 }
+
 
 @media (max-width: 600px) {
     .navbar {

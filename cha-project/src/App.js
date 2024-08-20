@@ -16,16 +16,16 @@ const AppContent = () => {
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : null)}
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
-                <Route path="/Hhop" element={<Shop />} />
+                <Route path="/Shop" element={<Shop />} />
                 <Route path="/About" element={<About />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
+            {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
         </>
     );
 };

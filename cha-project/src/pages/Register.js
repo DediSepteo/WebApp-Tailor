@@ -31,7 +31,7 @@ function Register() {
       </div>
       <div className="formContainer">
         <div className="homeContainer">
-          <Link>
+          <Link to="/Home">
             <AiOutlineHome className="homeIcon" />
           </Link>
           <Link to="/Home" className="homeText">Back to Home</Link>
@@ -67,7 +67,7 @@ function Register() {
               onChange={handleChange}
               className="inputField"
             />
-            <div className="icon" onClick={togglePasswordVisibility}>
+            <div className="eyeIcon" onClick={togglePasswordVisibility}>
               {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </div>
           </div>
@@ -80,7 +80,7 @@ function Register() {
               onChange={handleChange}
               className="inputField"
             />
-            <div className="icon" onClick={togglePasswordVisibility}>
+            <div className="eyeIcon" onClick={togglePasswordVisibility}>
               {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </div>
           </div>

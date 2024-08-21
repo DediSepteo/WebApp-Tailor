@@ -7,6 +7,7 @@ import { FaBars } from "react-icons/fa";
 import styles from "../styles/NavBar.module.css";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { RiArrowDropUpLine } from "react-icons/ri";
 
 const NavBar = () => {
     const links = [
@@ -20,6 +21,26 @@ const NavBar = () => {
 
     useEffect(() => {
         var cart = document.getElementById("cart")
+        var dropDown = document.getElementById("dropDown")
+        var downArrow = document.getElementById("downArrow")
+        var upArrow = document.getElementById("upArrow")
+        var shopMenu = document.getElementById("shopMenu")
+        if (dropDown) {
+            dropDown.onclick = () => {
+                console.log(downArrow.style.display)
+                if (downArrow.style.display === "inline") {
+                    downArrow.style.display = "none"
+                    upArrow.style.display = "inline"
+                    shopMenu.style.display = "inline"
+                }
+                else {
+                    downArrow.style.display = "inline"
+                    upArrow.style.display = "none"
+                    shopMenu.style.display = "none"
+                }
+
+            }
+        }
 
         if (cart) {
             cart.onclick = function () {
@@ -40,19 +61,26 @@ const NavBar = () => {
                 <div className={styles.sideNavLinks}>
                     {links.map((link, index) => (
                         link.name === "Shop" ? (
-                            <div className={styles.sideShopDiv}>
-                                <NavLink
-                                    key={index}
-                                    to={link.path}
-                                    exact
-                                    className={({ isActive }) =>
-                                        isActive ? `${styles.sideLink} ${styles.linkActive}` : styles.sideLink
-                                    }
-                                >
-                                    {link.name}
-                                </NavLink>
-                                <div>
-                                    <RiArrowDropDownLine />
+                            <div>
+                                <div className={styles.sideShopDiv}>
+                                    <NavLink
+                                        key={index}
+                                        to={link.path}
+                                        exact
+                                        className={({ isActive }) =>
+                                            isActive ? `${styles.sideLink} ${styles.linkActive}` : styles.sideLink
+                                        }
+                                    >
+                                        {link.name}
+                                    </NavLink>
+                                    <div id="dropDown" className={styles.dropDown}>
+                                        <RiArrowDropDownLine id="downArrow" style={{ display: "inline" }} size={35} />
+                                        <RiArrowDropUpLine id="upArrow" style={{ display: "none" }} size={35} />
+                                    </div>
+                                </div>
+                                <div className={styles.shopMenu} id="shopMenu">
+                                    <NavLink className={styles.sideLink}>Government</NavLink>
+                                    <NavLink className={styles.sideLink}>Corporate</NavLink>
                                 </div>
                             </div>
                         ) :
@@ -68,7 +96,7 @@ const NavBar = () => {
                             </NavLink>
                     ))}
                 </div>
-            </div>
+            </div >
             <nav className={styles.navbar}>
                 <div className={styles.logo}>BrandTailors Co.</div>
                 <div className={styles.linksDiv}>

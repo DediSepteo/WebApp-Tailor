@@ -4,10 +4,12 @@ import './Authentication.css';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineHome } from "react-icons/ai";
+import ForgotPassword from "../components/ForgetPassword.js"
 
 function Login() {
   const [inputs, setInputs] = useState({ email: "", password: "", rememberPassword: false });
   const [showPassword, setShowPassword] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -24,6 +26,9 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  const showPopup = () => setPopupVisible(true);
+  const hidePopup = () => setPopupVisible(false);
+
   return (
     <div className="pageContainer">
       <div className="brandContainer">
@@ -32,7 +37,7 @@ function Login() {
       </div>
       <div className="formContainer">
         <div className="homeContainer">
-          <Link>
+          <Link to="/Home">
             <AiOutlineHome className="homeIcon" />
           </Link>
           <Link to="/Home" className="homeText">Back to Home</Link>
@@ -58,7 +63,7 @@ function Login() {
               onChange={handleChange}
               className="inputField"
             />
-            <div className="icon" onClick={togglePasswordVisibility}>
+            <div className="eyeIcon" onClick={togglePasswordVisibility}>
               {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </div>
           </div>
@@ -72,7 +77,7 @@ function Login() {
               />
               Remember Password
             </label>
-            <Link to="/ForgotPassword" className="anchor">
+            <Link onClick={showPopup} className="anchor">
               Forgot Password?
             </Link>
           </div>
@@ -87,6 +92,7 @@ function Login() {
             <Link to="/Register" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
           </p>
         </form>
+        <ForgotPassword isVisible={isPopupVisible} onClose={hidePopup} />
       </div>
     </div>
   );

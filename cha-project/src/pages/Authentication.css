@@ -132,19 +132,18 @@ body {
 }
 
 .anchor {
-
   color: #1c2d5b;
 }
 
-.a:visited {
+.anchor:visited {
   color: #1c2d5b;
 }
 
-.a:hover {
+.anchor:hover {
   color: #1c2d5b;
 }
 
-.a:active {
+.anchor:active {
   color: grey;
 }
 

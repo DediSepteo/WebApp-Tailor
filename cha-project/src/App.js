@@ -8,15 +8,16 @@ import LandingPage from './pages/LandingPage';
 import About from './pages/About';
 import { Home } from './pages/Home';
 import { Shop } from './pages/Shop';
-import Login from './pages/login'
-import Register from './pages/Register'
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Category } from './pages/Category';
 
 const AppContent = () => {
     const location = useLocation();
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : null)}
+            {(location.pathname === '/' ? <Header /> : null)}
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -24,6 +25,7 @@ const AppContent = () => {
                 <Route path="/About" element={<About />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
+                <Route path="/Category" element={<Category />} />
             </Routes>
             {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
         </>

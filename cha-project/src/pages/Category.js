@@ -1,56 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import './Category.css';
 
 const categories = [
+    // Corporate categories
     {
+        type: 'Corporate',
         name: 'Security',
         link: '/Shop/Security',
         image: require('../assets/security.png')
     },
     {
+        type: 'Corporate',
         name: 'Restaurant',
         link: '/Shop/Restaurant',
         image: require('../assets/restaurant.png')
     },
     {
+        type: 'Corporate',
         name: 'Schools',
         link: '/Shop/Schools',
         image: require('../assets/homeBanner2.png')
     },
     {
+        type: 'Corporate',
         name: 'Construction',
         link: '/Shop/Security',
         image: require('../assets/homeBanner2.png')
     },
     {
+        type: 'Corporate',
         name: 'Retail',
         link: '/Shop/Restaurant',
         image: require('../assets/security.png')
     },
     {
+        type: 'Corporate',
         name: 'Suits',
         link: '/Shop/Schools',
+        image: require('../assets/restaurant.png')
+    },
+
+    // Government categories
+    {
+        type: 'Government',
+        name: 'Police',
+        link: '/Shop/Police',
+        image: require('../assets/restaurant.png')
+    },
+    {
+        type: 'Government',
+        name: 'Army',
+        link: '/Shop/Army',
+        image: require('../assets/homeBanner2.png')
+    },
+    {
+        type: 'Government',
+        name: 'Teacher',
+        link: '/Shop/Teacher',
+        image: require('../assets/security.png')
+    },
+    {
+        type: 'Government',
+        name: 'Navy',
+        link: '/Shop/Navy',
+        image: require('../assets/homeBanner2.png')
+    },
+    {
+        type: 'Government',
+        name: 'Nurse',
+        link: '/Shop/Nurse',
+        image: require('../assets/security.png')
+    },
+    {
+        type: 'Government',
+        name: 'Air Force',
+        link: '/Shop/AirForce',
         image: require('../assets/restaurant.png')
     },
 ];
 
 export const Category = () => {
+    const [selectedType] = useState('Corporate');  // Hard-coded to 'Corporate' for now, can change according to the type chosen (Corporate/Government)
+    const filteredType = categories.filter(category => category.type === selectedType);
+
     return (
         <main>
             <div className="directoryContainer">
                 <p className="currentPage">Shop</p>
                 <div className="navLinks">
                     <Link to="/Home" className="directoryLink">Home</Link>
-                    <Link to="/Shop" className="directoryLink">/Shop</Link>
-                    <Link to="" className="currentLink">/Corporate</Link>
+                    <Link to="" className="directoryLink">/Shop</Link>
+                    <Link to="" className="currentLink">/{selectedType}</Link>
                 </div>
             </div>
             <p className="pageTitle">Categories</p>
             <div className="categoriesContainer">
-                {categories.map((category, index) => (
+                {filteredType.map((category, index) => (
                     <div key={index} className="categoryItem">
                         <Link to={category.link}>
                             <p className="categoryName">{category.name}</p>

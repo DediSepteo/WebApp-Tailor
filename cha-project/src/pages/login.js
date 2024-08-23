@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineHome } from "react-icons/ai";
 import ForgotPassword from "../components/ForgetPassword.js"
 
-function Login() {
+export const Login = () => {
   const [inputs, setInputs] = useState({ email: "", password: "", rememberPassword: false });
   const [showPassword, setShowPassword] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -51,6 +51,7 @@ function Login() {
               value={inputs.email}
               placeholder="Email"
               onChange={handleChange}
+              required
               className="inputField"
             />
           </div>
@@ -61,6 +62,7 @@ function Login() {
               value={inputs.password}
               placeholder="Password"
               onChange={handleChange}
+              required
               className="inputField"
             />
             <div className="eyeIcon" onClick={togglePasswordVisibility}>
@@ -97,5 +99,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;

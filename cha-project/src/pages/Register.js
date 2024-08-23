@@ -4,7 +4,7 @@ import './Authentication.css';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { AiOutlineHome } from "react-icons/ai";
 
-function Register() {
+export const Register = () => {
   const [inputs, setInputs] = useState({  username: "", email: "", password: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -94,5 +94,3 @@ function Register() {
     </div>
   );
 }
-
-export default Register;

@@ -14,8 +14,8 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
   if (!isVisible) return null;
 
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
+    <div className="popup-overlay" onClick={onClose}>
+      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <div className="forgetPasswordTop">
             <p className='forgetPasswordTitle'>Reset Your Password</p>
             <IoClose className="closeIcon" onClick={onClose}/>

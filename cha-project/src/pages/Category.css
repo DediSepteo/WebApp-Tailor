@@ -1,0 +1,81 @@
+.directoryContainer {
+    background-color: #c7e1d4;
+    padding: 3em 0;
+    padding-left: 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.currentPage {
+    font-size: 2.2em;
+    color: #1c2d5b;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    margin: 0;
+}
+
+.navLinks {
+    padding-left: 2%;
+    margin-top: 0.7%;
+}
+
+.directoryLink {
+    font-family: "Noto Serif TC";
+    font-weight: light;
+    text-decoration: none;
+    color: #6C7DAB;
+}
+
+.currentLink {
+    text-decoration: none;
+    color: #1c2d5b;
+}
+
+.pageTitle {
+    font-size: 2.2em;
+    color: #1c2d5b;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1.1px;
+    text-decoration-color: #1c2d5b;
+    margin-bottom: 4vh;
+    margin-top: 7vh;
+}
+
+.categoriesContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+    margin-bottom: 3%;
+}
+
+.categoryItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em;
+    position: relative;
+}
+
+.categoryImage {
+    width: 25em;
+    height: 40em;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.categoryName {
+    position: absolute;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    bottom: 1%;
+    padding-left: 5%;
+    font-size: 2.2em;
+    color: white;
+    text-decoration: none;
+    text-shadow: 2px 2px 8px #000000;
+}

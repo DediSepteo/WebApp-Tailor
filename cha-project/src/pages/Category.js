@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -82,9 +82,8 @@ const categories = [
     },
 ];
 
-export const Category = () => {
-    const [selectedType] = useState('Corporate');  // Hard-coded to 'Corporate' for now, can change according to the type chosen (Corporate/Government)
-    const filteredType = categories.filter(category => category.type === selectedType);
+export const Category = ({ type }) => {
+    const filteredCategories = categories.filter(category => category.type === type);
 
     return (
         <main>
@@ -93,12 +92,12 @@ export const Category = () => {
                 <div className="navLinks">
                     <Link to="/Home" className="directoryLink">Home</Link>
                     <Link to="" className="directoryLink">/Shop</Link>
-                    <Link to="" className="currentLink">/{selectedType}</Link>
+                    <Link to="" className="currentLink">/{type}</Link>
                 </div>
             </div>
             <p className="pageTitle">Categories</p>
             <div className="categoriesContainer">
-                {filteredType.map((category, index) => (
+                {filteredCategories.map((category, index) => (
                     <div key={index} className="categoryItem">
                         <Link to={category.link}>
                             <p className="categoryName">{category.name}</p>

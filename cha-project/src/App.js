@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
+import ScrollTop from './components/ScrollTop';
 import LandingPage from './pages/LandingPage';
 import About from './pages/About';
 import { Home } from './pages/Home';
@@ -18,6 +19,7 @@ const AppContent = () => {
     return (
         <>
             {(location.pathname === '/' ? <Header /> : null)}
+            <ScrollTop />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -25,7 +27,8 @@ const AppContent = () => {
                 <Route path="/About" element={<About />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
-                <Route path="/Category" element={<Category />} />
+                <Route path="/Corporate" element={<Category type="Corporate" />} />
+                <Route path="/Government" element={<Category type="Government" />} />
             </Routes>
             {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
         </>

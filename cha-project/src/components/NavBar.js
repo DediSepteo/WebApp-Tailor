@@ -1,13 +1,11 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
-import { FaBars } from "react-icons/fa";
-import styles from "../styles/NavBar.module.css";
+import { FaRegUser, FaBars } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { RiArrowDropUpLine } from "react-icons/ri";
+import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
+import styles from "../styles/NavBar.module.css";
 
 const NavBar = () => {
     const links = [
@@ -18,69 +16,70 @@ const NavBar = () => {
         { name: "Contact", path: "/" },
     ];
 
+    const [sideNavOpen, setSideNavOpen] = useState(false);
+    const [dropDownOpen, setDropDownOpen] = useState(false);
 
-    useEffect(() => {
-        var cart = document.getElementById("cart")
-        var dropDown = document.getElementById("dropDown")
-        var downArrow = document.getElementById("downArrow")
-        var upArrow = document.getElementById("upArrow")
-        var shopMenu = document.getElementById("shopMenu")
-        if (dropDown) {
-            dropDown.onclick = () => {
-                console.log(downArrow.style.display)
-                if (downArrow.style.display === "inline") {
-                    downArrow.style.display = "none"
-                    upArrow.style.display = "inline"
-                    shopMenu.style.display = "inline"
-                }
-                else {
-                    downArrow.style.display = "inline"
-                    upArrow.style.display = "none"
-                    shopMenu.style.display = "none"
-                }
+    const toggleSideNav = () => {
+        setSideNavOpen(!sideNavOpen);
+        document.body.style.overflowY = sideNavOpen ? "auto" : "hidden";
+    };
 
-            }
-        }
+    const hideDropDown = () => {
+        setDropDownOpen(false)
+    }
 
-        if (cart) {
-            cart.onclick = function () {
-                const darkenRect = document.createElement("div")
-                darkenRect.style.position = "absolute"
-                darkenRect.style.width = "100%"
-                darkenRect.style.height = "100vw"
-            }
-        }
+    const openDropDown = () => {
+        setDropDownOpen(true)
+    }
 
-    }, [])
+
 
     return (
-        <>
-            <div className={styles.darkenDiv}></div>
-            <div className={styles.sideNav}>
-                <div className={styles.sideNavHead}>Menu<FaArrowRightLong /></div>
+        <div>
+            <div
+                className={styles.darkenDiv}
+                id="darkenDiv"
+                style={{ opacity: sideNavOpen ? 1 : 0, width: sideNavOpen ? '100vw' : 0 }}
+                onClick={toggleSideNav}
+            ></div>
+            <div className={styles.sideNav} id="sideNav" style={{ width: sideNavOpen ? "35%" : 0, opacity: sideNavOpen ? 1 : 0 }}>
+                <div className={styles.sideNavHead}>
+                    Menu
+                    <FaArrowRightLong className={styles.sideNavToggle} id="sideNavToggle" onClick={toggleSideNav} />
+                </div>
                 <div className={styles.sideNavLinks}>
                     {links.map((link, index) => (
                         link.name === "Shop" ? (
-                            <div>
-                                <div className={styles.sideShopDiv}>
-                                    <NavLink
-                                        key={index}
-                                        to={link.path}
-                                        exact
-                                        className={({ isActive }) =>
-                                            isActive ? `${styles.sideLink} ${styles.linkActive}` : styles.sideLink
+                            <div className={styles.shopDiv} id="shopLink" onMouseLeave={hideDropDown}>
+                                <div className={styles.shopLink}>
+                                    <span className={styles.link}>Shop</span>
+                                    <div className={styles.dropDown} id="dropDown" onMouseEnter={openDropDown}>
+                                        {dropDownOpen ?
+                                            <RiArrowDropUpLine id="upArrow" size={35} /> :
+                                            <RiArrowDropDownLine id="downArrow" size={35} />
                                         }
-                                    >
-                                        {link.name}
-                                    </NavLink>
-                                    <div id="dropDown" className={styles.dropDown}>
-                                        <RiArrowDropDownLine id="downArrow" style={{ display: "inline" }} size={35} />
-                                        <RiArrowDropUpLine id="upArrow" style={{ display: "none" }} size={35} />
                                     </div>
                                 </div>
-                                <div className={styles.shopMenu} id="shopMenu">
-                                    <NavLink className={styles.sideLink}>Government</NavLink>
-                                    <NavLink className={styles.sideLink}>Corporate</NavLink>
+                                <div className={`${styles.shopMenu} ${styles.dropDown}`} id="shopMenu"
+                                    style={{
+                                        opacity: dropDownOpen ? 1 : 0,
+                                        marginTop: dropDownOpen ? "1em" : 0,
+                                        padding: dropDownOpen ? "1em 0" : 0,
+                                        height: dropDownOpen ? "auto" : 0
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
+                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }}>Government</NavLink>
+                                        <NavLink className={styles.shopLightLink}>Uniforms</NavLink>
+                                        <NavLink className={styles.shopLightLink}>Suits</NavLink>
+                                        <NavLink className={styles.shopLightLink}>Jeans</NavLink>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
+                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }}>Corporate</NavLink>
+                                        <NavLink className={styles.shopLightLink}>Uniforms</NavLink>
+                                        <NavLink className={styles.shopLightLink}>Suits</NavLink>
+                                        <NavLink className={styles.shopLightLink}>Jeans</NavLink>
+                                    </div>
                                 </div>
                             </div>
                         ) :
@@ -89,7 +88,7 @@ const NavBar = () => {
                                 to={link.path}
                                 exact
                                 className={({ isActive }) =>
-                                    isActive ? `${styles.sideLink} ${styles.linkActive}` : styles.sideLink
+                                    isActive ? `${styles.link} ${styles.linkActive}` : styles.link
                                 }
                             >
                                 {link.name}
@@ -120,16 +119,12 @@ const NavBar = () => {
                     </NavLink>
                     <span className={styles.icons}><IoSearch /></span>
                     <span className={styles.icons} id="cart"><MdOutlineShoppingCart /></span>
-                    <div className={`${styles.colNavbar} ${styles.icons}`}>
-                        <FaBars />
-                    </div>
+                    <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>
             </nav >
-        </>
+            <div className={styles.btmPad}></div>
+        </div>
     );
 };
-
-
-
 
 export default NavBar;

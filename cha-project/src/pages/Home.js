@@ -1,11 +1,8 @@
 import styles from "../styles/Home.module.css"; // Import the CSS Module
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
 
 export const Home = () => {
     return (
         <main className={styles.main}>
-            <NavBar />
             <div className={styles.banner}>
                 <div className={styles.introBG} />
                 <div className={styles.intro}>
@@ -51,7 +48,6 @@ export const Home = () => {
                     <button className={styles.fabricationButton}>Shop Government</button>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 };

@@ -16,7 +16,7 @@ const AppContent = () => {
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : null)}
+            {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -25,7 +25,7 @@ const AppContent = () => {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
             </Routes>
-            {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
+            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
         </>
     );
 };

@@ -51,7 +51,6 @@ export const Home = () => {
                     <Link to="/Government" className={styles.fabricationButton}>Shop Government</Link>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 };

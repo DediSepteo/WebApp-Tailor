@@ -18,8 +18,7 @@ const AppContent = () => {
 
     return (
         <>
-            {(location.pathname === '/' ? <Header /> : null)}
-            <ScrollTop />
+            {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -30,7 +29,7 @@ const AppContent = () => {
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
             </Routes>
-            {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
+            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
         </>
     );
 };

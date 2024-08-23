@@ -1,4 +1,5 @@
 @font-face {
+@font-face {
   font-family: "Montserrat-Regular";
   src: local("Montserrat-Regular"),
     url(../fonts/Montserrat-Regular.ttf) format("truetype");
@@ -6,6 +7,11 @@
 @font-face {
     font-family: "Montserrat-Bold";
     src: local("Montserrat-Bold"), url(../fonts/Montserrat-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Montserrat-Light";
+    src: local("Montserrat-Light"), url(../fonts/Montserrat-Light.ttf) format("truetype");
 }
 
 @font-face {

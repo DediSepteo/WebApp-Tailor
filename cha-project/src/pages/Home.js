@@ -1,11 +1,11 @@
 import styles from "../styles/Home.module.css"; // Import the CSS Module
+import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
 export const Home = () => {
     return (
         <main className={styles.main}>
-            <NavBar />
             <div className={styles.banner}>
                 <div className={styles.introBG} />
                 <div className={styles.intro}>
@@ -47,8 +47,8 @@ export const Home = () => {
                     Find what you need - handmade custom for you
                 </p>
                 <div className={styles.fabBtn}>
-                    <button className={styles.fabricationButton}>Shop Corporate</button>
-                    <button className={styles.fabricationButton}>Shop Government</button>
+                    <Link to="/Corporate" className={styles.fabricationButton}>Shop Corporate</Link>
+                    <Link to="/Government" className={styles.fabricationButton}>Shop Government</Link>
                 </div>
             </div>
             <Footer />

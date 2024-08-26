@@ -491,6 +491,7 @@ body {
   }
 }
 
+/* For extra small mobile screens */
 @media (max-width: 412px) {
   .eyeIcon {
     top: 60%;

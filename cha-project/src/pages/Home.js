@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 export const Home = () => {
     return (
         <main className={styles.main}>
+            <NavBar />
             <div className={styles.banner}>
                 <div className={styles.introBG} />
                 <div className={styles.intro}>

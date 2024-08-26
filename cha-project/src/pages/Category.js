@@ -28,13 +28,13 @@ const categories = [
         type: 'Corporate',
         name: 'Construction',
         link: '/Shop/Security',
-        image: require('../assets/homeBanner2.png')
+        image: require('../assets/security.png')
     },
     {
         type: 'Corporate',
         name: 'Retail',
         link: '/Shop/Restaurant',
-        image: require('../assets/security.png')
+        image: require('../assets/homeBanner2.png')
     },
     {
         type: 'Corporate',

@@ -7,10 +7,10 @@ import styles from "../styles/Footer.module.css"; // Updated import
 
 const Footer = () => {
     return (
-        <div className={styles.footer}> {/* Apply the CSS module class */}
+        <footer className={styles.footer}> {/* Apply the CSS module class */}
             <div className={styles.info}> {/* Apply the CSS module class */}
                 <h2 className={styles.brand}> {/* Apply the CSS module class */}
-                    SnapStitch
+                    BrandTailors Co.
                 </h2>
                 <div className={styles.copyright}> {/* Apply the CSS module class */}
                     <div>
@@ -23,34 +23,20 @@ const Footer = () => {
             </div>
             <div className={styles.support}> {/* Apply the CSS module class */}
                 <h3>Support</h3>
-                <ul>
-                    <li>Help center</li>
-                    <li>Terms of service</li>
-                    <li>Legal</li>
-                    <li>Privacy Policy</li>
-                    <li>Status</li>
-                </ul>
+                <li>Help center</li>
+                <li>Terms of service</li>
+                <li>Legal</li>
+                <li>Privacy Policy</li>
+                <li>Status</li>
             </div>
             <div className={styles.contact}> {/* Apply the CSS module class */}
                 <h3>Contact Us</h3>
-                <div className={styles.location}> {/* Apply the CSS module class */}
-                    <IoLocationSharp />
-                    123 Sunshine Street, Level 5, Singapore 456789
-                </div>
-                <div className={styles.open_hrs}> {/* Apply the CSS module class */}
-                    <AiFillClockCircle />
-                    Mon - Fri: 11am - 8pm | Sat: 11am - 6pm
-                </div>
-                <div className={styles.mail}> {/* Apply the CSS module class */}
-                    <IoMail />
-                    queuecut@snapstitch.com
-                </div>
-                <div className={styles.tel}> {/* Apply the CSS module class */}
-                    <FaPhoneAlt />
-                    +65 1234 5678
-                </div>
+                <li><IoLocationSharp />123 Sunshine Street, Level 5, Singapore 456789</li>
+                <li><AiFillClockCircle />Mon - Fri: 11am - 8pm | Sat: 11am - 6pm</li>
+                <li><IoMail />queuecut@snapstitch.com</li>
+                <li><FaPhoneAlt />+65 1234 5678</li>
             </div>
-        </div>
+        </footer>
     )
 }
 

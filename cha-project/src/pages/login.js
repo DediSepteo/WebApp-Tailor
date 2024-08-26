@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import './login.css';
+import { Link } from 'react-router-dom';
+import './Authentication.css';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineHome } from "react-icons/ai";
+import ForgotPassword from "../components/ForgetPassword.js"
 
-function Login() {
+export const Login = () => {
   const [inputs, setInputs] = useState({ email: "", password: "", rememberPassword: false });
   const [showPassword, setShowPassword] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -23,6 +26,9 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  const showPopup = () => setPopupVisible(true);
+  const hidePopup = () => setPopupVisible(false);
+
   return (
     <div className="pageContainer">
       <div className="brandContainer">
@@ -31,8 +37,10 @@ function Login() {
       </div>
       <div className="formContainer">
         <div className="homeContainer">
-          <AiOutlineHome className="homeIcon" />
-          <p className="homeText">Back to Home</p>
+          <Link to="/Home">
+            <AiOutlineHome className="homeIcon" />
+          </Link>
+          <Link to="/Home" className="homeText">Back to Home</Link>
         </div>
         <p className="title">Sign In</p>
         <form onSubmit={handleSubmit} className="form">
@@ -43,6 +51,7 @@ function Login() {
               value={inputs.email}
               placeholder="Email"
               onChange={handleChange}
+              required
               className="inputField"
             />
           </div>
@@ -53,9 +62,10 @@ function Login() {
               value={inputs.password}
               placeholder="Password"
               onChange={handleChange}
+              required
               className="inputField"
             />
-            <div className="icon" onClick={togglePasswordVisibility}>
+            <div className="eyeIcon" onClick={togglePasswordVisibility}>
               {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </div>
           </div>
@@ -69,9 +79,9 @@ function Login() {
               />
               Remember Password
             </label>
-            <a href="ForgotPassword.js" className="anchor">
+            <Link onClick={showPopup} className="anchor">
               Forgot Password?
-            </a>
+            </Link>
           </div>
           <button className="submitButton" type="submit">Sign In</button>
           <div className="separator">or</div>
@@ -81,12 +91,11 @@ function Login() {
           </button>
           <p style={{ fontFamily: 'Montserrat-Regular' }}>
             Don't have an account?
-            <a href="Register.js" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</a>
+            <Link to="/Register" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
           </p>
         </form>
+        <ForgotPassword isVisible={isPopupVisible} onClose={hidePopup} />
       </div>
     </div>
   );
 }
-
-export default Login;

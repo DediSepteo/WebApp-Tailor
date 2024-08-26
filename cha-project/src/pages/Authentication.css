@@ -27,22 +27,24 @@ body {
 
 .homeContainer {
   position: absolute;
-  top: 20px;
-  right: 35px;
+  top: 30px;
+  right: 40px;
   display: flex;
   align-items: center;
   gap: 8px;
   color: grey;
   cursor: pointer;
-  z-index: 10;
 }
 
 .homeIcon {
   font-size: 24px;
+  color: grey
 }
 
 .homeText {
   font-size: 16px;
+  color: grey;
+  text-decoration: none;
 }
 
 .pageContainer {
@@ -109,7 +111,7 @@ body {
   font-family: "Noto-Serif-TC";
 }
 
-.icon {
+.eyeIcon {
   position: absolute;
   top: 50%;
   right: 18px;
@@ -130,19 +132,18 @@ body {
 }
 
 .anchor {
-
   color: #1c2d5b;
 }
 
-.a:visited {
+.anchor:visited {
   color: #1c2d5b;
 }
 
-.a:hover {
+.anchor:hover {
   color: #1c2d5b;
 }
 
-.a:active {
+.anchor:active {
   color: grey;
 }
 
@@ -199,14 +200,147 @@ body {
   justify-content: center;
   gap: 8px;
   font-family: "Montserrat-Regular";
-  font-weight: bold;
 }
 
 .googleIcon {
   font-size: 20px;
 }
 
-/* For tablets and smaller screens */
+/* Forget password page */
+.forgetPasswordTitle {
+  font-size: 36px;
+  color: #1c2d5b;
+  font-family: "Felgine";
+}
+
+.closeIcon {
+  font-size: 24px;
+  color: #1c2d5b;
+}
+
+.forgetPasswordButton {
+  height: 40px;
+  font-size: 16px;
+  background-color: #1c2d5b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-family: "Montserrat-Regular";
+}
+
+.forgetPasswordTop {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-family: "Noto-Serif-TC";
+  color: grey;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 40%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-content h2 {
+  margin-top: 0;
+}
+
+.popup-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-content label {
+  margin-bottom: 5px;
+}
+
+.popup-content input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.popup-content button[type="button"] {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* For tablet screens */
+@media (max-width: 1024px) {
+  .brand {
+    margin-left: 4vw;
+    margin-right: 4vw;
+  }
+
+  .subtitle {
+    font-size: 2.3vw;
+    padding-right: 4vw;
+  }
+
+  .homeContainer {
+    top: 5vh;
+    right: 7vw;
+  }
+
+  .title {
+    font-size: 5vw;
+  }
+
+  .inputContainer,
+  .googleButton,
+  .submitButton,
+  .checkboxContainer {
+      width: 80%;
+  }
+
+  .inputField,
+  .googleButton,
+  .submitButton {
+    height: 4vh; 
+  }
+
+  .separator {
+    width: 80%;
+  }
+
+  .popup-content {
+    width: 60%
+  }
+
+  .forgetPasswordTitle {
+    font-size: 5.5vw;
+    margin-bottom: 1vh;
+    margin-top: 3vh;
+  }
+
+  .closeIcon {
+    font-size: 4vw;
+  }
+
+  .forgetPasswordButton {
+    height: 4vh;
+    margin-top: 1vh;
+  }
+}
+
+/* For smaller tablet screens */
 @media (max-width: 768px) {
   .title {
     font-size: 6vw;
@@ -215,71 +349,106 @@ body {
   }
 
   .subtitle {
-    text-align: center;
-    padding-right: 2vw;
-    font-size: 4vw;
+    text-align: right;
+    padding-right: 5vw;
+    font-size: 3.5vw;
   }
 
   .pageContainer {
     flex-direction: column;
   }
 
-  .brandContainer {
-    flex: 100%;
-    padding: 2vw;
+  .brand {
+    font-size: 8vw;
+    margin-top: 15%;
+    margin-bottom: 3%;
   }
 
   .homeContainer {
-    top: 10px;
-    right: 10px;
+    top: 5vw;
+    right: 5vw;
   }
 
   .formContainer {
     flex: 100%;
     padding: 2vw;
+    margin-bottom: 15vh;
   }
 
   .inputContainer,
   .googleButton,
-  .submitButton,
+  .submitButton{
+    width: 80vw;
+  }
+
   .checkboxContainer {
     width: 80vw;
   }
 
-  .inputField {
-    height: 8vh;
+  .inputField,
+  .googleButton,
+  .submitButton,
+  .forgetPasswordButton {
+    height: 7vh; 
   }
 
-  .googleButton,
-  .submitButton {
-    height: 8vh;
+  .separator {
+    width: 83%;
+  }
+
+  
+  .popup-content {
+    width: 65%
+  }
+
+  .forgetPasswordTitle {
+    font-size: 6vw;
+    margin-bottom: 1vh;
+    margin-top: 3vh;
+  }
+
+  .closeIcon {
+    font-size: 4vw;
+  }
+
+  .forgetPasswordButton {
+    height: 7vh;
+    margin-top: 1vh;
   }
 }
 
 /* For mobile screens */
 @media (max-width: 480px) {
+  .brand {
+    margin-top: 20%;
+    margin-bottom: 6%;
+    font-size: 8.5vw;
+  }
+
   .title {
-    font-size: 7vw;
-    margin-top: 10vh;
+    font-size: 8vw;
+    margin-top: 8vh;
     margin-bottom: 5vh;
   }
 
   .subtitle {
-    font-size: 5vw;
+    font-size: 4.5vw;
+    padding-right: 6vw;
   }
 
   .formContainer {
-    padding: 2vw;
+    margin-bottom: 10vh;
   }
 
   .homeContainer {
-    top: 15px;
-    right: 15px;
+    top: 3vh;
+    right: 5vw;
     gap: 4px;
   }
 
   .homeText {
     font-size: 14px;
+    margin-top: -0.5vh;
   }
 
   .homeIcon {
@@ -293,11 +462,39 @@ body {
     height: 12vw;
   }
 
+  .checkboxContainer {
+    width: 85vw;
+  }
+
   .inputField {
     height: 6vh;
   }
 
-  button {
+  .forgetPasswordButton {
     height: 6vh;
+  }
+
+  .separator {
+    width: 88%;
+  }
+
+  .popup-content {
+    width: 60%
+  }
+
+  .forgetPasswordTitle {
+    font-size: 8vw;
+  }
+
+  .closeIcon {
+    font-size: 8vw;
+  }
+}
+
+/* For extra small mobile screens */
+@media (max-width: 412px) {
+  .eyeIcon {
+    top: 60%;
+    transform: translateY(-50%);
   }
 }

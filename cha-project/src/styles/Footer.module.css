@@ -5,13 +5,22 @@
   font-family: "Montserrat-Regular";
   color: #1c2d5b;
   justify-content: space-around;
-  align-items: center;
+  padding-bottom: 10px;
+  width: 100%;
 }
 
 .info {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+li {
+    display: flex;
+    list-style-type: none;
+    margin: 0.3em 0; 
+    font-size: 0.9em;
+    align-items: center;
 }
 
 .brand {
@@ -26,4 +35,16 @@
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+}
+
+@media (max-width: 600px) {
+    .footer {
+        font-size: 0.5em;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 960px) {
+    .footer {
+        font-size: 0.7em;
+    }
 }

@@ -32,7 +32,7 @@ const AppContent = () => {
                 <Route path="/Government" element={<Category type="Government" />} />
                 {/* <Route path="/Customer" element={<Customer />} /> */}
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
+            {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
         </>
     );
 };

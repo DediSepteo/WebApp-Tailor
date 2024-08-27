@@ -2,17 +2,110 @@
 
 .navbar { 
     background-color: #C7E1D4; 
-    padding: 2%; 
-    justify-content: space-around;
+    padding:2% 4%;
     display: flex;
     align-items: center;
-    column-gap: 9%;
+    justify-content: space-around;
 }
+
+.logo { 
+    font-family: "Felgine";
+    font-size: 150%;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.linksDiv { 
+    color: #1C2D5B;
+    justify-content: space-around;
+    display: flex;
+    font-family: "Montserrat-Bold";
+    font-size: 0.9em;
+    gap: 2em;
+}   
+
+.link {
+    color: #1C2D5B;
+    text-decoration: none;
+    user-select: none;
+}
+
+
+.linkActive {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+/* Custom underline for link */
+.linkActive::after {
+    color: black;
+    content: "";
+    width: 2.6em;     
+    height: 0.1em;
+    background-color: black;
+    align-self: center;
+}
+
+.sideDiv { 
+    color: #1C2D5B;
+    font-family: "Montserrat-Bold";
+    display: flex;
+    flex-direction: row;
+    font-size: 0.9em;
+    gap: 2em;
+    height: 100%;
+}
+
+.loginLink {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+}
+
+.loginLink:visited {
+    color: inherit;
+}
+
+.icons { 
+    display: flex;
+    align-items: center;
+    font-size: 1.4em;
+    background-color: none;
+}
+
+.icons:hover {
+    cursor: pointer;
+}
+
+.loginText { 
+    position: relative; 
+    margin-left: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.loginText:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.colNavbar { 
+    display: none;
+}
+
+.btmPad {
+    width: 100%;
+    background-color: white;
+    height: 0.3em;
+}
+
 
 .darkenDiv {
     right: 0;
     position:absolute;
-    width: 100vw;
+    width: 100%;
     height: 100em;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 1;
@@ -21,17 +114,18 @@
 }
 
 .sideNav {
+    display: flex;
     position: absolute;
     top: 0;
     right: 0;
     background-color: #C1E2D2;
-    height: 50em;
+    height: 100%;
     z-index:2;
-    display: flex;
+    visibility: hidden;
     flex-direction: column;
     opacity: 0;
     width: 0;
-    transition: all 0.25s ease;
+    transition: all 0.5s;
 }
 
 .sideNavHead {
@@ -83,7 +177,7 @@
     font-size: 1em;
     font-family: "Montserrat";
     justify-content: space-around;
-    transition: all 0.25s ease;
+    transition: all 0.25s ease, opacity 0.1s ease-out;
 }
 
 .shopLightLink {
@@ -95,102 +189,10 @@
     font-size: 0.8em;
 }
 
-
-.logo { 
-    flex: 0.2;
-    font-family: "Felgine";
-    font-size: 1.4em;
-    white-space: nowrap;
-    user-select: none;
-}
-
-.linksDiv { 
-    color: #1C2D5B;
-    flex: 0.4;
-    justify-content: space-around;
-    display: flex;
-    font-family: "Montserrat-Bold";
-    font-size: 0.9em;
-    gap: 1em;
-}   
-
-.link {
-    color: #1C2D5B;
-    text-decoration: none;
-    user-select: none;
-    width: fit-content;
-}
-
-
-.linkActive {
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-}
-
-/* Custom underline for link */
-.linkActive::after {
-    color: black;
-    content: "";
-    width: 2.6em;     
-    height: 0.1em;
-    background-color: black;
-    align-self: center;
-}
-
-.sideDiv { 
-    color: #1C2D5B;
-    font-family: "Montserrat-Bold";
-    display: flex;
-    flex: 0.3;
-    justify-content: space-around;
-    flex-direction: row;
-    font-size: 0.9em;
-    gap: 1em;
-}
-
-.loginLink {
-    display: flex;
-    flex-direction: row;
-    text-decoration: none;
-}
-
-.loginLink:visited {
-    color: inherit;
-}
-
-.icons { 
-    display: flex;
-    align-items: center;
-    font-size: 1.4em;
-    background-color: none;
-}
-
-.icons:hover {
-    cursor: pointer;
-}
-
-.loginText { 
-    position: relative; 
-    margin-left: 0.5em;
-    text-align: center;
-    white-space: nowrap;
-    user-select: none;
-}
-
-.loginText:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.colNavbar { 
-    display: none;
-}
-
-.btmPad {
-    width: 100%;
-    background-color: white;
-    height: 0.3em;
+.sideNavOpen {
+    visibility: visible;
+    width: 35%;
+    opacity: 1;
 }
 
 
@@ -201,41 +203,15 @@
 
 @media (max-width: 600px) {
     .navbar {
-        justify-content: space-around;
+        justify-content: space-between;
     }
     .logo { 
         font-size: 0.9em;
     }
     .linksDiv {
         display: none;
-        background-color: wheat;
     }
-    .loginDiv {
-        flex: 0.5;
-        justify-content: space-evenly;
-        gap: 0.5em;
-    }
-    .loginText {
-        display: none;
-    }
-    .colNavbar {
-        display: flex;
-    }
-    .icons {
-        font-size: 1.2em;
-    }
-}
-
-@media (min-width: 600px) and (max-width: 960px) {
-    .logo { 
-        font-size: 1.5em;
-    }
-    .linksDiv {
-        font-size: 0em;
-    }
-    .loginDiv {
-        flex: 0.5;
-        justify-content: space-evenly;
+    .sideDiv {
         gap: 1.5em;
     }
     .loginText {
@@ -245,6 +221,70 @@
         display: flex;
     }
     .icons {
+        font-size: 1em;
+    }
+    .sideNavLinks {
+        padding: 2em 2.5em;
+    }
+    .sideNavOpen {
+        width: 100%
+    }
+}
+
+@media (min-width: 601px) and (max-width: 750px) {
+    .sideNavOpen {
+        width: 55%;
+    }  
+    .navbar {
+        justify-content: space-between;
+    }
+    .logo { 
         font-size: 1.5em;
+    }
+    .linksDiv {
+        display: none;
+    }
+
+    .sideDiv {
+        gap: 1.5em;
+    }
+
+    .loginText {
+        display: none;
+    }
+    .colNavbar {
+        display: flex;
+    }
+    .icons {
+        font-size: 1.5em;
+    }
+}
+
+@media (min-width: 751px) and (max-width: 960px) {
+    .navbar {
+        justify-content: space-between;
+    }
+    .logo { 
+        font-size: 1.5em;
+    }
+    .linksDiv {
+        display: none;
+    }
+
+    .sideDiv {
+        gap: 1.5em;
+    }
+
+    .loginText {
+        display: none;
+    }
+    .colNavbar {
+        display: flex;
+    }
+    .icons {
+        font-size: 1.5em;
+    }
+    .sideNavOpen {
+        width: 45%;
     }
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
@@ -21,7 +21,6 @@ const NavBar = () => {
 
     const toggleSideNav = () => {
         setSideNavOpen(!sideNavOpen);
-        document.body.style.overflowY = sideNavOpen ? "auto" : "hidden";
     };
 
     const hideDropDown = () => {
@@ -32,17 +31,36 @@ const NavBar = () => {
         setDropDownOpen(true)
     }
 
+    const disableScroll = (event) => {
+        event.preventDefault();
+        window.scrollTo(0, 0);
+    }
+
+    useEffect(() => {
+        if (sideNavOpen) {
+            window.addEventListener('scroll', disableScroll, { passive: false })
+        }
+        else {
+            window.removeEventListener('scroll', disableScroll);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', disableScroll);
+        }
+    }, [sideNavOpen])
+
 
 
     return (
-        <div>
+        <div style={{ margin: 0, padding: 0, width: "100%" }}>
             <div
                 className={styles.darkenDiv}
                 id="darkenDiv"
                 style={{ opacity: sideNavOpen ? 1 : 0, width: sideNavOpen ? '100vw' : 0 }}
                 onClick={toggleSideNav}
             ></div>
-            <div className={styles.sideNav} id="sideNav" style={{ width: sideNavOpen ? "35%" : 0, opacity: sideNavOpen ? 1 : 0 }}>
+            {/* Side Nav Bar */}
+            <div className={`${styles.sideNav} ${sideNavOpen ? styles.sideNavOpen : ""}`} id="sideNav">
                 <div className={styles.sideNavHead}>
                     Menu
                     <FaArrowRightLong className={styles.sideNavToggle} id="sideNavToggle" onClick={toggleSideNav} />
@@ -88,7 +106,7 @@ const NavBar = () => {
                                 to={link.path}
                                 exact
                                 className={({ isActive }) =>
-                                    isActive ? `${styles.link} ${styles.linkActive}` : styles.link
+                                    isActive ? `${styles.link}` : styles.link
                                 }
                             >
                                 {link.name}
@@ -96,6 +114,7 @@ const NavBar = () => {
                     ))}
                 </div>
             </div >
+            {/* Nav Bar */}
             <nav className={styles.navbar}>
                 <div className={styles.logo}>BrandTailors Co.</div>
                 <div className={styles.linksDiv}>

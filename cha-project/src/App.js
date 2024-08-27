@@ -31,10 +31,10 @@ const AppContent = () => {
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
                 {/* Dynamic Route for CategoryItem */}
-                <Route path="/Shop/:type" element={<CategoryItem />} />
+                <Route path="/Corporate/:type" element={<CategoryItem />} />
 
             </Routes>
-            {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
+            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
         </>
     );
 };

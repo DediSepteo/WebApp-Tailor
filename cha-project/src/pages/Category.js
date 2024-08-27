@@ -8,37 +8,37 @@ const categories = [
     {
         type: 'Corporate',
         name: 'Security',
-        link: '/Shop/Security',
+        link: '/Corporate/Security',
         image: require('../assets/security.png')
     },
     {
         type: 'Corporate',
         name: 'Restaurant',
-        link: '/Shop/Restaurant',
+        link: '/Corporate/Restaurant',
         image: require('../assets/restaurant.png')
     },
     {
         type: 'Corporate',
         name: 'Schools',
-        link: '/Shop/Schools',
+        link: '/Corporate/Schools',
         image: require('../assets/homeBanner2.png')
     },
     {
         type: 'Corporate',
         name: 'Construction',
-        link: '/Shop/Construction',
+        link: '/Corporate/Construction',
         image: require('../assets/security.png')
     },
     {
         type: 'Corporate',
         name: 'Retail',
-        link: '/Shop/Retail',
+        link: '/Corporate/Retail',
         image: require('../assets/homeBanner2.png')
     },
     {
         type: 'Corporate',
         name: 'Suits',
-        link: '/Shop/Suits',
+        link: '/Corporate/Suits',
         image: require('../assets/restaurant.png')
     },
 
@@ -46,37 +46,37 @@ const categories = [
     {
         type: 'Government',
         name: 'Police',
-        link: '/Shop/Police',
+        link: '/Government/Police',
         image: require('../assets/restaurant.png')
     },
     {
         type: 'Government',
         name: 'Army',
-        link: '/Shop/Army',
+        link: '/Government/Army',
         image: require('../assets/homeBanner2.png')
     },
     {
         type: 'Government',
         name: 'Teacher',
-        link: '/Shop/Teacher',
+        link: '/Government/Teacher',
         image: require('../assets/security.png')
     },
     {
         type: 'Government',
         name: 'Navy',
-        link: '/Shop/Navy',
+        link: '/Government/Navy',
         image: require('../assets/homeBanner2.png')
     },
     {
         type: 'Government',
         name: 'Nurse',
-        link: '/Shop/Nurse',
+        link: '/Government/Nurse',
         image: require('../assets/security.png')
     },
     {
         type: 'Government',
         name: 'Air Force',
-        link: '/Shop/AirForce',
+        link: '/Government/AirForce',
         image: require('../assets/restaurant.png')
     },
 ];

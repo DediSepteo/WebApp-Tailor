@@ -9,15 +9,15 @@ const options = [
         name: 'Black Polo Tee',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit1',
+        link: '/Corporate/Suit/Suit1',
         image: require('../assets/security.png')
     },
     {
         type: 'Suits',
         name: 'An Extremely Long Shirt Name',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton Black tailored polo in flat one piece collar. Fabric is 100% pique cotton Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
+        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
         price: '$99.99',
-        link: '/Shop/Suit/Suit2',
+        link: '/Corporate/Suit/Suit2',
         image: require('../assets/security.png')
     },
     {
@@ -25,7 +25,7 @@ const options = [
         name: 'Suit3',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit3',
+        link: '/Corporate/Suit/Suit3',
         image: require('../assets/security.png')
     },
     {
@@ -33,7 +33,7 @@ const options = [
         name: 'Suit4',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit4',
+        link: '/Corporate/Suit/Suit4',
         image: require('../assets/security.png')
     },
     {
@@ -41,7 +41,7 @@ const options = [
         name: 'Suit5',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit1',
+        link: '/Corporate/Suit/Suit1',
         image: require('../assets/security.png')
     },
     /* Retail Items */
@@ -50,7 +50,7 @@ const options = [
         name: 'Retail1',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Retail/Retail1',
+        link: '/Corporate/Retail/Retail1',
         image: require('../assets/suit4.png')
     },
     {
@@ -58,7 +58,7 @@ const options = [
         name: 'Retail2',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Retail/Retail2',
+        link: '/Corporate/Retail/Retail2',
         image: require('../assets/suit3.png')
     },
     /* Construction Items */
@@ -67,7 +67,7 @@ const options = [
         name: 'Construction1',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
         price: '$99.99',
-        link: '/Shop/Construction/Construction1',
+        link: '/Corporate/Construction/Construction1',
         image: require('../assets/suit3.png')
     },
     {
@@ -75,7 +75,7 @@ const options = [
         name: 'Construction2',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction2',
+        link: '/Corporate/Construction/Construction2',
         image: require('../assets/suit3.png')
     },
     {
@@ -83,7 +83,7 @@ const options = [
         name: 'Construction3',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction3',
+        link: '/Corporate/Construction/Construction3',
         image: require('../assets/suit3.png')
     },
     {
@@ -91,7 +91,7 @@ const options = [
         name: 'Construction4',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction4',
+        link: '/Corporate/Construction/Construction4',
         image: require('../assets/suit3.png')
     },
     {
@@ -99,7 +99,7 @@ const options = [
         name: 'Construction5',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction5',
+        link: '/Corporate/Construction/Construction5',
         image: require('../assets/suit3.png')
     },
     {
@@ -107,7 +107,7 @@ const options = [
         name: 'Construction6',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction6',
+        link: '/Corporate/Construction/Construction6',
         image: require('../assets/suit3.png')
     },
     {
@@ -115,7 +115,7 @@ const options = [
         name: 'Construction7',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction7',
+        link: '/Corporate/Construction/Construction7',
         image: require('../assets/suit3.png')
     },
 ];

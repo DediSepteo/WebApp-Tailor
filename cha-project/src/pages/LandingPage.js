@@ -1,4 +1,3 @@
-// src/pages/LandingPage.js
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './LandingPage.css';
 import '../styles/fonts.css';

@@ -132,7 +132,7 @@ const NavBar = () => {
                     ))}
                 </div>
                 <div className={styles.sideDiv}>
-                    <NavLink className={styles.loginLink} to={"/login"}>
+                    <NavLink className={styles.loginLink} to={"/Login"}>
                         <span className={styles.icons}><FaRegUser /></span>
                         <span className={styles.loginText}>Login / Register</span>
                     </NavLink>

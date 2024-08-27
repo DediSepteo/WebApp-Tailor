@@ -12,13 +12,15 @@ import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
-
+import Customer from './pages/Customer';
+import CustomerList from './components/CustomerList';
 const AppContent = () => {
     const location = useLocation();
 
     return (
         <>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            <ScrollTop />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -28,6 +30,7 @@ const AppContent = () => {
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
+                {/* <Route path="/Customer" element={<Customer />} /> */}
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
         </>

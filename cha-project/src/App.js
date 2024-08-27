@@ -29,7 +29,7 @@ const AppContent = () => {
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
+            {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
         </>
     );
 };

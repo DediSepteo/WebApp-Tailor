@@ -1,0 +1,98 @@
+.directoryContainer {
+    background-color: #c7e1d4;
+    padding: 3em 0;
+    padding-left: 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.currentPage {
+    font-size: 2.2em;
+    color: #1c2d5b;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    margin: 1vh;
+}
+
+.navLinks {
+    padding-left: 2%;
+    margin-top: 0.7%;
+}
+
+.directoryLink {
+    font-family: "Noto Serif TC";
+    font-weight: light;
+    text-decoration: none;
+    color: #6C7DAB;
+}
+
+.currentLink {
+    text-decoration: none;
+    color: #1c2d5b;
+}
+
+.itemLink {
+    text-decoration: none;
+    color: #1c2d5b;
+}
+
+.categoriesContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
+    gap: 20px; /* Consistent horizontal and vertical gaps */
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.categoryItem {
+    background-color: #c7e1d4;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+.categoryImageWrapper {
+    width: 100%;
+    position: relative;
+    padding-top: 120%; /* Aspect ratio of 3:2 */
+    overflow: hidden;
+}
+
+.categoryImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.categoryName {
+    font-family: "Noto Serif TC";
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    padding: 10px 15px;
+    margin: 0;
+}
+
+.categoryDetail {
+    font-family: "Montserrat";
+    font-size: 1.2rem;
+    color: #1c2d5b;
+    margin-bottom: 10px; 
+    padding: 10px 15px;
+    margin: 0 0 10px 0;
+}
+
+.categoryPrice {
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: #1c2d5b;
+    text-align: end;
+    padding-right: 15px;
+}

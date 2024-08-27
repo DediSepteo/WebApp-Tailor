@@ -12,6 +12,7 @@ import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
+import { CategoryItem } from './pages/CategoryItem';
 
 const AppContent = () => {
     const location = useLocation();
@@ -19,6 +20,7 @@ const AppContent = () => {
     return (
         <>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            <ScrollTop />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -28,6 +30,9 @@ const AppContent = () => {
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
+                {/* Dynamic Route for CategoryItem */}
+                <Route path="/Shop/:type" element={<CategoryItem />} />
+
             </Routes>
             {/* {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />} */}
         </>

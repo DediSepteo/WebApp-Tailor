@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import './Category.css';
 
@@ -27,19 +26,19 @@ const categories = [
     {
         type: 'Corporate',
         name: 'Construction',
-        link: '/Shop/Security',
+        link: '/Shop/Construction',
         image: require('../assets/security.png')
     },
     {
         type: 'Corporate',
         name: 'Retail',
-        link: '/Shop/Restaurant',
+        link: '/Shop/Retail',
         image: require('../assets/homeBanner2.png')
     },
     {
         type: 'Corporate',
         name: 'Suits',
-        link: '/Shop/Schools',
+        link: '/Shop/Suits',
         image: require('../assets/restaurant.png')
     },
 
@@ -106,7 +105,6 @@ export const Category = ({ type }) => {
                     </div>
                 ))}
             </div>
-            <Footer />
         </main>
     );
 }

@@ -12,6 +12,7 @@ import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
+import { CategoryItem } from './pages/CategoryItem';
 import Customer from './pages/Customer';
 import CustomerList from './components/CustomerList';
 const AppContent = () => {
@@ -32,7 +33,7 @@ const AppContent = () => {
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
                 {/* Dynamic Route for CategoryItem */}
-                <Route path="/Corporate/:type" element={<CategoryItem />} />
+                <Route path="/Corporate/:company" element={<CategoryItem />} />
 
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}

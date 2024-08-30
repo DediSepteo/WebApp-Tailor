@@ -28,6 +28,8 @@
 }
 
 .currentLink {
+    font-family: "Noto Serif TC";
+    font-weight: light;
     text-decoration: none;
     color: #1c2d5b;
 }
@@ -55,32 +57,102 @@
 }
 
 .categoryItem {
-    flex: 1 1 calc(33.333% - 4em); /* Default to 3 items per row */
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    flex: 1 1 calc(33.333% - 4em); /* 3 columns per row */
     box-sizing: border-box;
     margin-bottom: 1em;
+    display: flex;
+}
+
+.imageOverlay {
     position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 150%; /* 2:3 aspect ratio */
 }
 
 .categoryImage {
+    position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 3px;
+    transition: filter 0.3s ease;
+}
+
+.categoryImage.darken {
+    filter: brightness(60%);
 }
 
 .categoryName {
     position: absolute;
+    bottom: 1%;
+    left: 5%;
     font-family: "Noto Serif TC";
     font-weight: bold;
-    bottom: 1%;
-    padding-left: 5%;
     font-size: 2.2em;
     color: white;
-    text-decoration: none;
     text-shadow: 2px 2px 8px #000000;
+    z-index: 1;
+    transition: opacity 0.3s ease;
 }
 
-/* For tablets */
+.companyList {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 8px #000000;
+    z-index: 1;
+    max-height: 80%;
+    overflow-y: auto;
+    width: 90%;
+    box-sizing: border-box;
+    display: none;
+    padding: 10px;
+}
+
+.categoryItem:hover .categoryImage {
+    filter: brightness(60%);
+}
+
+.categoryItem:hover .companyList {
+    display: flex; /* Show and apply flexbox properties */
+}
+
+.categoryItem:hover .categoryName {
+    visibility: hidden;
+}
+
+.companyItem {
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.companyItem:hover {
+    text-decoration: underline;
+}
+
+.companyList {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.companyList::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+/* For tablet screens */
 @media (max-width: 1024px) {
     .pageTitle {
         margin-bottom: 3vh;
@@ -89,60 +161,77 @@
 
     .categoriesContainer {
         gap: 2em;
-        padding: 0 2em;
     }
     
     .categoryItem {
-        flex: 1 1 calc(33.333% - 2em); /* Default to 3 items per row */
+        flex: 1 1 calc(33.333% - 2em);
         margin-bottom: 1em;
     }
 
     .categoryName {
-        bottom: -2%;
-        padding-left: 5%;
         font-size: 1.9em;
+        bottom: -2%;
+    }
+
+    .companyList {
+        font-size: 1.1em;
+        bottom: 15%;
     }
 }
 
-/* For smaller tablets */
+/* For smaller tablet screens */
 @media (max-width: 768px) {
     .categoryItem {
-        flex: 1 1 calc(33.3% - 1em); /* Default to 2 items per row */
+        flex: 1 1 calc(50% - 1em);
     }
 
     .categoryName {
-        font-size: 2em;
+        font-size: 2.5em;
         bottom: -1%;
-        padding-left: 7%;
+    }
+
+    .companyList {
+        font-size: 1em;
+        bottom: 20%;
     }
 }
 
 /* For mobile screens */
 @media (max-width: 480px) {
     .pageTitle {
-        font-size: 2em;;
+        font-size: 2em;
     }
 
     .categoryName {
         font-size: 1.4em;
-        bottom: -4%;
+        bottom: -3%;
+        left: 6%;
+    }
+
+    .companyList {
+        font-size: 0.9em;
+        bottom: 25%;
     }
 
     .categoryItem {
-        flex: 1 1 calc(50% - 2em); /* Default to 2 items per row */
+        flex: 1 1 calc(50% - 2em);
         margin-bottom: 0em;
     }
 
     .categoriesContainer {
         gap: 1em;
-        padding: 0 1em;
     }
 }
 
 /* For extra small mobile screens */
 @media (max-width: 412px) {
     .categoryName {
-        font-size: 1.15em;
-        bottom: -4%;
+        font-size: 1.3em;
+        bottom: 30%;
+    }
+
+    .companyList {
+        font-size: 0.8em;
+        bottom: 30%;
     }
 }

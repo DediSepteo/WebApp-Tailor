@@ -8,7 +8,7 @@ const CustomerList = () => {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await fetch('http://localhost:3002/api/customers');
+                const response = await fetch('http://localhost:3000/api/customers');
 
                 // Check if the response is not JSON
                 const contentType = response.headers.get('content-type');

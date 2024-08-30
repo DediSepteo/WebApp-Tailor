@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Authentication.css';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
@@ -10,6 +10,8 @@ export const Login = () => {
   const [inputs, setInputs] = useState({ email: "", password: "", rememberPassword: false });
   const [showPassword, setShowPassword] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -17,9 +19,29 @@ export const Login = () => {
     setInputs(values => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Logging in with", inputs);
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputs),
+      });
+
+      if (!response.ok) {
+        throw new Error('Invalid credentials');
+      }
+
+      const data = await response.json();
+      sessionStorage.setItem('token', data.token); // Save the token in localStorage
+
+      navigate('/Home'); // Redirect to Home page
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError(error.message);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -44,6 +66,7 @@ export const Login = () => {
         </div>
         <p className="title">Sign In</p>
         <form onSubmit={handleSubmit} className="form">
+          {error && <p className="error">{error}</p>}
           <div className="inputContainer">
             <input
               type="email"
@@ -98,4 +121,4 @@ export const Login = () => {
       </div>
     </div>
   );
-}
+};

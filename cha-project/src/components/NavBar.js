@@ -5,6 +5,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegUser, FaBars } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
+import { jwtDecode } from "jwt-decode";
 import styles from "../styles/NavBar.module.css";
 
 const NavBar = () => {
@@ -18,38 +19,44 @@ const NavBar = () => {
 
     const [sideNavOpen, setSideNavOpen] = useState(false);
     const [dropDownOpen, setDropDownOpen] = useState(false);
+    const [userName, setUserName] = useState(null);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUserName(decodedToken.name); // Assuming the token contains the user's name as "name"
+        }
+    }, []);
 
     const toggleSideNav = () => {
         setSideNavOpen(!sideNavOpen);
     };
 
     const hideDropDown = () => {
-        setDropDownOpen(false)
-    }
+        setDropDownOpen(false);
+    };
 
     const openDropDown = () => {
-        setDropDownOpen(true)
-    }
+        setDropDownOpen(true);
+    };
 
     const disableScroll = (event) => {
         event.preventDefault();
         window.scrollTo(0, 0);
-    }
+    };
 
     useEffect(() => {
         if (sideNavOpen) {
-            window.addEventListener('scroll', disableScroll, { passive: false })
-        }
-        else {
+            window.addEventListener('scroll', disableScroll, { passive: false });
+        } else {
             window.removeEventListener('scroll', disableScroll);
         }
 
         return () => {
             window.removeEventListener('scroll', disableScroll);
-        }
-    }, [sideNavOpen])
-
-
+        };
+    }, [sideNavOpen]);
 
     return (
         <div style={{ margin: 0, padding: 0, width: "100%" }}>
@@ -68,7 +75,7 @@ const NavBar = () => {
                 <div className={styles.sideNavLinks}>
                     {links.map((link, index) => (
                         link.name === "Shop" ? (
-                            <div className={styles.shopDiv} id="shopLink" onMouseLeave={hideDropDown}>
+                            <div className={styles.shopDiv} id="shopLink" onMouseLeave={hideDropDown} key={index}>
                                 <div className={styles.shopLink}>
                                     <span className={styles.link}>Shop</span>
                                     <div className={styles.dropDown} id="dropDown" onMouseEnter={openDropDown}>
@@ -132,10 +139,14 @@ const NavBar = () => {
                     ))}
                 </div>
                 <div className={styles.sideDiv}>
-                    <NavLink className={styles.loginLink} to={"/Login"}>
-                        <span className={styles.icons}><FaRegUser /></span>
-                        <span className={styles.loginText}>Login / Register</span>
-                    </NavLink>
+                    {userName ? (
+                        <span className={styles.userName}>{userName}</span>
+                    ) : (
+                        <NavLink className={styles.loginLink} to={"/Login"}>
+                            <span className={styles.icons}><FaRegUser /></span>
+                            <span className={styles.loginText}>Login / Register</span>
+                        </NavLink>
+                    )}
                     <span className={styles.icons}><IoSearch /></span>
                     <span className={styles.icons} id="cart"><MdOutlineShoppingCart /></span>
                     <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />

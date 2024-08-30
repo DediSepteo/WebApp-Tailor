@@ -13,7 +13,8 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import Customer from './pages/Customer';
-import CustomerList from './components/CustomerList';
+import { CategoryItem } from './pages/CategoryItem';
+
 const AppContent = () => {
     const location = useLocation();
 
@@ -31,7 +32,8 @@ const AppContent = () => {
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
-                {/* <Route path="/Customer" element={<Customer />} /> */}
+                <Route path="/Customer" element={<Customer />} />
+                <Route path="/Shop/:type" element={<CategoryItem />} />
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
         </>

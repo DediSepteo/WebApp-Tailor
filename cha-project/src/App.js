@@ -13,7 +13,6 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import Customer from './pages/Customer';
-import { CategoryItem } from './pages/CategoryItem';
 
 const AppContent = () => {
     const location = useLocation();

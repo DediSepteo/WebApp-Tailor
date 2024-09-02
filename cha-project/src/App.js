@@ -14,7 +14,6 @@ import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import { CategoryItem } from './pages/CategoryItem';
 import Customer from './pages/Customer';
-import { CategoryItem } from './pages/CategoryItem';
 
 const AppContent = () => {
     const location = useLocation();

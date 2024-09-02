@@ -14,9 +14,15 @@
 }
 
 @font-face {
+    font-family: "Montserrat-SemiBold";
+    src: local("Montserrat-SemiBold"), url(../fonts/Montserrat-SemiBold.ttf) format("truetype");
+}
+
+
+
+@font-face {
     font-family: "Montserrat";
     src: local("Montserrat"), url(../fonts/Montserrat-VariableFont_wght.ttf) format("truetype");
-    font-weight: 100 900;
 }
 
 @font-face {

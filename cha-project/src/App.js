@@ -13,8 +13,8 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import { CategoryItem } from './pages/CategoryItem';
+import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
-import { CategoryItem } from './pages/CategoryItem';
 
 const AppContent = () => {
     const location = useLocation();
@@ -24,7 +24,7 @@ const AppContent = () => {
             {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <ScrollTop />
             <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<NewLandingPage />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Shop" element={<Shop />} />
                 <Route path="/About" element={<About />} />
@@ -38,7 +38,7 @@ const AppContent = () => {
                 <Route path="/Customer" element={<Customer />} />
 
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === '/Register') && <Footer />}
+            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname === '/') && <Footer />}
         </>
     );
 };

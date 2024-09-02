@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegUser, FaBars } from "react-icons/fa";
@@ -12,20 +12,27 @@ const NavBar = () => {
     const links = [
         { name: "Home", path: "/home" },
         { name: "Shop", path: "/shop" },
-        { name: "About", path: "/" },
-        { name: "Blog", path: "/" },
-        { name: "Contact", path: "/" },
+        { name: "About", path: "/about" },
+        { name: "Blog", path: "/blog" },
+        { name: "Contact", path: "/contact" },
     ];
 
     const [sideNavOpen, setSideNavOpen] = useState(false);
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [userName, setUserName] = useState(null);
+    const navigate = useNavigate(); // Initialize navigate
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (token) {
-            const decodedToken = jwtDecode(token);
-            setUserName(decodedToken.name); // Assuming the token contains the user's name as "name"
+            try {
+                const decodedToken = jwtDecode(token);
+                setUserName(decodedToken.name); // Ensure your token has a 'name' field
+            } catch (error) {
+                console.error('Invalid token:', error);
+                // Optionally, handle invalid token by logging out the user
+                handleLogout();
+            }
         }
     }, []);
 
@@ -57,6 +64,14 @@ const NavBar = () => {
             window.removeEventListener('scroll', disableScroll);
         };
     }, [sideNavOpen]);
+
+    // Logout Handler
+    const handleLogout = () => {
+        sessionStorage.removeItem('token'); // Remove token from sessionStorage
+        localStorage.removeItem('token')
+        setUserName(null); // Clear userName state
+        navigate('/Home'); // Redirect to Home page or Login page
+    };
 
     return (
         <div style={{ margin: 0, padding: 0, width: "100%" }}>
@@ -94,16 +109,16 @@ const NavBar = () => {
                                     }}
                                 >
                                     <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
-                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }}>Government</NavLink>
-                                        <NavLink className={styles.shopLightLink}>Uniforms</NavLink>
-                                        <NavLink className={styles.shopLightLink}>Suits</NavLink>
-                                        <NavLink className={styles.shopLightLink}>Jeans</NavLink>
+                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/government">Government</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms">Uniforms</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/suits">Suits</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/jeans">Jeans</NavLink>
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
-                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }}>Corporate</NavLink>
-                                        <NavLink className={styles.shopLightLink}>Uniforms</NavLink>
-                                        <NavLink className={styles.shopLightLink}>Suits</NavLink>
-                                        <NavLink className={styles.shopLightLink}>Jeans</NavLink>
+                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/corporate">Corporate</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms">Uniforms</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/suits">Suits</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/jeans">Jeans</NavLink>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +128,7 @@ const NavBar = () => {
                                 to={link.path}
                                 exact
                                 className={({ isActive }) =>
-                                    isActive ? `${styles.link}` : styles.link
+                                    isActive ? `${styles.link} ${styles.linkActive}` : styles.link
                                 }
                             >
                                 {link.name}
@@ -140,8 +155,13 @@ const NavBar = () => {
                 </div>
                 <div className={styles.sideDiv}>
                     {userName ? (
-                        <><span className={styles.icons}><FaRegUser /></span><span className={styles.userName}>{userName}</span></>
-                        
+                        <div className={styles.userContainer}>
+                            <span className={styles.icons}><FaRegUser /></span>
+                            <span className={styles.userName}>{userName}</span>
+                            <button onClick={handleLogout} className={styles.logoutButton}>
+                                Logout
+                            </button>
+                        </div>
                     ) : (
                         <NavLink className={styles.loginLink} to={"/Login"}>
                             <span className={styles.icons}><FaRegUser /></span>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from "../components/Footer";
 import './Category.css';
@@ -133,9 +133,14 @@ const categories = [
 
 export const Category = ({ type }) => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
+    const companyListRefs = useRef([]);
 
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
+
+        if (companyListRefs.current[index]) {
+            companyListRefs.current[index].scrollTop = 0;
+        }
     };
 
     const handleMouseLeave = () => {
@@ -172,7 +177,7 @@ export const Category = ({ type }) => {
                             <p className="categoryName">{category.name}</p>
                             <img src={category.image} alt={category.name} className={`categoryImage ${hoveredIndex === index ? 'darken' : ''}`} />
                         </div>
-                        <div className={`companyList ${hoveredIndex === index ? 'show' : ''}`}>
+                        <div className={`companyList ${hoveredIndex === index ? 'show' : ''}`} ref={(el) => companyListRefs.current[index] = el}>
                             {category.companies.map((company, i) => (
                                 <p key={i} className="companyItem" onClick={(e) => {
                                     e.stopPropagation();

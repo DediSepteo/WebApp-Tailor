@@ -137,8 +137,7 @@ export const CategoryItem = () => {
             </div>
             <div className={styles.categoriesContainer}>
                 {filteredItems.map((item, index) => (
-                    <div className={styles.categoryItem}>
-                        <Link to={item.link} className={styles.itemLink}>
+                    <Link to={item.link} className={styles.categoryItem}>
                             <div className={styles.categoryImageWrapper}>
                                 <img src={item.image} alt={item.name} className={styles.categoryImage} />
                             </div>
@@ -147,8 +146,7 @@ export const CategoryItem = () => {
                                 <p className={styles.categoryDetail}>{item.detail}</p>
                                 <p className={styles.categoryPrice}>{item.price}</p>
                             </div>
-                        </Link>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </main>

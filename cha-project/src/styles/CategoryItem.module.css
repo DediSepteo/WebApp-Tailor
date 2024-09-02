@@ -28,6 +28,8 @@
 }
 
 .currentLink {
+    font-family: "Noto Serif TC";
+    font-weight: light;
     text-decoration: none;
     color: #1c2d5b;
 }
@@ -52,6 +54,8 @@
     overflow: hidden;
     transition: 0.3s;
     box-sizing: border-box;
+    position: relative;
+    padding-bottom: 60px;
 }
 
 .categoryImageWrapper {
@@ -95,4 +99,7 @@
     color: #1c2d5b;
     text-align: end;
     padding-right: 15px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }

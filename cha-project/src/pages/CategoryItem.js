@@ -5,124 +5,124 @@ import styles from '../styles/CategoryItem.module.css';
 const options = [
     // Clothing under each category
     {
-        type: 'Suits',
-        name: 'Black Polo Tee',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Shop/Suit/Suit1',
-        image: require('../assets/security.png')
-    },
-    {
-        type: 'Suits',
+        company: 'Suits1',
         name: 'An Extremely Long Shirt Name',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton Black tailored polo in flat one piece collar. Fabric is 100% pique cotton Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
+        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit2',
+        link: '/Corporate/Suits1/Suit1',
         image: require('../assets/security.png')
     },
     {
-        type: 'Suits',
-        name: 'Suit3',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
+        company: 'Suits1',
+        name: 'An Extremely Long Shirt Name',
+        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
         price: '$99.99',
-        link: '/Shop/Suit/Suit3',
+        link: '/Corporate/Suits1/Suit2',
         image: require('../assets/security.png')
     },
     {
-        type: 'Suits',
-        name: 'Suit4',
+        company: 'Suits1',
+        name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit4',
+        link: '/Corporate/Suits1/Suit3',
         image: require('../assets/security.png')
     },
     {
-        type: 'Suits',
-        name: 'Suit5',
+        company: 'Suits1',
+        name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Suit/Suit1',
+        link: '/Corporate/Suit/Suit4',
+        image: require('../assets/security.png')
+    },
+    {
+        company: 'Suits2',
+        name: 'An Extremely Long Shirt Name',
+        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
+        price: '$99.99',
+        link: '/Corporate/Suit/Suit1',
         image: require('../assets/security.png')
     },
     /* Retail Items */
     {
-        type: 'Retail',
+        company: 'Retail1',
         name: 'Retail1',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Retail/Retail1',
-        image: require('../assets/suit4.png')
+        link: '/Corporate/Retail/Retail1',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Retail',
+        company: 'Retail2',
         name: 'Retail2',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Retail/Retail2',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/Retail/Retail2',
+        image: require('../assets/security.png')
     },
     /* Construction Items */
     {
-        type: 'Construction',
-        name: 'Construction1',
+        company: 'GreatConstructionsCo',
+        name: 'Yellow Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
         price: '$99.99',
-        link: '/Shop/Construction/Construction1',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/GreatConstructionsCo/YellowConstructionUniform',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Construction',
-        name: 'Construction2',
+        company: 'GreatConstructionsCo',
+        name: 'Orange Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction2',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/GreatConstructionsCo/OrangeConstructionUniform',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Construction',
-        name: 'Construction3',
+        company: 'GreatConstructionsCo',
+        name: 'Red Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction3',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/GreatConstructionsCo/RedConstructionUniform',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Construction',
-        name: 'Construction4',
+        company: 'GreatConstructionsCo',
+        name: 'Green Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction4',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/GreatConstructionsCo/GreenConstructionUniform',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Construction',
-        name: 'Construction5',
+        company: 'GreatConstructionsCo',
+        name: 'Blue Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction5',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/GreatConstructionsCo/BlueConstructionUniform',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Construction',
-        name: 'Construction6',
+        company: 'GreatConstructionsCo',
+        name: 'Brown Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction6',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/GreatConstructionsCo/BrownConstructionUniform',
+        image: require('../assets/security.png')
     },
     {
-        type: 'Construction',
-        name: 'Construction7',
+        company: 'Construction2',
+        name: 'Grey Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop/Construction/Construction7',
-        image: require('../assets/suit3.png')
+        link: '/Corporate/Construction2/GreyConstructionUniform',
+        image: require('../assets/security.png')
     },
 ];
 
 export const CategoryItem = () => {
-    const { type } = useParams();
-    const filteredItems = options.filter(item => item.type === type);
+    const { company } = useParams();
+    const filteredItems = options.filter(item => item.company === company);
 
     return (
         <main>
@@ -132,7 +132,7 @@ export const CategoryItem = () => {
                     <Link to="/Home" className={styles.directoryLink}>Home</Link>
                     <Link to="" className={styles.directoryLink}>/Shop</Link>
                     <Link to="/Corporate" className={styles.directoryLink}>/Corporate</Link>
-                    <Link to="" className={styles.currentLink}>/{type}</Link>
+                    <Link to="" className={styles.currentLink}>/{company}</Link>
                 </div>
             </div>
             <div className={styles.categoriesContainer}>

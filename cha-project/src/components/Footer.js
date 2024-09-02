@@ -7,34 +7,38 @@ import styles from "../styles/Footer.module.css"; // Updated import
 
 const Footer = () => {
     return (
-        <footer className={styles.footer}> {/* Apply the CSS module class */}
-            <div className={styles.info}> {/* Apply the CSS module class */}
-                <h2 className={styles.brand}> {/* Apply the CSS module class */}
+        <footer className={styles.footer}>
+            <div className={styles.info}>
+                <h2 className={styles.brand}>
                     BrandTailors Co.
                 </h2>
-                <div className={styles.copyright}> {/* Apply the CSS module class */}
+                <div className={styles.copyright}>
                     <div>
-                        Copyright © 2024 SnapStitch
+                        Copyright © 2024 BrandTailors Co.
                     </div>
                     <div>
                         All rights reserved
                     </div>
                 </div>
             </div>
-            <div className={styles.support}> {/* Apply the CSS module class */}
-                <h3>Support</h3>
-                <li>Help center</li>
-                <li>Terms of service</li>
-                <li>Legal</li>
-                <li>Privacy Policy</li>
-                <li>Status</li>
+            <div className={styles.support}>
+                <ul>
+                    <li className={styles.listHeader}>Support</li>
+                    <li>Help center</li>
+                    <li>Terms of service</li>
+                    <li>Legal</li>
+                    <li>Privacy Policy</li>
+                    <li>Status</li>
+                </ul>
             </div>
-            <div className={styles.contact}> {/* Apply the CSS module class */}
-                <h3>Contact Us</h3>
-                <li><IoLocationSharp />123 Sunshine Street, Level 5, Singapore 456789</li>
-                <li><AiFillClockCircle />Mon - Fri: 11am - 8pm | Sat: 11am - 6pm</li>
-                <li><IoMail />queuecut@snapstitch.com</li>
-                <li><FaPhoneAlt />+65 1234 5678</li>
+            <div className={styles.contact}>
+                <ul>
+                    <li className={styles.listHeader}>Contact Us</li>
+                    <li><IoLocationSharp className={styles.icons} />123 Sunshine Street, Level 5, Singapore 456789</li>
+                    <li><AiFillClockCircle className={styles.icons} />Mon - Fri: 11am - 8pm | Sat: 11am - 6pm</li>
+                    <li><IoMail className={styles.icons} />queuecut@snapstitch.com</li>
+                    <li><FaPhoneAlt className={styles.icons} />+65 1234 5678</li>
+                </ul>
             </div>
         </footer>
     )

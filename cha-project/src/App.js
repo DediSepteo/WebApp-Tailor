@@ -23,7 +23,6 @@ const AppContent = () => {
         <>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <ScrollTop />
-            <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
                 <Route path="/Home" element={<Home />} />
@@ -33,6 +32,7 @@ const AppContent = () => {
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
+                {/* <Route path="/Customer" element={<Customer />} /> */}
                 {/* Dynamic Route for CategoryItem */}
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
                 <Route path="/Customer" element={<Customer />} />

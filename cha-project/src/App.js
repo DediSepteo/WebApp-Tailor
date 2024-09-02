@@ -12,7 +12,6 @@ import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
-import { CategoryItem } from './pages/CategoryItem';
 import Customer from './pages/Customer';
 import { CategoryItem } from './pages/CategoryItem';
 

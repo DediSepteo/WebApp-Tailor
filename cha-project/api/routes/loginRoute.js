@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
         return res.status(400).send('Email and password are required');
     }
 
-    const query = 'SELECT * FROM customers WHERE email = ? AND password = ?';
+    const query = 'SELECT * FROM organization WHERE email = ? AND password = ?';
 
     db.query(query, [email, password], (err, results) => {
         if (err) {

@@ -135,7 +135,7 @@ body {
 
 .categoryItem:hover .companyList {
     display: flex;
-    justify-content: flex-start; /* Display list from top */
+    justify-content: flex-start; /* Start list from top */
 }
 
 .categoryItem:hover .categoryName {

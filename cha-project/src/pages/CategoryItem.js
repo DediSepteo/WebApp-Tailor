@@ -111,7 +111,7 @@ const options = [
         image: require('../assets/security.png')
     },
     {
-        company: 'Construction2',
+        company: 'BuildnConstruct',
         name: 'Grey Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
@@ -130,7 +130,6 @@ export const CategoryItem = () => {
                 <p className={styles.currentPage}>Shop</p>
                 <div className={styles.navLinks}>
                     <Link to="/Home" className={styles.directoryLink}>Home</Link>
-                    <Link to="" className={styles.directoryLink}>/Shop</Link>
                     <Link to="/Corporate" className={styles.directoryLink}>/Corporate</Link>
                     <Link to="" className={styles.currentLink}>/{company}</Link>
                 </div>

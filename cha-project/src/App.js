@@ -23,7 +23,6 @@ const AppContent = () => {
         <>
             {!(location.pathname === '/Login' || location.pathname === '/Register') && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <ScrollTop />
-            <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
                 <Route path="/Home" element={<Home />} />

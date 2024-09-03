@@ -1,6 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import Footer from "../components/Footer";
 import './Category.css';
 
 const categories = [
@@ -37,7 +35,7 @@ const categories = [
         name: 'Construction',
         companies: [
             { name: 'GreatConstructions Co.', url: '/Corporate/GreatConstructionsCo' },
-            { name: 'Construction2', url: '/Corporate/Construction2' }
+            { name: 'Build n Construct', url: '/Corporate/BuildnConstruct' }
         ],
         image: require('../assets/security.png')
     },
@@ -137,7 +135,6 @@ export const Category = ({ type }) => {
 
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
-
         if (companyListRefs.current[index]) {
             companyListRefs.current[index].scrollTop = 0;
         }
@@ -147,8 +144,20 @@ export const Category = ({ type }) => {
         setHoveredIndex(null);
     };
 
-    const handleClick = (url) => {
-        window.location.href = url;
+    const handleClick = (url, index, e) => {
+        if (companyListRefs.current[index]?.classList.contains('show')) {
+            window.location.href = url;
+        } else {
+            e.stopPropagation();
+        }
+    };
+
+    const handleCategoryClick = (index) => {
+        if (hoveredIndex === index) {
+            setHoveredIndex(null);
+        } else {
+            setHoveredIndex(index);
+        }
     };
 
     const filteredCategories = categories.filter(category => category.type === type);
@@ -159,7 +168,6 @@ export const Category = ({ type }) => {
                 <p className="currentPage">Shop</p>
                 <div className="navLinks">
                     <a href="/Home" className="directoryLink">Home</a>
-                    <a href="" className="directoryLink">/Shop</a>
                     <a href="" className="currentLink">/{type}</a>
                 </div>
             </div>
@@ -171,18 +179,28 @@ export const Category = ({ type }) => {
                         className="categoryItem"
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={handleMouseLeave}
-                        onClick={() => handleClick(category.companies[0].url)}
+                        onClick={() => handleCategoryClick(index)}
                     >
                         <div className="imageOverlay">
                             <p className="categoryName">{category.name}</p>
-                            <img src={category.image} alt={category.name} className={`categoryImage ${hoveredIndex === index ? 'darken' : ''}`} />
+                            <img
+                                src={category.image}
+                                alt={category.name}
+                                className={`categoryImage ${hoveredIndex === index ? 'darken' : ''}`}
+                            />
                         </div>
-                        <div className={`companyList ${hoveredIndex === index ? 'show' : ''}`} ref={(el) => companyListRefs.current[index] = el}>
+                        <div
+                            className={`companyList ${hoveredIndex === index ? 'show' : ''}`}
+                            ref={(el) => companyListRefs.current[index] = el}
+                        >
                             {category.companies.map((company, i) => (
-                                <p key={i} className="companyItem" onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleClick(company.url);
-                                }}>{company.name}</p>
+                                <p
+                                    key={i}
+                                    className="companyItem"
+                                    onClick={(e) => handleClick(company.url, index, e)}
+                                >
+                                    {company.name}
+                                </p>
                             ))}
                         </div>
                     </div>

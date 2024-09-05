@@ -13,7 +13,8 @@ import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
-import { CategoryItem } from './pages/CategoryItem'
+import { CategoryItem } from './pages/CategoryItem';
+import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
 
 const AppContent = () => {
@@ -24,7 +25,7 @@ const AppContent = () => {
             {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("meow")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <ScrollTop />
             <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<NewLandingPage />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Shop" element={<Shop />} />
                 <Route path="/About" element={<About />} />

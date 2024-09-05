@@ -1,3 +1,11 @@
+html,
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .directoryContainer {
     background-color: #c7e1d4;
     padding: 3em 0;
@@ -103,23 +111,22 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: 52%;
+    top: 10%;
+    bottom: 10%;
+    transform: translateX(-50%); /* Only translate on X-axis */
     color: white;
     font-family: "Noto Serif TC";
     font-weight: bold;
     font-size: 1.5em;
     text-shadow: 2px 2px 8px #000000;
     z-index: 1;
-    max-height: 80%;
+    max-height: 90%;
     overflow-y: auto;
     width: 90%;
     box-sizing: border-box;
     display: none;
-    padding: 10px;
+    vertical-align: middle;
 }
 
 .categoryItem:hover .categoryImage {
@@ -127,7 +134,8 @@
 }
 
 .categoryItem:hover .companyList {
-    display: flex; /* Show and apply flexbox properties */
+    display: flex;
+    justify-content: flex-start; /* Start list from top */
 }
 
 .categoryItem:hover .categoryName {
@@ -233,5 +241,12 @@
     .companyList {
         font-size: 0.8em;
         bottom: 30%;
+    }
+}
+
+@media (max-width: 376px) {
+    .categoryName {
+        font-size: 1.1em;
+        bottom: 0%
     }
 }

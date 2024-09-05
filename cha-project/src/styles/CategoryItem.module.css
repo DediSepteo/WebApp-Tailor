@@ -34,11 +34,6 @@
     color: #1c2d5b;
 }
 
-.itemLink {
-    text-decoration: none;
-    color: #1c2d5b;
-}
-
 .categoriesContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
@@ -56,6 +51,8 @@
     box-sizing: border-box;
     position: relative;
     padding-bottom: 60px;
+    text-decoration: none;
+    color: #1c2d5b;
 }
 
 .categoryImageWrapper {

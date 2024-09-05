@@ -18,8 +18,6 @@
     src: local("Montserrat-SemiBold"), url(../fonts/Montserrat-SemiBold.ttf) format("truetype");
 }
 
-
-
 @font-face {
     font-family: "Montserrat";
     src: local("Montserrat"), url(../fonts/Montserrat-VariableFont_wght.ttf) format("truetype");
@@ -38,4 +36,9 @@
 @font-face {
     font-family: "IBMPlexSerif-Light";
     src: local("IBMPlexSerif-Light"), url(../fonts/IBMPlexSerif-Light.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Inter";
+    src: local("Inter"), url(../fonts/Inter-VariableFont_opsz,wght.ttf) format("truetype");
 }

@@ -1,0 +1,52 @@
+.home {
+    display: flex;
+    flex-direction: column;
+}
+
+.overview {
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.card {
+    display: flex;
+    font-family: "Inter";
+    color: white;
+    height: 14vh;
+    width: 15vw;
+    padding: 0.7em 1em;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardHead {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.cardBase {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 200;
+}
+
+.icon {
+    font-size: 3vw;
+}
+
+.tools {
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    background-color: white;
+    width: 12vw
+}
+
+.containerHead {
+    color: black;
+}

@@ -5,7 +5,14 @@
     padding:2% 4%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .logo { 
@@ -130,7 +137,6 @@
 }
 
 .sideNavHead {
-    padding: 0.5em 2em;
     font-size: 1.5em;
     font-family: "Felgine";
     color: #1C2D5B;
@@ -145,7 +151,6 @@
     flex-direction: column;
     gap: 3em;
     text-align: left;
-    padding: 2em 3em;
     font-family: "Montserrat";
     border-bottom: 0.2em solid white;
 }
@@ -165,7 +170,6 @@
 
 
 .shopDiv div {
-    padding-top: 0.25em;
 }
 
 

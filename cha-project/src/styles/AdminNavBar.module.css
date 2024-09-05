@@ -1,0 +1,40 @@
+.NavBar {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    height: 10vh;
+    align-items: center;
+    width: 82vw;
+    justify-content: space-between;
+}
+
+.name {
+    font-size: 1.3em;
+    font-family: Helvetica sans-serif;
+    letter-spacing: 0.5px;
+    align-self: center;
+}
+
+.profile {
+    font-size: 1.8em;
+    color: black;
+}
+
+.container {
+    padding: 0 2em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.loginDiv { 
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 1.5em;
+}
+
+.logout {
+    text-align: center;
+}

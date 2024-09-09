@@ -1,0 +1,49 @@
+.darkenDiv {
+    opacity: 50%;
+    background-color: black;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    align-self: none
+}
+
+.popupBox {
+    display: block; /* Hidden by default */
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    width: 20%;
+    background-color:   white; /* Black background with opacity */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Makes sure it’s above all other elements */
+  }
+  
+.popupContent {
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.head {
+    padding: 2em;
+    font-family: "Inter";
+    font-weight: bold;
+}
+
+.buttonDiv {
+    padding: 2em;
+    border-top: 2px solid black;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cancelBtn { 
+    background-color: white;
+    border: 1px solid #006FE6;
+    color: #006FE6;
+    padding: 0.5em 1em;
+    font-weight: 100;
+}
+  

@@ -138,41 +138,39 @@ const NavBar = () => {
             </div >
             {/* Nav Bar */}
             <nav className={styles.navbar}>
-                <div className={styles.container}>
-                    <div className={styles.logo}>BrandTailors Co.</div>
-                    <div className={styles.linksDiv}>
-                        {links.map((link, index) => (
-                            <NavLink
-                                key={index}
-                                to={link.path}
-                                exact
-                                className={({ isActive }) =>
-                                    isActive ? `${styles.link} ${styles.linkActive}` : styles.link
-                                }
-                            >
-                                {link.name}
-                            </NavLink>
-                        ))}
-                    </div>
-                    <div className={styles.sideDiv}>
-                        {userName ? (
-                            <div className={styles.userContainer}>
-                                <span className={styles.icons}><FaRegUser /></span>
-                                <span className={styles.userName}>{userName}</span>
-                                <button onClick={handleLogout} className={styles.logoutButton}>
-                                    Logout
-                                </button>
-                            </div>
-                        ) : (
-                            <NavLink className={styles.loginLink} to={"/Login"}>
-                                <span className={styles.icons}><FaRegUser /></span>
-                                <span className={styles.loginText}>Login / Register</span>
-                            </NavLink>
-                        )}
-                        <span className={styles.icons}><IoSearch /></span>
-                        <span className={styles.icons} id="cart"><MdOutlineShoppingCart /></span>
-                        <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
-                    </div>
+                <div className={styles.logo}>BrandTailors Co.</div>
+                <div className={styles.linksDiv}>
+                    {links.map((link, index) => (
+                        <NavLink
+                            key={index}
+                            to={link.path}
+                            exact
+                            className={({ isActive }) =>
+                                isActive ? `${styles.link} ${styles.linkActive}` : styles.link
+                            }
+                        >
+                            {link.name}
+                        </NavLink>
+                    ))}
+                </div>
+                <div className={styles.sideDiv}>
+                    {userName ? (
+                        <div className={styles.userContainer}>
+                            <span className={styles.icons}><FaRegUser /></span>
+                            <span className={styles.userName}>{userName}</span>
+                            <button onClick={handleLogout} className={styles.logoutButton}>
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <NavLink className={styles.loginLink} to={"/Login"}>
+                            <span className={styles.icons}><FaRegUser /></span>
+                            <span className={styles.loginText}>Login / Register</span>
+                        </NavLink>
+                    )}
+                    <span className={styles.icons}><IoSearch /></span>
+                    <span className={styles.icons} id="cart"><MdOutlineShoppingCart /></span>
+                    <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>
             </nav >
             <div className={styles.btmPad}></div>

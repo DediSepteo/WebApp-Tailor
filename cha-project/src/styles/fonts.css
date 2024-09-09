@@ -19,6 +19,11 @@
 }
 
 @font-face {
+    font-family: "Montserrat-Medium";
+    src: local("Montserrat-Medium"), url(../fonts/Montserrat-Medium.ttf) format("truetype");
+}
+
+@font-face {
     font-family: "Montserrat";
     src: local("Montserrat"), url(../fonts/Montserrat-VariableFont_wght.ttf) format("truetype");
 }
@@ -31,6 +36,11 @@
 @font-face {
     font-family: "Noto Serif TC";
     src: local("Noto Serif TC"), url(../fonts/NotoSerifTC-VariableFont_wght.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Serif";
+    src: local("Noto Serif"), url(../fonts/NotoSerif-VariableFont_wdth\,wght.ttf) format("truetype");
 }
 
 @font-face {

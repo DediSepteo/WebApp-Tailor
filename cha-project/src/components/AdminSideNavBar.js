@@ -15,12 +15,12 @@ const AdminSideNavBar = () => {
             <span className={styles.logo}>BrandTailors Co.</span>
             <div style={{ marginTop: "10%", width: "90%" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "2em" }}>
-                    <li><NavLink className={({ isActive }) => isActive ? `${styles.link} ${styles.linkActive}` : styles.link}>
+                    <li className={styles.li}><NavLink className={({ isActive }) => isActive ? `${styles.link} ${styles.linkActive}` : styles.link}>
                         Dashboard
                     </NavLink></li>
                     <div className={styles.heading}>Corporate</div>
                     {links.map((link, index) => (
-                        <li key={index}>
+                        <li className={styles.li} key={index}>
                             <NavLink
                                 to={link.path}
                                 className={({ isActive }) =>
@@ -31,12 +31,9 @@ const AdminSideNavBar = () => {
                             </NavLink>
                         </li>
                     ))}
-                    {/* <li><NavLink className={styles.link} to="/meow/1">Manage Store</NavLink></li>
-                        <li><NavLink className={styles.link} to="/meow/1">Manage Users</NavLink></li>
-                        <li><NavLink className={styles.link} to="/meow/1">Manage Orders</NavLink></li> */}
                     <div className={styles.heading}>Government</div>
                     {links.map((link, index) => (
-                        <li key={index}>
+                        <li className={styles.li} key={index}>
                             <NavLink
                                 to={link.path}
                                 className={({ isActive }) =>

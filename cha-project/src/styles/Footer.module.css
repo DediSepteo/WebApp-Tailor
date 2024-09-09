@@ -17,8 +17,7 @@
 
 li {
     display: flex;
-    list-style-type: none;
-    margin: 0.35em 0; 
+    list-style-type: none; 
     font-size: 0.8em;
     align-items: center;
 }

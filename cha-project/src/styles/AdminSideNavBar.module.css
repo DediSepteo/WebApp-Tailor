@@ -1,0 +1,59 @@
+.NavBar {
+    left: 0;
+    background-color: #262C31;
+    width: 18%;
+    display: flex; 
+    flex-direction: column;
+    color: white;
+    text-align:center;
+    align-items: center;
+}
+
+.logo {
+    align-self: center;
+    padding: 1em 1.8em 0.6em;
+    font-size: 1.1em;
+    font-family: "Felgine";
+    white-space: nowrap;
+    user-select: none;
+    border-bottom: 1px grey solid;
+} 
+
+.heading {
+    display: inline-block;
+    text-align:left;
+    margin-top: 3em;
+    padding-bottom: 1em;
+    font-size: 0.8em;
+    letter-spacing: 0.8px;
+    width: 85%;
+    color: #9496A1;
+    font-family: "Montserrat-SemiBold";
+    border-bottom: 1px grey solid;
+}
+
+.link {
+    font-family: "Montserrat";
+    color: #bbbdc7;
+    text-decoration: none;
+    padding: 0.9em 0.5em; 
+    width: 100%;
+}
+
+.li {
+    align-self: flex-start;
+    margin-top: 5%;
+    text-align: left;
+    width: 80%;
+    margin-left: 1.5em;
+}
+
+.linkActive {
+    color: rgb(236, 224, 224);
+    background-color: #61676f;
+}
+
+.link:hover {
+    color: white;
+    background-color: #3D444E;
+}

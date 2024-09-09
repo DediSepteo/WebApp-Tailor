@@ -29,7 +29,7 @@ const categories = [
             { name: 'School2', url: '/Corporate/School2' }
         ],
         image: require('../assets/homeBanner2.png')
-    },
+    },  
     {
         type: 'Corporate',
         name: 'Construction',
@@ -37,7 +37,7 @@ const categories = [
             { name: 'GreatConstructions Co.', url: '/Corporate/GreatConstructionsCo' },
             { name: 'Build n Construct', url: '/Corporate/BuildnConstruct' }
         ],
-        image: require('../assets/security.png')
+        image: require('../assets/security.png')    
     },
     {
         type: 'Corporate',
@@ -209,5 +209,3 @@ export const Category = ({ type }) => {
         </main>
     );
 }
-
-export default Category;

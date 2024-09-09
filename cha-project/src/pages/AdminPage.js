@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
 import styles from "../styles/AdminPage.module.css"
@@ -16,9 +16,18 @@ const ordersData = [
 ]
 
 const AdminPage = () => {
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopUp = () => {
+        setShowPopup(!showPopup); // Show popup when you want
+    };
+
+
     return (
-        <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7" }}>
-            <ConfirmPopUp />
+        <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7", margin: 0 }}>
+            {showPopup && (
+                <ConfirmPopUp togglePopup={togglePopUp} />
+            )}
             <AdminSideNavBar />
             <div className={styles.home}>
                 <AdminNavBar />
@@ -80,7 +89,7 @@ const AdminPage = () => {
                                 <td className={styles.tableBtns}>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <NavLink className={styles.detailBtn}>Details</NavLink>
-                                        <button className={styles.cancelBtn}>Cancel</button>
+                                        <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>

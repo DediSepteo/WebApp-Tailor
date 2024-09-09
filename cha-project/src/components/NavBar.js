@@ -108,16 +108,16 @@ const NavBar = () => {
                                     }}
                                 >
                                     <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
-                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/government">Government</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms">Uniforms</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/suits">Suits</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/jeans">Jeans</NavLink>
+                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/government" onClick={toggleSideNav}>Government</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms" onClick={toggleSideNav}>Uniforms</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/suits" onClick={toggleSideNav}>Suits</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/jeans" onClick={toggleSideNav}>Jeans</NavLink>
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
-                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/corporate">Corporate</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms">Uniforms</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/suits">Suits</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/jeans">Jeans</NavLink>
+                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/corporate" onClick={toggleSideNav}>Corporate</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms" onClick={toggleSideNav}>Uniforms</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/suits" onClick={toggleSideNav}>Suits</NavLink>
+                                        <NavLink className={styles.shopLightLink} to="/shop/jeans" onClick={toggleSideNav}>Jeans</NavLink>
                                     </div>
                                 </div>
                             </div>
@@ -127,8 +127,9 @@ const NavBar = () => {
                                 to={link.path}
                                 exact
                                 className={({ isActive }) =>
-                                    isActive ? `${styles.link} ${styles.linkActive}` : styles.link
+                                    isActive ? `${styles.link}` : styles.link
                                 }
+                                onClick={toggleSideNav}
                             >
                                 {link.name}
                             </NavLink>

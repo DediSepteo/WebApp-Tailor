@@ -8,12 +8,13 @@
   justify-content: space-around;
 }
 
-.logo { 
-    font-family: "Felgine";
-    font-size: 150%;
-    white-space: nowrap;
-    user-select: none;
-    color: #1C2D5B;
+.logo {
+  font-family: "Felgine";
+  font-size: 150%;
+  white-space: nowrap;
+  user-select: none;
+  color: #1c2d5b;
+}
 
 .linksDiv {
   color: #1c2d5b;

@@ -46,9 +46,9 @@ export const Home = () => {
                 <p className={styles.fabSubHead}>
                     Find what you need - handmade custom for you
                 </p>
-                <div className={styles.fabBtn}>
-                    <Link to="/Corporate" className={styles.fabricationButton}>Shop Corporate</Link>
-                    <Link to="/Government" className={styles.fabricationButton}>Shop Government</Link>
+                <div className={styles.fabBtnDiv}>
+                    <Link to="/Corporate" className={styles.fabBtn}>Shop Corporate</Link>
+                    <Link to="/Government" className={styles.fabBtn}>Shop Government</Link>
                 </div>
             </div>
         </main>

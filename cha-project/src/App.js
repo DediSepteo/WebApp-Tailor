@@ -14,6 +14,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import { CategoryItem } from './pages/CategoryItem';
+import { About } from './pages/About';
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
 

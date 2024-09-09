@@ -23,7 +23,7 @@ const NavBar = () => {
     const navigate = useNavigate(); // Initialize navigate
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);

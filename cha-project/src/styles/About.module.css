@@ -1,0 +1,335 @@
+/* Section 1 */
+.titleContainer {
+    background-color: #c7e1d4;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content vertically */
+    min-height: 80vh;
+    position: relative; /* Position relative for the scrollSection */
+}
+
+.titleText {
+    font-family: "Montserrat";
+    font-weight: bold;
+    color: white;
+    font-size: 4em;
+}
+
+.brandText {
+    color: #1c2d5b;
+    font-family: "Felgine";
+    font-weight: bold;
+    font-size: 4.5em;
+}
+
+.scrollSection {
+    position: absolute;
+    bottom: 2em;
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    text-align: center;
+}
+
+.scrollSection:hover {
+    cursor: pointer;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+.scrollText {
+    font-family: "Montserrat";
+    font-weight: 600;
+    color: white;
+}
+
+.downArrowIcon {
+    color: white;
+    font-size: 24px;
+}
+
+/* Section 2 */
+.beliefContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif TC";
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #1c2d5b;
+    text-align: center;
+    margin: 0 auto;
+    min-height: 60vh;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0px -15px 30px rgba(0, 0, 0, 0.09), /* Shadow above */
+                0px 15px 30px rgba(0, 0, 0, 0.09);  /* Shadow below */
+}
+
+.beliefContainer p {
+    width: 43%;
+    padding: 5% 0;
+}
+
+/* Section 3 */
+.visionMissionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Noto Serif TC";
+    color: #1c2d5b;
+    background-color: #c7e1d4;
+    min-height: 70vh;
+    justify-content: center;
+}
+
+.visionMissionHeader {
+    font-size: 4em;
+    font-weight: bold;
+    width: 53%;
+    margin: 0;
+    padding-top: 5%;
+}
+
+.visionMissionContent {
+    font-size: 1.2em;
+    font-weight: 600;
+    width: 52%;
+    line-height: 1.8;
+    padding-bottom: 5%;
+}
+
+/* Section 4 */
+.founderContainer {
+    display: flex;
+    flex-direction: column;
+    color: #1c2d5b;
+    align-items: center;
+    min-height: 110vh;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0px -15px 30px rgba(0, 0, 0, 0.09), /* Shadow above */
+                0px 15px 30px rgba(0, 0, 0, 0.09);  /* Shadow below */
+}
+
+.founderHeader {
+    font-family: "Montserrat";
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 0.6em;
+    padding-top: 5%;
+}
+
+.founderContainer img {
+    width: 15em;
+    height: 15em;
+    border-radius: 50%;
+    object-fit: cover; /* Ensures that the image don't get distorted and remains a perfect circle */
+}
+
+.founderName {
+    font-family: "Noto Serif TC";
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.founderContent {
+    font-size: 1.2em;
+    font-weight: 600;
+    width: 43%;
+    text-align: center;
+    line-height: 1.8;
+    padding-bottom: 5%;
+}
+
+/* Section 5 */
+.valuesContainer {
+    display: flex;
+    flex-direction: row;
+    color: #1c2d5b;
+    background-color: #c7e1d4;
+    min-height: 60vh;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.valuesContainer div {
+    text-align: center;
+    width: 80%;
+}
+
+.valuesIcon {
+    font-size: 1000%;
+    padding-top: 5%;
+}
+
+.valuesTitle {
+    font-family: "Noto Serif TC";
+    font-size: 1.7em;
+    font-weight: 900;
+    margin: 0;
+}
+
+.valuesDescription {
+    font-family: "Montserrat";
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 0 22%;
+    line-height: 1.5;
+    padding-bottom: 5%;
+}
+
+/* Section 6 */
+.conclusionContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif TC";
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #1c2d5b;
+    text-align: center;
+    margin: 0 auto;
+    min-height: 40vh;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0px -15px 30px rgba(0, 0, 0, 0.09), /* Shadow above */
+}
+
+.conclusionContainer p {
+    width: 43%;
+    padding: 5% 0;
+}
+
+/* For tablet screens */
+@media (max-width: 1024px) {
+    .titleContainer {
+        min-height: 50vh;
+    }
+    .beliefContainer {
+        min-height: 35vh;
+    }
+    .beliefContainer p {
+        width: 65%;
+    }
+    .visionMissionContainer {
+        min-height: 55vh;
+    }
+    .founderContainer {
+        min-height: 70vh;
+    }
+    .founderContent {
+        width: 60%;
+    }
+    .valuesContainer {
+        min-height: 35vh;
+        padding: 0 5%;
+    }
+    .valuesDescription {
+        padding: 0 15%;
+        line-height: 1.5;
+    }
+    .conclusionContainer {
+        min-height: 25vh;
+    }
+    .conclusionContainer p {
+        width: 65%;
+    }
+}
+
+/* For smaller tablet screens */
+@media (max-width: 768px) {
+    .titleText {
+        font-size: 7.5vw;
+    }
+    .brandText {
+        font-size: 9vw;
+    }
+    .beliefContainer p {
+        width: 70%;
+        font-size: 2.5vw;
+    }
+    .visionMissionContainer {
+        min-height: 65vh;
+    }
+    .visionMissionHeader {
+        font-size: 7.3vw;
+        width: 65%;
+        line-height: 1.3;
+    }
+    .visionMissionContent {
+        width: 65%;
+        font-size: 2.5vw;
+    }
+    .founderContainer {
+        min-height: 80vh;
+    }
+    .founderHeader {
+        font-size: 7.3vw;
+    }
+    .founderName {
+        font-size: 2.9vw;
+    }
+    .founderContent {
+        width: 70%;
+        font-size: 2.5vw;
+    }
+    .valuesContainer {
+        min-height: 40vh;
+        padding: 0 5%;
+    }
+    .valuesIcon {
+        font-size: 20vw;
+    }
+    .valuesTitle{
+        font-size: 3.6vw;
+    }
+    .valuesDescription {
+        font-size: 2.5vw;
+        padding: 0 10%;
+    }
+    .conclusionContainer p {
+        width: 70%;
+        font-size: 2.5vw;
+    }
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+    .titleContainer {
+        min-height: 35vh;
+    }
+    .titleText {
+        font-size: 9.5vw;
+    }
+    .brandText {
+        font-size: 11vw;
+    }
+    .scrollSection {
+        bottom: 1em;
+    }
+    .beliefContainer {
+        min-height: 20vh;
+    }
+    .beliefContainer p {
+        width: 75%;
+    }
+    .visionMissionContainer {
+        min-height: 40vh;
+    }
+    .founderContainer {
+        min-height: 60vh;
+    }
+    .founderName {
+        font-size: 4vw;
+    }
+    .valuesContainer {
+        min-height: 30vh;
+    }
+    .conclusionContainer {
+        min-height: 15vh;
+    }
+}

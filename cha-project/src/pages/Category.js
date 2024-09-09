@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { Link } from "react-router-dom";
 import './Category.css';
 
 const categories = [
@@ -167,8 +168,8 @@ export const Category = ({ type }) => {
             <div className="directoryContainer">
                 <p className="currentPage">Shop</p>
                 <div className="navLinks">
-                    <a href="/Home" className="directoryLink">Home</a>
-                    <a href="" className="currentLink">/{type}</a>
+                    <Link to="/Home" className="directoryLink">Home</Link>
+                    <Link to="" className="currentLink">/{type}</Link>
                 </div>
             </div>
             <p className="pageTitle">Categories</p>

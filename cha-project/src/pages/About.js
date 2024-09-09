@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import styles from '../styles/About.module.css';
 import { IoIosArrowDropdown } from "react-icons/io";
-import securityImage from '../assets/security.png';
 import { PiCertificateFill } from "react-icons/pi";
 import { PiShirtFoldedFill  } from "react-icons/pi";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
@@ -12,7 +11,7 @@ export const About = () => {
     // Custom smooth scrolling
     const smoothScrollTo = (target, duration) => {
         const start = window.scrollY;   // Find your current vertical scroll position
-        const targetPosition = target.current.getBoundingClientRect().top + window.scrollY; //Find your target's vertical position
+        const targetPosition = target.current.getBoundingClientRect().top + window.scrollY;  //Find your target's vertical position
         const distance = targetPosition - start;    // Calculate scroll distance required
         const startTime = performance.now();    // Time when the scrolling animation starts. Used to calculate elapsed time
 
@@ -75,7 +74,7 @@ export const About = () => {
             </div>
             <div className={styles.founderContainer}>
                 <p className={styles.founderHeader}>Our Founder</p>
-                <img src={securityImage} />
+                <img src={require("../assets/ceoImg.webp")} />
                 <p className={styles.founderName}>John Doe</p>
                 <p className={styles.founderContent}>
                     "One day, I realized how crucial the right uniform is in creating a professional

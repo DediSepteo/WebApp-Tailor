@@ -35,8 +35,8 @@ export const Login = () => {
       }
 
       const data = await response.json();
-      sessionStorage.setItem('token', data.token); // Save the token in session
-      localStorage.setItem('token', data.token); 
+      sessionStorage.setItem('token', data.token) || localStorage.setItem('token', data.token);// Save the token in session
+       
 
       navigate('/Home'); // Redirect to Home page
     } catch (error) {

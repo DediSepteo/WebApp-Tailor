@@ -23,10 +23,10 @@ router.post('/', (req, res) => {
             return res.status(401).send('Invalid email or password');
         }
 
-        const customer = results[0];
+        const organization = results[0];
 
         // Create a token and send it to the client
-        const token = jwt.sign({ id: customer.id, email: customer.email, name: customer.name }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ org_id: organization.Org_ID, email: organization.Email, org_name: organization.Org_Name }, JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     });
 });

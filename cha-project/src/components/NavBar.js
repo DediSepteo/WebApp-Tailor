@@ -27,10 +27,10 @@ const NavBar = () => {
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-                setUserName(decodedToken.name); // Ensure your token has a 'name' field
+                setUserName(decodedToken.org_name); // Ensure your token has a 'name' field
             } catch (error) {
                 console.error('Invalid token:', error);
-                // Optionally, handle invalid token by logging out the user
+                navigate('/Home')
                 handleLogout();
             }
         }
@@ -67,8 +67,7 @@ const NavBar = () => {
 
     // Logout Handler
     const handleLogout = () => {
-        sessionStorage.removeItem('token'); // Remove token from sessionStorage
-        localStorage.removeItem('token')
+        sessionStorage.removeItem('token') && localStorage.removeItem('token') // Remove token from sessionStorage
         setUserName(null); // Clear userName state
         navigate('/Home'); // Redirect to Home page or Login page
     };

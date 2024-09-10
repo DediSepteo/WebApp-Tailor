@@ -1,15 +1,17 @@
 /* src/components/Header.module.css */
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 99%; /* Ensure it takes up the full width */
   z-index: 1000;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space the brand and nav properly */
   align-items: center;
-  padding: 1rem;
+  padding: 0.6rem;
   background-color: transparent;
-  font-family: "felgine";
+  font-family: "Felgine";
 }
 
 .brand {
@@ -20,7 +22,6 @@
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 1rem;
   color: white;
   margin: 0;
   padding: 0;
@@ -30,7 +31,8 @@
   text-decoration: none;
   color: white;
   font-size: large;
-  margin-right: 10px;
+  margin-right: 5px;
+  padding: 15px; /* Add padding to give space around links */
 }
 
 .nav a:hover {

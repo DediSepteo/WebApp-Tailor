@@ -11,9 +11,8 @@ import styles from "../styles/NavBar.module.css";
 const NavBar = () => {
     const links = [
         { name: "Home", path: "/home" },
-        { name: "Shop", path: "/shop" },
+        { name: "Shop", path: "/corporate" },
         { name: "About", path: "/about" },
-        { name: "Blog", path: "/blog" },
         { name: "Contact", path: "/contact" },
     ];
 
@@ -67,7 +66,8 @@ const NavBar = () => {
 
     // Logout Handler
     const handleLogout = () => {
-        sessionStorage.removeItem('token') && localStorage.removeItem('token') // Remove token from sessionStorage
+        sessionStorage.removeItem('token');
+        localStorage.removeItem('token'); // Remove token from sessionStorage
         setUserName(null); // Clear userName state
         navigate('/Home'); // Redirect to Home page or Login page
     };

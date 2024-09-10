@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import './Authentication.css';
+import styles from '../styles/Authentication.module.css';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineHome } from "react-icons/ai";
@@ -53,22 +53,22 @@ export const Login = () => {
   const hidePopup = () => setPopupVisible(false);
 
   return (
-    <div className="pageContainer">
-      <div className="brandContainer">
-        <p className="brand">BrandTailors<br />Co.</p>
-        <p className="subtitle">- All your needs,<br />tailored just for you</p>
+    <div className={styles.pageContainer}>
+      <div className={styles.brandContainer}>
+        <p className={styles.brand}>BrandTailors<br />Co.</p>
+        <p className={styles.subtitle}>- All your needs,<br />tailored just for you</p>
       </div>
-      <div className="formContainer">
-        <div className="homeContainer">
+      <div className={styles.formContainer}>
+        <div className={styles.homeContainer}>
           <Link to="/Home">
-            <AiOutlineHome className="homeIcon" />
+            <AiOutlineHome className={styles.homeIcon} />
           </Link>
-          <Link to="/Home" className="homeText">Back to Home</Link>
+          <Link to="/Home" className={styles.homeText}>Back to Home</Link>
         </div>
-        <p className="title">Sign In</p>
-        <form onSubmit={handleSubmit} className="form">
-          {error && <p className="error">{error}</p>}
-          <div className="inputContainer">
+        <p className={styles.title}>Sign In</p>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {error && <p className={styles.error}>{error}</p>}
+          <div className={styles.inputContainer}>
             <input
               type="email"
               name="email"
@@ -76,10 +76,10 @@ export const Login = () => {
               placeholder="Email"
               onChange={handleChange}
               required
-              className="inputField"
+              className={styles.inputField}
             />
           </div>
-          <div className="inputContainer">
+          <div className={styles.inputContainer}>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -87,13 +87,13 @@ export const Login = () => {
               placeholder="Password"
               onChange={handleChange}
               required
-              className="inputField"
+              className={styles.inputField}
             />
-            <div className="eyeIcon" onClick={togglePasswordVisibility}>
+            <div className={styles.eyeIcon} onClick={togglePasswordVisibility}>
               {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </div>
           </div>
-          <div className="checkboxContainer">
+          <div className={styles.checkboxContainer}>
             <label>
               <input
                 type="checkbox"
@@ -103,19 +103,19 @@ export const Login = () => {
               />
               Remember Password
             </label>
-            <Link onClick={showPopup} className="anchor">
+            <Link onClick={showPopup} className={styles.anchor}>
               Forgot Password?
             </Link>
           </div>
-          <button className="submitButton" type="submit">Sign In</button>
-          <div className="separator">or</div>
-          <button className="googleButton">
-            <FcGoogle className="googleIcon" />
+          <button className={styles.submitButton} type="submit">Sign In</button>
+          <div className={styles.separator}>or</div>
+          <button className={styles.googleButton}>
+            <FcGoogle className={styles.googleIcon} />
             Sign In With Google
           </button>
           <p style={{ fontFamily: 'Montserrat-Regular' }}>
             Don't have an account?
-            <Link to="/Register" className='anchor' style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
+            <Link to="/Register" className={styles.anchor} style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
           </p>
         </form>
         <ForgotPassword isVisible={isPopupVisible} onClose={hidePopup} />

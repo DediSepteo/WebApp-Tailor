@@ -24,7 +24,7 @@ export const Home = () => {
                         className={styles.leftImg}
                     />
                     <img
-                        src={require("../assets/homeBanner2.png")}
+                        src={require("../assets/homeBannerRight.jpg")}
                         alt="Suit"
                         className={styles.rightImg}
                     />

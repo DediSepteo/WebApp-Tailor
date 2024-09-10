@@ -69,7 +69,9 @@
 }
 
 .rightImg {
+    object-fit: cover; 
     width: 40vw;
+    filter: brightness(70%);
 }
 
 .booking {

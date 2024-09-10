@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link } from "react-router-dom";
-import './Category.css';
+import styles from '../styles/Category.module.css';
 
 const categories = [
     // Corporate categories
@@ -165,39 +165,39 @@ export const Category = ({ type }) => {
 
     return (
         <main>
-            <div className="directoryContainer">
-                <p className="currentPage">Shop</p>
+            <div className={styles.directoryContainer}>
+                <p className={styles.currentPage}>Shop</p>
                 <div className="navLinks">
-                    <Link to="/Home" className="directoryLink">Home</Link>
-                    <Link to="" className="currentLink">/{type}</Link>
+                    <Link to="/Home" className={styles.directoryLink}>Home</Link>
+                    <Link to="" className={styles.currentLink}>/{type}</Link>
                 </div>
             </div>
-            <p className="pageTitle">Categories</p>
-            <div className="categoriesContainer">
+            <p className={styles.pageTitle}>Categories</p>
+            <div className={styles.categoriesContainer}>
                 {filteredCategories.map((category, index) => (
                     <div
                         key={index}
-                        className="categoryItem"
+                        className={styles.categoryItem}
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={handleMouseLeave}
                         onClick={() => handleCategoryClick(index)}
                     >
-                        <div className="imageOverlay">
-                            <p className="categoryName">{category.name}</p>
+                        <div className={styles.imageOverlay}>
+                            <p className={styles.categoryName}>{category.name}</p>
                             <img
                                 src={category.image}
                                 alt={category.name}
-                                className={`categoryImage ${hoveredIndex === index ? 'darken' : ''}`}
+                                className={`${styles.categoryImage} ${hoveredIndex === index ? 'darken' : ''}`}
                             />
                         </div>
                         <div
-                            className={`companyList ${hoveredIndex === index ? 'show' : ''}`}
+                            className={`${styles.companyList} ${hoveredIndex === index ? 'show' : ''}`}
                             ref={(el) => companyListRefs.current[index] = el}
                         >
                             {category.companies.map((company, i) => (
                                 <p
                                     key={i}
-                                    className="companyItem"
+                                    className={styles.companyItem}
                                     onClick={(e) => handleClick(company.url, index, e)}
                                 >
                                     {company.name}

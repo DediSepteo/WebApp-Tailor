@@ -237,7 +237,7 @@ body {
   color: grey;
 }
 
-.popup-overlay {
+.popupOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -249,7 +249,7 @@ body {
   justify-content: center;
 }
 
-.popup-content {
+.popupContent {
   background: #ffffff;
   padding: 20px;
   border-radius: 5px;
@@ -257,27 +257,27 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.popup-content h2 {
+.popupContent h2 {
   margin-top: 0;
 }
 
-.popup-content form {
+.popupContent form {
   display: flex;
   flex-direction: column;
 }
 
-.popup-content label {
+.popupContent label {
   margin-bottom: 5px;
 }
 
-.popup-content input {
+.popupContent input {
   margin-bottom: 10px;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 3px;
 }
 
-.popup-content button[type="button"] {
+.popupContent button[type="button"] {
   background-color: #6c757d;
   color: #fff;
 }
@@ -320,7 +320,7 @@ body {
     width: 80%;
   }
 
-  .popup-content {
+  .popupContent {
     width: 60%
   }
 
@@ -397,7 +397,7 @@ body {
   }
 
   
-  .popup-content {
+  .popupContent {
     width: 65%
   }
 
@@ -478,7 +478,7 @@ body {
     width: 88%;
   }
 
-  .popup-content {
+  .popupContent {
     width: 60%
   }
 

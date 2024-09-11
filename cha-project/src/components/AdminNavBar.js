@@ -9,7 +9,7 @@ const AdminNavBar = ({ pageName }) => {
             <div className={styles.container}>
                 <span className={styles.name}>{pageName}</span>
                 <div className={styles.loginDiv}>
-                    <NavLink className={styles.profile} to="/meow/1"><LuUserCircle2 /></NavLink>
+                    <NavLink className={styles.profile} to="/admin/1"><LuUserCircle2 /></NavLink>
                     <NavLink className={styles.logout}>Logout</NavLink>
                 </div>
 

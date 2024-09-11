@@ -26,7 +26,7 @@ const AppContent = () => {
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("meow")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
@@ -42,14 +42,12 @@ const AppContent = () => {
                 {/* Dynamic Route for CategoryItem */}
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
                 <Route path="/Customer" element={<Customer />} />
-                <Route path="/meow" element={<AdminPage />} />
-                <Route path="/meow/login" element={<AdminLogin />} />
-                <Route path="/meow/dashboard" element={<AdminHomePage />} />
-                <Route path="/meow/corporate/orgs" element={<AdminOrgPage />} />
-                <Route path="/meow/corporate/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
+                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("meow")) && <Footer />}
+            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin")) && <Footer />}
         </>
     );
 };

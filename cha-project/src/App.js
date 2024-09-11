@@ -14,6 +14,7 @@ import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import { CategoryItem } from './pages/CategoryItem';
 import { About } from './pages/About';
+import { Contact } from './pages/Contact';
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
 
@@ -29,6 +30,7 @@ const AppContent = () => {
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Shop" element={<Shop />} />
                 <Route path="/About" element={<About />} />
+                <Route path="/Contact" element={<Contact />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />

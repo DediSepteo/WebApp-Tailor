@@ -5,12 +5,12 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { AiOutlineHome } from "react-icons/ai";
 
 export const Register = () => {
-  const [inputs, setInputs] = useState({  username: "", email: "", password: "", confirmPassword: "" });
+  const [inputs, setInputs] = useState({ username: "", email: "", password: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
-    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }));
   };
 

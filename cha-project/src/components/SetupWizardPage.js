@@ -1,23 +1,24 @@
 import React from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
+import styles from '../styles/SetupWizardPage.module.css'
 
 const SetupWizardPage = ({ title, fields, onSubmit }) => {
     return (
         <main style={{ display: "flex", flexDirection: "row" }}>
             <AdminSideNavBar />
-            <div className="setup-wizard">
-                <h1>{title}</h1>
-                <form onSubmit={onSubmit}>
+            <div className={styles.container}>
+                <span style={{ fontFamily: "Inter", fontWeight: 400, fontSize: "2em" }}>{title}</span>
+                <form onSubmit={onSubmit} className={styles.form}>
                     {fields.map((field, index) => (
-                        <div key={index} className="form-group">
-                            <label>{field.label}</label>
+                        <div key={index} className={styles.field}>
+                            <label className={styles.label}>{field.label}</label>
                             {/* Handle different field types */}
                             {field.fieldType === 'input' && (
                                 <input
+                                    className={styles.input}
                                     type={field.type}
                                     value={field.value}
                                     onChange={field.onChange}
-                                    placeholder={field.placeholder}
                                     required={field.required}
                                 />
                             )}
@@ -33,7 +34,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                             )}
                         </div>
                     ))}
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className={styles.submit}>Submit</button>
                 </form>
             </div>
         </main>

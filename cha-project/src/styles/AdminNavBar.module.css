@@ -36,5 +36,11 @@
 }
 
 .logout {
+    color: black;
+    text-decoration: none;
     text-align: center;
+}
+
+.logout:hover {
+    text-decoration: underline;
 }

@@ -1,39 +1,46 @@
-// CreateStore.js
+// CreateOrganization.js
 import React, { useState } from 'react';
 import SetupWizardPage from '../components/SetupWizardPage';
 
-const CreateStore = () => {
-    const [storeName, setStoreName] = useState('');
-    const [storeLocation, setStoreLocation] = useState('');
+const CreateOrganization = () => {
+    const [orgName, setOrgName] = useState('');
+    const [orgEmail, setOrgEmail] = useState('');
+    const [orgSize, setOrgSize] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle store creation logic
-        console.log('Store Created:', { storeName, storeLocation });
+        // Handle org creation logic
+        console.log('Org Created:', { orgName, orgEmail });
     };
 
     const fields = [
         {
             fieldType: 'input',
-            label: 'Store Name',
+            label: 'Organization Name',
             type: 'text',
-            value: storeName,
-            onChange: (e) => setStoreName(e.target.value),
-            placeholder: 'Enter store name',
+            value: orgName,
+            onChange: (e) => setOrgName(e.target.value),
             required: true,
         },
         {
             fieldType: 'input',
-            label: 'Store Location',
+            label: 'Organization Email',
             type: 'text',
-            value: storeLocation,
-            onChange: (e) => setStoreLocation(e.target.value),
-            placeholder: 'Enter store location',
+            value: orgEmail,
+            onChange: (e) => setOrgEmail(e.target.value),
+            required: true,
+        },
+        {
+            fieldType: 'input',
+            label: 'Organization Size',
+            type: 'text',
+            value: orgSize,
+            onChange: (e) => setOrgSize(e.target.value),
             required: true,
         },
     ];
 
-    return <SetupWizardPage title="Create Store" fields={fields} onSubmit={handleSubmit} />;
+    return <SetupWizardPage title="Create Organization" fields={fields} onSubmit={handleSubmit} />;
 };
 
-export default CreateStore;
+export default CreateOrganization;

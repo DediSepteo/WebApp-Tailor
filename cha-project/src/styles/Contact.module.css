@@ -1,0 +1,77 @@
+.mainContainer {
+    background-color: #c7e1d4;
+    padding: 5% 10%;
+}
+
+.title {
+    font-size: 3em;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    color: #1c2d5b;
+    margin-bottom: 1vh;
+}
+
+.inputTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: "Noto Serif TC";
+    font-weight: 600;
+}
+
+.inputTitle span {
+    color: #1c2d5b;
+}
+
+.inputTitle p {
+    color: red;
+}
+
+.inputField {
+    width: 99.5%;
+    height: 42px;
+    font-size: 16px;
+    margin-bottom: 1vh;
+    font-family: "Tahoma", "Arial";
+}
+
+.textArea {
+    width: 99.5%;
+    height: 40vh;
+    font-size: 16px;
+    resize: none;
+    font-family: "Tahoma", "Arial";
+}
+
+.submitButton {
+    display: block;
+    background-color: #1C2D5B;
+    font-family: "Noto Serif TC";
+    font-weight: 600;
+    color: white;
+    padding: 0.7em;
+    width: 15vw;
+    border: none;
+    margin-right: 0;
+    margin-left: auto;
+    margin-top: 2vh;
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2.5em;
+    }
+    .submitButton {
+        display: block;
+        background-color: #1C2D5B;
+        font-family: "Noto Serif TC";
+        font-weight: 600;
+        color: white;
+        padding: 0.7em;
+        width: 30vw;
+        border: none;
+        margin-right: 0;
+        margin-left: auto;
+        margin-top: 2vh;
+    }
+}

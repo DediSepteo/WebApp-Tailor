@@ -22,8 +22,8 @@
 .form {
     display: flex;
     flex-direction: column;
-    background-color: wheat;
     justify-content: center;
+    margin-top: 1em;
 }
 
 .submit {

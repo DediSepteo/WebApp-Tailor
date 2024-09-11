@@ -31,7 +31,7 @@ const CreateOrganization = () => {
             required: true,
         },
         {
-            fieldType: 'input',
+            fieldType: 'dropdown',
             label: 'Organization Size',
             type: 'text',
             value: orgSize,

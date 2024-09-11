@@ -5,7 +5,9 @@ import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
-import AdminPage from './pages/AdminPage'
+import LandingPage from './pages/LandingPage';
+import AdminHomePage from './pages/AdminHomePage'
+import AdminOrgPage from './pages/AdminOrgPage'
 import { Home } from './pages/Home';
 import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
@@ -16,6 +18,7 @@ import { About } from './pages/About';
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
+import RegisterOrg from './pages/RegisterOrg'
 
 const AppContent = () => {
     const location = useLocation();
@@ -39,6 +42,9 @@ const AppContent = () => {
                 <Route path="/Customer" element={<Customer />} />
                 <Route path="/meow" element={<AdminPage />} />
                 <Route path="/meow/login" element={<AdminLogin />} />
+                <Route path="/meow/dashboard" element={<AdminHomePage />} />
+                <Route path="/meow/corporate/orgs" element={<AdminOrgPage />} />
+                <Route path="/meow/corporate/orgs/register" element={<RegisterOrg />} />
 
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("meow")) && <Footer />}

@@ -4,15 +4,15 @@ import { NavLink } from 'react-router-dom';
 
 
 const corpLinks = [
-    { name: "Manage Organizations", path: "/meow/corporate/orgs" },
-    { name: "Manage Products", path: "/meow/corporate/products" },
-    { name: "Manage Orders", path: "/meow/corporate/3" },
+    { name: "Manage Organizations", path: "/admin/corporate/orgs" },
+    { name: "Manage Products", path: "/admin/corporate/products" },
+    { name: "Manage Orders", path: "/admin/corporate/3" },
 ];
 
 const govLinks = [
-    { name: "Manage Organizations", path: "/meow/government/orgs" },
-    { name: "Manage Products", path: "/meow/government/products" },
-    { name: "Manage Orders", path: "/meow/government/3" }
+    { name: "Manage Organizations", path: "/admin/government/orgs" },
+    { name: "Manage Products", path: "/admin/government/products" },
+    { name: "Manage Orders", path: "/admin/government/3" }
 ]
 
 const AdminSideNavBar = () => {
@@ -22,7 +22,7 @@ const AdminSideNavBar = () => {
             <div style={{ marginTop: "10%", width: "90%" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "2em" }}>
                     <li className={styles.li}>
-                        <NavLink className={({ isActive }) => isActive ? `${styles.link} ${styles.linkActive}` : styles.link} to={"/meow/dashboard"}>
+                        <NavLink className={({ isActive }) => isActive ? `${styles.link} ${styles.linkActive}` : styles.link} to={"/admin/dashboard"}>
                             Dashboard
                         </NavLink>
                     </li>

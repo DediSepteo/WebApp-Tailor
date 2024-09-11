@@ -15,6 +15,7 @@ import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import { CategoryItem } from './pages/CategoryItem';
 import { About } from './pages/About';
+import { Contact } from './pages/Contact';
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
@@ -25,13 +26,14 @@ const AppContent = () => {
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("meow")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Shop" element={<Shop />} />
                 <Route path="/About" element={<About />} />
+                <Route path="/Contact" element={<Contact />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
@@ -40,13 +42,12 @@ const AppContent = () => {
                 {/* Dynamic Route for CategoryItem */}
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
                 <Route path="/Customer" element={<Customer />} />
-                <Route path="/meow/login" element={<AdminLogin />} />
-                <Route path="/meow/dashboard" element={<AdminHomePage />} />
-                <Route path="/meow/corporate/orgs" element={<AdminOrgPage />} />
-                <Route path="/meow/corporate/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
+                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("meow")) && <Footer />}
+            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin")) && <Footer />}
         </>
     );
 };

@@ -1,4 +1,4 @@
-/* src/components/Header.module.css */
+    /* src/components/Header.module.css */
 
 .header {
   position: fixed;
@@ -15,13 +15,14 @@
 }
 
 .brand {
-  font-size: 2.2em;
-  color: white;
+    font-size: 2.2em;
+    color: white;
 }
 
 .nav ul {
   list-style: none;
   display: flex;
+  gap: 1rem;
   color: white;
   margin: 0;
   padding: 0;
@@ -36,51 +37,51 @@
 }
 
 .nav a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Responsive Design */
 
 /* Medium devices (tablets, 768px and up) */
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-  .brand {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-  }
+    .brand {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
 
-  .nav ul {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+    .nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 
-  .nav a {
-    font-size: medium;
-    margin-right: 0;
-  }
+    .nav a {
+        font-size: medium;
+        margin-right: 0;
+    }
 }
 
-/* Small devices (phones, 480px and up) */
+    /* Small devices (phones, 480px and up) */
 @media (max-width: 480px) {
-  .header {
-    padding: 0.5rem;
-  }
+    .header {
+        padding: 0.5rem;
+    }
 
-  .brand {
-    font-size: 1.5em;
-  }
+    .brand {
+        font-size: 1.5em;
+    }
 
-  .nav ul {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+    .nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 
-  .nav a {
-    font-size: small;
-    margin-right: 0;
-  }
+    .nav a {
+        font-size: small;
+        margin-right: 0;
+    }
 }

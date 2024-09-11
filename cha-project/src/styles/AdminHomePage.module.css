@@ -4,6 +4,15 @@
     flex-direction: column;
 }
 
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
 .overview {
     margin-top: 2%;
     margin-bottom: 5%;

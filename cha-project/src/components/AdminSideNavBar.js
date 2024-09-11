@@ -3,11 +3,17 @@ import styles from "../styles/AdminSideNavBar.module.css";
 import { NavLink } from 'react-router-dom';
 
 
-const links = [
-    { name: "Manage Store", path: "/meow/1" },
-    { name: "Manage Users", path: "/meow/2" },
-    { name: "Manage Orders", path: "/meow/3" },
+const corpLinks = [
+    { name: "Manage Organizations", path: "/meow/corporate/orgs" },
+    { name: "Manage Products", path: "/meow/corporate/products" },
+    { name: "Manage Orders", path: "/meow/corporate/3" },
 ];
+
+const govLinks = [
+    { name: "Manage Organizations", path: "/meow/government/orgs" },
+    { name: "Manage Products", path: "/meow/government/products" },
+    { name: "Manage Orders", path: "/meow/government/3" }
+]
 
 const AdminSideNavBar = () => {
     return (
@@ -15,11 +21,13 @@ const AdminSideNavBar = () => {
             <span className={styles.logo}>BrandTailors Co.</span>
             <div style={{ marginTop: "10%", width: "90%" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "2em" }}>
-                    <li className={styles.li}><NavLink className={({ isActive }) => isActive ? `${styles.link} ${styles.linkActive}` : styles.link}>
-                        Dashboard
-                    </NavLink></li>
+                    <li className={styles.li}>
+                        <NavLink className={({ isActive }) => isActive ? `${styles.link} ${styles.linkActive}` : styles.link} to={"/meow/dashboard"}>
+                            Dashboard
+                        </NavLink>
+                    </li>
                     <div className={styles.heading}>Corporate</div>
-                    {links.map((link, index) => (
+                    {corpLinks.map((link, index) => (
                         <li className={styles.li} key={index}>
                             <NavLink
                                 to={link.path}
@@ -32,7 +40,7 @@ const AdminSideNavBar = () => {
                         </li>
                     ))}
                     <div className={styles.heading}>Government</div>
-                    {links.map((link, index) => (
+                    {govLinks.map((link, index) => (
                         <li className={styles.li} key={index}>
                             <NavLink
                                 to={link.path}

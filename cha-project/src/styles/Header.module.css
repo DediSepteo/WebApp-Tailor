@@ -1,46 +1,49 @@
     /* src/components/Header.module.css */
 
-    .header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: transparent;
-    font-family: "Felgine";
-    }
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 99%; /* Ensure it takes up the full width */
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between; /* Space the brand and nav properly */
+  align-items: center;
+  padding: 0.6rem;
+  background-color: transparent;
+  font-family: "Felgine";
+}
 
-    .brand {
+.brand {
     font-size: 2.2em;
     color: white;
-    }
+}
 
-    .nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    color: white;
-    margin: 0;
-    padding: 0;
-    }
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
 
-    .nav a {
-    text-decoration: none;
-    color: white;
-    font-size: large;
-    margin-right: 10px;
-    }
+.nav a {
+  text-decoration: none;
+  color: white;
+  font-size: large;
+  margin-right: 5px;
+  padding: 15px; /* Add padding to give space around links */
+}
 
-    .nav a:hover {
+.nav a:hover {
     text-decoration: underline;
-    }
+}
 
-    /* Responsive Design */
+/* Responsive Design */
 
-    /* Medium devices (tablets, 768px and up) */
-    @media (max-width: 768px) {
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
     .header {
         flex-direction: column;
         align-items: flex-start;
@@ -60,10 +63,10 @@
         font-size: medium;
         margin-right: 0;
     }
-    }
+}
 
     /* Small devices (phones, 480px and up) */
-    @media (max-width: 480px) {
+@media (max-width: 480px) {
     .header {
         padding: 0.5rem;
     }
@@ -81,4 +84,4 @@
         font-size: small;
         margin-right: 0;
     }
-    }
+}

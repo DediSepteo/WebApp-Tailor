@@ -44,7 +44,7 @@ const AppContent = () => {
                 <Route path="/meow/corporate/orgs/register" element={<RegisterOrg />} />
 
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("meow")) && <Footer />}
+            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("meow")) && <Footer />}
         </>
     );
 };

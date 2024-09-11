@@ -7,6 +7,7 @@
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 0.3em;
   }
   
   .logo {
@@ -22,7 +23,7 @@
     justify-content: space-around;
     display: flex;
     font-family: "Montserrat-Bold";
-    font-size: 0.9em;
+    font-size: 90%;
     gap: 2em;
   }
   
@@ -53,7 +54,7 @@
     font-family: "Montserrat-Bold";
     display: flex;
     flex-direction: row;
-    font-size: 0.9em;
+    font-size: 90%;
     gap: 2em;
     height: 100%;
   }

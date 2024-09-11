@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
-import styles from "../styles/AdminPage.module.css"
+import styles from "../styles/AdminHomePage.module.css"
 import ConfirmPopUp from '../components/ConfirmPopUp';
 import { MdBusinessCenter } from "react-icons/md";
 import { FaHandHoldingUsd } from "react-icons/fa";
@@ -30,7 +30,7 @@ const AdminPage = () => {
             )}
             <AdminSideNavBar />
             <div className={styles.home}>
-                <AdminNavBar />
+                <AdminNavBar pageName="Dashboard" />
                 <div className={styles.overview}>
                     <div className={styles.card} style={{ backgroundColor: "#3F84FC" }}>
                         <span className={styles.cardHead}>Businesses</span>
@@ -66,7 +66,10 @@ const AdminPage = () => {
                     </div>
                 </div>
                 <div className={styles.orderHist}>
-                    <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start", padding: "1em" }}>Order History</div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
+                        <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start" }}>Order History</div>
+                        <NavLink className={styles.link}>View All</NavLink>
+                    </div>
                     <table className={styles.orderTable}>
                         <tr>
                             <th>Date</th>
@@ -82,7 +85,7 @@ const AdminPage = () => {
                                 <td>{orderData.date}</td>
                                 <td>{orderData.placedBy}</td>
                                 <td>{orderData.quantity}</td>
-                                <td className={styles.type}>{orderData.type}</td>
+                                <td>{orderData.type}</td>
                                 <td>{orderData.price}</td>
                                 <td>{orderData.measurementNo}</td>
                                 <td>{orderData.status}</td>

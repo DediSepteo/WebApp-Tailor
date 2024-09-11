@@ -173,8 +173,7 @@ const NavBar = () => {
                     <span className={styles.icons} id="cart"><MdOutlineShoppingCart /></span>
                     <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>
-            </nav >
-            <div className={styles.btmPad}></div>
+            </nav>
         </div>
     );
 };

@@ -26,7 +26,7 @@ const AdminLogin = () => {
             const data = await response.json();
             sessionStorage.setItem('token', data.token);
 
-            navigate('/meow/dashboard'); // Adjust the route as needed
+            navigate('/admin/dashboard'); // Adjust the route as needed
         } catch (error) {
             console.error('Login failed:', error);
             setError(error.message);

@@ -40,6 +40,7 @@ const AppContent = () => {
                 <Route path="/Government" element={<Category type="Government" />} />
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 {/* Dynamic Route for CategoryItem */}
+                <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
                 <Route path="/Customer" element={<Customer />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />

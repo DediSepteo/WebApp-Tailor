@@ -13,6 +13,7 @@ import { Register } from './pages/Register';
 import { Category } from './pages/Category';
 import { CategoryItem } from './pages/CategoryItem';
 import { About } from './pages/About';
+import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import Customer from './pages/Customer';
 
@@ -37,6 +38,7 @@ const AppContent = () => {
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
                 <Route path="/Customer" element={<Customer />} />
                 <Route path="/meow" element={<AdminPage />} />
+                <Route path="/meow/login" element={<AdminLogin />} />
 
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("meow")) && <Footer />}

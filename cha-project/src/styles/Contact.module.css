@@ -46,10 +46,11 @@
 .submitButton {
     display: block;
     background-color: #1C2D5B;
+    color: white;
     font-family: "Noto Serif TC";
     font-weight: 600;
-    color: white;
-    padding: 0.7em;
+    font-size: 1em;
+    height: 42px;
     width: 15vw;
     border: none;
     margin-right: 0;

@@ -41,7 +41,7 @@
 
 /* Custom underline for link */
 .linkActive::after {
-  color: black;
+  color: #1c2d5b;
   content: "";
   width: 2.6em;
   height: 0.1em;

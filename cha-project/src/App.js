@@ -5,7 +5,6 @@ import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
-import LandingPage from './pages/LandingPage';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
 import { Home } from './pages/Home';
@@ -18,7 +17,6 @@ import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
-import Customer from './pages/Customer';
 import RegisterOrg from './pages/RegisterOrg'
 
 const AppContent = () => {
@@ -38,11 +36,8 @@ const AppContent = () => {
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Corporate" element={<Category type="Corporate" />} />
                 <Route path="/Government" element={<Category type="Government" />} />
-                {/* <Route path="/Customer" element={<Customer />} /> */}
-                {/* Dynamic Route for CategoryItem */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
-                <Route path="/Customer" element={<Customer />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />

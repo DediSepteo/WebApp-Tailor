@@ -1,121 +1,65 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styles from '../styles/CategoryItem.module.css';
+import styles from '../styles/ShopItem.module.css';
 
 const options = [
     // Clothing under each category
     {
         company: 'PoliceDepartment1',
-        name: 'An Extremely Long Shirt Name',
+        name: 'Blue Police Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Corporate/Suits1/Suit1',
+        link: '/Shop2/PoliceDepartment1/BluePoliceUniform',
         image: require('../assets/security.png')
     },
     {
-        company: 'Suits1',
-        name: 'An Extremely Long Shirt Name',
+        company: 'PoliceDepartment1',
+        name: 'Brown Police Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
         price: '$99.99',
-        link: '/Corporate/Suits1/Suit2',
+        link: '/Shop2/PoliceDepartment1/BrownPoliceUniform',
         image: require('../assets/security.png')
     },
     {
-        company: 'Suits1',
+        company: 'PoliceDepartment2',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Corporate/Suits1/Suit3',
+        link: '/Shop2/Suits1/Suit3',
         image: require('../assets/security.png')
     },
+    /* Army Items */
     {
-        company: 'Suits1',
+        company: 'ArmyBase1',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Corporate/Suit/Suit4',
+        link: '/Shop2/Suit/Suit4',
         image: require('../assets/security.png')
     },
     {
-        company: 'Suits2',
+        company: 'ArmyBase2',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Corporate/Suit/Suit1',
+        link: '/Shop2/Suit/Suit1',
         image: require('../assets/security.png')
     },
-    /* Retail Items */
+    /* Teacher Items */
     {
-        company: 'Retail1',
+        company: 'Teacher1',
         name: 'Retail1',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Corporate/Retail/Retail1',
+        link: '/Shop2/Retail/Retail1',
         image: require('../assets/security.png')
     },
     {
-        company: 'Retail2',
+        company: 'Teacher2',
         name: 'Retail2',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Corporate/Retail/Retail2',
-        image: require('../assets/security.png')
-    },
-    /* Construction Items */
-    {
-        company: 'GreatConstructionsCo',
-        name: 'Yellow Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
-        price: '$99.99',
-        link: '/Corporate/GreatConstructionsCo/YellowConstructionUniform',
-        image: require('../assets/security.png')
-    },
-    {
-        company: 'GreatConstructionsCo',
-        name: 'Orange Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Corporate/GreatConstructionsCo/OrangeConstructionUniform',
-        image: require('../assets/security.png')
-    },
-    {
-        company: 'GreatConstructionsCo',
-        name: 'Red Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Corporate/GreatConstructionsCo/RedConstructionUniform',
-        image: require('../assets/security.png')
-    },
-    {
-        company: 'GreatConstructionsCo',
-        name: 'Green Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Corporate/GreatConstructionsCo/GreenConstructionUniform',
-        image: require('../assets/security.png')
-    },
-    {
-        company: 'GreatConstructionsCo',
-        name: 'Blue Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Corporate/GreatConstructionsCo/BlueConstructionUniform',
-        image: require('../assets/security.png')
-    },
-    {
-        company: 'GreatConstructionsCo',
-        name: 'Brown Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Corporate/GreatConstructionsCo/BrownConstructionUniform',
-        image: require('../assets/security.png')
-    },
-    {
-        company: 'BuildnConstruct',
-        name: 'Grey Construction Uniform',
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
-        link: '/Corporate/Construction2/GreyConstructionUniform',
+        link: '/Shop2/Retail/Retail2',
         image: require('../assets/security.png')
     },
 ];

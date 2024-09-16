@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
 import styles from "../styles/AdminHomePage.module.css"
-import ConfirmPopUp from '../components/ConfirmPopUp';
+import CustomPopUp from '../components/CustomPopUp';
 import { MdBusinessCenter } from "react-icons/md";
 import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiCustomerServiceFill } from "react-icons/ri";
@@ -26,7 +26,7 @@ const AdminPage = () => {
     return (
         <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7", margin: 0 }}>
             {showPopup && (
-                <ConfirmPopUp togglePopup={togglePopUp} />
+                <CustomPopUp togglePopup={togglePopUp} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />
             )}
             <AdminSideNavBar />
             <div className={styles.home}>
@@ -72,24 +72,24 @@ const AdminPage = () => {
                     </div>
                     <table className={styles.orderTable}>
                         <tr>
-                            <th>Date</th>
-                            <th>Placed By</th>
-                            <th>Quantity</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>No. of Measurements Obtained</th>
-                            <th>Status</th>
+                            <th className={styles.th}>Date</th>
+                            <th className={styles.th}>Placed By</th>
+                            <th className={styles.th}>Quantity</th>
+                            <th className={styles.th}>Type</th>
+                            <th className={styles.th}>Price</th>
+                            <th className={styles.th}>No. of Measurements Obtained</th>
+                            <th className={styles.th}>Status</th>
                         </tr>
                         {ordersData.map((orderData) => (
                             <tr>
-                                <td>{orderData.date}</td>
-                                <td>{orderData.placedBy}</td>
-                                <td>{orderData.quantity}</td>
-                                <td>{orderData.type}</td>
-                                <td>{orderData.price}</td>
-                                <td>{orderData.measurementNo}</td>
-                                <td>{orderData.status}</td>
-                                <td className={styles.tableBtns}>
+                                <td className={styles.td}>{orderData.date}</td>
+                                <td className={styles.td}>{orderData.placedBy}</td>
+                                <td className={styles.td}>{orderData.quantity}</td>
+                                <td className={styles.td}>{orderData.type}</td>
+                                <td className={styles.td}>{orderData.price}</td>
+                                <td className={styles.td}>{orderData.measurementNo}</td>
+                                <td className={styles.td}>{orderData.status}</td>
+                                <td className={`${styles.tableBtns} ${styles.td}`}>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <NavLink className={styles.detailBtn}>Details</NavLink>
                                         <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>

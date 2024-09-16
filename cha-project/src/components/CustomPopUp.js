@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/confirmPopUp.module.css"
 
-const ConfirmPopUp = ({ togglePopup }) => {
+const CustomPopUp = ({ togglePopup, title, text, hasCancel }) => {
 
     const handleConfirm = () => {
         togglePopup()
@@ -19,10 +19,12 @@ const ConfirmPopUp = ({ togglePopup }) => {
             <div>
                 <div id="popup" className={styles.popupBox}>
                     <div className={styles.popupContent}>
-                        <span className={styles.head}>Confirmation Pop Up</span>
-                        <p className={styles.body}>Are you sure you want to proceed?</p>
+                        <span className={styles.head}>{title}</span>
+                        <p className={styles.body}>{text}</p>
                         <div className={styles.buttonDiv}>
-                            <button className={styles.cancelBtn} onClick={handleCancel}>Cancel</button>
+                            {hasCancel && (
+                                <button className={styles.cancelBtn} onClick={handleCancel}>Cancel</button>
+                            )}
                             <button className={styles.confirmBtn} onClick={handleConfirm}>Confirm</button>
                         </div>
 
@@ -33,4 +35,4 @@ const ConfirmPopUp = ({ togglePopup }) => {
     );
 }
 
-export default ConfirmPopUp;
+export default CustomPopUp;

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link } from "react-router-dom";
-import styles from '../styles/Category.module.css';
+import styles from '../styles/ShopCategory.module.css';
 
 const categories = [
     // Corporate categories
@@ -95,7 +95,7 @@ export const CorporateShop = () => {
         <main>
             <div className={styles.directoryContainer}>
                 <p className={styles.currentPage}>Shop</p>
-                <div className="navLinks">
+                <div className={styles.navLinks}>
                     <Link to="/Home" className={styles.directoryLink}>Home</Link>
                     <Link to="" className={styles.currentLink}>/Shop</Link>
                 </div>

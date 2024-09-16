@@ -24,7 +24,7 @@ const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
 
-    if(!token) {
+    if (!token) {
         navigate('/admin/login');
         return null;
     }
@@ -46,17 +46,14 @@ const AppContent = () => {
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
-                <Route path="/Corporate" element={<Category type="Corporate" />} />
-                <Route path="/Government" element={<Category type="Government" />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/Corporate/:company" element={<CategoryItem />} />
 
-                 {/* Protect the following admin routes */}
+                {/* Protect the following admin routes */}
                 <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
                 <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
 
-                
+
                 <Route path="/Shop1" element={<CorporateShop />} />
                 <Route path="/Shop1/:company" element={<Shop1Item />} />
                 {/* Shop2 Temporary Path to access Government shop */}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegUser, FaBars } from "react-icons/fa";
@@ -10,10 +10,10 @@ import styles from "../styles/NavBar.module.css";
 
 const NavBar = () => {
     const links = [
-        { name: "Home", path: "/home" },
-        { name: "Shop", path: "/corporate" },
-        { name: "About", path: "/about" },
-        { name: "Contact", path: "/contact" },
+        { name: "Home", path: "/Home" },
+        { name: "Shop", path: "/Shop1" },
+        { name: "About", path: "/About" },
+        { name: "Contact", path: "/Contact" },
     ];
 
     const [sideNavOpen, setSideNavOpen] = useState(false);
@@ -138,7 +138,7 @@ const NavBar = () => {
             </div >
             {/* Nav Bar */}
             <nav className={styles.navbar}>
-                <div className={styles.logo}>BrandTailors Co.</div>
+                <Link to="/Home" className={styles.logo}>BrandTailors Co.</Link>
                 <div className={styles.linksDiv}>
                     {links.map((link, index) => (
                         <NavLink

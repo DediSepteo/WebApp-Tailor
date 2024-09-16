@@ -9,38 +9,38 @@
 }
 
 .name {
-    font-size: 1.3em;
-    font-family: Helvetica sans-serif;
-    letter-spacing: 0.5px;
-    align-self: center;
+  font-size: 1.3em;
+  font-family: Helvetica sans-serif;
+  letter-spacing: 0.5px;
+  align-self: center;
 }
 
 .profile {
-    font-size: 1.8em;
-    color: black;
+  font-size: 1.8em;
+  color: black;
 }
 
 .container {
-    padding: 0 2em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  padding: 0 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.loginDiv { 
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    gap: 1.5em;
+.loginDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5em;
 }
 
 .logout {
-    color: black;
-    text-decoration: none;
-    text-align: center;
+  color: black;
+  text-decoration: none;
+  text-align: center;
 }
 
 .logout:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

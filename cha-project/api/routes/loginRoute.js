@@ -55,4 +55,7 @@ router.post('/admin', (req, res) => {
     });
 });
 
+router.get('/dashboard', (req, res) => {
+    res.send(`Welcome, Admin ${req.admin.Email}! This is your dashboard.`);
+});
 module.exports = router;

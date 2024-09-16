@@ -50,7 +50,7 @@
     transition: 0.3s;
     box-sizing: border-box;
     position: relative;
-    padding-bottom: 60px;
+    padding-bottom: 8.5vh;
     text-decoration: none;
     color: #1c2d5b;
 }
@@ -73,30 +73,106 @@
 
 .categoryName {
     font-family: "Noto Serif TC";
-    font-size: 2rem;
+    font-size: 2.1vw;
     font-weight: bold;
-    margin-bottom: 8px;
-    padding: 10px 15px;
+    padding: 1.5vh 15px;
     margin: 0;
 }
 
 .categoryDetail {
     font-family: "Montserrat";
-    font-size: 1.2rem;
+    font-size: 1.25vw;
     color: #1c2d5b;
-    margin-bottom: 10px; 
-    padding: 10px 15px;
+    padding: 1.5vh 15px;
     margin: 0 0 10px 0;
 }
 
 .categoryPrice {
     font-family: "Noto Serif TC";
     font-weight: bold;
-    font-size: 1.6rem;
+    font-size: 1.65vw;
     color: #1c2d5b;
     text-align: end;
     padding-right: 15px;
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+/* For tablet screens */
+@media (max-width: 1024px) {
+    .categoryItem {
+        padding-bottom: 3vh;
+    }
+    .categoryName {
+        font-size: 2.3vw;
+        padding: 1.2vh 15px 1vh 15px;
+    }
+    .categoryDetail {
+        font-size: 1.45vw;
+        padding: 1vh 15px 1.2vh 15px;
+        margin: 0 0 10px 0;
+    }
+    .categoryPrice {
+        font-size: 1.85vw;
+    }
+}
+
+/* For smaller tablet screens */
+@media (max-width: 768px) {
+    .categoriesContainer {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns per row */
+    }
+    .categoryItem {
+        padding-bottom: 3vh;
+    }
+    .categoryName {
+        font-size: 3vw;
+    }
+    .categoryDetail {
+        font-size: 2vw;
+        margin: 0 0 20px 0;
+    }
+    .categoryPrice {
+        font-size: 2.5vw;
+    }
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+    .categoriesContainer {
+        padding: 25px;
+    }
+    .categoryItem {
+        padding-bottom: 1vh;
+    }
+    .categoryName {
+        font-size: 2.8vw;
+        padding: 1.2vh 15px 0.5vh 15px;
+    }
+    .categoryDetail {
+        font-size: 2vw;
+        margin: 0 0 15px 0;
+    }
+    .categoryPrice {
+        font-size: 2.7vw;
+    }
+}
+
+/* For extra small mobile screens */
+@media (max-width: 412px) {
+    .categoriesContainer {
+        padding: 20px;
+    }
+    .categoryItem {
+        padding-bottom: 1vh;
+    }
+    .categoryName {
+        font-size: 3vw;
+        padding: 1.6vh 15px 0.5vh 15px;
+    }
+    .categoryDetail {
+        font-size: 2vw;
+        margin: 0 0 15px 0;
+    }
 }

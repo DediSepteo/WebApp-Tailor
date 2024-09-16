@@ -8,11 +8,12 @@ import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
 import { Home } from './pages/Home';
-import { Shop } from './pages/Shop';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
-import { Category } from './pages/Category';
-import { CategoryItem } from './pages/CategoryItem';
+import { CorporateShop } from './pages/CorporateShop';
+import { GovtShop } from './pages/GovtShop';
+import { Shop1Item } from './pages/Shop1Item';
+import { Shop2Item } from './pages/Shop2Item';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import AdminLogin from './pages/AdminLogin'
@@ -41,7 +42,6 @@ const AppContent = () => {
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
                 <Route path="/Home" element={<Home />} />
-                <Route path="/Shop" element={<Shop />} />
                 <Route path="/About" element={<About />} />
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/Login" element={<Login />} />
@@ -55,6 +55,14 @@ const AppContent = () => {
                 <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
                 <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
+
+                
+                <Route path="/Shop1" element={<CorporateShop />} />
+                <Route path="/Shop1/:company" element={<Shop1Item />} />
+                {/* Shop2 Temporary Path to access Government shop */}
+                <Route path="/Shop2" element={<GovtShop />} />
+                <Route path="/Shop2/:company" element={<Shop2Item />} />
+
 
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin")) && <Footer />}

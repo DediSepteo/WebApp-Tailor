@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
@@ -18,6 +18,18 @@ import { Contact } from './pages/Contact';
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import RegisterOrg from './pages/RegisterOrg'
+
+const ProtectAdminRoute = ({ element }) => {
+    const navigate = useNavigate();
+    const token = sessionStorage.getItem('token');
+
+    if(!token) {
+        navigate('/admin/login');
+        return null;
+    }
+
+    return element;
+}
 
 const AppContent = () => {
     const location = useLocation();
@@ -38,9 +50,11 @@ const AppContent = () => {
                 <Route path="/Government" element={<Category type="Government" />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/Corporate/:company" element={<CategoryItem />} />
-                <Route path="/admin/dashboard" element={<AdminHomePage />} />
-                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
-                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
+
+                 {/* Protect the following admin routes */}
+                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
 
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin")) && <Footer />}

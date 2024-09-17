@@ -131,13 +131,13 @@
     border-collapse: collapse; 
 }
 
-td {
+.td {
     padding: 0.5em;
     border: 0.5px solid #D9D9D9;
     width: 12.5%;
 }
 
-th {
+.th {
     padding: 0.5em;
     font-family: "Noto Serif";
     border: 0.5px solid #D9D9D9;

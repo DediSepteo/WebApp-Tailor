@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar';
 import AdminNavBar from '../components/AdminNavBar';
 import styles from '../styles/AdminHomePage.module.css';
-import ConfirmPopUp from '../components/ConfirmPopUp';
+import ConfirmPopUp from '../components/CustomPopUp';
 import { MdBusinessCenter } from 'react-icons/md';
 import { FaHandHoldingUsd } from 'react-icons/fa';
 import { RiCustomerServiceFill } from 'react-icons/ri';

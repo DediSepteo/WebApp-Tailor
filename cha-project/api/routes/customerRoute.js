@@ -1,5 +1,5 @@
 const express = require('express');
-const Customers = require('../models/customerModel'); // Import the model for customers
+const Customers = require('../models/organizationModel'); // Import the model for customers
 
 const router = express.Router();
 

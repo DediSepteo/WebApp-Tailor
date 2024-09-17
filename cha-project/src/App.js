@@ -49,9 +49,13 @@ const AppContent = () => {
                 <Route path="/admin/login" element={<AdminLogin />} />
 
                 {/* Protect the following admin routes */}
-                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
+
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
+                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
 
                 <Route path="/Shop1" element={<CorporateShop />} />

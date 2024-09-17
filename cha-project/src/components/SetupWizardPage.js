@@ -108,6 +108,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                         return (
                                                             <td className={styles.td}>
                                                                 <input type={header.type ? header.type : "text"}
+                                                                    className={header.isInputLong ? styles.inputLong : undefined}
                                                                     step={header.step ? header.step : undefined}
                                                                     onChange={(e) => handleInputChange(0, title, e.target.value)} />
                                                             </td>
@@ -136,6 +137,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                 return (
                                                                     <td className={styles.td} key={headerIndex}>
                                                                         <input
+                                                                            className={header.isInputLong ? styles.inputLong : undefined}
                                                                             type={header.type || "text"}
                                                                             step={header.step || undefined}
                                                                             value={inputValue}

@@ -16,7 +16,7 @@
 }
 
 .input {
-    width: 20%;
+    width: 23%;
     padding: 0.5em;
 }
 
@@ -67,6 +67,12 @@
 
 .addProduct:hover {
     text-decoration: underline;
+}
+
+.inputLong:focus {
+    position: inherit;
+    height: 20%;
+    z-index: 1000;
 }
 
 

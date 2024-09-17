@@ -69,7 +69,7 @@ const CreateOrganization = () => {
         {
             fieldType: 'tableInput',
             label: 'Register Product (Optional)',
-            headers: [{ "title": "Name", "inputType": "input" }, { "title": "Price", "inputType": "input", "type": "number", "step": "0.01" }, { "title": "Description", "inputType": "input" }, { "title": "Image", "inputType": "upload" }],
+            headers: [{ "title": "Name", "inputType": "input" }, { "title": "Price", "inputType": "input", "type": "number", "step": "0.01" }, { "title": "Description", "inputType": "input", "isInputLong": true }, { "title": "Image", "inputType": "upload" }],
             value: orgProducts,
             onChange: (e) => setOrgProducts(e),
             required: false,

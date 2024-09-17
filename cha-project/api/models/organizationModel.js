@@ -1,6 +1,6 @@
 const db = require('./dbconnection'); // Import the MySQL connection from dbconnection.js
 
-const Customers = {
+const Organization = {
     // Get all customers
     getAll: (callback) => {
         const query = 'SELECT * FROM organization';
@@ -11,6 +11,9 @@ const Customers = {
             callback(null, results);
         });
     },
+    createOrg: (callback) => {
+        const query = 'INSERT INTO ORGANIZATION'
+    }
 };
 
-module.exports = Customers;
+module.exports = Organization;

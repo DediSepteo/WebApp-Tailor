@@ -7,6 +7,7 @@ import { MdBusinessCenter } from 'react-icons/md';
 import { FaHandHoldingUsd } from 'react-icons/fa';
 import { RiCustomerServiceFill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
+import CustomPopUp from '../components/CustomPopUp';
 
 const AdminPage = () => {
     const [ordersData, setOrdersData] = useState([]);
@@ -21,11 +22,11 @@ const AdminPage = () => {
             .then(response => response.json())
             .then(data => setOrdersData(data))
             .catch(error => console.error('Error fetching orders:', error));
-    }, []); // Empty dependency array ensures this only runs once on mount
+    }, []);
 
     return (
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0 }}>
-            {showPopup && <ConfirmPopUp togglePopup={togglePopUp} />}
+            {showPopup && <CustomPopUp togglePopup={togglePopUp} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />}
             <AdminSideNavBar />
             <div className={styles.home}>
                 <AdminNavBar pageName="Dashboard" />
@@ -101,7 +102,7 @@ const AdminPage = () => {
                                 ordersData.map((orderData) => (
                                     <tr key={orderData.Order_ID}>
                                         <td>{new Date(orderData.Date).toLocaleString()}</td>
-                                        <td>{orderData.Org_Name}</td> {/* Assuming Org_Name is the org's name */}
+                                        <td>{orderData.Org_Name}</td>
                                         <td>{orderData.Quantity}</td>
                                         <td>{orderData.Type}</td>
                                         <td>{orderData.Price}</td>

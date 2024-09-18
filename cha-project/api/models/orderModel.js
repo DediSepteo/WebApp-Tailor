@@ -1,4 +1,4 @@
-const db = require('./dbconnection'); // Import the MySQL connection from dbconnection.js
+const db = require('./dbconnection'); 
 
 const Order = {
     // Get all orders

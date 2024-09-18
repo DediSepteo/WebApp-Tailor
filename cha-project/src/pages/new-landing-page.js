@@ -16,7 +16,7 @@ const NewLandingPage = () => {
                 <p>
                     Business, Retail, Construction, Restaurant, Uniforms etc.
                 </p>
-                <a href='/corporate'>
+                <a href='/shop1'>
                     <button className="order-button">Order Now</button>
                 </a>
             </div>

@@ -18,6 +18,7 @@ router.post('/', (req, res) => {
 
     const query = 'SELECT * FROM organization WHERE email = ? AND password = ?';
 
+
     db.query(query, [email, password], (err, results) => {
         if (err) {
             return res.status(500).send('Database error');

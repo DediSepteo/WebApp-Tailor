@@ -5,6 +5,9 @@ const db = require('../models/dbconnection'); // Adjust path if necessary
 const router = express.Router();
 const { JWT_SECRET } = process.env; // Use your secret key from environment variables
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 // Login route for organization
 router.post('/', (req, res) => {
     const { email, password } = req.body;
@@ -14,6 +17,7 @@ router.post('/', (req, res) => {
     }
 
     const query = 'SELECT * FROM organization WHERE email = ? AND password = ?';
+
 
     db.query(query, [email, password], (err, results) => {
         if (err) {

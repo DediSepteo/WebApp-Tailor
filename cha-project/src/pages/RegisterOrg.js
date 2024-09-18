@@ -6,7 +6,7 @@ import CustomPopUp from '../components/CustomPopUp';
 const CreateOrganization = () => {
     const [orgName, setOrgName] = useState('');
     const [orgEmail, setOrgEmail] = useState('');
-    const [orgSize, setOrgSize] = useState('');
+    const [orgPassword, setOrgPassword] = useState('')
     const [orgIndustry, setOrgIndustry] = useState('');
     const [orgProducts, setOrgProducts] = useState([])
 
@@ -28,8 +28,38 @@ const CreateOrganization = () => {
                 return
             }
         })
-        return console.log('Org Created:', { orgName, orgEmail, orgSize, orgIndustry, orgProducts });
+        handleRegister(e)
     };
+
+    const handleRegister = async (event) => {
+        const orgType = window.location.href.includes("corporate") ? "Corporate" : "Government"
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:3000/api/org/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    {
+                        "name": orgName,
+                        "email": orgEmail,
+                        "password": orgPassword,
+                        "type": orgType,
+                        "industry": orgIndustry,
+                    }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error creating organization');
+            }
+
+            alert("Organization created!")
+        } catch (error) {
+            console.error('Error creating organization');
+        }
+    };
+
 
     const fields = [
         {
@@ -49,13 +79,12 @@ const CreateOrganization = () => {
             required: true,
         },
         {
-            fieldType: 'dropdown',
-            label: 'Organization Size',
+            fieldType: 'input',
+            label: 'Organization Password',
             type: 'text',
-            value: orgSize,
-            onChange: (e) => setOrgSize(e.target.value),
+            value: orgPassword,
+            onChange: (e) => setOrgPassword(e.target.value),
             required: true,
-            options: [{ "value": "1-10" }, { "value": "11-49" }, { "value": "50-249" }, { "value": ">250" }]
         },
         {
             fieldType: 'dropdown',

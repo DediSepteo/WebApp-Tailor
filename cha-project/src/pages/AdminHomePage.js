@@ -1,53 +1,64 @@
-import React, { useState } from 'react';
-import AdminSideNavBar from '../components/AdminSideNavBar'
-import AdminNavBar from '../components/AdminNavBar'
-import styles from "../styles/AdminHomePage.module.css"
-import ConfirmPopUp from '../components/ConfirmPopUp';
-import { MdBusinessCenter } from "react-icons/md";
-import { FaHandHoldingUsd } from "react-icons/fa";
-import { RiCustomerServiceFill } from "react-icons/ri";
+import React, { useState, useEffect } from 'react';
+import AdminSideNavBar from '../components/AdminSideNavBar';
+import AdminNavBar from '../components/AdminNavBar';
+import styles from '../styles/AdminHomePage.module.css';
+import ConfirmPopUp from '../components/CustomPopUp';
+import { MdBusinessCenter } from 'react-icons/md';
+import { FaHandHoldingUsd } from 'react-icons/fa';
+import { RiCustomerServiceFill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
-
-const ordersData = [
-    { "id": 1, "date": "Sat, 10 January 2025 08:24:17 AM", "placedBy": "BrandTailors Co.", "quantity": 10, "type": "corporate", "price": "$266.67", "measurementNo": "10/10", "status": "Delivered" },
-    { "id": 2, "date": "Sat, 10 January 2025 08:24:17 AM", "placedBy": "Long Long Long Long Brand Name", "quantity": 10, "type": "Government", "price": "$100000", "measurementNo": "10/10", "status": "Delivered" },
-    { "id": 3, "date": "Sat, 10 January 2025 08:24:17 AM", "placedBy": "BrandTailors Co.", "quantity": 10, "type": "corporate", "price": "$266.67", "measurementNo": "10/10", "status": "Delivered" },
-    { "id": 4, "date": "Sat, 10 January 2025 08:24:17 AM", "placedBy": "BrandTailors Co.", "quantity": 10, "type": "corporate", "price": "$266.67", "measurementNo": "6/10", "status": "Awaiting Measurements" }
-]
+import CustomPopUp from '../components/CustomPopUp';
 
 const AdminPage = () => {
+    const [ordersData, setOrdersData] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopUp = () => {
-        setShowPopup(!showPopup); // Show popup when you want
+        setShowPopup(!showPopup); // Toggles the confirmation popup
     };
 
+    useEffect(() => {
+        fetch('http://localhost:3000/api/order/')
+            .then(response => response.json())
+            .then(data => setOrdersData(data))
+            .catch(error => console.error('Error fetching orders:', error));
+    }, []);
 
     return (
-        <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7", margin: 0 }}>
-            {showPopup && (
-                <ConfirmPopUp togglePopup={togglePopUp} />
-            )}
+        <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0 }}>
+            {showPopup && <CustomPopUp togglePopup={togglePopUp} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />}
             <AdminSideNavBar />
             <div className={styles.home}>
                 <AdminNavBar pageName="Dashboard" />
                 <div className={styles.overview}>
-                    <div className={styles.card} style={{ backgroundColor: "#3F84FC" }}>
+                    <div className={styles.card} style={{ backgroundColor: '#3F84FC' }}>
                         <span className={styles.cardHead}>Businesses</span>
-                        <div className={styles.cardBase}><MdBusinessCenter className={styles.icon} /><span style={{ fontSize: "1.5em", alignSelf: "end" }}>114</span></div>
+                        <div className={styles.cardBase}>
+                            <MdBusinessCenter className={styles.icon} />
+                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>114</span>
+                        </div>
                     </div>
-                    <div className={styles.card} style={{ backgroundColor: "#1DAB47" }}>
+                    <div className={styles.card} style={{ backgroundColor: '#1DAB47' }}>
                         <span className={styles.cardHead}>Revenue</span>
-                        <div className={styles.cardBase}><FaHandHoldingUsd className={styles.icon} /><span style={{ fontSize: "1.5em", alignSelf: "end" }}>$25,552</span></div>
+                        <div className={styles.cardBase}>
+                            <FaHandHoldingUsd className={styles.icon} />
+                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>$25,552</span>
+                        </div>
                     </div>
-                    <div className={styles.card} style={{ backgroundColor: "#FC413F" }}>
+                    <div className={styles.card} style={{ backgroundColor: '#FC413F' }}>
                         <span className={styles.cardHead}>Open Tickets</span>
-                        <div className={styles.cardBase}><RiCustomerServiceFill className={styles.icon} /><span style={{ fontSize: "1.5em", alignSelf: "end" }}>12</span></div>
+                        <div className={styles.cardBase}>
+                            <RiCustomerServiceFill className={styles.icon} />
+                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>12</span>
+                        </div>
                     </div>
                 </div>
+
                 <div className={styles.tools}>
                     <div className={styles.activity}>
-                        <div className={styles.actHead}><span style={{ paddingLeft: "1.5em" }}>Recent Activity</span></div>
+                        <div className={styles.actHead}>
+                            <span style={{ paddingLeft: '1.5em' }}>Recent Activity</span>
+                        </div>
                         <div className={styles.actRow}>
                             <span className={styles.time}>32 mins ago</span>
                             <span className={styles.info}>BrandTailors Co. placed an order</span>
@@ -65,38 +76,52 @@ const AdminPage = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className={styles.orderHist}>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
-                        <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start" }}>Order History</div>
+                    <div
+                        style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}
+                    >
+                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Order History</div>
                         <NavLink className={styles.link}>View All</NavLink>
                     </div>
                     <table className={styles.orderTable}>
-                        <tr>
-                            <th>Date</th>
-                            <th>Placed By</th>
-                            <th>Quantity</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>No. of Measurements Obtained</th>
-                            <th>Status</th>
-                        </tr>
-                        {ordersData.map((orderData) => (
+                        <thead>
                             <tr>
-                                <td>{orderData.date}</td>
-                                <td>{orderData.placedBy}</td>
-                                <td>{orderData.quantity}</td>
-                                <td>{orderData.type}</td>
-                                <td>{orderData.price}</td>
-                                <td>{orderData.measurementNo}</td>
-                                <td>{orderData.status}</td>
-                                <td className={styles.tableBtns}>
-                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <NavLink className={styles.detailBtn}>Details</NavLink>
-                                        <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>
-                                    </div>
-                                </td>
+                                <th>Date</th>
+                                <th>Placed By</th>
+                                <th>Quantity</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>No. of Measurements Obtained</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {ordersData.length > 0 ? (
+                                ordersData.map((orderData) => (
+                                    <tr key={orderData.Order_ID}>
+                                        <td>{new Date(orderData.Date).toLocaleString()}</td>
+                                        <td>{orderData.Org_Name}</td>
+                                        <td>{orderData.Quantity}</td>
+                                        <td>{orderData.Type}</td>
+                                        <td>{orderData.Price}</td>
+                                        <td>{orderData.MeasurementNo}</td>
+                                        <td>{orderData.Status}</td>
+                                        <td className={styles.tableBtns}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <NavLink className={styles.detailBtn}>Details</NavLink>
+                                                <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8">No orders available</td>
+                                </tr>
+                            )}
+                        </tbody>
                     </table>
                 </div>
             </div>

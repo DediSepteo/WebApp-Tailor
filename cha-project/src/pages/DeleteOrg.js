@@ -1,10 +1,9 @@
-// CreateOrganization.js
+// DeleteOrganization.js
 import React, { useState } from 'react';
 import SetupWizardPage from '../components/SetupWizardPage';
 import CustomPopUp from '../components/CustomPopUp';
-import { useNavigate } from 'react-router-dom';
 
-const CreateOrganization = () => {
+const DeleteOrganization = () => {
     const [orgName, setOrgName] = useState('');
     const [orgEmail, setOrgEmail] = useState('');
     const [orgPassword, setOrgPassword] = useState('')
@@ -13,43 +12,23 @@ const CreateOrganization = () => {
 
     const [showPopup, setShowPopup] = useState(false);
 
-    const navigate = useNavigate();
-
     const togglePopUp = () => {
         setShowPopup(!showPopup); // Show popup when you want
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle org creation logic
         const tableHeaders = Object.keys(fields[4].headers)
-
-        console.log(orgProducts)
-
-        if (orgProducts.length) {
-            console.log(orgProducts)
-            const productsValid = orgProducts.some((product) => {
-                console.log(product)
-                if (Object.values(product).includes("")) {
-                    if (!Object.values(product).every(item => item == "" || item == undefined)) {
-                        setShowPopup(true)
-                        return false
-                    }
-                }
-                else if (Object.keys(product).length !== tableHeaders.length) {
-                    setShowPopup(true);
-                    return false;
-                }
-                return true;
-            });
-            console.log(productsValid)
-            if (productsValid) {
-                handleRegister(e)
+        console.log(tableHeaders)
+        orgProducts.forEach((product) => {
+            if (Object.keys(product).length !== tableHeaders.length) {
+                setShowPopup(true)
+                return
             }
-        }
-        else {
-            handleRegister(e)
-        }
+        })
+        handleRegister(e)
     };
 
     const handleRegister = async (event) => {
@@ -72,13 +51,12 @@ const CreateOrganization = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Error creating organization');
+                throw new Error('Error deleting organization');
             }
 
-            alert("Organization created!")
-            navigate("/admin/corporate/orgs")
+            alert("Organization Deleted!")
         } catch (error) {
-            console.error('Error creating organization');
+            console.error('Error deleting organization');
         }
     };
 
@@ -137,4 +115,4 @@ const CreateOrganization = () => {
     )
 };
 
-export default CreateOrganization;
+export default DeleteOrganization;

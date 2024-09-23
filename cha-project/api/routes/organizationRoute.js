@@ -1,11 +1,14 @@
 const express = require('express');
-const organization = require('../models/organizationModel'); // Import the model for organization
+const organizationModel = require('../models/organizationModel'); // Import the model for organization
 
 const router = express.Router();
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 // Get all organization
 router.get('/', (req, res) => {
-    Organization.getAll((err, results) => {
+    organizationModel.getAll((err, results) => {
         if (err) {
             console.error('Error fetching organization:', err);
             return res.status(500).send('Error fetching organization');
@@ -16,18 +19,73 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/register', (req, res) => {
+router.get(`/corp`, (req, res) => {
+    console.log("A")
+    organizationModel.getAllCorp((err, results) => {
+        if (err) {
+            console.error("Error fetching organization:", err)
+            return res.status(500).send('Error fetching organization');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.json(results);
+    })
+})
+
+router.get(`/corp/recent`, (req, res) => {
+    const limit = parseInt(req.query.limit) || 4
+    organizationModel.getCorpRecent(limit, (err, results) => {
+        if (err) {
+            console.error("Error fetching organization:", err)
+            return res.status(500).send('Error fetching organization');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.json(results);
+    })
+})
+
+router.get(`/govt/recent`, (req, res) => {
+    const limit = parseInt(req.query.limit) || 4
+    organizationModel.getGovtRecent(limit, (err, results) => {
+        if (err) {
+            console.error("Error fetching organization:", err)
+            return res.status(500).send('Error fetching organization');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.json(results);
+    })
+})
+
+router.post('/register', async (req, res) => {
     const orgData = req.body
-    console.log(orgData)
-    organization.createOrg(orgData, (err, results) => {
+    const name = orgData.name
+    const email = orgData.email
+    const password = orgData.password.toString()
+    const type = orgData.type
+    const industry = orgData.industry
+
+    const hashPass = await bcrypt.hash(password, saltRounds)
+    organizationModel.createOrg(name, email, hashPass, type, industry, (err, results) => {
         if (err) {
             console.error('Error creating organization:', err);
             return res.status(500).send('Error creating organization');
         }
-        console.log('Organization has been created'); // Log the results
         res.setHeader('Content-Type', 'application/json');
         return res.status(201).json({ message: 'Organization created successfully', data: results });
     });
 });
+
+router.delete('/:id', (req, res) => {
+    const orgID = req.params.id;
+    console.log(orgID)
+    organizationModel.deleteOrg(orgID, (err, results) => {
+        if (err) {
+            console.error('Error deleting organization:', err);
+            return res.status(500).send('Error deleting organization');
+        }
+        return res.status(200).send('Organization deleted successfully');
+    })
+})
+
+
 
 module.exports = router;

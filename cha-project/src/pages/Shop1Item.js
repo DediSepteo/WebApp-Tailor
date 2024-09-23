@@ -64,58 +64,58 @@ const options = [
     /* Construction Items */
     {
         company: 'GreatConstructionsCo',
-        name: 'Yellow Construction Uniform',
+        name: 'Fancy Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
         price: '$99.99',
-        link: '/Shop1/GreatConstructionsCo/YellowConstructionUniform',
+        link: '/Shop1/GreatConstructionsCo/FancyConstructionUniform',
         image: require('../assets/security.png')
     },
     {
         company: 'GreatConstructionsCo',
-        name: 'Orange Construction Uniform',
+        name: 'Safe Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop1/GreatConstructionsCo/OrangeConstructionUniform',
+        link: '/Shop1/GreatConstructionsCo/SafeConstructionUniform',
         image: require('../assets/security.png')
     },
     {
         company: 'GreatConstructionsCo',
-        name: 'Red Construction Uniform',
+        name: 'Vibrant Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop1/GreatConstructionsCo/RedConstructionUniform',
+        link: '/Shop1/GreatConstructionsCo/VibrantConstructionUniform',
         image: require('../assets/security.png')
     },
     {
         company: 'GreatConstructionsCo',
-        name: 'Green Construction Uniform',
+        name: 'Ultra Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop1/GreatConstructionsCo/GreenConstructionUniform',
+        link: '/Shop1/GreatConstructionsCo/UltraConstructionUniform',
         image: require('../assets/security.png')
     },
     {
         company: 'GreatConstructionsCo',
-        name: 'Blue Construction Uniform',
+        name: 'Mega Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop1/GreatConstructionsCo/BlueConstructionUniform',
+        link: '/Shop1/GreatConstructionsCo/MegaConstructionUniform',
         image: require('../assets/security.png')
     },
     {
         company: 'GreatConstructionsCo',
-        name: 'Brown Construction Uniform',
+        name: 'Cool Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop1/GreatConstructionsCo/BrownConstructionUniform',
+        link: '/Shop1/GreatConstructionsCo/CoolConstructionUniform',
         image: require('../assets/security.png')
     },
     {
         company: 'BuildnConstruct',
-        name: 'Grey Construction Uniform',
+        name: 'Great Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
         price: '$99.99',
-        link: '/Shop1/Construction2/GreyConstructionUniform',
+        link: '/Shop1/Construction2/GreatConstructionUniform',
         image: require('../assets/security.png')
     },
 ];

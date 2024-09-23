@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 
 // Import routes
-const orgRouter = require('./api/routes/organizationRoute');
+const organizationRouter = require('./api/routes/organizationRoute');
 const testRouter = require('./api/routes/testRoute');
 const loginRouter = require('./api/routes/loginRoute');
 const protectedRoute = require('./api/routes/protectedRoute')
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // Routes
-app.use('/api/org', orgRouter);
+app.use('/api/org', organizationRouter);
 app.use('/api/test', testRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/admin', protectedRoute)

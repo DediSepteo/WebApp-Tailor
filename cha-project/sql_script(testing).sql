@@ -1,55 +1,69 @@
 -- Create Organization Table
+Drop Table if exists Organization;
 CREATE TABLE Organization (
-    Org_ID INT PRIMARY KEY,
-    Org_Name VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    Password VARCHAR(255) NOT NULL
+    org_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    industry varchar(255) NOT NULL,
+    type varchar(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
+
+Select * from Organization;
+
+Drop Table If Exists Employee;
 -- Create Employee Table
 CREATE TABLE Employee (
-    Emp_ID INT PRIMARY KEY,
-    Org_ID INT,
-    Measurements TEXT,
-    Email VARCHAR(255) NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Org_ID) REFERENCES Organization(Org_ID)
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    org_id INT,
+    measurements TEXT,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (org_id) REFERENCES Organization(org_id)
 );
 
+Drop Table If Exists Orders;
 -- Create Order Table
-CREATE TABLE `Order` (
-    Order_ID INT PRIMARY KEY,
-    Org_ID INT,
-    Qty INT NOT NULL,
-    Category VARCHAR(255) NOT NULL,
-    Status VARCHAR(50) NOT NULL,
-    FOREIGN KEY (Org_ID) REFERENCES Organization(Org_ID)
+CREATE TABLE `Orders` (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    org_id INT,
+    qty INT NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    price varchar(255) NOT NULL,
+    measurementNo varchar(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (org_id) REFERENCES Organization(org_id)
 );
 
 -- Create Product Table
-CREATE TABLE Product (
-    Prod_ID INT PRIMARY KEY,
-    Category VARCHAR(255) NOT NULL,
-    Price DECIMAL(10, 2) NOT NULL,
-    Description TEXT
+CREATE TABLE Uniforms (
+    uni_id INT PRIMARY KEY AUTO_INCREMENT,
+    org_id INT, 
+    category VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT,
+    name varchar(255) NOT NULL,
+    Foreign Key (org_ID) References Organization(org_ID)
 );
 
 -- Create Order_List Table
+Drop Table If Exists Order_List;
 CREATE TABLE Order_List (
-    Prod_ID INT,
-    Order_ID INT,
-    PRIMARY KEY (Prod_ID, Order_ID),
-    FOREIGN KEY (Prod_ID) REFERENCES Product(Prod_ID),
-    FOREIGN KEY (Order_ID) REFERENCES `Order`(Order_ID)
+    uni_id INT,
+    order_id INT,
+    PRIMARY KEY (uni_id, order_id),
+    FOREIGN KEY (uni_id) REFERENCES Uniforms(uni_id),
+    FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
 );
 
 -- Insert data into Organization Table
-INSERT INTO Organization (Org_ID, Org_Name, Email, Password) 
+INSERT INTO Organization (Org_Name, Email, Password) 
 VALUES 
-(1, 'TailorCorp', 'contact@tailorcorp.com', 'tailorpass123'),
-(2, 'FashionHub', 'info@fashionhub.com', 'fashionhub456'),
-(3, 'UniformPros', 'admin@uniformpros.com', 'uniform2023');
+('TailorCorp', 'contact@tailorcorp.com', 'tailorpass123', ),
+('FashionHub', 'info@fashionhub.com', 'fashionhub456'),
+('UniformPros', 'admin@uniformpros.com', 'uniform2023');
 
 -- Insert data into Employee Table
 INSERT INTO Employee (Emp_ID, Org_ID, Measurements, Email, Password, Name)

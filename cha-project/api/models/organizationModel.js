@@ -18,7 +18,7 @@ const Organization = {
         const type = orgData.type
         const industry = orgData.industry
 
-        const query = 'INSERT INTO ORGANIZATION (name, email, password, type, industry) VALUES (?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO ORGANIZATION (org_name, email, password, type, industry) VALUES (?, ?, ?, ?, ?)';
 
         db.query(query, [name, email, password, type, industry], (err, results) => {
             if (err) {
@@ -27,7 +27,6 @@ const Organization = {
             callback(null, results);
         });
     }
-
-};
+}
 
 module.exports = Organization;

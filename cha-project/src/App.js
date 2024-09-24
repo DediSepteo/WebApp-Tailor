@@ -11,9 +11,10 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { CorporateShop } from './pages/CorporateShop';
-import { GovtShop } from './pages/GovtShop';
 import { Shop1Item } from './pages/Shop1Item';
+import { GovtShop } from './pages/GovtShop';
 import { Shop2Item } from './pages/Shop2Item';
+import { ItemDetail } from './pages/ItemDetail';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import AdminLogin from './pages/AdminLogin'
@@ -64,6 +65,13 @@ const AppContent = () => {
                 <Route path="/Shop2" element={<GovtShop />} />
                 <Route path="/Shop2/:company" element={<Shop2Item />} />
 
+
+                <Route path="/Shop1/:company/:name" element={<ItemDetail />} />
+                {/* <Route path="/Customer" element={<Customer />} /> */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
+                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
             </Routes>
             {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin")) && <Footer />}

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/confirmPopUp.module.css"
 
-const CustomPopUp = ({ togglePopup, title, text, hasCancel }) => {
+const CustomPopUp = ({ togglePopup, title, text, hasCancel, onConfirm }) => {
 
     const handleConfirm = () => {
         togglePopup()
-        alert("Confirmed!");
+        if (onConfirm)
+            onConfirm();
     };
 
     const handleCancel = () => {
         togglePopup()
-        alert("Cancelled!");
     }
 
     return (

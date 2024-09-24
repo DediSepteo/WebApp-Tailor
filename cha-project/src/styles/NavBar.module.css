@@ -1,7 +1,7 @@
 /* Navbar.module.css */
 
 .navbar {
-  background-color: #c7e1d4;
+  background-color: #28A197;
   padding: 2% 4%;
   display: flex;
   align-items: center;
@@ -15,12 +15,11 @@
   font-size: 150%;
   white-space: nowrap;
   user-select: none;
-  color: #1c2d5b;
+  color: #ffffff;
   text-decoration: none;
 }
 
 .linksDiv {
-  color: #1c2d5b;
   justify-content: space-around;
   display: flex;
   font-family: "Montserrat-Bold";
@@ -29,7 +28,7 @@
 }
 
 .link {
-  color: #1c2d5b;
+  color: #ffffff;
   text-decoration: none;
   user-select: none;
 }
@@ -42,16 +41,15 @@
 
 /* Custom underline for link */
 .linkActive::after {
-  color: #1c2d5b;
   content: "";
   width: 2.6em;
   height: 0.1em;
-  background-color: black;
+  background-color: #ffffff;
   align-self: center;
 }
 
 .sideDiv {
-  color: #1c2d5b;
+  color: #ffffff;
   font-family: "Montserrat-Bold";
   display: flex;
   flex-direction: row;
@@ -120,7 +118,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  background-color: #c1e2d2;
+  background-color: #28A197;
   height: 100%;
   z-index: 2;
   visibility: hidden;
@@ -134,7 +132,7 @@
   padding: 0.5em 2em;
   font-size: 1.5em;
   font-family: "Felgine";
-  color: #1c2d5b;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -202,7 +200,7 @@
 .logoutButton {
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
   margin-left: 5px;
   font-size: 1em;

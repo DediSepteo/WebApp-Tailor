@@ -88,40 +88,40 @@ const NavBar = () => {
                 </div>
                 <div className={styles.sideNavLinks}>
                     {links.map((link, index) => (
-                        link.name === "Shop" ? (
-                            <div className={styles.shopDiv} id="shopLink" onMouseLeave={hideDropDown} key={index}>
-                                <div className={styles.shopLink}>
-                                    <span className={styles.link}>Shop</span>
-                                    <div className={styles.dropDown} id="dropDown" onMouseEnter={openDropDown}>
-                                        {dropDownOpen ?
-                                            <RiArrowDropUpLine id="upArrow" size={35} /> :
-                                            <RiArrowDropDownLine id="downArrow" size={35} />
-                                        }
-                                    </div>
-                                </div>
-                                <div className={`${styles.shopMenu} ${styles.dropDown}`} id="shopMenu"
-                                    style={{
-                                        opacity: dropDownOpen ? 1 : 0,
-                                        marginTop: dropDownOpen ? "1em" : 0,
-                                        padding: dropDownOpen ? "1em 0" : 0,
-                                        height: dropDownOpen ? "auto" : 0
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
-                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/government" onClick={toggleSideNav}>Government</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms" onClick={toggleSideNav}>Uniforms</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/suits" onClick={toggleSideNav}>Suits</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/jeans" onClick={toggleSideNav}>Jeans</NavLink>
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
-                                        <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/corporate" onClick={toggleSideNav}>Corporate</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/uniforms" onClick={toggleSideNav}>Uniforms</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/suits" onClick={toggleSideNav}>Suits</NavLink>
-                                        <NavLink className={styles.shopLightLink} to="/shop/jeans" onClick={toggleSideNav}>Jeans</NavLink>
-                                    </div>
-                                </div>
-                            </div>
-                        ) :
+                        // link.name === "Shop" ? (
+                        //     <div className={styles.shopDiv} id="shopLink" onMouseLeave={hideDropDown} key={index}>
+                        //         <div className={styles.shopLink}>
+                        //             <span className={styles.link}>Shop</span>
+                        //             <div className={styles.dropDown} id="dropDown" onMouseEnter={openDropDown}>
+                        //                 {dropDownOpen ?
+                        //                     <RiArrowDropUpLine id="upArrow" size={35} /> :
+                        //                     <RiArrowDropDownLine id="downArrow" size={35} />
+                        //                 }
+                        //             </div>
+                        //         </div>
+                        //         <div className={`${styles.shopMenu} ${styles.dropDown}`} id="shopMenu"
+                        //             style={{
+                        //                 opacity: dropDownOpen ? 1 : 0,
+                        //                 marginTop: dropDownOpen ? "1em" : 0,
+                        //                 padding: dropDownOpen ? "1em 0" : 0,
+                        //                 height: dropDownOpen ? "auto" : 0
+                        //             }}
+                        //         >
+                        //             <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
+                        //                 <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/government" onClick={toggleSideNav}>Government</NavLink>
+                        //                 <NavLink className={styles.shopLightLink} to="/shop/uniforms" onClick={toggleSideNav}>Uniforms</NavLink>
+                        //                 <NavLink className={styles.shopLightLink} to="/shop/suits" onClick={toggleSideNav}>Suits</NavLink>
+                        //                 <NavLink className={styles.shopLightLink} to="/shop/jeans" onClick={toggleSideNav}>Jeans</NavLink>
+                        //             </div>
+                        //             <div style={{ display: 'flex', flexDirection: "column", gap: "0.9em" }}>
+                        //                 <NavLink className={styles.link} style={{ fontSize: "0.9em" }} to="/shop/corporate" onClick={toggleSideNav}>Corporate</NavLink>
+                        //                 <NavLink className={styles.shopLightLink} to="/shop/uniforms" onClick={toggleSideNav}>Uniforms</NavLink>
+                        //                 <NavLink className={styles.shopLightLink} to="/shop/suits" onClick={toggleSideNav}>Suits</NavLink>
+                        //                 <NavLink className={styles.shopLightLink} to="/shop/jeans" onClick={toggleSideNav}>Jeans</NavLink>
+                        //             </div>
+                        //         </div>
+                        //     </div>
+                        // ) :
                             <NavLink
                                 key={index}
                                 to={link.path}

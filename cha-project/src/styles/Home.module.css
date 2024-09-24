@@ -22,7 +22,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    color: white;
+    color: #ffffff;
     background-color: transparent;      
     width: 30%;
     letter-spacing: 0.1vw;
@@ -78,8 +78,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    color: #1C2D5B;
-    background-color: #C7E1D4;
+    color: #ffffff;
+    background-color: #28A197;
     align-items: center;
     width: 100vw;
     padding: 1em 0;
@@ -101,10 +101,10 @@
 }
 
 .bookingButton {
-    background-color: #1C2D5B;
+    background-color: #ffffff;
     font-family: "Felgine";
     font-size: 1em;
-    color: white;
+    color: #28A197;
     padding: 0.8em 2%;
     width: fit-content;
     border: none;
@@ -119,13 +119,13 @@
 
 .fabHead {
     font-family: "Felgine";
-    color: #1C2D5B;
+    color: #28A197;
     font-size: 2.2em;
 }
 
 .fabSubHead {
     font-family: "IBMPlexSerif-Light";
-    color: #1C2D5B;
+    color: #28A197;
     font-size: 1.3em;
     margin-top: -2em;
 }
@@ -139,7 +139,7 @@
 }
 
 .fabBtn {
-    background-color: #1C2D5B;
+    background-color: #28A197;
     font-family: "Felgine";
     font-size: 1em;
     color: white;

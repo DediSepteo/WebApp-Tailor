@@ -5,7 +5,7 @@
 
 .backArrow {
     font-size: 2vw;
-    color: #1C2D5B;
+    color: #28A197;
     display: flex;
     align-items: center;
 }
@@ -14,7 +14,7 @@
     font-family: "Noto Serif TC";
     font-weight: 600;
     font-size: 1.2vw;
-    color: #1C2D5B;
+    color: #28A197;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -24,6 +24,7 @@
     display: flex;
     flex-direction: row;
     padding: 0 10%;
+    margin-bottom: 8vh;
 }
 
 .imageContainer {
@@ -67,7 +68,6 @@
     font-family: "Noto Serif TC";
     font-weight: bold;
     font-size: 2.2vw;
-    color: #1C2D5B;
     margin-bottom: 0;
 }
 
@@ -106,13 +106,14 @@
 
 .colorOption:hover {
     background-color: #f0f0f0;
-    color: #000000;
+    color: #28A197;
+    border-color: #28A197;
 }
 
 .selected {
-    background-color: #1C2D5B;
+    background-color: #28A197;
     color: white;
-    border-color: #1C2D5B;
+    border-color: #28A197;
 }
 
 .sizeLabel {
@@ -149,7 +150,7 @@
 
 .addItem {
     width: 100%;
-    background-color: #1C2D5B;
+    background-color: #28A197;
     color: white;
     font-family: "Montserrat";
     font-size: 1vw;

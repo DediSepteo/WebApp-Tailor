@@ -69,7 +69,6 @@ const AppContent = () => {
                 <Route path="/Shop1/:company/:name" element={<ItemDetail />} />
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/Customer" element={<Customer />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />

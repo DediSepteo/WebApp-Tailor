@@ -44,11 +44,10 @@ export const Home = () => {
             <div className={styles.fabrication}>
                 <p className={styles.fabHead}>Fabrication For You</p>
                 <p className={styles.fabSubHead}>
-                    Find what you need - handmade custom for you
+                    Can't figure out your perfect sizing?<br/>Try SnapStitch!
                 </p>
                 <div className={styles.fabBtnDiv}>
-                    <Link to="/Corporate" className={styles.fabBtn}>Shop Corporate</Link>
-                    <Link to="/Government" className={styles.fabBtn}>Shop Government</Link>
+                    <Link to="/Shop1" className={styles.fabBtn}>Try now</Link> {/*link to shop for the time being*/}
                 </div>
             </div>
         </main>

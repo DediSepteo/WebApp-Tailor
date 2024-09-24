@@ -1,9 +1,9 @@
 .footer {
   display: flex;
-  background-color: #c7e1d4;
+  background-color: #28A197;
   flex-direction: row;
   font-family: "Montserrat-Regular";
-  color: #1c2d5b;
+  color: #ffffff;
   justify-content: space-around;
   padding:1em 0;
   width: 100%;
@@ -29,7 +29,7 @@ li {
 }
 
 .brand {
-    color: #1c2d5b;
+    color: #ffffff;
     font-family: "Noto Serif TC";
     font-weight: 700;
     font-size: 1.3em;

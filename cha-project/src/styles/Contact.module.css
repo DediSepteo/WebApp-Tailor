@@ -1,5 +1,5 @@
 .mainContainer {
-    background-color: #c7e1d4;
+    background-color: #28A197;
     padding: 5% 10%;
 }
 
@@ -7,7 +7,7 @@
     font-size: 3em;
     font-family: "Noto Serif TC";
     font-weight: bold;
-    color: #1c2d5b;
+    color: #ffffff;
     margin-bottom: 1vh;
 }
 
@@ -20,11 +20,11 @@
 }
 
 .inputTitle span {
-    color: #1c2d5b;
+    color: #ffffff;
 }
 
 .inputTitle p {
-    color: red;
+    color: rgb(173, 0, 0);
 }
 
 .inputField {
@@ -45,7 +45,7 @@
 
 .submitButton {
     display: block;
-    background-color: #1C2D5B;
+    background-color: #000000;
     color: white;
     font-family: "Noto Serif TC";
     font-weight: 600;

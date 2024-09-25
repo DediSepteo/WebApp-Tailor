@@ -44,10 +44,13 @@ export const Home = () => {
             <div className={styles.fabrication}>
                 <p className={styles.fabHead}>Fabrication For You</p>
                 <p className={styles.fabSubHead}>
-                    Can't figure out your perfect sizing?<br/>Try SnapStitch!
+                    Can't figure out your perfect sizing?<br/>Learn more about SnapStitch!
                 </p>
                 <div className={styles.fabBtnDiv}>
-                    <Link to="/Shop1" className={styles.fabBtn}>Try now</Link> {/*link to shop for the time being*/}
+                    <Link to="/Shop1" className={styles.fabBtn}>
+                    <img src={require("../assets/SnapstitchLogo.png")} className={styles.snapstitchLogo}/>
+                    Learn More
+                    </Link> {/*link to corporate shop for the time being*/}
                 </div>
             </div>
         </main>

@@ -44,6 +44,11 @@ li {
 
 .support {
     white-space: nowrap;
+    line-height: 1.8;
+}
+
+.contact {
+    line-height: 1.8;
 }
 
 .icons {

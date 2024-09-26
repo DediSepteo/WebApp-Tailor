@@ -83,8 +83,17 @@ router.delete('/:id', (req, res) => {
             return res.status(500).send('Error deleting organization');
         }
         return res.status(200).send('Organization deleted successfully');
-    })
-})
+    });
+});
+
+router.get('/count', (req, res) => {
+    organizationModel.countAll((err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fertching organization count' });
+        }
+        res.json({ results });
+    });
+});
 
 
 

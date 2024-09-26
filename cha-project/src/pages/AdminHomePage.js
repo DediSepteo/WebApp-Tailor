@@ -12,6 +12,8 @@ import CustomPopUp from '../components/CustomPopUp';
 const AdminPage = () => {
     const [ordersData, setOrdersData] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [orgCount, setOrgCount] = useState(0);
+
 
     const togglePopUp = () => {
         setShowPopup(!showPopup); // Toggles the confirmation popup
@@ -22,6 +24,16 @@ const AdminPage = () => {
             .then(response => response.json())
             .then(data => setOrdersData(data))
             .catch(error => console.error('Error fetching orders:', error));
+
+        fetch('http://localhost:3000/api/org/count/')
+            .then(response => response.json())
+            .then(data => {
+                setOrgCount(data.results); // Access the 'results' field
+                console.log('Organization Count:', data.results); // Debugging log
+            })
+            .catch(error => console.error('Error fetching org count:', error));
+
+
     }, []);
 
     return (
@@ -35,7 +47,7 @@ const AdminPage = () => {
                         <span className={styles.cardHead}>Businesses</span>
                         <div className={styles.cardBase}>
                             <MdBusinessCenter className={styles.icon} />
-                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>114</span>
+                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>{orgCount}</span>
                         </div>
                     </div>
                     <div className={styles.card} style={{ backgroundColor: '#1DAB47' }}>

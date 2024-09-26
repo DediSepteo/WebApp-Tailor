@@ -13,7 +13,7 @@ const Organization = {
     },
 
     getAllCorp: (callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "corporate"';
+        const query = 'SELECT * FROM organization WHERE type = "Corporate"';
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -23,7 +23,7 @@ const Organization = {
     },
 
     getAllGovt: (callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "government"';
+        const query = 'SELECT * FROM organization WHERE type = "Government"';
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -80,8 +80,16 @@ const Organization = {
             }
             callback(null, results);
         });
+    },
+    countAll: (callback) => {
+        const query = 'SELECT COUNT(*) AS totalOrganizations FROM organization';
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results[0].totalOrganizations);
+        });
     }
-
 };
 
 module.exports = Organization;

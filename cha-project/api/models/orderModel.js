@@ -1,4 +1,4 @@
-const db = require('./dbconnection'); 
+const db = require('./dbconnection');
 
 const Order = {
     // Get all orders
@@ -74,6 +74,17 @@ const Order = {
             callback(null, results.affectedRows); // Return number of affected rows
         });
     },
+
+    // Get total Revenue
+    sumPrice: (callback) => {
+        const query = 'SELECT SUM(Price) AS totalPrice FROM `order`'; // Assuming Price is the column name
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results[0].totalPrice);
+        });
+    }
 };
 
 module.exports = Order;

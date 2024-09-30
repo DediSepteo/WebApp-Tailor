@@ -3,6 +3,7 @@ import AdminSideNavBar from '../components/AdminSideNavBar'
 import styles from '../styles/SetupWizardPage.module.css'
 
 const SetupWizardPage = ({ title, fields, onSubmit }) => {
+
     // addedRows does not count the first unremovable row in the table
     const [addedRows, setAddedRows] = useState(0)
     const [tableInputs, setTableInputs] = useState([])
@@ -23,13 +24,9 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
         setTableInputs(newTableInputs);
     };
 
-    // useEffect(() => {
-    //     console.log("Rows")
-    //     console.log(rows)
-    // }, [rows])
-
     useEffect(() => {
-        fields.find(field => field.fieldType === 'tableInput').onChange(tableInputs);
+        if (fields.find(field => field.fieldType === 'tableInput'))
+            fields.find(field => field.fieldType === 'tableInput').onChange(tableInputs);
     }, [tableInputs])
 
 
@@ -90,7 +87,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                             )}
                             {field.fieldType === 'tableInput' && (
                                 <div>
-                                    <table ref={tableField} style={{ borderCollapse: "collapse", border: "0.5px solid #D9D9D9", width: "80%" }}>
+                                    <table ref={tableField} style={{ borderCollapse: "collapse", border: "0.5px solid #D9D9D9", width: "80%" }} >
                                         <thead>
                                             <tr>
                                                 {field.headers.map((header) => (

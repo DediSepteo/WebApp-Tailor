@@ -6,17 +6,45 @@ const orders = {
         const query = `
             SELECT 
                 o.order_ID,
-                o.Quantity,
+                o.qty,
                 o.Type,
-                o.Status,
+                o.status,
                 o.Date,
-                o.Price,
-                o.MeasurementNo,
-                org.Org_Name
+                o.price,
+                o.measurements,
+                org.name
             FROM 
                 \`orders\` o
             JOIN 
-                \`organization\` org ON o.Org_ID = org.Org_ID
+                \`organization\` org ON o.org_id = org.org_id
+        `;
+
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
+    getLatestOrder: (callback) => {
+        const query = `
+            SELECT 
+                o.order_ID,
+                o.qty,
+                o.Type,
+                o.status,
+                o.Date,
+                o.price,
+                o.measurements,
+                org.name
+            FROM 
+                \`orders\` o
+            JOIN 
+                \`organization\` org ON o.org_id = org.org_id
+            ORDER BY 
+                o.order_id DESC
+            LIMIT 5
         `;
 
         db.query(query, (err, results) => {

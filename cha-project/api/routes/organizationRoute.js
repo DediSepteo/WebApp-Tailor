@@ -27,7 +27,7 @@ router.get('/govt', (req, res) => {
             console.error('Error fetching govt org:', err);
             return res.status(500).send('Error fetching govt org');
         }
-        console.log('Fetched govt org data:', results); // Log the results
+        console.log('Fetched govt org data:', results); // for debuggin
         res.setHeader('Content-Type', 'application/json', results);
         res.json(results);
     });
@@ -41,7 +41,7 @@ router.get(`/corp`, (req, res) => {
             console.error("Error fetching organization:", err)
             return res.status(500).send('Error fetching organization');
         }
-        console.log('Fetched corp org data:', results); // Log the results
+        console.log('Fetched corp org data:', results); // for debuggin
         res.setHeader('Content-Type', 'application/json', results);
         res.json(results);
     })

@@ -22,7 +22,7 @@ const AdminPage = () => {
 
     useEffect(() => {
         // Get Orders
-        fetch('http://localhost:3000/api/order/')
+        fetch('http://localhost:3000/api/order/get-latest-order')
             .then(response => response.json())
             .then(data => setOrdersData(data))
             .catch(error => console.error('Error fetching orders:', error));
@@ -103,8 +103,8 @@ const AdminPage = () => {
                     <div
                         style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}
                     >
-                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Order History</div>
-                        <NavLink className={styles.link}>View All</NavLink>
+                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Latest Order History</div>
+                        <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
                     </div>
                     <table className={styles.orderTable}>
                         <thead>
@@ -124,12 +124,12 @@ const AdminPage = () => {
                                 ordersData.map((orderData) => (
                                     <tr key={orderData.Order_ID}>
                                         <td>{new Date(orderData.Date).toLocaleString()}</td>
-                                        <td>{orderData.Org_Name}</td>
-                                        <td>{orderData.Quantity}</td>
+                                        <td>{orderData.name}</td>
+                                        <td>{orderData.qty}</td>
                                         <td>{orderData.Type}</td>
-                                        <td>{orderData.Price}</td>
-                                        <td>{orderData.MeasurementNo}</td>
-                                        <td>{orderData.Status}</td>
+                                        <td>{orderData.price}</td>
+                                        <td>{orderData.measurements}</td>
+                                        <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <NavLink className={styles.detailBtn}>Details</NavLink>

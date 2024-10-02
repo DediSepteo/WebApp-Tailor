@@ -192,3 +192,30 @@
 .cancelBtn:hover {
   cursor: pointer;
 }
+
+/* pagination part */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pageBtn {
+  background-color: white;
+  border: 1px solid #ddd;
+  color: #007bff;
+  cursor: pointer;
+  padding: 8px 12px;
+  margin: 0 4px;
+  border-radius: 4px;
+}
+
+.pageBtn:hover {
+  background-color: #f1f1f1;
+}
+
+.pageBtn.active {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}

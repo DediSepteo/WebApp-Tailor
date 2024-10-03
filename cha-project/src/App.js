@@ -18,6 +18,9 @@ import { ItemDetail } from './pages/ItemDetail';
 import { ShoppingCart } from './pages/ShoppingCart';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
+import { SnapLogin } from './pages/SnapStitchLogin'
+import { SnapRegister } from './pages/SnapStitchRegister'
+import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import RegisterOrg from './pages/RegisterOrg'
@@ -39,7 +42,9 @@ const AppContent = () => {
 
     return (
         <>
+
             {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
@@ -76,8 +81,14 @@ const AppContent = () => {
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
+                <Route path="/snap/login" element={<SnapLogin />} />
+                <Route path="/snap/register" element={<SnapRegister />} />
+                <Route path="/snap" element={<CreateEmployee />} />
+
             </Routes>
+
             {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
+
         </>
     );
 };

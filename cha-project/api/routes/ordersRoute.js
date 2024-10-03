@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/orderModel'); // Import the Order model
 
+// Get the sum of the orders revenue
+router.get('/revenue', (req, res) => {
+    Order.sumPrice((err, totalRevenue) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching total revenue count' });
+        }
+        res.json({ totalRevenue });
+    });
+});
+
 // Get all orders
 router.get('/', (req, res) => {
     Order.getAll((err, orders) => {
@@ -20,7 +30,7 @@ router.get('/:id', (req, res) => {
             return res.status(500).json({ error: 'Failed to retrieve the order' });
         }
         if (!order) {
-            return res.status(404).json({ error: 'Order not found' });
+            return res.status(404).json({ error: 'Order not found 3' });
         }
         res.json(order);
     });
@@ -47,7 +57,7 @@ router.put('/:id', (req, res) => {
             return res.status(500).json({ error: 'Failed to update order' });
         }
         if (affectedRows === 0) {
-            return res.status(404).json({ error: 'Order not found' });
+            return res.status(404).json({ error: 'Order not found 2' });
         }
         res.json({ message: 'Order updated' });
     });
@@ -62,7 +72,7 @@ router.delete('/:id', (req, res) => {
             return res.status(500).json({ error: 'Failed to delete order' });
         }
         if (affectedRows === 0) {
-            return res.status(404).json({ error: 'Order not found' });
+            return res.status(404).json({ error: 'Order not found 1' });
         }
         res.json({ message: 'Order deleted' });
     });

@@ -12,16 +12,38 @@ import CustomPopUp from '../components/CustomPopUp';
 const AdminPage = () => {
     const [ordersData, setOrdersData] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [orgCount, setOrgCount] = useState(0);
+    const [revSum, setRevSum] = useState(0);
+
 
     const togglePopUp = () => {
         setShowPopup(!showPopup); // Toggles the confirmation popup
     };
 
     useEffect(() => {
+        // Get Orders
         fetch('http://localhost:3000/api/order/')
             .then(response => response.json())
             .then(data => setOrdersData(data))
             .catch(error => console.error('Error fetching orders:', error));
+
+        // Get the total biz
+        fetch('http://localhost:3000/api/org/count/')
+            .then(response => response.json())
+            .then(data => {
+                setOrgCount(data.results);
+                console.log('Organization Count:', data.results); // For debugging
+            })
+            .catch(error => console.error('Error fetching org count:', error));
+
+        // Get the sum of the revenue
+        fetch('http://localhost:3000/api/order/revenue')
+            .then(response => response.json())
+            .then(data => {
+                setRevSum(data.totalRevenue);
+                console.log("Revenue Data: ", data); // For debugging
+            })
+            .catch(error => console.error('Error fetching total revenue:', error));
     }, []);
 
     return (
@@ -35,14 +57,14 @@ const AdminPage = () => {
                         <span className={styles.cardHead}>Businesses</span>
                         <div className={styles.cardBase}>
                             <MdBusinessCenter className={styles.icon} />
-                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>114</span>
+                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>{orgCount}</span>
                         </div>
                     </div>
                     <div className={styles.card} style={{ backgroundColor: '#1DAB47' }}>
                         <span className={styles.cardHead}>Revenue</span>
                         <div className={styles.cardBase}>
                             <FaHandHoldingUsd className={styles.icon} />
-                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>$25,552</span>
+                            <span style={{ fontSize: '1.5em', alignSelf: 'end' }}>${revSum}</span>
                         </div>
                     </div>
                     <div className={styles.card} style={{ backgroundColor: '#FC413F' }}>

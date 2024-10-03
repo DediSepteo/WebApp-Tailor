@@ -15,6 +15,7 @@ import { Shop1Item } from './pages/Shop1Item';
 import { GovtShop } from './pages/GovtShop';
 import { Shop2Item } from './pages/Shop2Item';
 import { ItemDetail } from './pages/ItemDetail';
+import { ShoppingCart } from './pages/ShoppingCart';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { SnapLogin } from './pages/SnapStitchLogin'
@@ -41,15 +42,17 @@ const AppContent = () => {
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("admin") || location.pathname.includes("snap")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
-                <Route path="/Home" element={<Home />} />
-                <Route path="/About" element={<About />} />
-                <Route path="/Contact" element={<Contact />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/Register" element={<Register />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
 
                 {/* Protect the following admin routes */}
@@ -68,8 +71,10 @@ const AppContent = () => {
                 <Route path="/Shop2" element={<GovtShop />} />
                 <Route path="/Shop2/:company" element={<Shop2Item />} />
 
-
                 <Route path="/Shop1/:company/:name" element={<ItemDetail />} />
+
+                <Route path="/shoppingcart" element={<ShoppingCart />} />
+
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
@@ -81,7 +86,9 @@ const AppContent = () => {
                 <Route path="/snap" element={<CreateEmployee />} />
 
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin") || location.pathname.includes("snap")) && <Footer />}
+
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
+
         </>
     );
 };

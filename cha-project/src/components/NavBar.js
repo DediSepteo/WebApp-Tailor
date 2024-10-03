@@ -163,13 +163,13 @@ const NavBar = () => {
                             </button>
                         </div>
                     ) : (
-                        <NavLink className={styles.loginLink} to={"/Login"}>
+                        <NavLink className={styles.loginLink} to={"/login"}>
                             <span className={styles.icons}><FaRegUser /></span>
                             <span className={styles.loginText}>Login / Register</span>
                         </NavLink>
                     )}
                     <span className={styles.icons}><IoSearch /></span>
-                    <span className={styles.icons} id="cart"><MdOutlineShoppingCart /></span>
+                    <Link to="/shoppingcart" className={styles.icons} id="cart"><MdOutlineShoppingCart /></Link>
                     <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>
             </nav>

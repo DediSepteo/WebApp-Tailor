@@ -1,4 +1,3 @@
-// src/pages/ItemDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styles from '../styles/ItemDetail.module.css';
@@ -86,7 +85,7 @@ export const ItemDetail = () => {
     const defaultImage = item.image[0];
 
     return (
-        <main>
+        <main className={styles.main}>
             <div className={styles.backContainer}>
                 <Link to={`/Shop1/${company}`}>
                     <IoIosArrowRoundBack className={styles.backArrow} />

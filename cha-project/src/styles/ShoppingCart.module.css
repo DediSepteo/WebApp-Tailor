@@ -193,6 +193,19 @@
     cursor: pointer;
 }
 
+.iconWrapper {
+    position: relative; /* Ensure the wrapper is positioned relative to the table row */
+}
+
+.closeIcon {
+    position: absolute;
+    top: 10%;
+    right: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    color: rgb(173, 0, 0);
+}
+
 /* Total sum section */
 .checkoutContainer {
     display: flex;

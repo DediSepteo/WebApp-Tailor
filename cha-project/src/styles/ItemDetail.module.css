@@ -211,11 +211,6 @@
     .colorSelector {
         font-size: 2vw;
     }
-    .colorOption:hover {
-        background-color: #1C2D5B;
-        color: white;
-        border-color: #1C2D5B;
-    }
     .sizeLabel {
         font-size: 2vw;
     }

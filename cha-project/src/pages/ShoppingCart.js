@@ -2,26 +2,42 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/ShoppingCart.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 
 // Sample cartItems data
 const cartItems = [
     {
-        name: 'ReallyCoolUniform',
+        uni_id: 2,
+        name: 'FancyConstructionUniform1',
         price: 299.99,
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: require('../assets/security.png'),
-        quantity: 2,
-        size: 'M',
-        color: 'Blue'
+        image: [
+            require('../assets/security.png'),
+            require('../assets/restaurant.png')
+        ],
+        quantity: 1,
     },
     {
-        name: 'Sleek&CoolUniform',
+        uni_id: 4,
+        name: 'FancyConstructionUniform',
+        price: 299.99,
+        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
+        image: [
+            require('../assets/security.png'),
+            require('../assets/restaurant.png')
+        ],
+        quantity: 1,
+    },
+    {
+        uni_id: 5,
+        name: 'SafeConstructionUniform',
         price: 999.99,
         detail: 'A suit, also called a lounge suit, business suit, dress suit, or formal suit is a set of clothes comprising a suit jacket and trousers of identical textiles.',
-        image: require('../assets/security.png'),
-        quantity: 6,
-        size: 'L',
-        color: 'Black'
+        image: [
+            require('../assets/security.png'),
+            require('../assets/restaurant.png')
+        ],
+        quantity: 1,
     },
 ];
 
@@ -30,10 +46,30 @@ export const ShoppingCart = () => {
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
+    const [cart, setCart] = useState([]);
+
+    // Load cart from localStorage (Assume it's an array of { id, size, color })
+    const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Filter and map cart items by matching id (from localStorage) to uni_id (in cartItems)
+    const filteredCartItems = cartItems
+        .filter(item => localStorageCart.some(cartItem => cartItem.id === item.uni_id)) // Match id to uni_id
+        .map(item => {
+            const localCartItem = localStorageCart.find(cartItem => cartItem.id === item.uni_id); // Match by id
+            return {
+                ...item,
+                size: localCartItem?.size || 'N/A',
+                color: localCartItem?.color || 'N/A',
+            };
+        });
+
+    useEffect(() => {
+        setCart(filteredCartItems);
+    }, []);
 
     // Function to calculate subtotal
     const calculateSubtotal = () => {
-        return cartItems.reduce((total, item, index) => {
+        return cart.reduce((total, item, index) => {
             return total + item.price * quantities[index];
         }, 0);
     };
@@ -41,6 +77,19 @@ export const ShoppingCart = () => {
     const subtotal = calculateSubtotal();
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
+
+    // Handle item removal
+    const handleRemoveItem = (index) => {
+        const itemToRemove = cart[index];
+
+        // Remove item from localStorage cart
+        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem.id !== itemToRemove.uni_id);
+        localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
+
+        // Update state: remove item from cart and adjust quantities
+        setCart(prevCart => prevCart.filter((_, i) => i !== index));
+        setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
+    };
 
     // Function to handle quantity increase (max 50)
     const increaseQuantity = (index) => {
@@ -171,10 +220,10 @@ export const ShoppingCart = () => {
                     </table>
                     <table className={styles.tableContent}>
                         <tbody>
-                            {cartItems.map((item, index) => (
+                            {cart.map((item, index) => (
                                 <tr key={index}>
                                     <td className={styles.productRow}>
-                                        <img src={item.image} alt={item.name} className={styles.productImage} />
+                                        <img src={item.image[0]} alt={item.name} className={styles.productImage} />
                                         <div style={{ marginLeft: '10px' }}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <p className={styles.productDetails}>{item.detail}</p>
@@ -195,8 +244,8 @@ export const ShoppingCart = () => {
                                             </div>
                                             {editingIndex === index ? (
                                                 <input
+                                                    ref={inputRef} // Set the input ref
                                                     className={styles.quantityInput}
-                                                    ref={inputRef} // Attach the input reference
                                                     type="number"
                                                     value={quantities[index]}
                                                     min="1"
@@ -220,6 +269,9 @@ export const ShoppingCart = () => {
                                     </td>
                                     <td className={styles.regRow}>
                                         {`$${(item.price * quantities[index]).toFixed(2)}`}
+                                    </td>
+                                    <td className={styles.iconWrapper}>
+                                        <IoClose className={styles.closeIcon} onClick={() => handleRemoveItem(index)} />
                                     </td>
                                 </tr>
                             ))}

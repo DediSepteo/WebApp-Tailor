@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
+import AdminProdPage from './pages/AdminProdPage';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
@@ -23,6 +24,8 @@ import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import RegisterOrg from './pages/RegisterOrg'
+import RegisterProd from './pages/RegisterProd'
+import RegisterProdBulk from './pages/RegisterProdBulk'
 
 const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
@@ -75,6 +78,9 @@ const AppContent = () => {
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/corporate/products" element={<AdminProdPage />} />
+                <Route path="/admin/corporate/products/register" element={<RegisterProd />} />
+                <Route path="/admin/corporate/products/registerBulk" element={<RegisterProdBulk />} />
 
                 <Route path="/snap/login" element={<SnapLogin />} />
                 <Route path="/snap/register" element={<SnapRegister />} />

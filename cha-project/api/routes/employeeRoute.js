@@ -21,6 +21,19 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/count', (req, res) => {
+    const org_id = req.query.org_id
+    console.log(org_id)
+    employeeModel.getCount(org_id, (err, results) => {
+        if (err) {
+            console.error('Error getting count:', err);
+            return res.status(500).send('Error getting count');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.json(results);
+    });
+});
+
 router.post('/register', async (req, res) => {
     const empData = req.body
     const name = empData.name

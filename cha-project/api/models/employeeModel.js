@@ -12,6 +12,16 @@ const Employee = {
         });
     },
 
+    getCount: (org_id, callback) => {
+        const query = 'SELECT COUNT(*) AS EmployeeNo FROM employee WHERE org_id = ?';
+        db.query(query, [org_id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results[0].EmployeeNo);
+        });
+    },
+
     getEmpPass: (email, org_id, callback) => {
         const query = 'SELECT * FROM employee WHERE email = ? AND org_id = ?';
         db.query(query, [email, org_id], (err, results) => {

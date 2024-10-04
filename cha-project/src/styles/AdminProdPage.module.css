@@ -1,0 +1,108 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    text-decoration: underline;
+}   
+
+.head {
+    width: 90%;
+}
+
+.tableDiv {
+    background-color: wheat;
+    display: flex;
+    flex-direction: column;
+    margin: 3em 0;
+    background-color: white;
+    padding: 0 1em 1em 1em;
+    text-align:left;
+}
+
+.productTable {
+    width: 100%;
+    text-align:left;
+    border: 0.5px solid #D9D9D9;
+    border-collapse: collapse; 
+}
+
+.productTable th {
+    padding: 0.5em;
+    font-family: "Noto Serif";
+    border: 0.5px solid #D9D9D9;
+}
+
+.productTable td {
+    padding: 0.5em;
+    border: 0.5px solid #D9D9D9;
+    width: 12.5%;
+}
+
+.tableBtns {
+    font-family: "Inter";
+    font-weight: bold;
+}
+
+.editBtn {
+    background-color: #1FA9D7;
+    text-decoration: none;
+    color: white;
+    padding: 0.5em 1em;
+    font-weight: bold;
+    font-size: 1em;
+    border-radius: 10em;
+}
+
+.cancelBtn {
+    background-color: #D44837;
+    border:none;
+    font-family: "Inter";
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 10em;
+    font-size: 1em;
+    margin-left: 1em;
+}
+
+.cancelBtn:hover {
+    cursor: pointer;
+}   
+
+.management {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-between;
+    margin-bottom: 2em;
+}
+
+.manageHead { 
+    padding: 1em 0;
+    font-family: "Inter";
+    font-weight: bold; 
+    align-self: flex-start; 
+    border-bottom: 1px solid grey; 
+    width: 100%;
+}
+
+.manageDiv {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    width: 45%;
+}
+
+.li {
+    font-family: "Montserrat-Regular";
+    margin-bottom: 1.5em;
+}

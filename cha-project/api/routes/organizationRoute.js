@@ -41,7 +41,6 @@ router.get('/', (req, res) => {
             console.error('Error fetching organization:', err);
             return res.status(500).send('Error fetching organization');
         }
-        console.log('Fetched organization data:', results); // Log the results
         res.setHeader('Content-Type', 'application/json');
         res.json(results);
     });

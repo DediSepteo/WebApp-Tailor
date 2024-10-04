@@ -11,6 +11,7 @@ CREATE TABLE Organization (
 
 
 Select * from Organization;
+Select * from Employee;
 
 Drop Table If Exists Employee;
 -- Create Employee Table
@@ -34,14 +35,14 @@ CREATE TABLE `Orders` (
     price varchar(255) NOT NULL,
     measurementNo varchar(255) NOT NULL,
     status VARCHAR(50) NOT NULL,
+    date DATE NOT NULL,
     FOREIGN KEY (org_id) REFERENCES Organization(org_id)
 );
 
 -- Create Product Table
-CREATE TABLE Uniforms (
-    uni_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Products (
+    prod_id INT PRIMARY KEY AUTO_INCREMENT,
     org_id INT, 
-    category VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     description TEXT,
     name varchar(255) NOT NULL,
@@ -51,10 +52,10 @@ CREATE TABLE Uniforms (
 -- Create Order_List Table
 Drop Table If Exists Order_List;
 CREATE TABLE Order_List (
-    uni_id INT,
+    prod_id INT,
     order_id INT,
-    PRIMARY KEY (uni_id, order_id),
-    FOREIGN KEY (uni_id) REFERENCES Uniforms(uni_id),
+    PRIMARY KEY (prod_id, order_id),
+    FOREIGN KEY (prod_id) REFERENCES Product(prod_id),
     FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
 );
 

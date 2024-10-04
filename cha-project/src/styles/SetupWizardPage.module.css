@@ -20,6 +20,24 @@
     padding: 0.5em;
 }
 
+.textArea {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 30%;
+    height: 3em;
+    padding: 0.5em;
+    resize: none;
+}
+
+.textArea:focus {
+    height: 6em;
+    width: 35%
+}
+
+/* .inputLong {
+    position: relative;
+    transition: height 0.3s ease transform 0.3s ease;
+} */
+
 .form {
     display: flex;
     flex-direction: column;
@@ -58,6 +76,21 @@
     padding: 0.5em;
 }
 
+.tableTextArea {
+    vertical-align: middle;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 0.8em;
+    padding: 0.5em;
+    resize: none;
+    overflow: hidden;
+}
+
+.tableTextArea:focus {
+    height: 5em;
+    width: 12em;
+    overflow: auto;
+}
+
 .addProduct {
     color: #1bafff;
     background-color: transparent;
@@ -67,12 +100,6 @@
 
 .addProduct:hover {
     text-decoration: underline;
-}
-
-.inputLong:focus {
-    position: inherit;
-    height: 20%;
-    z-index: 1000;
 }
 
 

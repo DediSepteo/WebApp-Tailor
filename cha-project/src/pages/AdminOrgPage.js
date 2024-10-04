@@ -49,7 +49,7 @@ const AdminPage = () => {
                 .then(response => response.json())
                 .then(data => setOrgsData(data))
                 .catch(error => console.error('Error fetching organization:', error));
-            console.log(orgsData)
+
         }
 
         catch (error) {
@@ -61,9 +61,25 @@ const AdminPage = () => {
     useEffect(() => {
         fetch('http://localhost:3000/api/org/corp/recent')
             .then(response => response.json())
-            .then(data => setOrgsData(data))
+            .then(data => {
+                const fetchEmployeeCounts = data.map(org => {
+                    const id = org.org_id;
+                    return fetch(`http://localhost:3000/api/emp/count?org_id=${id}`)
+                        .then(response => response.json())
+                        .then(empData => {
+                            org.employeeNo = empData;
+                            return org;
+                        });
+                });
+
+                Promise.all(fetchEmployeeCounts)
+                    .then(updatedOrgs => {
+                        setOrgsData(updatedOrgs);
+                    });
+            })
             .catch(error => console.error('Error fetching organization:', error));
     }, []);
+
 
 
     return (
@@ -110,7 +126,7 @@ const AdminPage = () => {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5">No orders available</td>
+                                    <td colSpan="5">No organizations registered</td>
                                 </tr>
                             )
                             }

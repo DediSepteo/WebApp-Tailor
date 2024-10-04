@@ -1,0 +1,245 @@
+.main {
+    background-color: #f5f5f5;
+    margin-top: 0.25em;
+}
+
+/* Custom Navbar */
+.navbar {
+    background-color: #28A197;
+    padding: 1% 4%;
+    display: flex;
+    align-items: center;
+}
+  
+.logo {
+    font-family: "Felgine";
+    white-space: nowrap;
+    font-size: 150%;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.separator {
+    color: #ffffff;
+    font-size: 250%;
+    margin: 0 0.3em;
+    font-weight: 200;
+    margin-top: -2vh;
+}
+
+.navPage {
+    color: #ffffff;
+    font-family: "Noto Serif TC";
+    font-weight: 600;
+    font-size: 120%;
+    margin-top: 2vh;
+}
+
+/* Back Arrow Section */
+.backContainer {
+    display: flex;
+    margin: 0 2.5% 2.5% 2.5%;
+    padding-top: 2.5%;
+}
+
+.backArrow {
+    font-size: 2vw;
+    color: #28A197;
+    display: flex;
+    align-items: center;
+}
+
+.backLink {
+    font-family: "Noto Serif TC";
+    font-weight: 600;
+    font-size: 1.2vw;
+    color: #28A197;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Header */
+.pageTitle {
+    font-size: 2.2em;
+    font-family: "Noto Serif TC";
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4vh;
+    margin-top: 7vh;
+}
+
+/* Table Header */
+.tableTop {
+    width: 90%;
+    margin: auto;
+    font-family: "Noto Serif TC";
+    background-color: #ffffff;
+    color: grey;
+    font-size: 1em;
+    padding: 0.5% 0 0.5% 2%;
+    margin-bottom: 1.5%;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);  /* Shadow below */
+}
+
+.productCol {
+    width: 49%;
+    text-align: left;
+}
+
+.regCol {
+    width: 17%;
+}
+
+/* Table Contents */
+.tableContent {
+    width: 90%;
+    margin: auto;
+    font-family: "Noto Serif TC";
+    background-color: #ffffff;
+    border-collapse: collapse;
+}
+
+.tableContent tbody tr {
+    border-bottom: 3px solid #e7e7e7;
+}
+
+.tableContent tbody td {
+    padding: 3% 3%;
+    vertical-align: middle;
+}
+
+.tableContent tbody tr:last-child {
+    border-bottom: none; /* No border for the last row */
+}
+
+.productRow {
+    display: flex;
+}
+
+.regRow {
+    width: 16.7%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.productImage {
+    width: 110px;
+    aspect-ratio: 2.1/2.93;
+    object-fit: cover;
+}
+
+.productName {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0.5% 0 1% 0;
+}
+
+.productDetails {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: grey;
+    margin: 0;
+}
+
+/* Quantity container */
+.quantityContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Box for - and + buttons */
+.quantityBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid grey;
+    min-width: 30px;
+    min-height: 30px;
+    cursor: pointer;
+}
+
+/* Rectangle for quantity display */
+.quantityRectangle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 30px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    cursor: pointer;
+}
+
+.quantityInput {
+    font-family: "Noto Serif TC";
+    font-size: 1em;
+    font-weight: 600;
+    outline: none;
+    width: 40px;
+    text-align: center;
+    height: 32px;
+    box-sizing: border-box;
+
+}
+
+/* Button styling */
+.quantityButton {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2em;
+    color: #000000;
+    cursor: pointer;
+}
+
+.iconWrapper {
+    position: relative; /* Ensure the wrapper is positioned relative to the table row */
+}
+
+.closeIcon {
+    position: absolute;
+    top: 10%;
+    right: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    color: rgb(173, 0, 0);
+}
+
+/* Total sum section */
+.checkoutContainer {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.totalSum {
+    width: 20%;
+    margin-left: auto;
+    margin-right: 5%;
+    border-collapse: collapse;
+}
+
+.totalSum tr {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    font-family: "Noto Serif TC";
+    font-weight: 600;
+    padding: 4% 0;
+}
+
+.totalSum tr:last-child {
+    border-bottom: none;
+}
+
+.checkoutBtn {
+    width: 20%;
+    margin: 0.5% 5% 5em 0;
+    background-color: #28A197;
+    color: #ffffff;
+    border: none;
+    padding: 11px 10px;
+    font-size: 1em;
+    font-family: "Noto Serif TC";
+}

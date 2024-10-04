@@ -1,4 +1,3 @@
-// src/pages/ItemDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styles from '../styles/ItemDetail.module.css';
@@ -8,8 +7,9 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 const items = [
     {
         company: 'Suits1',
+        uni_id: 1,
         name: 'Suit1',
-        price: '$299.99',
+        price: 299.99,
         colour: ['Red', 'Blue', 'Green'],
         detail: 'Perfectly tailored suit with a flat one piece collar. Fabric is 100% wool.',
         image: [
@@ -19,8 +19,9 @@ const items = [
     },
     {
         company: 'Suits1',
+        uni_id: 2,
         name: 'Suit2',
-        price: '$249.99',
+        price: 249.99,
         colour: ['Red', 'Blue', 'Green'],
         detail: 'Grey casual suit with a modern cut. Fabric is 70% wool, 30% polyester.',
         image: [
@@ -30,8 +31,9 @@ const items = [
     },
     {
         company: 'Retail1',
+        uni_id: 3,
         name: 'Retail1',
-        price: '$49.99',
+        price: 49.99,
         colour: ['Red', 'Blue', 'Green'],
         detail: 'White polo shirt with a classic fit. Fabric is 100% pique cotton.',
         image: [
@@ -41,8 +43,9 @@ const items = [
     },
     {
         company: 'GreatConstructionsCo',
+        uni_id: 4,
         name: 'FancyConstructionUniform',
-        price: '$99.99',
+        price: 99.99,
         colour: ['Red', 'Blue', 'Green'],
         detail: 'High visibility yellow uniform for construction work. Fabric is durable polyester. High visibility yellow uniform for construction work. Fabric is durable polyester. High visibility yellow uniform for construction work. Fabric is durable polyester. High visibility yellow uniform for construction work. Fabric is durable polyester.',
         image: [
@@ -55,8 +58,9 @@ const items = [
     },
     {
         company: 'GreatConstructionsCo',
+        uni_id: 5,
         name: 'SafeConstructionUniform',
-        price: '$99.99',
+        price: 99.99,
         colour: ['Red', 'Blue', 'Green'],
         detail: 'High visibility orange uniform for construction work. Fabric is durable polyester.',
         image: [
@@ -69,6 +73,7 @@ const items = [
 export const ItemDetail = () => {
     const { company, name } = useParams();
     const [selectedColor, setSelectedColor] = useState(null);
+    const [selectedSize, setSelectedSize] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
 
     const item = items.find(item => item.company === company && item.name === name);
@@ -85,8 +90,32 @@ export const ItemDetail = () => {
 
     const defaultImage = item.image[0];
 
+    const handleAddToCart = () => {
+        if (!selectedSize) {
+            alert('Please select your size');
+            return;
+        } else {
+            const newItem = {
+                id: item.uni_id,
+                color: selectedColor,
+                size: selectedSize,
+            };
+
+            // Retrieve the existing cart from local storage
+            const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Add the new item to the existing cart
+            existingCart.push(newItem);
+
+            // Save the updated cart back to local storage
+            localStorage.setItem('cart', JSON.stringify(existingCart));
+
+            alert(`Added to cart: ${item.name}, ID: ${item.uni_id}, Color: ${selectedColor}, Size: ${selectedSize}`); // Save item id too when connect db
+        }
+    };
+
     return (
-        <main>
+        <main className={styles.main}>
             <div className={styles.backContainer}>
                 <Link to={`/Shop1/${company}`}>
                     <IoIosArrowRoundBack className={styles.backArrow} />
@@ -112,7 +141,7 @@ export const ItemDetail = () => {
                 </div>
                 <div className={styles.contents}>
                     <p className={styles.itemName}>{item.name}</p>
-                    <p className={styles.itemPrice}>{item.price}</p>
+                    <p className={styles.itemPrice}>${item.price}</p>
                     <div className={styles.separator}></div>
                     <form>
                         <div className={styles.colorSelector}>
@@ -132,14 +161,21 @@ export const ItemDetail = () => {
                         </div>
                         <p className={styles.sizeLabel}>Size:</p>
                         <div className={styles.selectWrapper}>
-                            <select className={styles.selectSize} name="sizing" id="sizing">
+                            <select
+                                className={styles.selectSize}
+                                name="sizing"
+                                id="sizing"
+                                value={selectedSize}
+                                onChange={(e) => setSelectedSize(e.target.value)}
+                                required
+                            >
                                 <option value="" disabled selected>Please Select:</option>
-                                <option value="large">Large</option>
-                                <option value="medium">Medium</option>
-                                <option value="small">Small</option>
+                                <option value="Large">Large</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Small">Small</option>
                             </select>
                         </div>
-                        <button className={styles.addItem} type="addItem">Add To Cart</button>
+                        <button className={styles.addItem} type="button" onClick={handleAddToCart}>Add To Cart</button>
                         <p className={styles.descriptionLabel}>Description:</p>
                         <p className={styles.itemDetail}>{item.detail}</p>
                     </form>

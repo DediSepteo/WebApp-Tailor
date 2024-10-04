@@ -8,7 +8,7 @@ const options = [
         company: 'Suits1',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Suits1/Suit1',
         image: require('../assets/security.png')
     },
@@ -16,7 +16,7 @@ const options = [
         company: 'Suits1',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Suits1/Suit2',
         image: require('../assets/security.png')
     },
@@ -24,7 +24,7 @@ const options = [
         company: 'Suits1',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Suits1/Suit3',
         image: require('../assets/security.png')
     },
@@ -32,7 +32,7 @@ const options = [
         company: 'Suits1',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Suit/Suit4',
         image: require('../assets/security.png')
     },
@@ -40,7 +40,7 @@ const options = [
         company: 'Suits2',
         name: 'An Extremely Long Shirt Name',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Suit/Suit1',
         image: require('../assets/security.png')
     },
@@ -49,7 +49,7 @@ const options = [
         company: 'Retail1',
         name: 'Retail1',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Retail/Retail1',
         image: require('../assets/security.png')
     },
@@ -57,7 +57,7 @@ const options = [
         company: 'Retail2',
         name: 'Retail2',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Retail/Retail2',
         image: require('../assets/security.png')
     },
@@ -66,7 +66,7 @@ const options = [
         company: 'GreatConstructionsCo',
         name: 'Fancy Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton ',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/GreatConstructionsCo/FancyConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -74,7 +74,7 @@ const options = [
         company: 'GreatConstructionsCo',
         name: 'Safe Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/GreatConstructionsCo/SafeConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -82,7 +82,7 @@ const options = [
         company: 'GreatConstructionsCo',
         name: 'Vibrant Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/GreatConstructionsCo/VibrantConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -90,7 +90,7 @@ const options = [
         company: 'GreatConstructionsCo',
         name: 'Ultra Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/GreatConstructionsCo/UltraConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -98,7 +98,7 @@ const options = [
         company: 'GreatConstructionsCo',
         name: 'Mega Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/GreatConstructionsCo/MegaConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -106,7 +106,7 @@ const options = [
         company: 'GreatConstructionsCo',
         name: 'Cool Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/GreatConstructionsCo/CoolConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -114,7 +114,7 @@ const options = [
         company: 'BuildnConstruct',
         name: 'Great Construction Uniform',
         detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        price: '$99.99',
+        price: 99.99,
         link: '/Shop1/Construction2/GreatConstructionUniform',
         image: require('../assets/security.png')
     },
@@ -143,7 +143,7 @@ export const Shop1Item = () => {
                             <div>
                                 <p className={styles.categoryName}>{item.name}</p>
                                 <p className={styles.categoryDetail}>{item.detail}</p>
-                                <p className={styles.categoryPrice}>{item.price}</p>
+                                <p className={styles.categoryPrice}>${item.price}</p>
                             </div>
                     </Link>
                 ))}

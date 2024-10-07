@@ -37,10 +37,12 @@ const ViewAllOrder = () => {
                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}
                 >
                     <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>All Order History</div>
+                    <NavLink to='/admin/dashboard/'>Go back</NavLink>
                 </div>
                 <table className={styles.orderTable}>
                     <thead>
                         <tr>
+                            <th>Order ID</th>
                             <th>Date</th>
                             <th>Placed By</th>
                             <th>Quantity</th>
@@ -55,6 +57,7 @@ const ViewAllOrder = () => {
                         {currentOrders.length > 0 ? (
                             currentOrders.map((orderData) => (
                                 <tr key={orderData.Order_ID}>
+                                    <td>{orderData.order_ID}</td>
                                     <td>{new Date(orderData.Date).toLocaleString()}</td>
                                     <td>{orderData.name}</td>
                                     <td>{orderData.qty}</td>

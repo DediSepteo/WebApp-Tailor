@@ -15,6 +15,7 @@ const AdminPage = () => {
     const [orgCount, setOrgCount] = useState(0);
     const [revSum, setRevSum] = useState(0);
 
+    const token = sessionStorage.getItem('authToken');
 
     const togglePopUp = () => {
         setShowPopup(!showPopup); // Toggles the confirmation popup
@@ -22,13 +23,23 @@ const AdminPage = () => {
 
     useEffect(() => {
         // Get Orders
-        fetch('http://localhost:3000/api/order/get-latest-order')
+        fetch('http://localhost:3000/api/order/get-latest-order', {
+            headers: {
+                // 'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
+            }
+        })
             .then(response => response.json())
             .then(data => setOrdersData(data))
             .catch(error => console.error('Error fetching orders:', error));
 
         // Get the total biz
-        fetch('http://localhost:3000/api/org/count/')
+        fetch('http://localhost:3000/api/org/count/', {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 setOrgCount(data.results);
@@ -37,7 +48,12 @@ const AdminPage = () => {
             .catch(error => console.error('Error fetching org count:', error));
 
         // Get the sum of the revenue
-        fetch('http://localhost:3000/api/order/revenue')
+        fetch('http://localhost:3000/api/order/revenue', {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 setRevSum(data.totalRevenue);

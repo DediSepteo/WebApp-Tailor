@@ -42,7 +42,7 @@ const Organization = {
         })
     },
     getGovtRecent: (limit, callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "government" ORDER BY `org_id` DESC LIMIT ?';
+        const query = 'SELECT * FROM organization WHERE type = "Government" ORDER BY `org_id` DESC LIMIT ?';
         db.query(query, [limit], (err, results) => {
             if (err) {
                 return callback(err, null)

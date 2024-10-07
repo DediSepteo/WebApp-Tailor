@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
+import AdminOrgGovtPage from './pages/AdminOrgGovt'
 import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -58,6 +59,10 @@ const AppContent = () => {
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
+
+                {/* for gov */}
+                <Route path="/admin/government/orgs" element={<AdminOrgGovtPage />} />
+                <Route path="/admin/go/orgs/register" element={<RegisterOrg />} />
 
 
                 <Route path="/Shop1" element={<CorporateShop />} />

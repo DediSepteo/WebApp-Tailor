@@ -11,46 +11,72 @@ const CreateOrganization = () => {
     const [orgIndustry, setOrgIndustry] = useState('');
     const [orgProducts, setOrgProducts] = useState([])
 
-    const [showPopup, setShowPopup] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [showWarning, setShowWarning] = useState(false)
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const togglePopUp = () => {
-        setShowPopup(!showPopup); // Show popup when you want
+    const toggleError = () => {
+        setShowError(!showError); // Show popup when you want
     };
+    const toggleWarning = () => {
+        setShowWarning(!showWarning)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle org creation logic
-        const tableHeaders = Object.keys(fields[4].headers)
 
-        console.log(orgProducts)
+
+        const tableHeaders = fields[1].headers
+        const requiredHeaders = []
+        for (let i = 0; i < tableHeaders.length; i++) {
+            if (tableHeaders[i].required)
+                requiredHeaders.push(tableHeaders[i].title)
+        }
 
         if (orgProducts.length) {
-            console.log(orgProducts)
-            const productsValid = orgProducts.some((product) => {
-                console.log(product)
-                if (Object.values(product).includes("")) {
-                    if (!Object.values(product).every(item => item == "" || item == undefined)) {
-                        setShowPopup(true)
+            const productsValid = orgProducts.every((product) => {
+                for (let i = 0; i < product.length; i++) {
+                    if (!requiredHeaders.includes(Object.keys(product)[i])) {
+                        setShowError(true)
                         return false
                     }
                 }
-                else if (Object.keys(product).length !== tableHeaders.length) {
-                    setShowPopup(true);
-                    return false;
+                var values = [product.Name, product.Price, product.Description]
+                if (values.includes(undefined)) {
+                    return false
                 }
-                return true;
-            });
-            console.log(productsValid)
+                const requiredValues = values.map((value) => { return value.trim() })
+                if (requiredValues.includes("")) {
+                    setShowError(true)
+                    return false
+                }
+                return true
+            })
+            const missingImages = orgProducts.some((product) => {
+                if (!product.Image) {
+                    return true
+                }
+                return false
+            })
+            console.log(orgProducts)
             if (productsValid) {
-                handleRegister(e)
+                if (missingImages) {
+                    setShowWarning(true)
+                }
+                else {
+                    handleRegister(e)
+                }
+            }
+            else {
+                setShowError(true)
             }
         }
         else {
             handleRegister(e)
         }
-    };
+
+    }
 
     const handleRegister = async (event) => {
         const orgType = window.location.href.includes("corporate") ? "Corporate" : "Government"
@@ -120,7 +146,7 @@ const CreateOrganization = () => {
         {
             fieldType: 'tableInput',
             label: 'Register Product (Optional)',
-            headers: [{ "title": "Name", "inputType": "input" }, { "title": "Price", "inputType": "input", "type": "number", "step": "0.01" }, { "title": "Description", "inputType": "input", "isInputLong": true }, { "title": "Image", "inputType": "upload" }],
+            headers: [{ "title": "Name", "inputType": "input" }, { "title": "Price", "inputType": "input", "type": "number", "step": "0.01" }, { "title": "Description", "inputType": "textarea", "isInputLong": true }, { "title": "Image", "inputType": "upload" }],
             value: orgProducts,
             onChange: (e) => setOrgProducts(e),
             required: false,
@@ -129,8 +155,11 @@ const CreateOrganization = () => {
 
     return (
         <main>
-            {showPopup && (
-                <CustomPopUp togglePopup={togglePopUp} title="Warning" text="Please ensure that all fields are filled for all registered products" />
+            {showError && (
+                <CustomPopUp togglePopup={toggleError} title="Error" text="Please ensure that all fields are filled for all registered products" />
+            )}
+            {showWarning && (
+                <CustomPopUp togglePopup={toggleWarning} onConfirm={handleRegister} title="Warning" text="Some images are not filled. Placeholder images will be used for these products, are you sure you want to proceed?" hasCancel={true} />
             )}
             < SetupWizardPage title="Register Organization" fields={fields} onSubmit={handleSubmit} />
         </main>

@@ -73,6 +73,7 @@
   align-items: center;
   font-size: 1.4em;
   background-color: none;
+  color: #ffffff;
 }
 
 .icons:hover {
@@ -85,6 +86,7 @@
   text-align: center;
   white-space: nowrap;
   user-select: none;
+  color: #ffffff;
 }
 
 .loginText:hover {

@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
+import AdminProdPage from './pages/AdminProdPage';
 import AdminOrgGovtPage from './pages/AdminOrgGovt'
 import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
@@ -17,11 +18,17 @@ import { Shop1Item } from './pages/Shop1Item';
 import { GovtShop } from './pages/GovtShop';
 import { Shop2Item } from './pages/Shop2Item';
 import { ItemDetail } from './pages/ItemDetail';
+import { ShoppingCart } from './pages/ShoppingCart';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
+import { SnapLogin } from './pages/SnapStitchLogin'
+import { SnapRegister } from './pages/SnapStitchRegister'
+import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import RegisterOrg from './pages/RegisterOrg'
+import RegisterProd from './pages/RegisterProd'
+import RegisterProdBulk from './pages/RegisterProdBulk'
 
 const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
@@ -40,15 +47,17 @@ const AppContent = () => {
 
     return (
         <>
-            {!(location.pathname === '/Login' || location.pathname === '/Register' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
-                <Route path="/Home" element={<Home />} />
-                <Route path="/About" element={<About />} />
-                <Route path="/Contact" element={<Contact />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/Register" element={<Register />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
 
                 {/* Protect the following admin routes */}
@@ -71,17 +80,28 @@ const AppContent = () => {
                 <Route path="/Shop2" element={<GovtShop />} />
                 <Route path="/Shop2/:company" element={<Shop2Item />} />
 
-
                 <Route path="/Shop1/:company/:name" element={<ItemDetail />} />
+
+                <Route path="/shoppingcart" element={<ShoppingCart />} />
+
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/corporate/products" element={<AdminProdPage />} />
+                <Route path="/admin/corporate/products/register" element={<RegisterProd />} />
+                <Route path="/admin/corporate/products/registerBulk" element={<RegisterProdBulk />} />
+
+                <Route path="/snap/login" element={<SnapLogin />} />
+                <Route path="/snap/register" element={<SnapRegister />} />
+                <Route path="/snap" element={<CreateEmployee />} />
 
             </Routes>
-            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/Register' || location.pathname.includes("admin")) && <Footer />}
+
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
+
         </>
     );
 };

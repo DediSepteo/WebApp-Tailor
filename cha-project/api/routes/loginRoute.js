@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const organizationModel = require('../models/organizationModel'); // Adjust path if necessary
+const employeeModel = require('../models/employeeModel')
 const db = require('../models/dbconnection');
 
 const router = express.Router();
@@ -26,24 +27,59 @@ router.post('/', (req, res) => {
         }
 
         const organization = results[0];
-        const match = await bcrypt.compare(password.toString(), organization.password);
+        // return res.send(organization)
+        const match = await bcrypt.compare(password.toString(), organization.password)
         if (!match) {
             return res.status(403).send("Incorrect credentials");
         }
 
-        // Create a token with org role and send it to the client
-        const token = jwt.sign({
-            org_id: organization.org_id,
-            email: organization.email,
-            org_name: organization.name,
-            role: 'organization'
-        }, JWT_SECRET, { expiresIn: '1h' });
-
+        // Create a token and send it to the client
+        console.log(organization)
+        const token = jwt.sign({ org_id: organization.org_id, email: organization.email, org_name: organization.name }, JWT_SECRET, { expiresIn: '1h' });
         return res.json({ token });
     });
 });
 
-// **Login route for admin**
+// Login route for employee
+router.post('/employee', (req, res) => {
+    const { email, password, encodedOrgID } = req.body;
+
+    const org_id = jwt.decode(encodedOrgID).orgID
+
+    if (!email || !password) {
+        return res.status(400).send('Email and password are required');
+    }
+    else if (!org_id) {
+        return res.status(400).send("Organization ID not found")
+    }
+
+    employeeModel.getEmpPass(email, org_id, async (err, results) => {
+        if (err) {
+            console.error("Error retrieving employee", err);
+            return res.status(500).send("Error retrieving employee");
+        }
+
+        if (results.length === 0) {
+            return res.status(401).send('Account not found');
+        }
+
+        const employee = results[0];
+        // return res.send(employee)
+        const match = await bcrypt.compare(password.toString(), employee.password)
+        if (!match) {
+            return res.status(403).send("Incorrect credentials")
+        }
+
+        // Create a token and send it to the client
+        console.log(employee)
+        const token = jwt.sign({ org_id: employee.org_id, email: employee.email, org_name: employee.name }, JWT_SECRET, { expiresIn: '1h' });
+        return res.json({ token });
+    })
+});
+
+
+
+// Login route for admin
 router.post('/admin', (req, res) => {
     const { email, password } = req.body;
 

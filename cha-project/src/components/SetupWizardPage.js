@@ -3,6 +3,7 @@ import AdminSideNavBar from '../components/AdminSideNavBar'
 import styles from '../styles/SetupWizardPage.module.css'
 
 const SetupWizardPage = ({ title, fields, onSubmit }) => {
+
     // addedRows does not count the first unremovable row in the table
     const [addedRows, setAddedRows] = useState(0)
     const [tableInputs, setTableInputs] = useState([])
@@ -23,13 +24,9 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
         setTableInputs(newTableInputs);
     };
 
-    // useEffect(() => {
-    //     console.log("Rows")
-    //     console.log(rows)
-    // }, [rows])
-
     useEffect(() => {
-        fields.find(field => field.fieldType === 'tableInput').onChange(tableInputs);
+        if (fields.find(field => field.fieldType === 'tableInput'))
+            fields.find(field => field.fieldType === 'tableInput').onChange(tableInputs);
     }, [tableInputs])
 
 
@@ -45,19 +42,16 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
 
         if (existingItem) {
             // If it exists, update the input field
-            existingItem[title] = value;
+            existingItem[title.toLowerCase()] = value;
         } else {
             // If it doesn't exist, create a new entry
             newTableInputs.push({
-                [title]: value
+                [title.toLowerCase()]: value
             });
         }
+        console.log(newTableInputs)
         setTableInputs(newTableInputs);  // Update the state
     };
-
-    useEffect(() => {
-        console.log(tableInputs)
-    }, [tableInputs])
 
     return (
         <main style={{ display: "flex", flexDirection: "row" }}>
@@ -78,19 +72,35 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                     required={field.required}
                                 />
                             )}
+                            {field.fieldType === 'textarea' && (
+                                <textarea
+                                    className={styles.textArea}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    required={field.required}
+                                />
+                            )}
                             {field.fieldType === 'dropdown' && (
-                                <select value={field.value} onChange={field.onChange} required={field.required} className={styles.dropDown}>
-                                    <option value="" disabled>Select an option</option>
-                                    {field.options.map((option, i) => (
-                                        <option key={i} value={option.value}>
-                                            {option.value}
-                                        </option>
-                                    ))}
+                                <select value={field.id} onChange={field.onChange} required={field.required} className={styles.dropDown}>
+                                    <option value="" disabled selected="selected">Select an option</option>
+                                    {field.options.map((option, i) => {
+                                        return (
+                                            <option key={i} value={option.id}>
+                                                {option.value}
+                                            </option>
+                                        )
+                                    })}
                                 </select>
+                            )}
+                            {field.fieldType === 'upload' && (
+                                <input
+                                    type="file"
+                                    onChange={field.onChange}
+                                    accept="image/png, image/jpeg" />
                             )}
                             {field.fieldType === 'tableInput' && (
                                 <div>
-                                    <table ref={tableField} style={{ borderCollapse: "collapse", border: "0.5px solid #D9D9D9", width: "80%" }}>
+                                    <table ref={tableField} style={{ borderCollapse: "collapse", border: "0.5px solid #D9D9D9", width: "80%" }} >
                                         <thead>
                                             <tr>
                                                 {field.headers.map((header) => (
@@ -99,7 +109,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                 <th className={styles.th}></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody className={styles.tbody}>
                                             <tr>
                                                 {field.headers.map((header) => {
                                                     const title = header.title
@@ -108,13 +118,23 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                         return (
                                                             <td className={styles.td}>
                                                                 <input type={header.type ? header.type : "text"}
-                                                                    className={header.isInputLong ? styles.inputLong : undefined}
                                                                     step={header.step ? header.step : undefined}
                                                                     onChange={(e) => handleInputChange(0, title, e.target.value)} />
                                                             </td>
                                                         )
                                                     }
-                                                    if (type === "upload") {
+                                                    else if (type === "textarea") {
+                                                        return (
+                                                            <td className={styles.td}>
+                                                                <textarea
+                                                                    className={styles.tableTextArea}
+                                                                    type={header.type ? header.type : "text"}
+                                                                    step={header.step ? header.step : undefined}
+                                                                    onChange={(e) => handleInputChange(0, title, e.target.value)} />
+                                                            </td>
+                                                        )
+                                                    }
+                                                    else if (type === "upload") {
                                                         return <td className={styles.td}>
                                                             <input type="file"
                                                                 id="fileInput"
@@ -137,7 +157,6 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                 return (
                                                                     <td className={styles.td} key={headerIndex}>
                                                                         <input
-                                                                            className={header.isInputLong ? styles.inputLong : undefined}
                                                                             type={header.type || "text"}
                                                                             step={header.step || undefined}
                                                                             value={inputValue}
@@ -145,7 +164,20 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                         />
                                                                     </td>
                                                                 );
-                                                            } else if (type === "upload") {
+
+                                                            }
+                                                            else if (type === "textarea") {
+                                                                return (
+                                                                    <td className={styles.td}>
+                                                                        <textarea
+                                                                            className={styles.tableTextArea}
+                                                                            type={header.type ? header.type : "text"}
+                                                                            step={header.step ? header.step : undefined}
+                                                                            onChange={(e) => handleInputChange(rowIndex + 1, title, e.target.value)} />
+                                                                    </td>
+                                                                )
+                                                            }
+                                                            else if (type === "upload") {
                                                                 return (
                                                                     <td className={styles.td} key={headerIndex}>
                                                                         <input type="file"

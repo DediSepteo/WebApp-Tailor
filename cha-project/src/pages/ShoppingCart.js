@@ -40,6 +40,7 @@ const cartItems = [
 
 export const ShoppingCart = () => {
     const [quantities, setQuantities] = useState(cartItems.map(item => item.quantity));
+    const [lastValidQuantities, setLastValidQuantities] = useState(cartItems.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
@@ -63,7 +64,9 @@ export const ShoppingCart = () => {
 
     useEffect(() => {
         setCart(filteredCartItems);
-        setQuantities(filteredCartItems.map(item => item.quantity));
+        const initialQuantities = filteredCartItems.map(item => item.quantity);
+        setQuantities(initialQuantities);
+        setLastValidQuantities(initialQuantities); // Initialize last valid quantities
     }, []);
 
     // Function to calculate subtotal
@@ -169,10 +172,10 @@ export const ShoppingCart = () => {
 
             // Ensure the value is valid, revert to original if invalid or blank
             if (currentValue === '' || isNaN(currentValue) || currentValue < 1 || currentValue > 50) {
-                newQuantities[index] = cartItems[index].quantity; // Revert to the original quantity if invalid
+                newQuantities[index] = lastValidQuantities[index]; // Revert to the original quantity if invalid
             } else {
                 // Update cartItems with the new valid value (if needed)
-                updateLocalStorageCart(newQuantities);
+                setLastValidQuantities(newQuantities);
             }
 
             return newQuantities;

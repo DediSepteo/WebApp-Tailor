@@ -25,6 +25,32 @@
     align-items: center;
 }
 
+.successState {
+    position: fixed;
+    bottom: 20px;
+    right: 1%;
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+    padding: 2%;
+    background-color: #E3FFC4;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+}
+
+.successState.show {
+    opacity: 1;
+}
+
+.successIcon {
+    font-size: 1.5vw;
+    color: #AABA11;
+    margin-right: 10px;
+}
+
 .mainContainer {
     display: flex;
     flex-direction: row;
@@ -121,7 +147,10 @@
     border-color: #28A197;
 }
 
-.sizeLabel {
+.sizeContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
     font-family: "Montserrat";
     font-size: 1vw;
 }
@@ -151,6 +180,66 @@
     transform: translateY(-50%);
     color: grey;
     pointer-events: none;   /* Prevents arrow from interfering with clicks */
+}
+
+.quantityContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.quantityTitle {
+    font-family: "Montserrat";
+    margin-right: 10px;
+    font-size: 1vw;
+}
+
+/* Box for - and + buttons */
+.quantityBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid grey;
+    background-color: #ffffff;
+    min-width: 30px;
+    min-height: 30px;
+    cursor: pointer;
+}
+
+/* Rectangle for quantity display */
+.quantityRectangle {
+    font-family: "Noto Serif TC";
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    min-width: 40px;
+    min-height: 30px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    cursor: pointer;
+}
+
+.quantityInput {
+    font-family: "Noto Serif TC";
+    font-size: 1em;
+    font-weight: 600;
+    outline: none;
+    width: 40px;
+    text-align: center;
+    height: 31px;
+    box-sizing: border-box;
+
+}
+
+/* Button styling */
+.quantityButton {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2em;
+    color: #000000;
+    cursor: pointer;
 }
 
 .addItem {
@@ -211,7 +300,7 @@
     .colorSelector {
         font-size: 2vw;
     }
-    .sizeLabel {
+    .sizeContainer {
         font-size: 2vw;
     }
     .selectSize {
@@ -219,6 +308,9 @@
     }
     .selectWrapper::after {
         font-size: 1.8vw;
+    }
+    .quantityTitle {
+        font-size: 2vw;
     }
     .addItem {
         font-size: 1.8vw;
@@ -234,6 +326,16 @@
         line-height: 1.6;
         font-size: 2vw;
         margin-bottom: 6vh;
+    }
+    .successState {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        padding: 4%;
+    }
+    .successIcon {
+        font-size: 3vw;
+        margin-right: 10px;
     }
 }
 
@@ -281,7 +383,7 @@
     .colorSelector {
         font-size: 3.2vw;
     }
-    .sizeLabel {
+    .sizeContainer {
         font-size: 3.2vw;
     }
     .selectSize {
@@ -289,6 +391,9 @@
     }
     .selectWrapper::after {
         font-size: 2.5vw;
+    }
+    .quantityTitle {
+        font-size: 3.2vw;
     }
     .addItem {
         font-size: 3vw;

@@ -23,9 +23,10 @@ const AdminPage = () => {
 
     useEffect(() => {
         // Get Orders
+        // fetch('/api/order/get-latest-order', {
         fetch('http://localhost:3000/api/order/get-latest-order', {
             headers: {
-                // 'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
                 'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
             }
         })

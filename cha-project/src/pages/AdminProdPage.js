@@ -3,7 +3,7 @@ import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
 import styles from "../styles/AdminProdPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 // const prodData = [
@@ -17,6 +17,8 @@ const AdminProdPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [prodData, setProdData] = useState([])
     const [prodDeleteID, setProdDeleteID] = useState("")
+
+    const navigate = useNavigate()
 
     const toggleDeletePopUp = (id) => {
         setProdDeleteID(id)
@@ -59,6 +61,10 @@ const AdminProdPage = () => {
         }
     }
 
+    const editProd = (category, id, fields) => {
+        navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
+    }
+
     useEffect(() => {
         fetch('http://localhost:3000/api/product/corp/recent')
             .then(response => response.json())
@@ -97,20 +103,48 @@ const AdminProdPage = () => {
                                 <th>Price</th>
                             </tr>
                             {prodData.length > 0 ? (
-                                prodData.map((prodData) => (
-                                    <tr id={prodData.prod_id}>
-                                        <td>{prodData.name}</td>
-                                        <td>{prodData.org_name}</td>
-                                        <td>{prodData.description}</td>
-                                        <td>{prodData.price}</td>
-                                        <td className={styles.tableBtns}>
-                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <NavLink className={styles.editBtn}>Edit</NavLink>
-                                                <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(prodData.prod_id)}>Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
+                                prodData.map((prodData) => {
+                                    const fields = [
+                                        {
+                                            key: "name",
+                                            fieldType: "input",
+                                            label: "Product Name",
+                                            type: "text",
+                                            required: true,
+                                            currentVal: prodData.name,
+                                        },
+                                        {
+                                            key: "desc",
+                                            fieldType: "textarea",
+                                            label: "Product Description",
+                                            type: "textarea",
+                                            required: true,
+                                            currentVal: prodData.description
+                                        },
+                                        {
+                                            key: "price",
+                                            fieldType: "input",
+                                            label: "Product Price",
+                                            type: "number",
+                                            required: true,
+                                            currentVal: prodData.price
+                                        }
+                                    ]
+                                    return (
+                                        <tr id={prodData.prod_id}>
+                                            <td>{prodData.name}</td>
+                                            <td>{prodData.org_name}</td>
+                                            <td>{prodData.description}</td>
+                                            <td>{prodData.price}</td>
+                                            <td className={styles.tableBtns}>
+                                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                    <button className={styles.editBtn} onClick={() => editProd("product", prodData.prod_id, fields)}>Edit</button>
+                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(prodData.prod_id)}>Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                             ) : (
                                 <tr>
                                     <td colSpan="5">No products available</td>

@@ -12,6 +12,20 @@ const Product = {
         });
     },
 
+    getGovt: (callback) => {
+        const query = `SELECT p.price, p.prod_id, p.name, p.description, o.name as org_name
+                        FROM products as p, organization as o
+                        WHERE o.type = "Government" AND p.org_id = o.org_id
+                        ORDER BY p.prod_id DESC;`
+        db.query(query, (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
+    // Corp Product
     getCorp: (callback) => {
         const query = `SELECT p.price, p.prod_id, p.name, p.description, o.name as org_name
                         FROM products as p, organization as o

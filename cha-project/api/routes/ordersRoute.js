@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/get-latest-order', verifyToken, (req, res) => {
+router.get('/get-latest-order', (req, res) => { //verify token for protected route, add a verifyToken for protect route
     Order.getLatestOrder((err, latestOrder) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to retrieve latest order' });

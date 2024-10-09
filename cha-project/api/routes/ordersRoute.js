@@ -22,6 +22,15 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/get-latest-order', (req, res) => {
+    Order.getLatestOrder((err, latestOrder) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to retrieve latest order' });
+        }
+        res.json(latestOrder);
+    });
+})
+
 // Get order by ID
 router.get('/:id', (req, res) => {
     const orderId = req.params.id;

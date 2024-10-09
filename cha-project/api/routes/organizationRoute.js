@@ -46,13 +46,30 @@ router.get('/', (req, res) => {
     });
 });
 
+// Get Govt
+router.get('/govt', (req, res) => {
+    console.log('showing govt')
+    organizationModel.getAllGovt((err, results) => {
+        if (err) {
+            console.error('Error fetching govt org:', err);
+            return res.status(500).send('Error fetching govt org');
+        }
+        console.log('Fetched govt org data:', results); // for debuggin
+        res.setHeader('Content-Type', 'application/json', results);
+        res.json(results);
+    });
+})
+
+// Get corp
 router.get(`/corp`, (req, res) => {
+    console.log("show corp")
     organizationModel.getAllCorp((err, results) => {
         if (err) {
             console.error("Error fetching organization:", err)
             return res.status(500).send('Error fetching organization');
         }
-        res.setHeader('Content-Type', 'application/json');
+        console.log('Fetched corp org data:', results); // for debuggin
+        res.setHeader('Content-Type', 'application/json', results);
         res.json(results);
     })
 })

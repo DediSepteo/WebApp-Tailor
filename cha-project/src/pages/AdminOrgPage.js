@@ -16,6 +16,7 @@ import { NavLink } from 'react-router-dom';
 const AdminPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [orgsData, setOrgsData] = useState([])
+    const [orgCorpData, setOrgCorpData] = useState([])
     const [orgDeleteID, setOrgDeleteID] = useState("")
 
     const toggleDeletePopUp = (id) => {
@@ -59,6 +60,7 @@ const AdminPage = () => {
     }
 
     useEffect(() => {
+        // for the recent 
         fetch('http://localhost:3000/api/org/corp/recent')
             .then(response => response.json())
             .then(data => {

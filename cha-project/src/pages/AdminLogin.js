@@ -25,6 +25,7 @@ const AdminLogin = () => {
 
             const data = await response.json();
             sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('role', 'admin')
 
             navigate('/admin/dashboard'); // Adjust the route as needed
         } catch (error) {

@@ -8,6 +8,8 @@ import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
 import AdminProdPage from './pages/AdminProdPage';
+import AdminOrgGovtPage from './pages/AdminOrgGovt'
+import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
@@ -68,6 +70,10 @@ const AppContent = () => {
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
+                {/* for gov */}
+                <Route path="/admin/government/orgs" element={<AdminOrgGovtPage />} />
+                <Route path="/admin/go/orgs/register" element={<RegisterOrg />} />
+
 
                 <Route path="/Shop1" element={<CorporateShop />} />
                 <Route path="/Shop1/:company" element={<Shop1Item />} />
@@ -82,6 +88,7 @@ const AppContent = () => {
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
                 <Route path="/admin/corporate/products" element={<AdminProdPage />} />

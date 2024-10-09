@@ -15,7 +15,6 @@ const cartItems = [
             require('../assets/security.png'),
             require('../assets/restaurant.png')
         ],
-        quantity: 1,
     },
     {
         uni_id: 4,
@@ -26,7 +25,6 @@ const cartItems = [
             require('../assets/security.png'),
             require('../assets/restaurant.png')
         ],
-        quantity: 1,
     },
     {
         uni_id: 5,
@@ -37,12 +35,12 @@ const cartItems = [
             require('../assets/security.png'),
             require('../assets/restaurant.png')
         ],
-        quantity: 1,
     },
 ];
 
 export const ShoppingCart = () => {
     const [quantities, setQuantities] = useState(cartItems.map(item => item.quantity));
+    const [lastValidQuantities, setLastValidQuantities] = useState(cartItems.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
@@ -60,11 +58,15 @@ export const ShoppingCart = () => {
                 ...item,
                 size: localCartItem?.size || 'N/A',
                 color: localCartItem?.color || 'N/A',
+                quantity: localCartItem?.quantity || 1,
             };
         });
 
     useEffect(() => {
         setCart(filteredCartItems);
+        const initialQuantities = filteredCartItems.map(item => item.quantity);
+        setQuantities(initialQuantities);
+        setLastValidQuantities(initialQuantities); // Initialize last valid quantities
     }, []);
 
     // Function to calculate subtotal
@@ -77,6 +79,18 @@ export const ShoppingCart = () => {
     const subtotal = calculateSubtotal();
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
+
+    // Update localStorage when quantities change
+    const updateLocalStorageCart = (updatedQuantities) => {
+        const updatedCart = localStorageCart.map((cartItem, index) => {
+            const matchedItem = cart.find(item => item.uni_id === cartItem.id);
+            if (matchedItem) {
+                return { ...cartItem, quantity: updatedQuantities[index] };
+            }
+            return cartItem;
+        });
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    };
 
     // Handle item removal
     const handleRemoveItem = (index) => {
@@ -97,6 +111,7 @@ export const ShoppingCart = () => {
             const newQuantities = [...prevQuantities];
             if (newQuantities[index] < 50) {
                 newQuantities[index] += 1;
+                updateLocalStorageCart(newQuantities);
             }
             return newQuantities;
         });
@@ -108,6 +123,7 @@ export const ShoppingCart = () => {
             const newQuantities = [...prevQuantities];
             if (newQuantities[index] > 1) {
                 newQuantities[index] -= 1;
+                updateLocalStorageCart(newQuantities);
             }
             return newQuantities;
         });
@@ -142,6 +158,7 @@ export const ShoppingCart = () => {
             setQuantities(prevQuantities => {
                 const newQuantities = [...prevQuantities];
                 newQuantities[index] = value === '' ? '' : parseInt(value, 10); // Allow temporary empty string or a valid number
+                updateLocalStorageCart(newQuantities);
                 return newQuantities;
             });
         }
@@ -155,10 +172,10 @@ export const ShoppingCart = () => {
 
             // Ensure the value is valid, revert to original if invalid or blank
             if (currentValue === '' || isNaN(currentValue) || currentValue < 1 || currentValue > 50) {
-                newQuantities[index] = cartItems[index].quantity; // Revert to the original quantity if invalid
+                newQuantities[index] = lastValidQuantities[index]; // Revert to the original quantity if invalid
             } else {
                 // Update cartItems with the new valid value (if needed)
-                cartItems[index].quantity = Number(currentValue);
+                setLastValidQuantities(newQuantities);
             }
 
             return newQuantities;

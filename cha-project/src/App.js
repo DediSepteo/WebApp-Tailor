@@ -30,6 +30,7 @@ import NewLandingPage from './pages/new-landing-page'; // Correct import stateme
 import RegisterOrg from './pages/RegisterOrg'
 import RegisterProd from './pages/RegisterProd'
 import RegisterProdBulk from './pages/RegisterProdBulk'
+import EditInfo from './components/EditInfo'
 
 const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
@@ -94,6 +95,7 @@ const AppContent = () => {
                 <Route path="/admin/corporate/products" element={<AdminProdPage />} />
                 <Route path="/admin/corporate/products/register" element={<RegisterProd />} />
                 <Route path="/admin/corporate/products/registerBulk" element={<RegisterProdBulk />} />
+                <Route path="/admin/edit" element={<EditInfo />} />
 
                 {/* govt page */}
                 <Route path="/admin/government/products" element={<AdminGovtProdPage />} />

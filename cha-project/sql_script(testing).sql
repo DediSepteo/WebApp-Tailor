@@ -12,6 +12,8 @@ CREATE TABLE Organization (
 
 Select * from Organization;
 Select * from Employee;
+Select * from products;
+
 
 Drop Table If Exists Employee;
 -- Create Employee Table
@@ -41,7 +43,7 @@ CREATE TABLE `Orders` (
 
 -- Create Product Table
 CREATE TABLE Products (
-    prod_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
     org_id INT, 
     price DECIMAL(10, 2) NOT NULL,
     description TEXT,
@@ -52,10 +54,10 @@ CREATE TABLE Products (
 -- Create Order_List Table
 Drop Table If Exists Order_List;
 CREATE TABLE Order_List (
-    prod_id INT,
+    product_id INT,
     order_id INT,
-    PRIMARY KEY (prod_id, order_id),
-    FOREIGN KEY (prod_id) REFERENCES Product(prod_id),
+    PRIMARY KEY (product_id, order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
     FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
 );
 

@@ -35,7 +35,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
     //     { "name": "prdouct", "price": 10, "description": "test", "image": "image" },
     // ]
 
-    const handleInputChange = (id, title, value) => {
+    const handleTableInputChange = (id, title, value) => {
         let newTableInputs = tableInputs;  // Copy the state array
 
         const existingItem = newTableInputs[id];
@@ -119,7 +119,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                             <td className={styles.td}>
                                                                 <input type={header.type ? header.type : "text"}
                                                                     step={header.step ? header.step : undefined}
-                                                                    onChange={(e) => handleInputChange(0, title, e.target.value)} />
+                                                                    onChange={(e) => handleTableInputChange(0, title, e.target.value)} />
                                                             </td>
                                                         )
                                                     }
@@ -130,7 +130,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                     className={styles.tableTextArea}
                                                                     type={header.type ? header.type : "text"}
                                                                     step={header.step ? header.step : undefined}
-                                                                    onChange={(e) => handleInputChange(0, title, e.target.value)} />
+                                                                    onChange={(e) => handleTableInputChange(0, title, e.target.value)} />
                                                             </td>
                                                         )
                                                     }
@@ -138,7 +138,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                         return <td className={styles.td}>
                                                             <input type="file"
                                                                 id="fileInput"
-                                                                onChange={(e) => handleInputChange(0, title, e.target.files[0])}
+                                                                onChange={(e) => handleTableInputChange(0, title, e.target.files[0])}
                                                                 accept="image/png, image/jpeg" />
                                                         </td>
                                                     }
@@ -160,7 +160,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                             type={header.type || "text"}
                                                                             step={header.step || undefined}
                                                                             value={inputValue}
-                                                                            onChange={(e) => handleInputChange(rowIndex + 1, title, e.target.value)}
+                                                                            onChange={(e) => handleTableInputChange(rowIndex + 1, title, e.target.value)}
                                                                         />
                                                                     </td>
                                                                 );
@@ -173,7 +173,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                             className={styles.tableTextArea}
                                                                             type={header.type ? header.type : "text"}
                                                                             step={header.step ? header.step : undefined}
-                                                                            onChange={(e) => handleInputChange(rowIndex + 1, title, e.target.value)} />
+                                                                            onChange={(e) => handleTableInputChange(rowIndex + 1, title, e.target.value)} />
                                                                     </td>
                                                                 )
                                                             }
@@ -182,7 +182,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                                                     <td className={styles.td} key={headerIndex}>
                                                                         <input type="file"
                                                                             id="fileInput"
-                                                                            onChange={(e) => handleInputChange(rowIndex + 1, title, e.target.files[0])}
+                                                                            onChange={(e) => handleTableInputChange(rowIndex + 1, title, e.target.files[0])}
                                                                             accept="image/png, image/jpeg" />
                                                                     </td>
                                                                 );

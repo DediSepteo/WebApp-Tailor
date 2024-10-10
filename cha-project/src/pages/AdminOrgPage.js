@@ -4,6 +4,7 @@ import AdminNavBar from '../components/AdminNavBar'
 import styles from "../styles/AdminOrgPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 // const orgData = [
@@ -18,6 +19,8 @@ const AdminPage = () => {
     const [orgsData, setOrgsData] = useState([])
     const [orgCorpData, setOrgCorpData] = useState([])
     const [orgDeleteID, setOrgDeleteID] = useState("")
+
+    const navigate = useNavigate()
 
     const toggleDeletePopUp = (id) => {
         setOrgDeleteID(id)
@@ -57,6 +60,10 @@ const AdminPage = () => {
             console.error('Error:', error);
             alert('Error retrieving organizations');
         }
+    }
+
+    const editOrg = (category, id, fields) => {
+        navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
     }
 
     useEffect(() => {
@@ -111,21 +118,50 @@ const AdminPage = () => {
                                 <th>No. of clothing types</th>
                             </tr>
                             {orgsData.length > 0 ? (
-                                orgsData.map((orgData) => (
-                                    <tr id={orgData.org_id}>
-                                        <td>{orgData.name}</td>
-                                        <td>{orgData.employeeNo}</td>
-                                        <td>{orgData.email}</td>
-                                        <td>{orgData.industry}</td>
-                                        <td>{orgData.clothingNo}</td>
-                                        <td className={styles.tableBtns}>
-                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <NavLink className={styles.editBtn}>Edit</NavLink>
-                                                <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.org_id)}>Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
+                                orgsData.map((orgData) => {
+                                    console.log(orgData.industry)
+                                    const fields = [
+                                        {
+                                            key: "name",
+                                            fieldType: "input",
+                                            label: "Organization Name",
+                                            type: "text",
+                                            required: true,
+                                            currentVal: orgData.name,
+                                        },
+                                        {
+                                            key: "email",
+                                            fieldType: "input",
+                                            label: "Organization Email",
+                                            type: "text",
+                                            required: true,
+                                            currentVal: orgData.email
+                                        },
+                                        {
+                                            key: "industry",
+                                            fieldType: "dropdown",
+                                            label: "Organization Industry",
+                                            required: true,
+                                            currentVal: orgData.industry,
+                                            options: [{ "value": "Healthcare" }, { "value": "Construction" }, { "value": "Technology" }, { "value": "Education" }]
+                                        }
+                                    ]
+                                    return (
+                                        <tr id={orgData.org_id}>
+                                            <td>{orgData.name}</td>
+                                            <td>{orgData.employeeNo}</td>
+                                            <td>{orgData.email}</td>
+                                            <td>{orgData.industry}</td>
+                                            <td>{orgData.clothingNo}</td>
+                                            <td className={styles.tableBtns}>
+                                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                    <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.org_id, fields)}>Edit</button>
+                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.org_id)}>Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                             ) : (
                                 <tr>
                                     <td colSpan="5">No organizations registered</td>

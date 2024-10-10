@@ -117,6 +117,19 @@ router.post('/register', async (req, res) => {
     });
 });
 
+router.put("/:id", (req, res) => {
+    const id = Number(req.params.id)
+    const data = req.body
+    const { name, email, industry } = data
+    organizationModel.updateOrg(id, name, email, industry, (err, results) => {
+        if (err) {
+            console.error("Failed to update organization", err)
+            return res.status(500).send("Error updating organization")
+        }
+        return res.status(204).send("Organization updated successfully")
+    })
+})
+
 router.delete('/:id', (req, res) => {
     const orgID = req.params.id;
     console.log(orgID)

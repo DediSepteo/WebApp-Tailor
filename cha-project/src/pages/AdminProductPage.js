@@ -69,7 +69,6 @@ const AdminProdPage = () => {
         fetch('http://localhost:3000/api/product/corp/recent')
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 setProdData(data)
             })
             .catch(error => console.error('Error fetching product:', error));
@@ -131,15 +130,15 @@ const AdminProdPage = () => {
                                         }
                                     ]
                                     return (
-                                        <tr id={prodData.prod_id}>
+                                        <tr id={prodData.product_id}>
                                             <td>{prodData.name}</td>
                                             <td>{prodData.org_name}</td>
                                             <td>{prodData.description}</td>
                                             <td>{prodData.price}</td>
                                             <td className={styles.tableBtns}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                    <button className={styles.editBtn} onClick={() => editProd("product", prodData.prod_id, fields)}>Edit</button>
-                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(prodData.prod_id)}>Delete</button>
+                                                    <button className={styles.editBtn} onClick={() => editProd("product", prodData.product_id, fields)}>Edit</button>
+                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(prodData.product_id)}>Delete</button>
                                                 </div>
                                             </td>
                                         </tr>

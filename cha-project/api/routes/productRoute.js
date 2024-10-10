@@ -15,6 +15,20 @@ router.get('/corp/recent', (req, res) => {
     })
 })
 
+// for gov product page
+router.get('/govt/recent', (req, res) => {
+    productModel.getGovt((err, results) => {
+        if (err) {
+            console.error('Error retrieving product:', err);
+            return res.status(500).send('Error retrieving product');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        console.log(results)
+        return res.json(results);
+
+    })
+})
+
 router.post('/register', async (req, res) => {
     const productData = req.body
     const isBulk = Array.isArray(productData)

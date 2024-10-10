@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const organizationModel = require('../models/organizationModel'); // Adjust path if necessary
 const employeeModel = require('../models/employeeModel')
 const db = require('../models/dbconnection');
+const verifyToken = require('../middleware/authMiddleware')
 
 const router = express.Router();
 const { JWT_SECRET } = process.env; // Use your secret key from environment variables
@@ -80,7 +81,7 @@ router.post('/employee', (req, res) => {
 
 
 // Login route for admin
-router.post('/admin', (req, res) => {
+router.post('/admin', (req, res) => { // add a verifytoken ti secure api, not yet added due to testing
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -89,7 +90,7 @@ router.post('/admin', (req, res) => {
 
     // Assuming admin passwords are hashed as well
     const query = 'SELECT * FROM admin WHERE email = ?';
-    
+
     db.query(query, [email], async (err, results) => {
         if (err) {
             return res.status(500).send('Database error');
@@ -116,24 +117,9 @@ router.post('/admin', (req, res) => {
     });
 });
 
-// **Middleware to protect routes and validate JWT**
-const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) {
-        return res.status(401).json({ message: 'Access Denied: No Token Provided' });
-    }
-
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Failed to authenticate token' });
-        }
-        req.user = decoded; // Set the user info in the request
-        next();
-    });
-};
 
 // **Protected admin route**
-router.get('/dashboard', verifyToken, (req, res) => {
+router.get('/dashboard', (req, res) => {
     if (req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Admin access only' });
     }

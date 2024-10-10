@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/orderModel'); // Import the Order model
+const verifyToken = require('../middleware/authMiddleware')
 
 // Get the sum of the orders revenue
 router.get('/revenue', (req, res) => {
@@ -22,7 +23,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/get-latest-order', (req, res) => {
+router.get('/get-latest-order', (req, res) => { //verify token for protected route, add a verifyToken for protect route
     Order.getLatestOrder((err, latestOrder) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to retrieve latest order' });

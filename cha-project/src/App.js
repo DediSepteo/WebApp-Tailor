@@ -8,6 +8,7 @@ import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
 import AdminProductPage from './pages/AdminProductPage';
+import AdminGovtProdPage from './pages/AdminGovtProdPage';
 import AdminOrgGovtPage from './pages/AdminOrgGovt'
 import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
@@ -95,6 +96,10 @@ const AppContent = () => {
                 <Route path="/admin/corporate/products/register" element={<RegisterProduct />} />
                 <Route path="/admin/corporate/products/registerBulk" element={<RegisterProductBulk />} />
                 <Route path="/admin/edit" element={<EditInfo />} />
+
+                {/* govt page */}
+                <Route path="/admin/government/products" element={<AdminGovtProdPage />} />
+
 
                 <Route path="/snap/login" element={<SnapLogin />} />
                 <Route path="/snap/register" element={<SnapRegister />} />

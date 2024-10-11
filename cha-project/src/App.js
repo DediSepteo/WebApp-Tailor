@@ -26,8 +26,8 @@ import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import RegisterOrg from './pages/RegisterOrg'
-import RegisterProd from './pages/RegisterProd'
-import RegisterProdBulk from './pages/RegisterProdBulk'
+import RegisterProduct from './pages/RegisterProduct'
+import RegisterProductBulk from './pages/RegisterProductBulk'
 import EditInfo from './components/EditInfo'
 
 const ProtectAdminRoute = ({ element }) => {
@@ -90,9 +90,9 @@ const AppContent = () => {
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
-                <Route path="/admin/corporate/products" element={<AdminProdPage />} />
-                <Route path="/admin/corporate/products/register" element={<RegisterProd />} />
-                <Route path="/admin/corporate/products/registerBulk" element={<RegisterProdBulk />} />
+                <Route path="/admin/corporate/products" element={<AdminProductPage />} />
+                <Route path="/admin/corporate/products/register" element={<RegisterProduct />} />
+                <Route path="/admin/corporate/products/registerBulk" element={<RegisterProductBulk />} />
                 <Route path="/admin/edit" element={<EditInfo />} />
 
                 {/* govt page */}

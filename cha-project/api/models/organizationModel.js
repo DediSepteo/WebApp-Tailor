@@ -71,6 +71,16 @@ const Organization = {
             callback(null, results);
         });
     },
+
+    updateOrg: (id, name, email, industry, callback) => {
+        const query = 'UPDATE organization SET name = ?, email = ?, industry = ? WHERE org_id = ?'
+        db.query(query, [name, email, industry, id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
     deleteOrg: (id, callback) => {
         const query = 'DELETE FROM ORGANIZATION WHERE org_id = ?';
 

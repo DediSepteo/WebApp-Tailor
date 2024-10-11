@@ -47,7 +47,7 @@ const Product = {
             callback(null, results[0].productNo);
         });
     },
-    createProd: (name, org_id, price, description, callback) => {
+    createProduct: (name, org_id, price, description, callback) => {
         const query = 'INSERT INTO products (name, org_id, price, description) VALUES (?, ?, ?, ?)';
 
         db.query(query, [name, org_id, price, description], (err, results) => {
@@ -58,7 +58,17 @@ const Product = {
         });
     },
 
-    deleteProd: (id, callback) => {
+    updateProduct: (id, name, desc, price, callback) => {
+        const query = 'UPDATE products SET name = ?, description = ?, price = ? WHERE product_id = ?'
+        db.query(query, [name, desc, price, id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
+    deleteProduct: (id, callback) => {
         const query = 'DELETE FROM products WHERE product_id = ?';
 
         db.query(query, [id], (err, results) => {

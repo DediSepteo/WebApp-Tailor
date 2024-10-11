@@ -18,6 +18,7 @@ const AdminPage = () => {
     const [orgsData, setOrgsData] = useState([])
     const [orgCorpData, setOrgCorpData] = useState([])
     const [orgDeleteID, setOrgDeleteID] = useState("")
+    const [pageTitle, setPageTitle] = useState("")
 
     const toggleDeletePopUp = (id) => {
         setOrgDeleteID(id)
@@ -59,9 +60,20 @@ const AdminPage = () => {
         }
     }
 
+    const getURL = window.location.href
+    console.log(getURL)
+
     useEffect(() => {
-        // for the recent 
-        fetch('http://localhost:3000/api/org/corp/recent')
+        const isCorpPage = getURL == "http://localhost:3001/admin/corporate/orgs"
+
+        const newPageTitle = isCorpPage ? 'Manage Organizatiton (Corporate)' : 'Manage Organizatiton (Government)';
+        setPageTitle(newPageTitle);
+
+        const url = isCorpPage
+            ? "http://localhost:3000/api/org/corp/recent"
+            : "http://localhost:3000/api/org/govt/recent"
+
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 const fetchEmployeeCounts = data.map(org => {
@@ -80,7 +92,7 @@ const AdminPage = () => {
                     });
             })
             .catch(error => console.error('Error fetching organization:', error));
-    }, []);
+    }, [getURL]);
 
 
 
@@ -95,7 +107,7 @@ const AdminPage = () => {
             )}
             <AdminSideNavBar />
             <div className={styles.container}>
-                <AdminNavBar pageName="Manage Organizations (Corporate)" />
+                <AdminNavBar pageName={pageTitle} />
                 <div className={styles.head}>
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>

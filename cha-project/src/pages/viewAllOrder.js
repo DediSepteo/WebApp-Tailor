@@ -31,7 +31,6 @@ const ViewAllOrder = () => {
     return (
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0 }}>
             <AdminSideNavBar />
-
             <div className={styles.orderHist}>
                 <div
                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}

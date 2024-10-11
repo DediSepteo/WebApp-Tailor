@@ -58,6 +58,7 @@ const CreateProduct = () => {
 
             catch (error) {
                 console.error('Error creating product');
+                alert("Failed to connect to backend")
             }
         }
 

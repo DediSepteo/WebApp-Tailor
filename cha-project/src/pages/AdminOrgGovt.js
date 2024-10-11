@@ -54,10 +54,16 @@ const AdminPage = () => {
 
     useEffect(() => {
         // for the recent 
-        fetch('http://localhost:3000/api/org/govt/recent')
-            .then(response => response.json())
-            .then(data => setOrgsData(data))
-            .catch(error => console.error('Error fetching organization:', error));
+        try {
+            fetch('http://localhost:3000/api/org/govt/recent')
+                .then(response => response.json())
+                .then(data => setOrgsData(data))
+                .catch(error => console.error('Error fetching organization:', error));
+        }
+        catch {
+            alert("Failed to connect to backend")
+        }
+
     }, []);
 
 
@@ -85,7 +91,7 @@ const AdminPage = () => {
                                 <th>No. of Employees</th>
                                 <th>Email</th>
                                 <th>Industry</th>
-                                <th>No. of clothing types</th>
+                                <th>No. of Products</th>
                             </tr>
                             {orgsData.length > 0 ? (
                                 orgsData.map((orgData) => (

@@ -7,7 +7,7 @@ const NewLandingPage = () => {
     return (
         <div className="container-fluid">
             <img
-                src={require('../assets/corperate group.jpg')}
+                src={require('../assets/corporate group.jpg')}
                 alt="Corporate"
                 className="landing-image darken-image"
             />

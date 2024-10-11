@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
-import styles from "../styles/AdminProdPage.module.css"
+import styles from "../styles/AdminProductPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
 import { NavLink } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ import { NavLink } from 'react-router-dom';
 //     { "id": 4, "name": "BrandTailors Co.", "employeeNo": 10, "email": "BrandTailors@gmail.com", "industry": "Healthcare", "clothingNo": 10 }
 // ]
 
-const AdminProdPage = () => {
+const AdminProductPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [prodData, setProdData] = useState([])
     const [prodDeleteID, setProdDeleteID] = useState("")
@@ -40,7 +40,7 @@ const AdminProdPage = () => {
         }
         catch (error) {
             console.error('Error:', error);
-            alert('Error deleting product');
+            alert('Failed to connect to backend');
         }
     }
 
@@ -138,4 +138,4 @@ const AdminProdPage = () => {
     );
 };
 
-export default AdminProdPage;
+export default AdminProductPage;

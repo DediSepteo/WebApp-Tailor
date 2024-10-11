@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
-import styles from "../styles/AdminProdPage.module.css"
+import styles from "../styles/AdminProductPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 //     { "id": 4, "name": "BrandTailors Co.", "employeeNo": 10, "email": "BrandTailors@gmail.com", "industry": "Healthcare", "clothingNo": 10 }
 // ]
 
-const AdminProdPage = () => {
+const AdminProductPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [prodData, setProdData] = useState([])
     const [prodDeleteID, setProdDeleteID] = useState("")
@@ -28,13 +28,13 @@ const AdminProdPage = () => {
     const handleDelete = async () => {
         console.log(prodDeleteID)
         try {
-            const response = await fetch(`http://localhost:3000/api/product${prodDeleteID}`, {
+            const response = await fetch(`http://localhost:3000/api/product/${prodDeleteID}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 alert("Product Deleted!")
-                // window.location.reload()
+                window.location.reload()
             }
             else {
                 alert('Failed to delete product');
@@ -100,6 +100,7 @@ const AdminProdPage = () => {
                                 <th>Organization</th>
                                 <th>Description</th>
                                 <th>Price</th>
+                                <th></th>
                             </tr>
                             {prodData.length > 0 ? (
                                 prodData.map((prodData) => {
@@ -171,4 +172,4 @@ const AdminProdPage = () => {
     );
 };
 
-export default AdminProdPage;
+export default AdminProductPage;

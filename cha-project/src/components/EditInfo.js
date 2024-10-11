@@ -50,17 +50,22 @@ const CreateProduct = () => {
                 return
         }
         console.log(data)
-        const response = await fetch(url, {
-            method: "PUT",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        if (response.ok) {
-            alert(`${category} Edited!`)
-            navigate("/admin/dashboard")
+        try {
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            if (response.ok) {
+                alert(`${category} Edited!`)
+                navigate("/admin/dashboard")
+            }
+            else {
+                alert(`Failed to edit ${category}`);
+            }
         }
-        else {
-            alert(`Failed to edit ${category}`);
+        catch {
+            alert("Failed to connect to backend")
         }
 
     }

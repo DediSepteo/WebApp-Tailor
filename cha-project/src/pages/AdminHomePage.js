@@ -22,45 +22,50 @@ const AdminPage = () => {
     };
 
     useEffect(() => {
+        try {
+            fetch('http://localhost:3000/api/order/get-latest-order', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                    'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
+                }
+            })
+                .then(response => response.json())
+                .then(data => setOrdersData(data))
+                .catch(error => console.error('Error fetching orders:', error));
+
+            // Get the total biz
+            fetch('http://localhost:3000/api/org/count/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                    'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setOrgCount(data.results);
+                    console.log('Organization Count:', data.results); // For debugging
+                })
+                .catch(error => console.error('Error fetching org count:', error));
+
+            // Get the sum of the revenue
+            fetch('http://localhost:3000/api/order/revenue', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                    'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setRevSum(data.totalRevenue);
+                    console.log("Revenue Data: ", data); // For debugging
+                })
+                .catch(error => console.error('Error fetching total revenue:', error));
+        }
         // Get Orders
         // fetch('/api/order/get-latest-order', {
-        fetch('http://localhost:3000/api/order/get-latest-order', {
-            headers: {
-                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
-                'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
-            }
-        })
-            .then(response => response.json())
-            .then(data => setOrdersData(data))
-            .catch(error => console.error('Error fetching orders:', error));
-
-        // Get the total biz
-        fetch('http://localhost:3000/api/org/count/', {
-            headers: {
-                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
-                'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setOrgCount(data.results);
-                console.log('Organization Count:', data.results); // For debugging
-            })
-            .catch(error => console.error('Error fetching org count:', error));
-
-        // Get the sum of the revenue
-        fetch('http://localhost:3000/api/order/revenue', {
-            headers: {
-                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
-                'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setRevSum(data.totalRevenue);
-                console.log("Revenue Data: ", data); // For debugging
-            })
-            .catch(error => console.error('Error fetching total revenue:', error));
+        catch {
+            alert("Failed to connect to backend")
+        }
     }, []);
 
     return (
@@ -117,9 +122,7 @@ const AdminPage = () => {
                 </div>
 
                 <div className={styles.orderHist}>
-                    <div
-                        style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}
-                    >
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
                         <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Latest Order History</div>
                         <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
                     </div>
@@ -164,7 +167,7 @@ const AdminPage = () => {
                     </table>
                 </div>
             </div>
-        </main>
+        </main >
     );
 };
 

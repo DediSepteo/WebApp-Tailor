@@ -51,7 +51,26 @@ const AdminPage = () => {
         try {
             fetch('http://localhost:3000/api/org/corp')
                 .then(response => response.json())
-                .then(data => setOrgsData(data))
+                .then(data => {
+                    const fetchCounts = data.map(org => {
+                        const id = org.org_id;
+                        return Promise.all([fetch(`http://localhost:3000/api/emp/count?org_id=${id}`), fetch(`http://localhost:3000/api/product/count?org_id=${id}`)])
+                            .then(responses => {
+                                return Promise.all(responses.map(response => response.json()));
+                            })
+                            .then(counts => {
+                                console.log(counts)
+                                org.employeeNo = counts[0]
+                                org.productNo = counts[1]
+                                return org
+                            })
+                    });
+                    Promise.all(fetchCounts)
+                        .then(updatedOrgs => {
+                            console.log(updatedOrgs)
+                            setOrgsData(updatedOrgs);
+                        });
+                })
                 .catch(error => console.error('Error fetching organization:', error));
 
         }
@@ -71,18 +90,22 @@ const AdminPage = () => {
         fetch('http://localhost:3000/api/org/corp/recent')
             .then(response => response.json())
             .then(data => {
-                const fetchEmployeeCounts = data.map(org => {
+                const fetchCounts = data.map(org => {
                     const id = org.org_id;
-                    return fetch(`http://localhost:3000/api/emp/count?org_id=${id}`)
-                        .then(response => response.json())
-                        .then(empData => {
-                            org.employeeNo = empData;
-                            return org;
-                        });
+                    return Promise.all([fetch(`http://localhost:3000/api/emp/count?org_id=${id}`), fetch(`http://localhost:3000/api/product/count?org_id=${id}`)])
+                        .then(responses => {
+                            return Promise.all(responses.map(response => response.json()));
+                        })
+                        .then(counts => {
+                            console.log(counts)
+                            org.employeeNo = counts[0]
+                            org.productNo = counts[1]
+                            return org
+                        })
                 });
-
-                Promise.all(fetchEmployeeCounts)
+                Promise.all(fetchCounts)
                     .then(updatedOrgs => {
+                        console.log(updatedOrgs)
                         setOrgsData(updatedOrgs);
                     });
             })
@@ -115,11 +138,11 @@ const AdminPage = () => {
                                 <th>No. of Employees</th>
                                 <th>Email</th>
                                 <th>Industry</th>
-                                <th>No. of clothing types</th>
+                                <th>No. of Products</th>
+                                <th></th>
                             </tr>
                             {orgsData.length > 0 ? (
                                 orgsData.map((orgData) => {
-                                    console.log(orgData.industry)
                                     const fields = [
                                         {
                                             key: "name",
@@ -152,7 +175,7 @@ const AdminPage = () => {
                                             <td>{orgData.employeeNo}</td>
                                             <td>{orgData.email}</td>
                                             <td>{orgData.industry}</td>
-                                            <td>{orgData.clothingNo}</td>
+                                            <td>{orgData.productNo}</td>
                                             <td className={styles.tableBtns}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.org_id, fields)}>Edit</button>
@@ -181,14 +204,14 @@ const AdminPage = () => {
                             <li className={styles.li}><NavLink className={styles.link}>Delete Organization</NavLink></li>
                         </ul>
                     </div>
-                    <div className={styles.manageDiv}>
+                    {/* <div className={styles.manageDiv}>
                         <div className={styles.manageHead}><span style={{ paddingLeft: "1em" }}>Product Management</span></div>
                         <ul>
                             <li className={styles.li}><NavLink className={styles.link}>View all Products</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Register New Product</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Delete Product</NavLink></li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>

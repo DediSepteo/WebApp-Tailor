@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar';
-import AdminNavBar from '../components/AdminNavBar';
 import styles from '../styles/AdminHomePage.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -10,16 +9,21 @@ const ViewAllOrder = () => {
     const [ordersPerPage] = useState(10); // Display 10 orders per page
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/order/')
-            .then(response => response.json())
-            .then(data => setOrdersData(data))
-            .catch(error => console.error('Error fetching orders:', error));
+        try {
+            fetch('http://localhost:3000/api/order/')
+                .then(response => response.json())
+                .then(data => setOrdersData(data))
+                .catch(error => console.error('Error fetching orders:', error));
+        }
+        catch {
+            alert("Failed to connect to backend")
+        }
     }, []);
 
     // Get current orders for the current page
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = ordersData.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = ordersData.length ? ordersData.slice(indexOfFirstOrder, indexOfLastOrder) : 0
 
     // Calculate total pages
     const totalPages = Math.ceil(ordersData.length / ordersPerPage);
@@ -29,10 +33,10 @@ const ViewAllOrder = () => {
     };
 
     return (
-        <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0 }}>
+        <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7' }}>
             <AdminSideNavBar />
 
-            <div className={styles.orderHist}>
+            <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: "white", padding: "0 1em 1em 1em", width: "88%" }}>
                 <div
                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}
                 >
@@ -93,7 +97,7 @@ const ViewAllOrder = () => {
                     ))}
                 </div>
             </div>
-        </main>
+        </main >
     );
 }
 

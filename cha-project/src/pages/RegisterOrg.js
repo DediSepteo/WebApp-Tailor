@@ -106,6 +106,7 @@ const CreateOrganization = () => {
             navigate("/admin/corporate/orgs")
         } catch (error) {
             console.error('Error creating organization');
+            alert("Failed to connect to backend")
         }
     };
 
@@ -142,7 +143,9 @@ const CreateOrganization = () => {
             value: orgIndustry,
             onChange: (e) => setOrgIndustry(e.target.value),
             required: true,
-            options: [{ "value": "Healthcare" }, { "value": "Construction" }, { "value": "Technology" }, { "value": "Education" }]
+            options: [{ "value": "Technology" }, { "value": "Finance" }, { "value": "Healthcare" }, { "value": "Manufacturing" },
+            { "value": "Retail" }, { "value": "Real Estate" }, { "value": "Transportation and Logistics" },
+            { "value": "Construction" }, { "value": "Marketing and Advertising" }, { "value": "Others" }]
         },
         {
             fieldType: 'tableInput',

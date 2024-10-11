@@ -7,9 +7,7 @@ import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
-import AdminProductPage from './pages/AdminProductPage';
-import AdminGovtProdPage from './pages/AdminGovtProdPage';
-import AdminOrgGovtPage from './pages/AdminOrgGovt'
+import AdminProdPage from './pages/AdminProductPage';
 import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -72,7 +70,7 @@ const AppContent = () => {
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
                 {/* for gov */}
-                <Route path="/admin/government/orgs" element={<AdminOrgGovtPage />} />
+                <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/go/orgs/register" element={<RegisterOrg />} />
 
 
@@ -98,7 +96,7 @@ const AppContent = () => {
                 <Route path="/admin/edit" element={<EditInfo />} />
 
                 {/* govt page */}
-                <Route path="/admin/government/products" element={<AdminGovtProdPage />} />
+                <Route path="/admin/government/products" element={<AdminProdPage />} />
 
 
                 <Route path="/snap/login" element={<SnapLogin />} />

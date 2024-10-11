@@ -1,40 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
-import styles from "../styles/AdminProductPage.module.css"
+import styles from "../styles/AdminProdPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-
-// const prodData = [
-//     { "id": 1, "name": "BrandTailors Co.", "employeeNo": 10, "email": "BrandTailors@gmail.com", "industry": "Healthcare", "clothingNo": 10 },
-//     { "id": 2, "name": "BrandTailors Co.", "employeeNo": 10, "email": "BrandTailors@gmail.com", "industry": "Healthcare", "clothingNo": 10 },
-//     { "id": 3, "name": "BrandTailors Co.", "employeeNo": 10, "email": "BrandTailors@gmail.com", "industry": "Healthcare", "clothingNo": 10 },
-//     { "id": 4, "name": "BrandTailors Co.", "employeeNo": 10, "email": "BrandTailors@gmail.com", "industry": "Healthcare", "clothingNo": 10 }
-// ]
-
 const AdminProductPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const [prodData, setProdData] = useState([])
-    const [prodDeleteID, setProdDeleteID] = useState("")
+    const [productsData, setProductsData] = useState([])
+    const [productDeleteID, setProductDeleteID] = useState("")
+    const [pageTitle, setPageTitle] = useState("")
 
     const navigate = useNavigate()
 
     const toggleDeletePopUp = (id) => {
-        setProdDeleteID(id)
+        setProductDeleteID(id)
         setShowDeletePopup(!showDeletePopup); // Show popup when you want
     };
 
     const handleDelete = async () => {
-        console.log(prodDeleteID)
         try {
-            const response = await fetch(`http://localhost:3000/api/product/${prodDeleteID}`, {
+            const response = await fetch(`http://localhost:3000/api/product/${productDeleteID}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 alert("Product Deleted!")
-                window.location.reload()
+                // window.location.reload()
             }
             else {
                 alert('Failed to delete product');
@@ -50,7 +42,7 @@ const AdminProductPage = () => {
         try {
             fetch('http://localhost:3000/api/products/corp')
                 .then(response => response.json())
-                .then(data => setProdData(data))
+                .then(data => setProductsData(data))
                 .catch(error => console.error('Error fetching organization:', error));
 
         }
@@ -65,16 +57,30 @@ const AdminProductPage = () => {
         navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
     }
 
+    const getURL = window.location.href
+    console.log(getURL)
+
     useEffect(() => {
-        fetch('http://localhost:3000/api/product/corp/recent')
+        const isCorpPage = getURL === "http://localhost:3001/admin/corporate/products";
+
+        // Set the page title based on the URL
+        const newPageTitle = isCorpPage ? 'Manage Products (Corporate)' : 'Manage Products (Government)';
+        setPageTitle(newPageTitle); // Update the state
+
+        // Determine which URL to fetch based on the page
+        const url = isCorpPage
+            ? "http://localhost:3000/api/product/corp/recent"
+            : "http://localhost:3000/api/product/govt/recent";
+
+        // Fetch product data from the correct endpoint
+        fetch(url)
             .then(response => response.json())
             .then(data => {
-                setProdData(data)
+                console.log(data);
+                setProductsData(data);
             })
             .catch(error => console.error('Error fetching product:', error));
-    }, []);
-
-
+    }, [getURL]); // Re-run if the URL changes
 
     return (
         <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7" }}>
@@ -87,7 +93,7 @@ const AdminProductPage = () => {
             )}
             <AdminSideNavBar />
             <div className={styles.container}>
-                <AdminNavBar pageName="Manage Products (Corporate)" />
+                <AdminNavBar pageName={pageTitle} />
                 <div className={styles.head}>
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
@@ -100,10 +106,9 @@ const AdminProductPage = () => {
                                 <th>Organization</th>
                                 <th>Description</th>
                                 <th>Price</th>
-                                <th></th>
                             </tr>
-                            {prodData.length > 0 ? (
-                                prodData.map((prodData) => {
+                            {productsData.length > 0 ? (
+                                productsData.map((productData) => {
                                     const fields = [
                                         {
                                             key: "name",
@@ -111,7 +116,7 @@ const AdminProductPage = () => {
                                             label: "Product Name",
                                             type: "text",
                                             required: true,
-                                            currentVal: prodData.name,
+                                            currentVal: productData.name,
                                         },
                                         {
                                             key: "desc",
@@ -119,7 +124,7 @@ const AdminProductPage = () => {
                                             label: "Product Description",
                                             type: "textarea",
                                             required: true,
-                                            currentVal: prodData.description
+                                            currentVal: productData.description
                                         },
                                         {
                                             key: "price",
@@ -127,19 +132,19 @@ const AdminProductPage = () => {
                                             label: "Product Price",
                                             type: "number",
                                             required: true,
-                                            currentVal: prodData.price
+                                            currentVal: productData.price
                                         }
                                     ]
                                     return (
-                                        <tr id={prodData.product_id}>
-                                            <td>{prodData.name}</td>
-                                            <td>{prodData.org_name}</td>
-                                            <td>{prodData.description}</td>
-                                            <td>{prodData.price}</td>
+                                        <tr id={productData.id}>
+                                            <td>{productData.name}</td>
+                                            <td>{productData.org_name}</td>
+                                            <td>{productData.description}</td>
+                                            <td>{productData.price}</td>
                                             <td className={styles.tableBtns}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                    <button className={styles.editBtn} onClick={() => editProd("product", prodData.product_id, fields)}>Edit</button>
-                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(prodData.product_id)}>Delete</button>
+                                                    <button className={styles.editBtn} onClick={() => editProd("product", productData.id, fields)}>Edit</button>
+                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(productData.id)}>Delete</button>
                                                 </div>
                                             </td>
                                         </tr>

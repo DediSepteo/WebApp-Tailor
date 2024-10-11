@@ -13,10 +13,10 @@ const Product = {
     },
 
     getGovt: (callback) => {
-        const query = `SELECT p.price, p.prod_id, p.name, p.description, o.name as org_name
+        const query = `SELECT p.price, p.product_id, p.name, p.description, o.name as org_name
                         FROM products as p, organization as o
                         WHERE o.type = "Government" AND p.org_id = o.org_id
-                        ORDER BY p.prod_id DESC;`
+                        ORDER BY p.product_id DESC;`
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -27,10 +27,10 @@ const Product = {
 
     // Corp Product
     getCorp: (callback) => {
-        const query = `SELECT p.price, p.prod_id, p.name, p.description, o.name as org_name
+        const query = `SELECT p.price, p.product_id, p.name, p.description, o.name as org_name
                         FROM products as p, organization as o
                         WHERE o.type = "Corporate" AND p.org_id = o.org_id
-                        ORDER BY p.prod_id DESC;`
+                        ORDER BY p.product_id DESC;`
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -59,7 +59,7 @@ const Product = {
     },
 
     deleteProd: (id, callback) => {
-        const query = 'DELETE FROM products WHERE prod_id = ?';
+        const query = 'DELETE FROM products WHERE product_id = ?';
 
         db.query(query, [id], (err, results) => {
             if (err) {

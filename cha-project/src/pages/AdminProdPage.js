@@ -17,6 +17,7 @@ const AdminProdPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [prodData, setProdData] = useState([])
     const [prodDeleteID, setProdDeleteID] = useState("")
+    const [pageTitle, setPageTitle] = useState("")
 
     const navigate = useNavigate()
 
@@ -65,17 +66,30 @@ const AdminProdPage = () => {
         navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
     }
 
+    const getURL = window.location.href
+    console.log(getURL)
+
     useEffect(() => {
-        fetch('http://localhost:3000/api/product/corp/recent')
+        const isCorpPage = getURL === "http://localhost:3001/admin/corporate/products";
+
+        // Set the page title based on the URL
+        const newPageTitle = isCorpPage ? 'Manage Products (Corporate)' : 'Manage Products (Government)';
+        setPageTitle(newPageTitle); // Update the state
+
+        // Determine which URL to fetch based on the page
+        const url = isCorpPage
+            ? "http://localhost:3000/api/product/corp/recent"
+            : "http://localhost:3000/api/product/govt/recent";
+
+        // Fetch product data from the correct endpoint
+        fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                setProdData(data)
+                console.log(data);
+                setProdData(data);
             })
             .catch(error => console.error('Error fetching product:', error));
-    }, []);
-
-
+    }, [getURL]); // Re-run if the URL changes
 
     return (
         <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7" }}>
@@ -88,7 +102,7 @@ const AdminProdPage = () => {
             )}
             <AdminSideNavBar />
             <div className={styles.container}>
-                <AdminNavBar pageName="Manage Products (Corporate)" />
+                <AdminNavBar pageName={pageTitle} />
                 <div className={styles.head}>
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>

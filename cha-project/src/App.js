@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
-import AdminProdPage from './pages/AdminProdPage';
+import AdminProdPage from './pages/AdminProductPage';
 import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';

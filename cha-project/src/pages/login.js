@@ -117,7 +117,7 @@ export const Login = () => {
                     </button>
                     <p style={{ fontFamily: 'Montserrat-Regular' }}>
                         Don't have an account?
-                        <Link to="/Register" className={styles.anchor} style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
+                        <Link to="/register" className={styles.anchor} style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
                     </p>
                 </form>
                 <ForgotPassword isVisible={isPopupVisible} onClose={hidePopup} />

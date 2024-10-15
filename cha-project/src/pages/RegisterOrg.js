@@ -28,7 +28,7 @@ const CreateOrganization = () => {
         e.preventDefault();
 
 
-        const tableHeaders = fields[1].headers
+        const tableHeaders = fields[4].headers
         const requiredHeaders = []
         for (let i = 0; i < tableHeaders.length; i++) {
             if (tableHeaders[i].required)

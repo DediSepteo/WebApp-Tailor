@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from '../styles/ShopItem.module.css';
 
+
+
 const options = [
     // Clothing under each category
     {

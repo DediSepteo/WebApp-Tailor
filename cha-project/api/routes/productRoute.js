@@ -93,4 +93,17 @@ router.delete("/:id", (req, res) => {
     })
 })
 
+// get org shop
+router.get('/products/:org_id', (req, res) => {
+    const org_id = req.params.org_id;
+
+    productController.getOrgProduct(org_id, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error fetching products' });
+        }
+
+        return res.status(200).json(results);
+    });
+});
+
 module.exports = router;

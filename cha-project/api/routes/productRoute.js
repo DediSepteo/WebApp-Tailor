@@ -3,6 +3,20 @@ const productModel = require('../models/productModel');
 
 const router = express.Router();
 
+// get org shop
+router.get('/:org_id', (req, res) => {
+    const org_id = req.params.org_id;
+
+    productModel.getOrgProduct(org_id, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error fetching products' });
+        }
+
+        return res.status(200).json(results);
+    });
+});
+
+
 router.get('/corp/recent', (req, res) => {
     productModel.getCorp((err, results) => {
         if (err) {
@@ -92,18 +106,5 @@ router.delete("/:id", (req, res) => {
         return res.status(200).send("Product deleted successfully")
     })
 })
-
-// get org shop
-router.get('/products/:org_id', (req, res) => {
-    const org_id = req.params.org_id;
-
-    productController.getOrgProduct(org_id, (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Error fetching products' });
-        }
-
-        return res.status(200).json(results);
-    });
-});
 
 module.exports = router;

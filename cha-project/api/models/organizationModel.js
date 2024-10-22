@@ -99,6 +99,17 @@ const Organization = {
             }
             callback(null, results[0].totalOrganizations);
         });
+    },
+
+    getOrgByCompany: (name, callback) => {
+        const query = 'SELECT * FROM organization WHERE name = ?'; // Assuming `name` is a field in your `organizations` table
+
+        db.query(query, [name], (error, results) => {
+            if (error) {
+                return callback(error, null);
+            }
+            return callback(null, results);
+        });
     }
 };
 

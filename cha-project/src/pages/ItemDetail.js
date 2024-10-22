@@ -120,12 +120,12 @@ export const ItemDetail = () => {
             const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
             existingCart.push(newItem);
             localStorage.setItem('cart', JSON.stringify(existingCart));
-            
+
             // Reset values after submit
             setSelectedColor(item.colour[0]);
             setSelectedSize('');
             setQuantity(1);
-            
+
         }
     };
 
@@ -162,18 +162,18 @@ export const ItemDetail = () => {
     // Handle quantity input change with validation
     const handleInputChange = (e) => {
         const value = e.target.value;
-        
+
         // Allow temporary invalid inputs (like empty string or 'e'), but don't save them as valid
         if (value === '' || (!isNaN(value) && value <= 50 && value >= 1)) {
             setQuantity(value); // Temporarily set the value to the input
         }
-        
+
         // If the input is a valid number, update the last valid quantity
         if (!isNaN(value) && value >= 1 && value <= 50) {
             setLastValidQuantity(parseInt(value, 10));
         }
     };
-    
+
     const handleClickQuantity = () => {
         if (isEditing) {
             return;
@@ -239,7 +239,7 @@ export const ItemDetail = () => {
                         </div>
                         <div className={styles.sizeContainer}>
                             <p>Size:</p>
-                            {!sizeValid && <p style={{color: 'rgb(173, 0, 0)'}}>Please select a size.</p>}
+                            {!sizeValid && <p style={{ color: 'rgb(173, 0, 0)' }}>Please select a size.</p>}
                         </div>
                         <div className={styles.selectWrapper}>
                             <select
@@ -313,7 +313,7 @@ export const ItemDetail = () => {
                 </div>
             </div>
             <div className={`${styles.successState} ${addedToCart ? styles.show : ''}`}>
-                <FaCheck className={styles.successIcon}/> Item added to cart.
+                <FaCheck className={styles.successIcon} /> Item added to cart.
             </div>
         </main>
     );

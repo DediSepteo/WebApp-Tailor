@@ -28,6 +28,9 @@ router.post('/', (req, res) => {
         }
 
         const organization = results[0];
+        console.log(organization)
+        console.log(password)
+
         // return res.send(organization)
         const match = await bcrypt.compare(password.toString(), organization.password)
         if (!match) {

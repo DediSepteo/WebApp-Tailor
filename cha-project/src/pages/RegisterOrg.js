@@ -26,9 +26,8 @@ const CreateOrganization = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-
-        const tableHeaders = fields[1].headers
+        // Has to be index of tableInput in fields
+        const tableHeaders = fields[4].headers
         const requiredHeaders = []
         for (let i = 0; i < tableHeaders.length; i++) {
             if (tableHeaders[i].required)

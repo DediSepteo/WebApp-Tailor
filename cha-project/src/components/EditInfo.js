@@ -35,9 +35,7 @@ const CreateProduct = () => {
         setData(initData)
     }, [])
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const handleEdit = async () => {
         var url = ""
         switch (category) {
             case ("product"):
@@ -49,7 +47,6 @@ const CreateProduct = () => {
             default:
                 return
         }
-        console.log(data)
         try {
             const response = await fetch(url, {
                 method: "PUT",
@@ -66,6 +63,18 @@ const CreateProduct = () => {
         }
         catch {
             alert("Failed to connect to backend")
+        }
+
+    }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (Object.keys(data).includes("price")) {
+            if (data.price <= 0) {
+                alert("Price must not be zero or negative")
+                return
+            }
         }
 
     }

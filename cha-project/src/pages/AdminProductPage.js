@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import AdminNavBar from '../components/AdminNavBar'
-import styles from "../styles/AdminProdPage.module.css"
+import styles from "../styles/AdminProductPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -98,7 +98,7 @@ const AdminProductPage = () => {
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
                             <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start" }}>Product List</div>
-                            <NavLink className={styles.link} onClick={getAll}>View All</NavLink>
+                            <NavLink className={styles.link} to="/admin/corporate/products/view-products">View All</NavLink>
                         </div>
                         <table className={styles.productTable}>
                             <tr>
@@ -106,6 +106,7 @@ const AdminProductPage = () => {
                                 <th>Organization</th>
                                 <th>Description</th>
                                 <th>Price</th>
+                                <th></th>
                             </tr>
                             {productsData.length > 0 ? (
                                 productsData.map((productData) => {
@@ -167,7 +168,7 @@ const AdminProductPage = () => {
                             <li className={styles.li}><NavLink className={styles.link} onClick={getAll}>View all Products</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to="/admin/corporate/products/register">Register Product</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to="/admin/corporate/products/registerBulk">Register Multiple Products</NavLink></li>
-                            <li className={styles.li}><NavLink className={styles.link}>Delete product</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link}>Delete Product</NavLink></li>
                         </ul>
                     </div>
                 </div>

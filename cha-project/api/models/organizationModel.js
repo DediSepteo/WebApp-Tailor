@@ -2,9 +2,11 @@ const db = require('./dbconnection'); // Import the MySQL connection from dbconn
 
 const Organization = {
     // Get all customers
-    getAll: (callback) => {
-        const query = 'SELECT * FROM organization';
-        db.query(query, (err, results) => {
+    getAll: (type, callback) => {
+        var query = 'SELECT * FROM organization';
+        if (type)
+            query += ' WHERE type = ?'
+        db.query(query, type ? [type] : [], (err, results) => {
             if (err) {
                 return callback(err, null);
             }

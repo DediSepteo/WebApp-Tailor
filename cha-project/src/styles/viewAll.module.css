@@ -1,0 +1,64 @@
+.dataTable {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse; /* Ensures borders don't have gaps */
+    border: 1px solid #d9d9d9; /* Border around the entire table */
+}
+  
+.dataTable th,
+.dataTable td {
+    border: 1px solid #d9d9d9; /* Add orders around cells */
+    padding: 0.8em;
+}
+  
+.dataTable th {
+    font-family: "Noto Serif";
+    font-weight: bold;
+}
+  
+.dataTable td {
+    font-family: "Inter";
+    padding: 0.8em;
+    color: #333;
+}
+  
+.td {
+    padding: 0.5em;
+    border: 1px solid #d9d9d9;
+    width: 12.5%;
+}
+  
+.th {
+    background-color: #f1f1f1;
+    padding: 0.5em;
+    font-family: "Noto Serif";
+    border: 1px solid #d9d9d9;
+}
+
+
+.detailBtn {
+    display: inline-block;
+    background-color: #1fa9d7;
+    text-decoration: none;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 10em;
+    font-family: "Inter";
+    font-weight: bold;
+}
+  
+.cancelBtn {
+    background-color: #d44837;
+    border: none;
+    font-family: "Inter";
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 10em;
+    font-size: 1em;
+    margin-left: 1em;
+}
+  
+.cancelBtn:hover {
+    cursor: pointer;
+}

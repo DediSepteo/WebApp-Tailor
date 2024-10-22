@@ -48,39 +48,39 @@ const AdminPage = () => {
         }
     }
 
-    const getAll = async () => {
-        try {
-            fetch('http://localhost:3000/api/org/corp')
-                .then(response => response.json())
-                .then(data => {
-                    const fetchCounts = data.map(org => {
-                        const id = org.org_id;
-                        return Promise.all([fetch(`http://localhost:3000/api/emp/count?org_id=${id}`), fetch(`http://localhost:3000/api/product/count?org_id=${id}`)])
-                            .then(responses => {
-                                return Promise.all(responses.map(response => response.json()));
-                            })
-                            .then(counts => {
-                                console.log(counts)
-                                org.employeeNo = counts[0]
-                                org.productNo = counts[1]
-                                return org
-                            })
-                    });
-                    Promise.all(fetchCounts)
-                        .then(updatedOrgs => {
-                            console.log(updatedOrgs)
-                            setOrgsData(updatedOrgs);
-                        });
-                })
-                .catch(error => console.error('Error fetching organization:', error));
+    // const getAll = async () => {
+    //     try {
+    //         fetch('http://localhost:3000/api/org/corp')
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 const fetchCounts = data.map(org => {
+    //                     const id = org.org_id;
+    //                     return Promise.all([fetch(`http://localhost:3000/api/emp/count?org_id=${id}`), fetch(`http://localhost:3000/api/product/count?org_id=${id}`)])
+    //                         .then(responses => {
+    //                             return Promise.all(responses.map(response => response.json()));
+    //                         })
+    //                         .then(counts => {
+    //                             console.log(counts)
+    //                             org.employeeNo = counts[0]
+    //                             org.productNo = counts[1]
+    //                             return org
+    //                         })
+    //                 });
+    //                 Promise.all(fetchCounts)
+    //                     .then(updatedOrgs => {
+    //                         console.log(updatedOrgs)
+    //                         setOrgsData(updatedOrgs);
+    //                     });
+    //             })
+    //             .catch(error => console.error('Error fetching organization:', error));
 
-        }
+    //     }
 
-        catch (error) {
-            console.error('Error:', error);
-            alert('Error retrieving organizations');
-        }
-    }
+    //     catch (error) {
+    //         console.error('Error:', error);
+    //         alert('Error retrieving organizations');
+    //     }
+    // }
 
     const getURL = window.location.href
     console.log(getURL)
@@ -91,7 +91,7 @@ const AdminPage = () => {
     useEffect(() => {
         const isCorpPage = getURL == "http://localhost:3001/admin/corporate/orgs"
 
-        const newPageTitle = isCorpPage ? 'Manage Organizatiton (Corporate)' : 'Manage Organizatiton (Government)';
+        const newPageTitle = isCorpPage ? 'Manage Organization (Corporate)' : 'Manage Organization (Government)';
         setPageTitle(newPageTitle);
 
         const url = isCorpPage
@@ -141,7 +141,7 @@ const AdminPage = () => {
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
                             <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start" }}>Organization List</div>
-                            <NavLink className={styles.link} onClick={getAll}>View All</NavLink>
+                            <NavLink className={styles.link} to='/admin/corporate/orgs/view-orgs'>View All</NavLink>
                         </div>
                         <table className={styles.organizationTable}>
                             <tr>
@@ -210,7 +210,7 @@ const AdminPage = () => {
                     <div className={styles.manageDiv}>
                         <div className={styles.manageHead}><span style={{ paddingLeft: "1em" }}>Organization Management</span></div>
                         <ul>
-                            <li className={styles.li}><NavLink className={styles.link} onClick={getAll}>View all Organizations</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to='/admin/corporate/orgs/view-orgs'>View all Organizations</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to="/admin/corporate/orgs/register">Register New Organization</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Delete Organization</NavLink></li>
                         </ul>

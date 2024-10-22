@@ -7,63 +7,77 @@ import SetupWizardPage from '../components/SetupWizardPage';
 const CreateProduct = () => {
     const [prodName, setProdName] = useState('');
     const [prodPrice, setProdPrice] = useState('');
-    const [orgName, setOrgName] = useState('');
+    const [org_id, setOrg_id] = useState('');
     const [prodDesc, setProdDesc] = useState('');
     const [prodImg, setProdImg] = useState('');
     const [dropDownInput, setDropDownInput] = useState([])
 
     const [showPopup, setShowPopup] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const navigate = useNavigate()
 
     const togglePopUp = () => {
         setShowPopup(!showPopup); // Show popup when you want
     };
+    const toggleError = () => {
+        setShowError(!showError); // Show popup when you want
+    };
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
+        if (prodPrice <= 0) {
+            alert("Price cannot be zero or negative")
+            return
+        }
+        console.log("A")
         const body = {
             "name": prodName,
             "price": prodPrice,
-            "description": prodDesc
+            "description": prodDesc,
+            "org_id": org_id
         }
-        for (const item in dropDownInput) {
-            if (dropDownInput[item].value == orgName) {
-                body.org_id = dropDownInput[item].id
-                break
-            }
+        const values = Object.values(body)
+        const requiredValues = values.map((value) => { return value.trim() })
+        if (requiredValues.includes("")) {
+            setShowError(true)
+            return false
         }
-        console.log(body)
         const token = sessionStorage.getItem("token")
-        if (!token)
+        if (!body.org_id)
+            alert("Error with organization")
+        else if (!token)
             alert("Error retrieving token")
         else {
-            try {
-                const response = await fetch("http://localhost:3000/api/product/register", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(body)
-                })
-                if (!response.ok) {
-                    throw new Error('Error creating product');
-                }
-
-                alert("Product created!")
-                navigate("/admin/corporate/products")
-            }
-
-            catch (error) {
-                console.error('Error creating product');
-                alert("Failed to connect to backend")
-            }
+            handleRegister(token, body)
         }
 
     }
 
+    const handleRegister = async (token, body) => {
+        try {
+            const response = await fetch("http://localhost:3000/api/product/register", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(body)
+            })
+            if (!response.ok) {
+                throw new Error('Error creating product');
+            }
+
+            alert("Product created!")
+            navigate("/admin/corporate/products")
+        }
+
+        catch (error) {
+            console.error('Error creating product');
+            alert("Failed to connect to backend")
+        }
+    }
     const fetchOrgNames = async () => {
         await fetch("http://localhost:3000/api/org/corp")
             .then(response => response.json())
@@ -103,8 +117,8 @@ const CreateProduct = () => {
             fieldType: 'dropdown',
             label: 'For Organization',
             type: 'text',
-            value: orgName,
-            onChange: (e) => setOrgName(e.target.value),
+            value: org_id,
+            onChange: (e) => setOrg_id(e.target.value),
             required: true,
             options: dropDownInput
         },
@@ -127,6 +141,9 @@ const CreateProduct = () => {
         <main>
             {showPopup && (
                 <CustomPopUp togglePopup={togglePopUp} title="Warning" text="Please ensure that all fields are filled for all registered products" />
+            )}
+            {showError && (
+                <CustomPopUp togglePopup={toggleError} title="Error" text="Please ensure that all fields are filled for all registered products" />
             )}
             < SetupWizardPage title="Register Product" fields={fields} onSubmit={handleSubmit} />
         </main>

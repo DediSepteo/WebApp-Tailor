@@ -2,21 +2,50 @@ const db = require('./dbconnection');
 
 const orders = {
     // Get all orders
-    getAll: (callback) => {
-        const query = `
+    getAll: (type, callback) => {
+        var query = `
             SELECT 
                 o.order_ID,
                 o.qty,
-                o.Type,
                 o.status,
                 o.Date,
                 o.price,
-                o.measurements,
+                o.measurementNo,
                 org.name
             FROM 
                 \`orders\` o
             JOIN 
                 \`organization\` org ON o.org_id = org.org_id
+        `;
+        if (type) {
+            query += ` WHERE org.type = ?`
+        }
+
+        db.query(query, type ? [type] : [], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+
+    },
+
+    getAllCorp: (callback) => {
+        const query = `
+            SELECT 
+                o.order_ID,
+                o.qty,
+                o.status,
+                o.Date,
+                o.price,
+                o.measurementNo,
+                org.name
+            FROM 
+                \`orders\` o
+            JOIN 
+                \`organization\` org ON o.org_id = org.org_id
+            WHERE
+                org.type = "Corporate"
         `;
 
         db.query(query, (err, results) => {
@@ -32,22 +61,48 @@ const orders = {
             SELECT 
                 o.order_ID,
                 o.qty,
-                o.Type,
                 o.status,
                 o.Date,
                 o.price,
-                o.measurements,
+                o.measurementNo,
                 org.name
             FROM 
                 \`orders\` o
             JOIN 
                 \`organization\` org ON o.org_id = org.org_id
+            WHERE 
+                o.status != "Ready"
             ORDER BY 
                 o.order_id DESC
             LIMIT 5
         `;
 
         db.query(query, (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
+    getReadyOrder: (type, callback) => {
+        var query = `SELECT 
+                o.order_ID,
+                o.qty,
+                o.status,
+                o.Date,
+                o.price,
+                o.measurementNo,
+                org.name
+            FROM 
+                \`orders\` o
+            JOIN 
+                \`organization\` org ON o.org_id = org.org_id
+            WHERE o.status = "Ready"`
+        if (type) {
+            query += `AND org.type = ?`
+        }
+        db.query(query, type ? [type] : [], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -76,6 +131,17 @@ const orders = {
                 return callback(err, null);
             }
             callback(null, results.insertId); // Return the ID of the newly created orders
+        });
+    },
+
+    cancelOrder: (id, callback) => {
+        console.log(id)
+        const query = 'UPDATE orders SET Status = "Cancelled" WHERE order_id = ?'
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
         });
     },
 

@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
-import AdminProdPage from './pages/AdminProductPage';
+import AdminProductPage from './pages/AdminProductPage';
 import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -24,11 +24,15 @@ import { SnapLogin } from './pages/SnapStitchLogin'
 import { SnapRegister } from './pages/SnapStitchRegister'
 import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
+import AdminOrderPage from './pages/AdminOrderPage';
 import NewLandingPage from './pages/new-landing-page'; // Correct import statement
 import RegisterOrg from './pages/RegisterOrg'
 import RegisterProduct from './pages/RegisterProduct'
 import RegisterProductBulk from './pages/RegisterProductBulk'
 import EditInfo from './components/EditInfo'
+import ViewAllOrg from './pages/viewAllOrg';
+import ViewAllProduct from './pages/viewAllProduct';
+import OrderDetailPage from './pages/OrderDetailPage'
 
 const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
@@ -90,13 +94,17 @@ const AppContent = () => {
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/corporate/orgs/view-orgs" element={<ViewAllOrg />} />
                 <Route path="/admin/corporate/products" element={<AdminProductPage />} />
                 <Route path="/admin/corporate/products/register" element={<RegisterProduct />} />
                 <Route path="/admin/corporate/products/registerBulk" element={<RegisterProductBulk />} />
+                <Route path="/admin/corporate/products/view-products" element={<ViewAllProduct />} />
+                <Route path="/admin/corporate/orders" element={<AdminOrderPage />} />
+                <Route path="/admin/corporate/orders/detail" element={<OrderDetailPage />} />
                 <Route path="/admin/edit" element={<EditInfo />} />
 
                 {/* govt page */}
-                <Route path="/admin/government/products" element={<AdminProdPage />} />
+                <Route path="/admin/government/products" element={<AdminProductPage />} />
 
 
                 <Route path="/snap/login" element={<SnapLogin />} />

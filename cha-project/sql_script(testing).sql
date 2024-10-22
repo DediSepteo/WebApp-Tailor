@@ -29,11 +29,10 @@ CREATE TABLE Employee (
 
 Drop Table If Exists Orders;
 -- Create Order Table
-CREATE TABLE `Orders` (
+CREATE TABLE `Orders`(
     order_id INT PRIMARY KEY AUTO_INCREMENT,
     org_id INT,
     qty INT NOT NULL,
-    category VARCHAR(255) NOT NULL,
     price varchar(255) NOT NULL,
     measurementNo varchar(255) NOT NULL,
     status VARCHAR(50) NOT NULL,

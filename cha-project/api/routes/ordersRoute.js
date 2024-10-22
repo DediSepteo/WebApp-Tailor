@@ -15,20 +15,36 @@ router.get('/revenue', (req, res) => {
 
 // Get all orders
 router.get('/', (req, res) => {
-    Order.getAll((err, orders) => {
+    const type = req.query.type
+    Order.getAll(type, (err, orders) => {
         if (err) {
+            console.log(err)
             return res.status(500).json({ error: 'Failed to retrieve orders' });
         }
         res.json(orders);
     });
 });
 
+
 router.get('/get-latest-order', (req, res) => { //verify token for protected route, add a verifyToken for protect route
+    const type = req.query.type
     Order.getLatestOrder((err, latestOrder) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to retrieve latest order' });
         }
         res.json(latestOrder);
+    });
+})
+
+router.get('/ready', (req, res) => {
+    const type = req.query.type
+    console.log(type)
+    Order.getReadyOrder(type, (err, orders) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ error: 'Failed to retrieve orders' });
+        }
+        res.json(orders);
     });
 })
 
@@ -70,6 +86,20 @@ router.put('/:id', (req, res) => {
             return res.status(404).json({ error: 'Order not found 2' });
         }
         res.json({ message: 'Order updated' });
+    });
+});
+
+router.put('/cancel/:id', (req, res) => {
+    const orderId = req.params.id;
+
+    Order.cancelOrder(orderId, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to update order' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Order not found 2' });
+        }
+        res.json({ message: 'Order Canceled' });
     });
 });
 

@@ -36,7 +36,8 @@ router.post(`/gen-link`, (req, res) => {
 
 // Get all organization
 router.get('/', (req, res) => {
-    organizationModel.getAll((err, results) => {
+    const type = req.query.type
+    organizationModel.getAll(type, (err, results) => {
         if (err) {
             console.error('Error fetching organization:', err);
             return res.status(500).send('Error fetching organization');

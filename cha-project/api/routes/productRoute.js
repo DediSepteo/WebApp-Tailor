@@ -3,6 +3,19 @@ const productModel = require('../models/productModel');
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    const type = req.query.type
+    productModel.getAll(type, (err, results) => {
+        if (err) {
+            console.error('Error retrieving product:', err);
+            return res.status(500).send('Error retrieving product');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        return res.json(results);
+
+    })
+})
+
 router.get('/corp/recent', (req, res) => {
     productModel.getCorp((err, results) => {
         if (err) {

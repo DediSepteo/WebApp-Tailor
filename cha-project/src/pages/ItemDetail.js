@@ -1,78 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import styles from '../styles/ItemDetail.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 
-// Sample data array
-const items = [
-    {
-        company: 'Suits1',
-        uni_id: 1,
-        name: 'Suit1',
-        price: 299.99,
-        colour: ['Red', 'Blue', 'Green'],
-        detail: 'Perfectly tailored suit with a flat one piece collar. Fabric is 100% wool.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        company: 'Suits1',
-        uni_id: 2,
-        name: 'Suit2',
-        price: 249.99,
-        colour: ['Red', 'Blue', 'Green'],
-        detail: 'Grey casual suit with a modern cut. Fabric is 70% wool, 30% polyester.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        company: 'Retail1',
-        uni_id: 3,
-        name: 'Retail1',
-        price: 49.99,
-        colour: ['Red', 'Blue', 'Green'],
-        detail: 'White polo shirt with a classic fit. Fabric is 100% pique cotton.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        company: 'GreatConstructionsCo',
-        uni_id: 4,
-        name: 'FancyConstructionUniform',
-        price: 99.99,
-        colour: ['Red', 'Blue', 'Green'],
-        detail: 'High visibility yellow uniform for construction work. Fabric is durable polyester. High visibility yellow uniform for construction work. Fabric is durable polyester. High visibility yellow uniform for construction work. Fabric is durable polyester.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png'),
-            require('../assets/Corporate.png'),
-            require('../assets/restaurant.png'),
-            require('../assets/homeBanner2.png')
-        ],
-    },
-    {
-        company: 'GreatConstructionsCo',
-        uni_id: 5,
-        name: 'SafeConstructionUniform',
-        price: 99.99,
-        colour: ['Red', 'Blue', 'Green'],
-        detail: 'High visibility orange uniform for construction work. Fabric is durable polyester.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-];
 
 export const ItemDetail = () => {
-    const { company, name } = useParams();
+    const location = useLocation();
+    const item = location.state?.data; // Ensure you use optional chaining or check if state exists
+
+    console.log(item)
+    const { name } = useParams();
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
@@ -83,13 +21,13 @@ export const ItemDetail = () => {
     const [lastValidQuantity, setLastValidQuantity] = useState(1); // Track last valid quantity
     const intervalRef = useRef(null); // Reference for auto increment/decrement
 
-    const item = items.find(item => item.company === company && item.name === name);
+    // const item = items.find(item => item.company === company && item.name === name);
 
-    useEffect(() => {
-        if (item && item.colour.length > 0) {
-            setSelectedColor(item.colour[0]); // Set default color to the first color in the list
-        }
-    }, [item]);
+    // useEffect(() => {
+    //     if (item && item.colour.length > 0) {
+    //         setSelectedColor(item.colour[0]); // Set default color to the first color in the list
+    //     }
+    // }, [item]);
 
     useEffect(() => {
         if (addedToCart) {
@@ -100,7 +38,7 @@ export const ItemDetail = () => {
         }
     }, [addedToCart]);
 
-    const defaultImage = item.image[0];
+    const defaultImage = "https://placehold.co/430x640"
 
     const handleAddToCart = () => {
         if (!selectedSize) {
@@ -112,8 +50,6 @@ export const ItemDetail = () => {
 
             const newItem = {
                 id: item.uni_id,
-                color: selectedColor,
-                size: selectedSize,
                 quantity: quantity,
             };
 
@@ -122,8 +58,6 @@ export const ItemDetail = () => {
             localStorage.setItem('cart', JSON.stringify(existingCart));
 
             // Reset values after submit
-            setSelectedColor(item.colour[0]);
-            setSelectedSize('');
             setQuantity(1);
 
         }
@@ -191,22 +125,22 @@ export const ItemDetail = () => {
         setIsEditing(false); // Exit editing mode
     };
 
-    if (!item) {
-        return <div>Item not found</div>;
-    }
-
+    // if (!item) {
+    //     return <div>Item not found</div>;
+    // }
+    console.log(item)
     return (
         <main className={styles.main}>
             <div className={styles.backContainer}>
-                <Link to={`/Shop1/${company}`}>
+                <Link to={`/Shop1/`}>
                     <IoIosArrowRoundBack className={styles.backArrow} />
                 </Link>
-                <Link to={`/Shop1/${company}`} className={styles.backLink}>Back</Link>
+                <Link to={`/Shop1/`} className={styles.backLink}>Back</Link>
             </div>
             <div className={styles.mainContainer}>
                 <div className={styles.imageContainer}>
                     <div className={styles.thumbnailContainer}>
-                        {item.image.map((image, index) => (
+                        {/* {item.image.map((image, index) => (
                             <div
                                 key={index}
                                 className={styles.thumbnail}
@@ -214,7 +148,14 @@ export const ItemDetail = () => {
                             >
                                 <img src={image} alt={`Thumbnail ${index + 1}`} className={styles.thumbnailImage} />
                             </div>
-                        ))}
+                        ))} */}
+                        <div
+                            // key={index}
+                            className={styles.thumbnail}
+                            onClick={() => setSelectedImage(1)}
+                        >
+                            <img src={"https://placehold.co/430x640"} alt={`Thumbnail ${1}`} className={styles.thumbnailImage} />
+                        </div>
                     </div>
                     <div className={styles.imageWrapper}>
                         <img src={selectedImage || defaultImage} alt={item.name} className={styles.itemImage} />
@@ -225,42 +166,6 @@ export const ItemDetail = () => {
                     <p className={styles.itemPrice}>${item.price}</p>
                     <div className={styles.separator}></div>
                     <form>
-                        <div className={styles.colorSelector}>
-                            Colour:
-                            {item.colour.map((color, index) => (
-                                <div
-                                    key={index}
-                                    className={`${styles.colorOption} ${selectedColor === color ? styles.selected : ''}`}
-                                    onClick={() => setSelectedColor(color)}
-                                >
-                                    {color}
-                                </div>
-                            ))}
-                        </div>
-                        <div className={styles.sizeContainer}>
-                            <p>Size:</p>
-                            {!sizeValid && <p style={{ color: 'rgb(173, 0, 0)' }}>Please select a size.</p>}
-                        </div>
-                        <div className={styles.selectWrapper}>
-                            <select
-                                className={styles.selectSize}
-                                name="sizing"
-                                id="sizing"
-                                value={selectedSize}
-                                onChange={(e) => {
-                                    setSelectedSize(e.target.value);
-                                    if (e.target.value) {
-                                        setSizeValid(true);
-                                    }
-                                }}
-                                required
-                            >
-                                <option value="" disabled>Please Select:</option>
-                                <option value="Large">Large</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Small">Small</option>
-                            </select>
-                        </div>
                         <div className={styles.quantityContainer}>
                             <p className={styles.quantityTitle}>Quantity:</p>
                             <div className={styles.quantityBox}>
@@ -308,7 +213,7 @@ export const ItemDetail = () => {
 
                         <button className={styles.addItem} type="button" onClick={handleAddToCart}>Add To Cart</button>
                         <p className={styles.descriptionLabel}>Description:</p>
-                        <p className={styles.itemDetail}>{item.detail}</p>
+                        <p className={styles.itemDetail}>{item.description}</p>
                     </form>
                 </div>
             </div>

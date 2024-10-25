@@ -10,11 +10,7 @@ export const ItemDetail = () => {
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
 
     console.log(item)
-    const { name } = useParams();
-    const [selectedColor, setSelectedColor] = useState(null);
-    const [selectedSize, setSelectedSize] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const [sizeValid, setSizeValid] = useState(true);
     const [addedToCart, setAddedToCart] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [isEditing, setIsEditing] = useState(false); // To track if in editing mode
@@ -41,26 +37,23 @@ export const ItemDetail = () => {
     const defaultImage = "https://placehold.co/430x640"
 
     const handleAddToCart = () => {
-        if (!selectedSize) {
-            setSizeValid(false);
-            return;
-        } else {
-            setSizeValid(true);
-            setAddedToCart(true);
+        setAddedToCart(true);
 
-            const newItem = {
-                id: item.uni_id,
-                quantity: quantity,
-            };
+        const existingCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
-            const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-            existingCart.push(newItem);
-            localStorage.setItem('cart', JSON.stringify(existingCart));
+        const newItem = {
+            id: item.product_id,
+            quantity: quantity,
+        };
 
-            // Reset values after submit
-            setQuantity(1);
+        existingCart.push(newItem);
+        localStorage.setItem('cart', JSON.stringify(existingCart));
 
-        }
+        // Reset values after submit
+        setQuantity(1);
+
+        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); //for checking
+
     };
 
     // Handle quantity increase

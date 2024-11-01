@@ -32,7 +32,22 @@ router.post(`/gen-link`, (req, res) => {
 
         res.json({ link: generatedLink }); // Send the generated link back to the client
     });
-})
+});
+
+router.get('/:name', (req, res) => {
+    const name = req.params.name;
+
+    organizationModel.getOrgByCompany(name, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No organization found for this company' });
+        }
+        return res.json(results);
+    });
+});
 
 // Get all organization
 router.get('/', (req, res) => {
@@ -112,7 +127,5 @@ router.get('/count', (req, res) => {
         res.json({ results });
     });
 });
-
-
 
 module.exports = router;

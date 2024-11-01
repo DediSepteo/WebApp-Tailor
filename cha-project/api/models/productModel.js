@@ -69,8 +69,18 @@ const Product = {
             }
             callback(null, results);
         });
-    }
+    },
 
+    // for the shop page
+    getOrgProduct: (org_id, callback) => {
+        const query = 'SELECT * FROM products WHERE org_id = ?';
+        db.query(query, [org_id], (error, results) => {
+            if (error) {
+                return callback(error, null);
+            }
+            return callback(null, results);
+        });
+    },
 };
 
 module.exports = Product;

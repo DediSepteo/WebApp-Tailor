@@ -63,13 +63,14 @@ const AppContent = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                <Route path="/Shop1" element={<CorporateShop />} />
-                <Route path="/Shop1/:company" element={<Shop1Item />} />
+                {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
+                <Route path="/Shop1" element={<Shop1Item />} />
                 {/* Shop2 Temporary Path to access Government shop */}
                 <Route path="/Shop2" element={<GovtShop />} />
                 <Route path="/Shop2/:company" element={<Shop2Item />} />
 
-                <Route path="/Shop1/:company/:name" element={<ItemDetail />} />
+
+                <Route path="/Shop1/:name" element={<ItemDetail />} />
 
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
 

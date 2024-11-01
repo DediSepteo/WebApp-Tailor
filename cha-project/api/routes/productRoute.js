@@ -6,15 +6,27 @@ const router = express.Router();
 router.get('/', (req, res) => {
     const type = req.query.type
     productModel.getAll(type, (err, results) => {
-        if (err) {
-            console.error('Error retrieving product:', err);
-            return res.status(500).send('Error retrieving product');
+        if (error) {
+            return res.status(500).json({ error: 'Error fetching products' });
         }
-        res.setHeader('Content-Type', 'application/json');
-        return res.json(results);
 
-    })
-})
+        return res.status(200).json(results);
+    });
+});
+
+
+// get org shop
+router.get('/:org_id', (req, res) => {
+    const org_id = req.params.org_id;
+
+    productModel.getOrgProduct(org_id, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error fetching products' });
+        }
+
+        return res.status(200).json(results);
+    });
+});
 
 router.get('/recent', (req, res) => {
     const type = req.query.type

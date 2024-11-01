@@ -9,6 +9,7 @@ const CreateOrganization = () => {
     const [orgEmail, setOrgEmail] = useState('');
     const [orgPassword, setOrgPassword] = useState('')
     const [orgIndustry, setOrgIndustry] = useState('');
+    const [orgAddress, setOrgAddress] = useState('')
     const [orgProducts, setOrgProducts] = useState([])
 
     const [showError, setShowError] = useState(false);
@@ -27,7 +28,7 @@ const CreateOrganization = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Has to be index of tableInput in fields
-        const tableHeaders = fields[4].headers
+        const tableHeaders = fields[5].headers
         const requiredHeaders = []
         for (let i = 0; i < tableHeaders.length; i++) {
             if (tableHeaders[i].required)
@@ -94,6 +95,7 @@ const CreateOrganization = () => {
                         "password": orgPassword,
                         "type": orgType,
                         "industry": orgIndustry,
+                        "address": orgAddress,
                     }),
             });
 
@@ -133,6 +135,14 @@ const CreateOrganization = () => {
             type: 'text',
             value: orgPassword,
             onChange: (e) => setOrgPassword(e.target.value),
+            required: true,
+        },
+        {
+            fieldType: 'input',
+            label: 'Organization Address',
+            type: 'text',
+            value: orgAddress,
+            onChange: (e) => setOrgAddress(e.target.value),
             required: true,
         },
         {

@@ -34,20 +34,20 @@ router.post(`/gen-link`, (req, res) => {
     });
 });
 
-router.get('/:name', (req, res) => {
-    const name = req.params.name;
+// router.get('/:name', (req, res) => {
+//     const name = req.params.name;
 
-    organizationModel.getOrgByCompany(name, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
-        }
+//     organizationModel.getOrgByCompany(name, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
+//         }
 
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'No organization found for this company' });
-        }
-        return res.json(results);
-    });
-});
+//         if (results.length === 0) {
+//             return res.status(404).json({ message: 'No organization found for this company' });
+//         }
+//         return res.json(results);
+//     });
+// });
 
 // Get all organization
 router.get('/', (req, res) => {
@@ -77,14 +77,16 @@ router.get(`/recent`, (req, res) => {
 
 router.post('/register', async (req, res) => {
     const orgData = req.body
+    console.log(orgData)
     const name = orgData.name
     const email = orgData.email
     const password = orgData.password.toString()
     const type = orgData.type
     const industry = orgData.industry
+    const address = orgData.address
 
     const hashPass = await bcrypt.hash(password, saltRounds)
-    organizationModel.createOrg(name, email, hashPass, type, industry, (err, results) => {
+    organizationModel.createOrg(name, email, hashPass, type, industry, address, (err, results) => {
         if (err) {
             console.error('Error creating organization:', err);
             return res.status(500).send('Error creating organization');

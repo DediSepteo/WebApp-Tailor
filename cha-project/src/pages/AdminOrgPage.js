@@ -17,9 +17,7 @@ import { useNavigate } from 'react-router-dom';
 const AdminPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [orgsData, setOrgsData] = useState([])
-    const [orgCorpData, setOrgCorpData] = useState([])
     const [orgDeleteID, setOrgDeleteID] = useState("")
-    const [pageTitle, setPageTitle] = useState("")
 
     const navigate = useNavigate()
 
@@ -48,54 +46,55 @@ const AdminPage = () => {
         }
     }
 
-    const getAll = async () => {
-        try {
-            fetch('http://localhost:3000/api/org/corp')
-                .then(response => response.json())
-                .then(data => setOrgsData(data))
-                .catch(error => console.error('Error fetching organization:', error));
+    // const getAll = async () => {
+    //     try {
+    //         fetch('http://localhost:3000/api/org/corp')
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 const fetchCounts = data.map(org => {
+    //                     const id = org.org_id;
+    //                     return Promise.all([fetch(`http://localhost:3000/api/emp/count?org_id=${id}`), fetch(`http://localhost:3000/api/product/count?org_id=${id}`)])
+    //                         .then(responses => {
+    //                             return Promise.all(responses.map(response => response.json()));
+    //                         })
+    //                         .then(counts => {
+    //                             console.log(counts)
+    //                             org.employeeNo = counts[0]
+    //                             org.productNo = counts[1]
+    //                             return org
+    //                         })
+    //                 });
+    //                 Promise.all(fetchCounts)
+    //                     .then(updatedOrgs => {
+    //                         console.log(updatedOrgs)
+    //                         setOrgsData(updatedOrgs);
+    //                     });
+    //             })
+    //             .catch(error => console.error('Error fetching organization:', error));
 
-        }
+    //     }
 
-        catch (error) {
-            console.error('Error:', error);
-            alert('Error retrieving organizations');
-        }
-    }
+    //     catch (error) {
+    //         console.error('Error:', error);
+    //         alert('Error retrieving organizations');
+    //     }
+    // }
 
     const getURL = window.location.href
+
+    const isCorpPage = getURL == "http://localhost:3001/admin/corporate/orgs"
+
+    const type = isCorpPage ? "corporate" : "government"
     console.log(getURL)
     const editOrg = (category, id, fields) => {
         navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
     }
 
     useEffect(() => {
-        const isCorpPage = getURL == "http://localhost:3001/admin/corporate/orgs"
-
-        const newPageTitle = isCorpPage ? 'Manage Organizatiton (Corporate)' : 'Manage Organizatiton (Government)';
-        setPageTitle(newPageTitle);
-
-        const url = isCorpPage
-            ? "http://localhost:3000/api/org/corp/recent"
-            : "http://localhost:3000/api/org/govt/recent"
-
-        fetch(url)
+        fetch(`http://localhost:3000/api/org/recent?type=${type}&limit=5`)
             .then(response => response.json())
             .then(data => {
-                const fetchEmployeeCounts = data.map(org => {
-                    const id = org.org_id;
-                    return fetch(`http://localhost:3000/api/emp/count?org_id=${id}`)
-                        .then(response => response.json())
-                        .then(empData => {
-                            org.employeeNo = empData;
-                            return org;
-                        });
-                });
-
-                Promise.all(fetchEmployeeCounts)
-                    .then(updatedOrgs => {
-                        setOrgsData(updatedOrgs);
-                    });
+                setOrgsData(data)
             })
             .catch(error => console.error('Error fetching organization:', error));
     }, [getURL]);
@@ -113,24 +112,26 @@ const AdminPage = () => {
             )}
             <AdminSideNavBar />
             <div className={styles.container}>
-                <AdminNavBar pageName={pageTitle} />
+                <AdminNavBar pageName={`Manage Organization (${type[0].toUpperCase()}${type.slice(1)})`} />
                 <div className={styles.head}>
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
                             <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start" }}>Organization List</div>
-                            <NavLink className={styles.link} onClick={getAll}>View All</NavLink>
+                            <NavLink className={styles.link} to={`/admin/${type}/view-orgs`}>View All</NavLink>
                         </div>
                         <table className={styles.organizationTable}>
                             <tr>
                                 <th>Name</th>
-                                <th>No. of Employees</th>
                                 <th>Email</th>
                                 <th>Industry</th>
-                                <th>No. of clothing types</th>
+                                <th>No. of Products</th>
+                                {orgsData.length > 0 && (
+                                    <th></th>
+                                )}
                             </tr>
                             {orgsData.length > 0 ? (
                                 orgsData.map((orgData) => {
-                                    console.log(orgData.industry)
+                                    console.log(orgData)
                                     const fields = [
                                         {
                                             key: "name",
@@ -158,16 +159,15 @@ const AdminPage = () => {
                                         }
                                     ]
                                     return (
-                                        <tr id={orgData.org_id}>
+                                        <tr id={orgData.id}>
                                             <td>{orgData.name}</td>
-                                            <td>{orgData.employeeNo}</td>
                                             <td>{orgData.email}</td>
                                             <td>{orgData.industry}</td>
-                                            <td>{orgData.clothingNo}</td>
+                                            <td>{orgData["Number of Products"]}</td>
                                             <td className={styles.tableBtns}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                    <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.org_id, fields)}>Edit</button>
-                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.org_id)}>Delete</button>
+                                                    <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.id, fields)}>Edit</button>
+                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.id)}>Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -175,7 +175,7 @@ const AdminPage = () => {
                                 })
                             ) : (
                                 <tr>
-                                    <td colSpan="5">No organizations registered</td>
+                                    <td colSpan="6">No organizations registered</td>
                                 </tr>
                             )
                             }
@@ -187,23 +187,23 @@ const AdminPage = () => {
                     <div className={styles.manageDiv}>
                         <div className={styles.manageHead}><span style={{ paddingLeft: "1em" }}>Organization Management</span></div>
                         <ul>
-                            <li className={styles.li}><NavLink className={styles.link} onClick={getAll}>View all Organizations</NavLink></li>
-                            <li className={styles.li}><NavLink className={styles.link} to="/admin/corporate/orgs/register">Register New Organization</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/view-orgs`}>View all Organizations</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/orgs/register`}>Register New Organization</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Delete Organization</NavLink></li>
                         </ul>
                     </div>
-                    <div className={styles.manageDiv}>
+                    {/* <div className={styles.manageDiv}>
                         <div className={styles.manageHead}><span style={{ paddingLeft: "1em" }}>Product Management</span></div>
                         <ul>
                             <li className={styles.li}><NavLink className={styles.link}>View all Products</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Register New Product</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Delete Product</NavLink></li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
-        </main>
+        </main >
     );
 };
 

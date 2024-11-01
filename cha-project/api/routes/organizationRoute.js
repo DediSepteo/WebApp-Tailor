@@ -51,7 +51,8 @@ router.get('/:name', (req, res) => {
 
 // Get all organization
 router.get('/', (req, res) => {
-    organizationModel.getAll((err, results) => {
+    const type = req.query.type
+    organizationModel.getAll(type, (err, results) => {
         if (err) {
             console.error('Error fetching organization:', err);
             return res.status(500).send('Error fetching organization');
@@ -61,49 +62,10 @@ router.get('/', (req, res) => {
     });
 });
 
-// Get Govt
-router.get('/govt', (req, res) => {
-    console.log('showing govt')
-    organizationModel.getAllGovt((err, results) => {
-        if (err) {
-            console.error('Error fetching govt org:', err);
-            return res.status(500).send('Error fetching govt org');
-        }
-        console.log('Fetched govt org data:', results); // for debuggin
-        res.setHeader('Content-Type', 'application/json', results);
-        res.json(results);
-    });
-})
-
-// Get corp
-router.get(`/corp`, (req, res) => {
-    console.log("show corp")
-    organizationModel.getAllCorp((err, results) => {
-        if (err) {
-            console.error("Error fetching organization:", err)
-            return res.status(500).send('Error fetching organization');
-        }
-        console.log('Fetched corp org data:', results); // for debuggin
-        res.setHeader('Content-Type', 'application/json', results);
-        res.json(results);
-    })
-})
-
-router.get(`/corp/recent`, (req, res) => {
+router.get(`/recent`, (req, res) => {
     const limit = parseInt(req.query.limit) || 4
-    organizationModel.getCorpRecent(limit, (err, results) => {
-        if (err) {
-            console.error("Error fetching organization:", err)
-            return res.status(500).send('Error fetching organization');
-        }
-        res.setHeader('Content-Type', 'application/json');
-        res.json(results);
-    })
-})
-
-router.get(`/govt/recent`, (req, res) => {
-    const limit = parseInt(req.query.limit) || 4
-    organizationModel.getGovtRecent(limit, (err, results) => {
+    const type = req.query.type
+    organizationModel.getRecent(limit, type, (err, results) => {
         if (err) {
             console.error("Error fetching organization:", err)
             return res.status(500).send('Error fetching organization');

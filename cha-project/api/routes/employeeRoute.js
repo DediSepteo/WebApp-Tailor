@@ -36,10 +36,8 @@ router.get('/count', (req, res) => {
 
 router.post('/register', async (req, res) => {
     const empData = req.body
-    const name = empData.name
-    const email = empData.email
+    const { name, email, encodedOrgID, address } = empData
     const password = empData.password.toString()
-    const encodedOrgID = empData.org_id
     if (!encodedOrgID) {
         return res.status(400).send("Organization ID not found")
     }
@@ -51,7 +49,7 @@ router.post('/register', async (req, res) => {
 
     const hashPass = await bcrypt.hash(password, saltRounds)
 
-    employeeModel.createEmp(name, email, hashPass, org_id, (err, results) => {
+    employeeModel.createEmp(name, email, hashPass, org_id, address, (err, results) => {
         if (err) {
             console.error('Error creating employee:', err);
             return res.status(500).send('Error creating employee');

@@ -3,6 +3,18 @@ const productModel = require('../models/productModel');
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    const type = req.query.type
+    productModel.getAll(type, (err, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error fetching products' });
+        }
+
+        return res.status(200).json(results);
+    });
+});
+
+
 router.get('/:product_id', (req, res) => {
     const product_id = req.params.product_id;
 
@@ -27,9 +39,10 @@ router.get('/org/:org_id', (req, res) => {
     });
 });
 
-
-router.get('/corp/recent', (req, res) => {
-    productModel.getCorp((err, results) => {
+router.get('/recent', (req, res) => {
+    const type = req.query.type
+    console.log(type)
+    productModel.getRecent(type, (err, results) => {
         if (err) {
             console.error('Error retrieving product:', err);
             return res.status(500).send('Error retrieving product');
@@ -40,19 +53,17 @@ router.get('/corp/recent', (req, res) => {
     })
 })
 
-// for gov product page
-router.get('/govt/recent', (req, res) => {
-    productModel.getGovt((err, results) => {
+router.get('/count', (req, res) => {
+    const org_id = req.query.org_id
+    productModel.getCount(org_id, (err, results) => {
         if (err) {
-            console.error('Error retrieving product:', err);
-            return res.status(500).send('Error retrieving product');
+            console.error('Error getting count:', err);
+            return res.status(500).send('Error getting count');
         }
         res.setHeader('Content-Type', 'application/json');
-        console.log(results)
-        return res.json(results);
-
-    })
-})
+        res.json(results);
+    });
+});
 
 router.post('/register', async (req, res) => {
     const productData = req.body

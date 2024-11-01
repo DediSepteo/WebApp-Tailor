@@ -6,13 +6,13 @@ import { NavLink } from 'react-router-dom';
 const corpLinks = [
     { name: "Manage Organizations", path: "/admin/corporate/orgs" },
     { name: "Manage Products", path: "/admin/corporate/products" },
-    { name: "Manage Orders", path: "/admin/corporate/3" },
+    { name: "Manage Orders", path: "/admin/corporate/orders" },
 ];
 
 const govLinks = [
     { name: "Manage Organizations", path: "/admin/government/orgs" },
     { name: "Manage Products", path: "/admin/government/products" },
-    { name: "Manage Orders", path: "/admin/government/3" }
+    { name: "Manage Orders", path: "/admin/government/orders" }
 ]
 
 const AdminSideNavBar = () => {

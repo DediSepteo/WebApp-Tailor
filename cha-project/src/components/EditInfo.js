@@ -35,9 +35,7 @@ const CreateProduct = () => {
         setData(initData)
     }, [])
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const handleEdit = async () => {
         var url = ""
         switch (category) {
             case ("product"):
@@ -49,20 +47,36 @@ const CreateProduct = () => {
             default:
                 return
         }
-        console.log(data)
-        const response = await fetch(url, {
-            method: "PUT",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        if (response.ok) {
-            alert(`${category} Edited!`)
-            navigate("/admin/dashboard")
+        try {
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            if (response.ok) {
+                alert(`${category} Edited!`)
+                navigate("/admin/dashboard")
+            }
+            else {
+                alert(`Failed to edit ${category}`);
+            }
         }
-        else {
-            alert(`Failed to edit ${category}`);
+        catch {
+            alert("Failed to connect to backend")
         }
 
+    }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (Object.keys(data).includes("price")) {
+            if (data.price <= 0) {
+                alert("Price must not be zero or negative")
+                return
+            }
+        }
+        handleEdit()
     }
 
     return (

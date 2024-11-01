@@ -11,19 +11,24 @@ const CreateEmployee = () => {
         if (!token)
             alert("Error retrieving token")
         else {
-            const response = await fetch("http://localhost:3000/api/org/gen-link", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            })
-            if (!response) {
-                alert("Error")
+            try {
+                const response = await fetch("http://localhost:3000/api/org/gen-link", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
+                if (!response) {
+                    alert("Error")
+                }
+                const data = await response.json()
+                setLink(data.link)
+                setClickLink(data.link.slice(20))
             }
-            const data = await response.json()
-            setLink(data.link)
-            setClickLink(data.link.slice(20))
+            catch {
+                alert("Failed to connect to backend")
+            }
         }
 
     }

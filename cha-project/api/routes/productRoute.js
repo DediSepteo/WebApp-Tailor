@@ -15,18 +15,18 @@ router.get('/', (req, res) => {
 });
 
 
-// get org shop
-router.get('/:org_id', (req, res) => {
-    const org_id = req.params.org_id;
+// // get org shop
+// router.get('/:org_id', (req, res) => {
+//     const org_id = req.params.org_id;
 
-    productModel.getOrgProduct(org_id, (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Error fetching products' });
-        }
+//     productModel.getOrgProduct(org_id, (error, results) => {
+//         if (error) {
+//             return res.status(500).json({ error: 'Error fetching products' });
+//         }
 
-        return res.status(200).json(results);
-    });
-});
+//         return res.status(200).json(results);
+//     });
+// });
 
 router.get('/recent', (req, res) => {
     const type = req.query.type

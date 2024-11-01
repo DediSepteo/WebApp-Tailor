@@ -33,7 +33,7 @@ export const Shop1Item = () => {
                 setCompanyFromSession(orgName);
 
                 // Fetch products using the org_name
-                fetch(`http://localhost:3000/api/product/${org_id}`)
+                fetch(`http://localhost:3000/api/product/org/${org_id}`)
                     .then(response => response.json())
                     .then(data => {
                         setProducts(data);  // Store fetched products

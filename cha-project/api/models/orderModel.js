@@ -5,13 +5,12 @@ const orders = {
     getAll: (type, callback) => {
         var query = `
             SELECT 
-                o.order_ID,
+                o.order_id AS id,
                 o.qty,
                 o.status,
-                o.Date,
-                o.price,
-                o.measurementNo,
-                org.name
+                o.date as date,
+                FORMAT(o.subtotal, 2) AS subtotal,
+                org.name AS "placed by"
             FROM 
                 \`orders\` o
             JOIN 
@@ -21,6 +20,8 @@ const orders = {
             query += ` WHERE org.type = ?`
         }
 
+        query += " ORDER BY o.order_id DESC"
+
         db.query(query, type ? [type] : [], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -30,79 +31,70 @@ const orders = {
 
     },
 
-    getAllCorp: (callback) => {
-        const query = `
+    getLatestOrder: (type, callback) => {
+        var query = `
             SELECT 
-                o.order_ID,
+                o.order_id,
                 o.qty,
                 o.status,
-                o.Date,
-                o.price,
-                o.measurementNo,
-                org.name
+                o.date,
+                FORMAT(o.subtotal,2) AS subtotal,
+                org.name AS "placed by",
+                COUNT(emp_id) AS measurementNo
             FROM 
                 \`orders\` o
             JOIN 
                 \`organization\` org ON o.org_id = org.org_id
-            WHERE
-                org.type = "Corporate"
-        `;
-
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, results);
-        });
-    },
-
-    getLatestOrder: (callback) => {
-        const query = `
-            SELECT 
-                o.order_ID,
-                o.qty,
-                o.status,
-                o.Date,
-                o.price,
-                o.measurementNo,
-                org.name
-            FROM 
-                \`orders\` o
-            JOIN 
-                \`organization\` org ON o.org_id = org.org_id
+            LEFT JOIN
+				\`measurements\` m ON m.order_id = o.order_id
             WHERE 
-                o.status != "Ready"
-            ORDER BY 
-                o.order_id DESC
-            LIMIT 5
-        `;
-
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, results);
-        });
-    },
-
-    getReadyOrder: (type, callback) => {
-        var query = `SELECT 
-                o.order_ID,
-                o.qty,
-                o.status,
-                o.Date,
-                o.price,
-                o.measurementNo,
-                org.name
-            FROM 
-                \`orders\` o
-            JOIN 
-                \`organization\` org ON o.org_id = org.org_id
-            WHERE o.status = "Ready"`
+                o.status != "Ready"`
         if (type) {
             query += `AND org.type = ?`
         }
+
+        query += `GROUP BY o.order_id
+                ORDER BY
+                o.order_id DESC
+                LIMIT 5;`
+
         db.query(query, type ? [type] : [], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
+    getReadyOrder: (type, limit, callback) => {
+        var query = `SELECT
+            o.order_id,
+            o.qty,
+            o.status,
+            o.date,
+            FORMAT(o.subtotal, 2) AS subtotal,
+            org.name AS "placed by",
+            COUNT(emp_id) AS measurementNo
+            FROM
+                \`orders\` o
+            JOIN 
+                \`organization\` org ON o.org_id = org.org_id
+            LEFT JOIN
+				\`measurements\` m ON m.order_id = o.order_id
+            WHERE o.status = "Ready"`
+        if (type) {
+            query += ` AND org.type = ?`
+        }
+        query += `GROUP BY o.order_id
+                ORDER BY
+                o.order_id DESC`
+        if (limit)
+            query += " LIMIT ?"
+
+        const params = [];
+        if (type) params.push(type);
+        if (limit) params.push(parseInt(limit));
+        db.query(query, params, (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -112,7 +104,7 @@ const orders = {
 
     // Get a single orders by ID
     getById: (id, callback) => {
-        const query = 'SELECT * FROM `orders` WHERE orders_ID = ?';
+        const query = 'SELECT * FROM `orders` WHERE orders_id = ?';
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -123,7 +115,7 @@ const orders = {
 
     // Create a new orders
     create: (neworders, callback) => {
-        const query = 'INSERT INTO `orders` (Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO `orders` (org_id, date, quantity, type, subtotal, measurementNo, status) VALUES (?, ?, ?, ?, ?, ?, ?)';
         const { Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status } = neworders;
 
         db.query(query, [Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status], (err, results) => {
@@ -136,7 +128,7 @@ const orders = {
 
     cancelOrder: (id, callback) => {
         console.log(id)
-        const query = 'UPDATE orders SET Status = "Cancelled" WHERE order_id = ?'
+        const query = 'UPDATE `orders` SET status = "Cancelled" WHERE order_id = ?'
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -146,11 +138,11 @@ const orders = {
     },
 
     // Update an existing orders
-    update: (id, updatedorders, callback) => {
-        const query = 'UPDATE `orders` SET Org_ID = ?, Date = ?, Quantity = ?, Type = ?, Price = ?, MeasurementNo = ?, Status = ? WHERE orders_ID = ?';
-        const { Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status } = updatedorders;
+    update: (id, updatedOrders, callback) => {
+        const query = 'UPDATE `orders` SET org_id = ?, date = ?, quantity = ?, type = ?, subtotal = ?, measurementNo = ?, status = ? WHERE order_id = ?';
+        const { org_id, date, quantity, type, subtotal, measurementNo, status } = updatedOrders;
 
-        db.query(query, [Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status, id], (err, results) => {
+        db.query(query, [org_id, date, quantity, type, subtotal, measurementNo, status, id], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -160,7 +152,7 @@ const orders = {
 
     // Delete an orders
     delete: (id, callback) => {
-        const query = 'DELETE FROM `orders` WHERE orders_ID = ?';
+        const query = 'DELETE FROM `orders` WHERE order_id = ?';
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -170,13 +162,13 @@ const orders = {
     },
 
     // Get total Revenue
-    sumPrice: (callback) => {
-        const query = 'SELECT SUM(Price) AS totalPrice FROM `orders`'; // Assuming Price is the column name
+    sumSubtotal: (callback) => {
+        const query = 'SELECT SUM(subtotal) AS grandTotal FROM `orders`'; // Assuming Price is the column name
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err, null);
             }
-            callback(null, results[0].totalPrice);
+            callback(null, results[0].grandTotal);
         });
     }
 };

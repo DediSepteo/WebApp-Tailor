@@ -14,16 +14,40 @@ const AdminPage = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [orgCount, setOrgCount] = useState(0);
     const [revSum, setRevSum] = useState(0);
+    const [cancelOrderID, setCancelOrderID] = useState("")
+    const [showCancelPopup, setCancelPopup] = useState(false);
 
     const token = sessionStorage.getItem('authToken');
 
-    const togglePopUp = () => {
-        setShowPopup(!showPopup); // Toggles the confirmation popup
+    const toggleCancelPopUp = (id) => {
+        setCancelOrderID(id)
+        setCancelPopup(!showCancelPopup); // Toggles the confirmation popup
     };
+
+    const handleCancel = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/order/cancel/${cancelOrderID}`, {
+                method: 'PUT',
+            });
+
+            if (response.ok) {
+                alert("Order Cancelled!")
+                window.location.reload()
+            }
+            else {
+                console.log(response)
+                alert('Failed to cancel order');
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            alert('Error cancelling order');
+        }
+    }
 
     useEffect(() => {
         try {
-            fetch('http://localhost:3000/api/order/get-latest-order', {
+            fetch('http://localhost:3000/api/order/ready', {
                 headers: {
                     'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
                     'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
@@ -70,7 +94,7 @@ const AdminPage = () => {
 
     return (
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0 }}>
-            {showPopup && <CustomPopUp togglePopup={togglePopUp} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />}
+            {showCancelPopup && <CustomPopUp togglePopup={toggleCancelPopUp} onConfirm={handleCancel} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />}
             <AdminSideNavBar />
             <div className={styles.home}>
                 <AdminNavBar pageName="Dashboard" />
@@ -123,7 +147,7 @@ const AdminPage = () => {
 
                 <div className={styles.orderHist}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
-                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Latest Order History</div>
+                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Orders Ready for Tailoring</div>
                         <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
                     </div>
                     <table className={styles.orderTable}>
@@ -131,29 +155,29 @@ const AdminPage = () => {
                             <tr>
                                 <th>Date</th>
                                 <th>Placed By</th>
+                                <th>Subtotal</th>
                                 <th>Quantity</th>
-                                <th>Type</th>
-                                <th>Price</th>
                                 <th>No. of Measurements Obtained</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                {ordersData.length > 0 && (
+                                    <th></th>
+                                )}
                             </tr>
                         </thead>
                         <tbody>
                             {ordersData.length > 0 ? (
                                 ordersData.map((orderData) => (
-                                    <tr key={orderData.Order_ID}>
-                                        <td>{new Date(orderData.Date).toLocaleString()}</td>
-                                        <td>{orderData.name}</td>
+                                    <tr key={orderData.order_id}>
+                                        <td>{new Date(orderData.date).toLocaleString()}</td>
+                                        <td>{orderData["placed by"]}</td>
+                                        <td>{`$${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.Type}</td>
-                                        <td>{orderData.price}</td>
-                                        <td>{orderData.measurements}</td>
+                                        <td>{orderData.measurementNo}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <NavLink className={styles.detailBtn}>Details</NavLink>
-                                                <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>
+                                                <button className={styles.cancelBtn} onClick={() => toggleCancelPopUp(orderData.order_id)}>Cancel</button>
                                             </div>
                                         </td>
                                     </tr>

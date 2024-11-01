@@ -1,11 +1,12 @@
 const db = require('./dbconnection'); // Import the MySQL connection from dbconnection.js
 
 const Organization = {
-    // Get all customers
     getAll: (type, callback) => {
-        var query = 'SELECT * FROM organization';
+        var query = `SELECT o.org_id as "id", o.name, email, industry, address, COUNT(product_id) as "Number of Products"
+                     FROM organization o LEFT JOIN products p ON o.org_id = p.org_id WHERE o.status = "active" and p.status = "active"`
         if (type)
-            query += ' WHERE type = ?'
+            query += ' AND type = ?'
+        query += ' GROUP BY o.org_id'
         db.query(query, type ? [type] : [], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -14,38 +15,14 @@ const Organization = {
         });
     },
 
-    getAllCorp: (callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "Corporate"';
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, results);
-        });
-    },
-
-    getAllGovt: (callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "Government"';
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, results);
-        });
-    },
-
-    getCorpRecent: (limit, callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "Corporate" ORDER BY `org_id` DESC LIMIT ?';
-        db.query(query, [limit], (err, results) => {
-            if (err) {
-                return callback(err, null)
-            }
-            callback(null, results)
-        })
-    },
-    getGovtRecent: (limit, callback) => {
-        const query = 'SELECT * FROM organization WHERE type = "Government" ORDER BY `org_id` DESC LIMIT ?';
-        db.query(query, [limit], (err, results) => {
+    getRecent: (limit, type, callback) => {
+        var query = `SELECT o.org_id as "id", o.name, email, industry, address, COUNT(product_id) as "Number of Products"
+                     FROM organization o LEFT JOIN products p ON o.org_id = p.org_id WHERE o.status = "active" and p.status = "active"`
+        if (type) {
+            query += " AND type = ?"
+        }
+        query += " GROUP BY o.org_id ORDER BY o.org_id DESC LIMIT ?"
+        db.query(query, [type, limit], (err, results) => {
             if (err) {
                 return callback(err, null)
             }
@@ -63,10 +40,10 @@ const Organization = {
         })
 
     },
-    createOrg: (name, email, password, type, industry, callback) => {
-        const query = 'INSERT INTO ORGANIZATION (name, email, password, type, industry) VALUES (?, ?, ?, ?, ?)';
+    createOrg: (name, email, password, type, industry, address, callback) => {
+        const query = 'INSERT INTO ORGANIZATION (name, email, password, type, industry, address, status) VALUES (?, ?, ?, ?, ?, ?, "active")';
 
-        db.query(query, [name, email, password, type, industry], (err, results) => {
+        db.query(query, [name, email, password, type, industry, address], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -74,9 +51,9 @@ const Organization = {
         });
     },
 
-    updateOrg: (id, name, email, industry, callback) => {
-        const query = 'UPDATE organization SET name = ?, email = ?, industry = ? WHERE org_id = ?'
-        db.query(query, [name, email, industry, id], (err, results) => {
+    updateOrg: (id, name, email, industry, address, callback) => {
+        const query = 'UPDATE organization SET name = ?, email = ?, industry = ?, address=? WHERE org_id = ?'
+        db.query(query, [name, email, industry, address, id], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -84,7 +61,7 @@ const Organization = {
         });
     },
     deleteOrg: (id, callback) => {
-        const query = 'DELETE FROM ORGANIZATION WHERE org_id = ?';
+        const query = 'UPDATE organization SET status = "inactive" WHERE org_id = ?';
 
         db.query(query, [id], (err, results) => {
             if (err) {
@@ -94,7 +71,7 @@ const Organization = {
         });
     },
     countAll: (callback) => {
-        const query = 'SELECT COUNT(*) AS totalOrganizations FROM organization';
+        const query = 'SELECT COUNT(*) AS totalOrganizations FROM organization WHERE status = "active"';
         db.query(query, (err, results) => {
             if (err) {
                 return callback(err, null);

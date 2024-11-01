@@ -32,10 +32,10 @@ const Employee = {
         })
 
     },
-    createEmp: (name, email, password, org_id, callback) => {
-        const query = 'INSERT INTO employee (name, email, password, org_id) VALUES (?, ?, ?, ?)';
+    createEmp: (name, email, password, org_id, address, callback) => {
+        const query = 'INSERT INTO employee (name, email, password, org_id, address) VALUES (?, ?, ?, ?, ?)';
 
-        db.query(query, [name, email, password, org_id], (err, results) => {
+        db.query(query, [name, email, password, org_id, address], (err, results) => {
             if (err) {
                 return callback(err, null);
             }

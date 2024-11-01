@@ -3,23 +3,57 @@ import AdminSideNavBar from '../components/AdminSideNavBar';
 import styles from '../styles/viewAll.module.css';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import CustomPopUp from "../components/CustomPopUp";
 
-const ViewAll = (params) => {
+const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText }) => {
+    console.log(type)
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage] = useState(10); // Display 10 rows per page
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [itemDeleteID, setItemDeleteID] = useState("")
 
     const navigate = useNavigate()
-    const category = params.category
-    const type = params.type
-    const headers = params.headers
-    console.log(type)
+
+    const toggleDeletePopUp = (id) => {
+        setItemDeleteID(id)
+        setShowDeletePopup(!showDeletePopup); // Show popup when you want
+    };
+
+    const handleDelete = async () => {
+        console.log(deleteLink)
+        try {
+            const response = await fetch(`${deleteLink}${itemDeleteID}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert(`${category} Deleted!`)
+                window.location.reload()
+            }
+            else {
+                alert(`Failed to delete ${category}`);
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            alert('Error deleting organization');
+        }
+    }
 
     useEffect(() => {
         var link = ""
         switch (category) {
             case ("Order"):
-                link = `http://localhost:3000/api/order?type=${type}`
+                if (type) {
+                    if (isReady)
+                        link = `http://localhost:3000/api/order/ready?type=${type}`
+                    else
+                        link = `http://localhost:3000/api/order?type=${type}`
+                }
+                else {
+                    link = `http://localhost:3000/api/order/ready`
+                }
                 break
             case ("Organization"):
                 link = `http://localhost:3000/api/org?type=${type}`
@@ -33,6 +67,7 @@ const ViewAll = (params) => {
         }
         try {
             if (link) {
+                console.log(link)
                 fetch(link)
                     .then(response => {
                         if (!response.ok) {
@@ -40,30 +75,13 @@ const ViewAll = (params) => {
                         }
                         return response.json();
                     })
-                    .then(data => {
-                        if (Object.keys(data[0]).includes("Date")) {
-                            data.forEach((row) => {
-                                row.Date = new Date(row.Date).toLocaleString()
+                    .then(response => {
+                        if (Object.keys(response[0]).includes("date")) {
+                            response.forEach((row) => {
+                                row.date = new Date(row.date).toLocaleString()
                             })
                         }
-                        if (category == "Organization") {
-                            const fetchCounts = data.map(org => {
-                                const id = org.org_id;
-                                return fetch(`http://localhost:3000/api/product/count?org_id=${id}`)
-                                    .then(response => response.json())
-                                    .then(count => {
-                                        org.productNo = count
-                                        return org
-                                    })
-                            });
-                            Promise.all(fetchCounts)
-                                .then(updatedOrgs => {
-                                    setData(updatedOrgs);
-                                });
-                        }
-                        else {
-                            setData(data)
-                        }
+                        setData(response)
                     })
                     .catch(error => console.error(`Error fetching ${category}:`, error));
             }
@@ -71,16 +89,14 @@ const ViewAll = (params) => {
         catch {
             alert("Failed to connect to backend")
         }
-    }, []);
+    }, [])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     // Get current orders for the current page
     const indexOfLastOrder = currentPage * rowsPerPage;
     const indexOfFirstOrder = indexOfLastOrder - rowsPerPage;
     const currentDataList = data.length ? data.slice(indexOfFirstOrder, indexOfLastOrder) : 0
+
 
     // Calculate total pages
     const totalPages = Math.ceil(data.length / rowsPerPage);
@@ -91,6 +107,13 @@ const ViewAll = (params) => {
 
     return (
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7' }}>
+            {showDeletePopup && (
+                <CustomPopUp togglePopup={toggleDeletePopUp}
+                    title={deleteTitle}
+                    text={deleteText}
+                    hasCancel={true}
+                    onConfirm={handleDelete} />
+            )}
             <AdminSideNavBar />
 
             <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: "white", padding: "0 1em 1em 1em", width: "88%" }}>
@@ -102,28 +125,31 @@ const ViewAll = (params) => {
                 </div>
                 <table className={styles.dataTable}>
                     <thead>
-                        <tr>
-                            {Object.keys(headers).map((header) => {
-                                return (
-                                    <th>
-                                        {header}
-                                    </th>
-                                )
-                            })}
-                        </tr>
+                        {currentDataList.length > 0 && (
+                            <tr>
+                                {Object.keys(currentDataList[0]).map((header) => (
+                                    <th>{header[0].toUpperCase() + header.slice(1)}</th>
+                                ))}
+                            </tr>
+                        )}
                     </thead>
                     <tbody>
                         {currentDataList.length > 0 ? (
-                            currentDataList.map((currentData) => (
-                                <tr >
-                                    {Object.values(headers).map((value) => {
-                                        return (<td>{currentData[value]}</td>)
-                                    })}
-                                    <td style={{ textAlign: "center" }}>
-                                        <NavLink className={styles.detailBtn}>Details</NavLink>
-                                    </td>
-                                </tr>
-                            ))
+                            currentDataList.map((currentData) => {
+                                return (
+                                    <tr >
+                                        {Object.values(currentData).map((value) => {
+                                            return (<td>{value}</td>)
+                                        })}
+                                        <td style={{ textAlign: "center", justifyContent: "center" }}>
+                                            <div style={{ display: "flex" }}>
+                                                <NavLink className={styles.detailBtn}>Details</NavLink>
+                                                <NavLink className={styles.cancelBtn} onClick={() => toggleDeletePopUp(currentData.id)}>{category == "Order" ? "Cancel" : "Delete"}</NavLink>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })
                         ) : (
                             <tr>
                                 <td colSpan="8">{`No ${category} available`}</td>

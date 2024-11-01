@@ -16,21 +16,10 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/corp/recent', (req, res) => {
-    productModel.getCorp((err, results) => {
-        if (err) {
-            console.error('Error retrieving product:', err);
-            return res.status(500).send('Error retrieving product');
-        }
-        res.setHeader('Content-Type', 'application/json');
-        return res.json(results);
-
-    })
-})
-
-// for gov product page
-router.get('/govt/recent', (req, res) => {
-    productModel.getGovt((err, results) => {
+router.get('/recent', (req, res) => {
+    const type = req.query.type
+    console.log(type)
+    productModel.getRecent(type, (err, results) => {
         if (err) {
             console.error('Error retrieving product:', err);
             return res.status(500).send('Error retrieving product');

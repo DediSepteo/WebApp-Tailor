@@ -3,7 +3,8 @@ const db = require('./dbconnection'); // Import the MySQL connection from dbconn
 const Product = {
     // Get all customers
     getAll: (type, callback) => {
-        var query = 'SELECT p.*, o.name as org_name FROM products as p INNER JOIN organization as o ON p.org_id = o.org_id';
+        var query = `SELECT p.product_id as id, p.name, p.description, FORMAT(p.price, 2) AS price,
+                    o.name as "organization" FROM products as p INNER JOIN organization as o ON p.org_id = o.org_id WHERE p.status = "active" `;
         if (type)
             query += ' AND o.type = ?'
         db.query(query, type ? [type] : [], (err, results) => {
@@ -14,12 +15,14 @@ const Product = {
         });
     },
 
-    getGovt: (callback) => {
-        const query = `SELECT p.price, p.product_id, p.name, p.description, o.name as org_name
-                        FROM products as p, organization as o
-                        WHERE o.type = "Government" AND p.org_id = o.org_id
-                        ORDER BY p.product_id DESC;`
-        db.query(query, (err, results) => {
+    getRecent: (type, callback) => {
+        var query = `SELECT FORMAT(p.price, 2) AS price, p.product_id AS id, p.name, p.description, o.name as org_name
+                        FROM products as p
+                        INNER JOIN organization as o ON p.org_id = o.org_id WHERE p.status = "active"`
+        if (type)
+            query += ' AND o.type = ?'
+        query += ` ORDER BY p.product_id DESC LIMIT 5;`
+        db.query(query, type ? [type] : [], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -27,19 +30,6 @@ const Product = {
         });
     },
 
-    // Corp Product
-    getCorp: (callback) => {
-        const query = `SELECT p.price, p.product_id, p.name, p.description, o.name as org_name
-                        FROM products as p, organization as o
-                        WHERE o.type = "Corporate" AND p.org_id = o.org_id
-                        ORDER BY p.product_id DESC;`
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, results);
-        });
-    },
     getCount: (org_id, callback) => {
         const query = 'SELECT COUNT(*) AS productNo FROM products WHERE org_id = ?';
         db.query(query, [org_id], (err, results) => {
@@ -71,7 +61,7 @@ const Product = {
     },
 
     deleteProduct: (id, callback) => {
-        const query = 'DELETE FROM products WHERE product_id = ?';
+        const query = 'UPDATE products SET status = "inactive" WHERE product_id = ?';
 
         db.query(query, [id], (err, results) => {
             if (err) {

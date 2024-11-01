@@ -1,9 +1,11 @@
 import ViewAll from "../components/viewAll";
 
-const ViewAllOrg = () => {
-    const headers = { "Name": "name", "Email": "email", "Industry": "industry", "No. of Products": "productNo" }
+const ViewAllOrg = ({ type }) => {
+    const deleteLink = "http://localhost:3000/api/org/"
     return (
-        <ViewAll category="Organization" type="Corporate" headers={headers}></ViewAll>
+        <ViewAll category="Organization" type={type}
+            deleteLink={deleteLink} deleteTitle={"Deleting organization"}
+            deleteText={"Are you sure you want to delete this organization?"}></ViewAll>
     )
 }
 

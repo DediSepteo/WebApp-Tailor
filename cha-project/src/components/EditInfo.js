@@ -76,7 +76,7 @@ const CreateProduct = () => {
                 return
             }
         }
-
+        handleEdit()
     }
 
     return (

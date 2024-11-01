@@ -9,7 +9,6 @@ const AdminProductPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [productsData, setProductsData] = useState([])
     const [productDeleteID, setProductDeleteID] = useState("")
-    const [pageTitle, setPageTitle] = useState("")
 
     const navigate = useNavigate()
 
@@ -20,13 +19,14 @@ const AdminProductPage = () => {
 
     const handleDelete = async () => {
         try {
+            console.log(productDeleteID)
             const response = await fetch(`http://localhost:3000/api/product/${productDeleteID}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 alert("Product Deleted!")
-                // window.location.reload()
+                window.location.reload()
             }
             else {
                 alert('Failed to delete product');
@@ -38,42 +38,21 @@ const AdminProductPage = () => {
         }
     }
 
-    const getAll = async () => {
-        try {
-            fetch('http://localhost:3000/api/products/corp')
-                .then(response => response.json())
-                .then(data => setProductsData(data))
-                .catch(error => console.error('Error fetching organization:', error));
-
-        }
-
-        catch (error) {
-            console.error('Error:', error);
-            alert('Error retrieving organizations');
-        }
-    }
-
     const editProd = (category, id, fields) => {
         navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
     }
 
     const getURL = window.location.href
-    console.log(getURL)
+    const isCorpPage = window.location.href.includes("corporate")
+    const type = isCorpPage ? "corporate" : "government";
 
     useEffect(() => {
-        const isCorpPage = getURL === "http://localhost:3001/admin/corporate/products";
+
 
         // Set the page title based on the URL
-        const newPageTitle = isCorpPage ? 'Manage Products (Corporate)' : 'Manage Products (Government)';
-        setPageTitle(newPageTitle); // Update the state
 
-        // Determine which URL to fetch based on the page
-        const url = isCorpPage
-            ? "http://localhost:3000/api/product/corp/recent"
-            : "http://localhost:3000/api/product/govt/recent";
 
-        // Fetch product data from the correct endpoint
-        fetch(url)
+        fetch(`http://localhost:3000/api/product/recent?type=${type}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -93,12 +72,12 @@ const AdminProductPage = () => {
             )}
             <AdminSideNavBar />
             <div className={styles.container}>
-                <AdminNavBar pageName={pageTitle} />
+                <AdminNavBar pageName={`Manage Products (${type[0].toUpperCase()}${type.slice(1)})`} />
                 <div className={styles.head}>
                     <div className={styles.tableDiv}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
                             <div style={{ fontFamily: "Inter", fontWeight: "bold", alignSelf: "flex-start" }}>Product List</div>
-                            <NavLink className={styles.link} to="/admin/corporate/products/view-products">View All</NavLink>
+                            <NavLink className={styles.link} to={`/admin/${type}/view-products`}>View All</NavLink>
                         </div>
                         <table className={styles.productTable}>
                             <tr>
@@ -106,10 +85,13 @@ const AdminProductPage = () => {
                                 <th>Organization</th>
                                 <th>Description</th>
                                 <th>Price</th>
-                                <th></th>
+                                {productsData.length > 0 && (
+                                    <th></th>
+                                )}
                             </tr>
                             {productsData.length > 0 ? (
                                 productsData.map((productData) => {
+                                    console.log(productData)
                                     const fields = [
                                         {
                                             key: "name",
@@ -141,7 +123,7 @@ const AdminProductPage = () => {
                                             <td>{productData.name}</td>
                                             <td>{productData.org_name}</td>
                                             <td>{productData.description}</td>
-                                            <td>{productData.price}</td>
+                                            <td>{`$${productData.price}`}</td>
                                             <td className={styles.tableBtns}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <button className={styles.editBtn} onClick={() => editProd("product", productData.id, fields)}>Edit</button>
@@ -165,9 +147,9 @@ const AdminProductPage = () => {
                     <div className={styles.manageDiv}>
                         <div className={styles.manageHead}><span style={{ paddingLeft: "1em" }}>Product Management</span></div>
                         <ul>
-                            <li className={styles.li}><NavLink className={styles.link} onClick={getAll}>View all Products</NavLink></li>
-                            <li className={styles.li}><NavLink className={styles.link} to="/admin/corporate/products/register">Register Product</NavLink></li>
-                            <li className={styles.li}><NavLink className={styles.link} to="/admin/corporate/products/registerBulk">Register Multiple Products</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/view-products`}  >View all Products</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/products/register`}>Register Product</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/products/registerBulk`}>Register Multiple Products</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link}>Delete Product</NavLink></li>
                         </ul>
                     </div>

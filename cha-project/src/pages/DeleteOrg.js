@@ -32,7 +32,7 @@ const DeleteOrganization = () => {
     };
 
     const handleRegister = async (event) => {
-        const orgType = window.location.href.includes("corporate") ? "Corporate" : "Government"
+        const orgType = window.location.href.includes("corporate") ? "corporate" : "government"
         event.preventDefault();
         try {
             const response = await fetch('http://localhost:3000/api/org/register', {

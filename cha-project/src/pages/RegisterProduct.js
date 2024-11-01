@@ -5,6 +5,7 @@ import CustomPopUp from '../components/CustomPopUp';
 import SetupWizardPage from '../components/SetupWizardPage';
 
 const CreateProduct = () => {
+    const [type, setType] = useState("")
     const [prodName, setProdName] = useState('');
     const [prodPrice, setProdPrice] = useState('');
     const [org_id, setOrg_id] = useState('');
@@ -31,7 +32,6 @@ const CreateProduct = () => {
             alert("Price cannot be zero or negative")
             return
         }
-        console.log("A")
         const body = {
             "name": prodName,
             "price": prodPrice,
@@ -70,7 +70,7 @@ const CreateProduct = () => {
             }
 
             alert("Product created!")
-            navigate("/admin/corporate/products")
+            navigate(`/admin/${type}/products`)
         }
 
         catch (error) {
@@ -78,8 +78,8 @@ const CreateProduct = () => {
             alert("Failed to connect to backend")
         }
     }
-    const fetchOrgNames = async () => {
-        await fetch("http://localhost:3000/api/org/corp")
+    const fetchOrgNames = () => {
+        fetch(`http://localhost:3000/api/org?type=${type}`)
             .then(response => response.json())
             .then(orgs => {
                 const options = orgs.map((org) => ({
@@ -93,8 +93,19 @@ const CreateProduct = () => {
     }
 
     useEffect(() => {
-        fetchOrgNames()
+        if (window.location.href.includes("corporate")) {
+            setType("corporate")
+        }
+        else {
+            setType("government")
+        }
     }, [])
+
+
+    useEffect(() => {
+        if (type)
+            fetchOrgNames()
+    }, [type])
 
 
     const fields = [

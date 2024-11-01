@@ -48,6 +48,7 @@
 }
   
 .cancelBtn {
+    text-decoration: none;
     background-color: #d44837;
     border: none;
     font-family: "Inter";

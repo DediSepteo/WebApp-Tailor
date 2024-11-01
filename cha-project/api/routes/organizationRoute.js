@@ -34,20 +34,20 @@ router.post(`/gen-link`, (req, res) => {
     });
 });
 
-router.get('/:name', (req, res) => {
-    const name = req.params.name;
+// router.get('/:name', (req, res) => {
+//     const name = req.params.name;
 
-    organizationModel.getOrgByCompany(name, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
-        }
+//     organizationModel.getOrgByCompany(name, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
+//         }
 
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'No organization found for this company' });
-        }
-        return res.json(results);
-    });
-});
+//         if (results.length === 0) {
+//             return res.status(404).json({ message: 'No organization found for this company' });
+//         }
+//         return res.json(results);
+//     });
+// });
 
 // Get all organization
 router.get('/', (req, res) => {

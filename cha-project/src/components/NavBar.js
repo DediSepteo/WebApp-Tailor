@@ -350,7 +350,7 @@ const NavBar = () => {
                                         <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <div>
-                                                <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p>
+                                                {/* <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p> */}
                                             </div>
                                         </div>
                                     </td>

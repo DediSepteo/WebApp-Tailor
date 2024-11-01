@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     const type = req.query.type
     productModel.getAll(type, (err, results) => {
-        if (error) {
+        if (err) {
             return res.status(500).json({ error: 'Error fetching products' });
         }
 

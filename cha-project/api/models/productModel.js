@@ -1,7 +1,19 @@
+const { renderToStaticMarkup } = require('react-dom/server');
 const db = require('./dbconnection'); // Import the MySQL connection from dbconnection.js
 
 const Product = {
-    // Get all customers
+    // Get product id
+    getProductId: (product_id, callback) => {
+        const query = 'SELECT * FROM products WHERE product_id = ?';
+        db.query(query, [product_id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+    
+    // Get all product
     getAll: (callback) => {
         const query = 'SELECT * FROM products';
         db.query(query, (err, results) => {

@@ -3,8 +3,19 @@ const productModel = require('../models/productModel');
 
 const router = express.Router();
 
+router.get('/:product_id', (req, res) => {
+    const product_id = req.params.product_id;
+
+    productModel.getProductId(product_id, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'error fetching products' });
+        }
+        return res.status(200).json(results);
+    });
+});
+
 // get org shop
-router.get('/:org_id', (req, res) => {
+router.get('/org/:org_id', (req, res) => {
     const org_id = req.params.org_id;
 
     productModel.getOrgProduct(org_id, (error, results) => {

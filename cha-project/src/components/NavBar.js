@@ -11,38 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import styles from "../styles/NavBar.module.css";
 
 // Sample cartItems data
-const cartItems = [
-    {
-        uni_id: 2,
-        name: 'Fancy Construction Uniform 1 with Red Pockets',
-        price: 299.99,
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        uni_id: 4,
-        name: 'Black Polo Tee',
-        price: 299.99,
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        uni_id: 5,
-        name: 'Safe Construction Uniform With Green Top and Brown Pants',
-        price: 999.99,
-        detail: 'A suit, also called a lounge suit, business suit, dress suit, or formal suit is a set of clothes comprising a suit jacket and trousers of identical textiles.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-];
+
 
 const NavBar = () => {
     const links = [
@@ -59,42 +28,43 @@ const NavBar = () => {
     const navigate = useNavigate(); // Initialize navigate
 
     // Side cart states
-    const [quantities, setQuantities] = useState(cartItems.map(item => item.quantity));
-    const [lastValidQuantities, setLastValidQuantities] = useState(cartItems.map(item => item.quantity));
+    // Load cart from localStorage (Assume it's an array of { id, size, color, quantity })
+    const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+
+    // Side cart states
+    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
+    const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
     const [cart, setCart] = useState([]);
 
-    // Load cart from localStorage (Assume it's an array of { id, size, color })
-    const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-    console.log(localStorageCart, 'cart token')
-    const filteredCartItems = cartItems
-        .filter(item => localStorageCart.some(cartItem => cartItem.id === item.uni_id)) // Match id to uni_id
-        .map(item => {
-            const localCartItem = localStorageCart.find(cartItem => cartItem.id === item.uni_id); // Match by id
-            return {
-                ...item,
-                quantity: localCartItem?.quantity || 1,
-            };
-        });
 
     useEffect(() => {
-        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        // const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         console.log(localStorageCart, 'cart token');
-        const cartIds = localStorageCart.map(item => item.id);
-        const itemQty = localStorageCart.map(item => item.quantity)
-        fetch(`http://localhost:3000/api/product/${cartIds}`)
-            .then(response => response.json())
-            .then(data => {
-                setCart(data);
-                console.log(data, 'cart data')
-            })
-        console.log("the details", cartIds, itemQty)
-        const initialQuantities = filteredCartItems.map(item => item.quantity);
+        const itemId = localStorageCart.map(item => item.id);
+        console.log(itemId, 'show itemID')
+        const itemQty = localStorageCart.map(item => item.quantity);
+
+        if (itemId.length > 0) {
+            fetch(`http://localhost:3000/api/product/${itemId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setCart(data);
+                    console.log(data, 'cart data 123');
+                });
+        } else {
+            setCart([]);
+        }
+
+        console.log("the details", itemId, itemQty);
+
+        const initialQuantities = localStorageCart.map(item => item.quantity || 1);
         setQuantities(initialQuantities);
         setLastValidQuantities(initialQuantities); // Initialize last valid quantities
     }, []);
+
 
     // Function to calculate subtotal
     const calculateSubtotal = () => {
@@ -104,13 +74,13 @@ const NavBar = () => {
     };
 
     const subtotal = calculateSubtotal();
-    const deliveryCharge = 0; // Set to 0 for the time being
-    const grandTotal = subtotal + deliveryCharge;
 
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
-        const updatedCart = localStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.uni_id === cartItem.id);
+        // Re-fetch `localStorageCart` to get the latest data
+        const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
+            const matchedItem = cart.find(item => item.id === cartItem.id);
             if (matchedItem) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
@@ -122,9 +92,12 @@ const NavBar = () => {
     // Handle item removal
     const handleRemoveItem = (index) => {
         const itemToRemove = cart[index];
-
+        console.log(cart, index)
+        // Re-fetch `localStorageCart` to get the latest data
+        const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         // Remove item from localStorage cart
-        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem.id !== itemToRemove.uni_id);
+        const updatedLocalStorageCart = currentLocalStorageCart.filter(cartItem => cartItem.id !== itemToRemove.id);
+
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
         // Update state: remove item from cart and adjust quantities
@@ -350,6 +323,8 @@ const NavBar = () => {
                                         <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <div>
+                                                <p className={styles.productPrice}>{item.description}</p>
+                                                <br />
                                                 {/* <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p> */}
                                             </div>
                                         </div>

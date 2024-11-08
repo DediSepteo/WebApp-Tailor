@@ -11,38 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import styles from "../styles/NavBar.module.css";
 
 // Sample cartItems data
-const cartItems = [
-    {
-        uni_id: 2,
-        name: 'Fancy Construction Uniform 1 with Red Pockets',
-        price: 299.99,
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        uni_id: 4,
-        name: 'Black Polo Tee',
-        price: 299.99,
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        uni_id: 5,
-        name: 'Safe Construction Uniform With Green Top and Brown Pants',
-        price: 999.99,
-        detail: 'A suit, also called a lounge suit, business suit, dress suit, or formal suit is a set of clothes comprising a suit jacket and trousers of identical textiles.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-];
+
 
 const NavBar = () => {
     const links = [
@@ -59,42 +28,65 @@ const NavBar = () => {
     const navigate = useNavigate(); // Initialize navigate
 
     // Side cart states
-    const [quantities, setQuantities] = useState(cartItems.map(item => item.quantity));
-    const [lastValidQuantities, setLastValidQuantities] = useState(cartItems.map(item => item.quantity));
+    // Load cart from localStorage (Assume it's an array of { id, size, color, quantity })
+    const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+
+    // Side cart states
+    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
+    const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
     const [cart, setCart] = useState([]);
 
-    // Load cart from localStorage (Assume it's an array of { id, size, color })
-    const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-    console.log(localStorageCart, 'cart token')
-    const filteredCartItems = cartItems
-        .filter(item => localStorageCart.some(cartItem => cartItem.id === item.uni_id)) // Match id to uni_id
-        .map(item => {
-            const localCartItem = localStorageCart.find(cartItem => cartItem.id === item.uni_id); // Match by id
-            return {
-                ...item,
-                quantity: localCartItem?.quantity || 1,
-            };
-        });
 
     useEffect(() => {
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         console.log(localStorageCart, 'cart token');
-        const cartIds = localStorageCart.map(item => item.id);
-        const itemQty = localStorageCart.map(item => item.quantity)
-        fetch(`http://localhost:3000/api/product/${cartIds}`)
-            .then(response => response.json())
-            .then(data => {
-                setCart(data);
-                console.log(data, 'cart data')
-            })
-        console.log("the details", cartIds, itemQty)
-        const initialQuantities = filteredCartItems.map(item => item.quantity);
+
+        // Get all item IDs and quantities from localStorageCart
+        const itemIds = localStorageCart.map(item => item.id);
+        const initialQuantities = localStorageCart.map(item => item.quantity || 1);
+        console.log(itemIds, 'this is the itemid')
+
+        if (itemIds.length > 0) {
+            // Map over each item ID to create a fetch request for each item
+            const fetchPromises = itemIds.map(id =>
+                fetch(`http://localhost:3000/api/product/${id}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch product with id ${id}`);
+                        }
+                        return response.json();
+                    })
+            );
+            // Wait for all fetch requests to complete
+            Promise.all(fetchPromises)
+                .then(products => {
+                    const updatedProducts = products.map((product) => {
+                        console.log(product[0], "A ")
+                        return product[0]
+                    })
+                    setCart(updatedProducts); // Set the cart with all fetched products
+                    console.log(products, 'cart data');
+                })
+                .catch(error => {
+                    console.error("Error fetching product data:", error);
+                });
+        } else {
+            console.log("No items in cart.");
+            setCart([]); // Clear cart data if no items are present
+        }
+
+        console.log("Cart details:");
+        console.log("Cart ids:", itemIds);
+        console.log("Cart quantities:", initialQuantities);
+
         setQuantities(initialQuantities);
         setLastValidQuantities(initialQuantities); // Initialize last valid quantities
     }, []);
+
+
 
     // Function to calculate subtotal
     const calculateSubtotal = () => {
@@ -104,13 +96,13 @@ const NavBar = () => {
     };
 
     const subtotal = calculateSubtotal();
-    const deliveryCharge = 0; // Set to 0 for the time being
-    const grandTotal = subtotal + deliveryCharge;
 
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
-        const updatedCart = localStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.uni_id === cartItem.id);
+        // Re-fetch `localStorageCart` to get the latest data
+        const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
+            const matchedItem = cart.find(item => item.id === cartItem.id);
             if (matchedItem) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
@@ -122,9 +114,12 @@ const NavBar = () => {
     // Handle item removal
     const handleRemoveItem = (index) => {
         const itemToRemove = cart[index];
-
+        console.log(cart, index)
+        // Re-fetch `localStorageCart` to get the latest data
+        const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         // Remove item from localStorage cart
-        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem.id !== itemToRemove.uni_id);
+        const updatedLocalStorageCart = currentLocalStorageCart.filter(cartItem => cartItem.id !== itemToRemove.id);
+
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
         // Update state: remove item from cart and adjust quantities
@@ -343,55 +338,62 @@ const NavBar = () => {
                 <div className={styles.contentWrapper}>
                     <table className={styles.tableContent}>
                         <tbody>
-                            {cart.map((item, index) => (
-                                <tr key={index}>
-                                    <td className={styles.productRow}>
-                                        <img src="https://placehold.co/430x640" alt={item.name} className={styles.productImage} />
-                                        <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
-                                            <p className={styles.productName}>{item.name}</p>
-                                            <div>
-                                                <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={styles.quantityContainer}>
-                                            <div className={styles.quantityBox}
-                                                onMouseDown={() => startDecreasing(index)}
-                                                onMouseUp={stopChanging}
-                                                onMouseLeave={stopChanging}>
-                                                <button className={styles.quantityButton} onClick={() => decreaseQuantity(index)}>-</button>
-                                            </div>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    ref={inputRef}
-                                                    className={styles.quantityInput}
-                                                    type="number"
-                                                    value={quantities[index]}
-                                                    min="1"
-                                                    max="50"
-                                                    onChange={(e) => handleInputChange(index, e.target.value)}
-                                                    onBlur={() => handleSaveQuantity(index)}
-                                                    onKeyPress={(e) => handleKeyPress(e, index)}
-                                                />
-                                            ) : (
-                                                <div className={styles.quantityRectangle} onClick={() => setEditingIndex(index)}>
-                                                    <span>{quantities[index]}</span>
+                            {cart.map((item, index) => {
+                                console.log(item.name)
+                                return (
+                                    <tr key={index}>
+                                        <td className={styles.productRow}>
+                                            <img src="https://placehold.co/430x640" alt={item.name} className={styles.productImage} />
+                                            <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
+                                                <p className={styles.productName}>{item.name}</p>
+                                                <div>
+                                                    <p className={styles.productPrice}>{item.description}</p>
+                                                    <br />
+                                                    {/* <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p> */}
                                                 </div>
-                                            )}
-                                            <div className={styles.quantityBox}
-                                                onMouseDown={() => startIncreasing(index)}
-                                                onMouseUp={stopChanging}
-                                                onMouseLeave={stopChanging}>
-                                                <button className={styles.quantityButton} onClick={() => increaseQuantity(index)}>+</button>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className={styles.iconWrapper}>
-                                        <IoClose className={styles.closeIcon} onClick={() => handleRemoveItem(index)} />
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td>
+                                            <div className={styles.quantityContainer}>
+                                                <div className={styles.quantityBox}
+                                                    onMouseDown={() => startDecreasing(index)}
+                                                    onMouseUp={stopChanging}
+                                                    onMouseLeave={stopChanging}>
+                                                    <button className={styles.quantityButton} onClick={() => decreaseQuantity(index)}>-</button>
+                                                </div>
+                                                {editingIndex === index ? (
+                                                    <input
+                                                        ref={inputRef}
+                                                        className={styles.quantityInput}
+                                                        type="number"
+                                                        value={quantities[index]}
+                                                        min="1"
+                                                        max="50"
+                                                        onChange={(e) => handleInputChange(index, e.target.value)}
+                                                        onBlur={() => handleSaveQuantity(index)}
+                                                        onKeyPress={(e) => handleKeyPress(e, index)}
+                                                    />
+                                                ) : (
+                                                    <div className={styles.quantityRectangle} onClick={() => setEditingIndex(index)}>
+                                                        <span>{quantities[index]}</span>
+                                                    </div>
+                                                )}
+                                                <div className={styles.quantityBox}
+                                                    onMouseDown={() => startIncreasing(index)}
+                                                    onMouseUp={stopChanging}
+                                                    onMouseLeave={stopChanging}>
+                                                    <button className={styles.quantityButton} onClick={() => increaseQuantity(index)}>+</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className={styles.iconWrapper}>
+                                            <IoClose className={styles.closeIcon} onClick={() => handleRemoveItem(index)} />
+                                        </td>
+                                    </tr>)
+                            }
+
+
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -403,7 +405,9 @@ const NavBar = () => {
                             <td style={{ fontWeight: 'bold' }}>{`$${subtotal.toFixed(2)}`}</td>
                         </tr>
                     </table>
-                    <button className={styles.checkoutBtn}>Checkout</button>
+                    <Link to='/shoppingcart'>
+                        <button className={styles.checkoutBtn}>Checkout</button>
+                    </Link>
                 </div>
             </div>
 

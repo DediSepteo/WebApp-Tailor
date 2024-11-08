@@ -52,7 +52,7 @@ export const Profile = () => {
                     <p style={{ fontSize: '0.85em' }}>MY PROFILE</p>
                     <p style={{ fontSize: '0.7em', backgroundColor: '#68BDB6', padding: '5px 10px', borderRadius: '4px' }}>Status</p>
                 </div>
-                <div style={{ display: 'flex', width: '85%', marginTop: '20px', justifyContent: 'center', gap: '30px' }}>
+                <div style={{ display: 'flex', width: '85%', margin: '20px 0 50px 0', justifyContent: 'center', gap: '30px' }}>
                     <section className={styles.userDetails}>
                         <div className={styles.userMainInfo}>
                             <FaUserCircle style={{ fontSize: '6em', color: "grey" }} />

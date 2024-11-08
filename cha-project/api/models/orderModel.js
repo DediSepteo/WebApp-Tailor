@@ -74,7 +74,7 @@ const orders = {
             o.date,
             FORMAT(o.subtotal, 2) AS subtotal,
             org.name AS "placed by",
-            COUNT(emp_id) AS measurementNo
+            COUNT(m.name) AS measurementNo
             FROM
                 \`orders\` o
             JOIN 

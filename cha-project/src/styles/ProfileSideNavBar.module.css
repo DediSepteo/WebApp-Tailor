@@ -1,0 +1,40 @@
+.NavBar {
+    left: 0;
+    background-color: #FFFFFF;
+    display: flex; 
+    flex-direction: column;
+    color: #000000;
+    text-align: center;
+    min-height: 100%;
+    align-items: center;
+    max-width: 17vw;
+    z-index: 1;
+    box-shadow: 15px 0px 30px rgba(0, 0, 0, 0.02); /* Shadow to right */
+}
+
+.link {
+    font-family: "Montserrat";
+    font-size: 1.05em;
+    color: #9197B3;
+    text-decoration: none;
+    padding: 0.9em 0.5em; 
+    width: 100%;
+    display: flex;           /* Flex container for icon and text */
+    align-items: center;     /* Vertically center icon and text */
+}
+
+.li {
+    align-self: flex-start;
+    margin-top: 5%;
+    text-align: left;
+    width: 80%;
+    margin-left: 1.5em;
+}
+
+.linkActive {
+    text-decoration: underline;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

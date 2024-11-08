@@ -96,7 +96,7 @@ const AppContent = () => {
                 <Route path="/admin/corporate/orders/detail" element={<OrderDetailPage />} />
                 <Route path="/admin/edit" element={<EditInfo />} />
 
-                <Route path="/admin/order-detail" element={<OrderDetailPage />} />
+                <Route path="/admin/order-details" element={<OrderDetailPage />} />
 
                 {/* govt page */}
                 <Route path="/admin/government/orgs" element={<AdminOrgPage />} />

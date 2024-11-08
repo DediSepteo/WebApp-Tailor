@@ -1,0 +1,49 @@
+.home {
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    background-color: #ECECEC;
+    overflow-x:auto;
+    white-space: nowrap;    
+    width: calc(100vw - 200px),
+}
+
+.card {
+    gap: 1em;   
+    width: 18em;
+    display: inline-block;
+    font-size: 80%;
+    font-family: Inter;
+    background-color: white;
+    padding: 1em 2em 2em 2em;
+    margin: 0 2em;
+    flex-direction: column;
+}
+
+.headerInfo {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.list::-webkit-scrollbar {
+    width: 1px; /* Set the width of the scrollbar (the grey bar) */
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #888;  /* Set the color of the thumb (the draggable part) */
+    border-radius: 10px;
+}
+
+.list::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the track */
+}

@@ -79,14 +79,13 @@ const CreateProduct = () => {
         }
     }
     const fetchOrgNames = () => {
-        fetch(`http://localhost:3000/api/org?type=${type}`)
+        fetch(`http://localhost:3000/api/org/names?type=${type}`)
             .then(response => response.json())
             .then(orgs => {
                 const options = orgs.map((org) => ({
                     value: org.name,
-                    id: org.org_id
+                    id: org.id
                 }))
-                console.log(options)
                 setDropDownInput(options);
             })
 

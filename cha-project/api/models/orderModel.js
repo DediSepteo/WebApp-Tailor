@@ -40,7 +40,7 @@ const orders = {
                 o.date,
                 FORMAT(o.subtotal,2) AS subtotal,
                 org.name AS "placed by",
-                COUNT(emp_id) AS measurementNo
+                COUNT(m.name) AS measurementNo
             FROM 
                 \`orders\` o
             JOIN 
@@ -74,7 +74,7 @@ const orders = {
             o.date,
             FORMAT(o.subtotal, 2) AS subtotal,
             org.name AS "placed by",
-            COUNT(emp_id) AS measurementNo
+            COUNT(m.name) AS measurementNo
             FROM
                 \`orders\` o
             JOIN 
@@ -99,6 +99,17 @@ const orders = {
                 return callback(err, null);
             }
             callback(null, results);
+        });
+    },
+
+    getMeasurements: (id, callback) => {
+        const query = `SELECT measurement, p.name as product_name, m.name as employee_name, p.product_id, address
+                        FROM measurements m INNER JOIN products p ON m.product_id = p.product_id WHERE order_id = ?`
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results); // Assuming orders_ID is unique, we return the first (and only) result
         });
     },
 

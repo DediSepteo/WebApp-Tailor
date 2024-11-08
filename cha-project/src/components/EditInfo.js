@@ -19,19 +19,24 @@ const CreateProduct = () => {
     }
 
     const initData = {}
-    fields.forEach((field) => {
-        initData[field.key] = field.currentVal || ""
-        field.value = initData[field.key]
-        field.onChange = (e) => {
-            field.currentVal = e.target.value
-            setData((prevData) => ({
-                ...prevData,
-                [field.key]: e.target.value
-            }))
-        }
-    })
 
     useEffect(() => {
+        if (!id || !fields || !category) {
+            navigate('/admin/dashboard')
+        }
+        else {
+            fields.forEach((field) => {
+                initData[field.key] = field.currentVal || ""
+                field.value = initData[field.key]
+                field.onChange = (e) => {
+                    field.currentVal = e.target.value
+                    setData((prevData) => ({
+                        ...prevData,
+                        [field.key]: e.target.value
+                    }))
+                }
+            })
+        }
         setData(initData)
     }, [])
 

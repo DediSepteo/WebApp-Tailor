@@ -30,6 +30,16 @@ const Organization = {
         })
     },
 
+    getOrgNames: (type, callback) => {
+        const query = 'SELECT name, org_id as id FROM ORGANIZATION WHERE type = ?';
+        db.query(query, [type], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results)
+        })
+    },
+
     getOrgPass: (email, callback) => {
         const query = 'SELECT * FROM ORGANIZATION WHERE email = ?';
         db.query(query, [email], (err, results) => {

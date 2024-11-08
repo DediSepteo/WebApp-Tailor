@@ -170,12 +170,20 @@
 }
 
 .detailBtn {
-  display: inline-block;
-  background-color: #1fa9d7;
-  text-decoration: none;
-  color: white;
-  padding: 0.5em 1em;
-  border-radius: 10em;
+    font-family: "Inter";
+    font-weight: bold;
+    border: none;
+    display: inline-block;
+    background-color: #1fa9d7;
+    text-decoration: none;
+    color: white;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    border-radius: 10em;
+}
+
+.detailBtn:hover {
+    cursor: pointer;
 }
 
 .cancelBtn {

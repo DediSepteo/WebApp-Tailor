@@ -62,6 +62,7 @@ router.get('/', (req, res) => {
     });
 });
 
+
 router.get(`/recent`, (req, res) => {
     const limit = parseInt(req.query.limit) || 4
     const type = req.query.type
@@ -75,9 +76,22 @@ router.get(`/recent`, (req, res) => {
     })
 })
 
+
+router.get('/names', (req, res) => {
+    const type = req.query.type
+    organizationModel.getOrgNames(type, (err, results) => {
+        if (err) {
+            console.error('Error retrieving product:', err);
+            return res.status(500).send('Error retrieving product');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        return res.json(results);
+
+    })
+})
+
 router.post('/register', async (req, res) => {
     const orgData = req.body
-    console.log(orgData)
     const name = orgData.name
     const email = orgData.email
     const password = orgData.password.toString()

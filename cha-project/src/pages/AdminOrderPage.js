@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar';
 import AdminNavBar from '../components/AdminNavBar';
 import styles from '../styles/AdminHomePage.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CustomPopUp from '../components/CustomPopUp';
 
 const AdminOrderPage = () => {
@@ -11,12 +11,18 @@ const AdminOrderPage = () => {
     const [cancelOrderID, setCancelOrderID] = useState("")
     const [showCancelPopup, setCancelPopup] = useState(false);
 
+    const navigate = useNavigate()
+
     const token = sessionStorage.getItem('authToken');
 
     const toggleCancelPopUp = (id) => {
         setCancelOrderID(id)
         setCancelPopup(!showCancelPopup); // Toggles the confirmation popup
     };
+
+    const toDetails = (orderData) => {
+        navigate('/admin/order-details', { state: { orderData: orderData } })
+    }
 
     const handleCancel = async () => {
         try {
@@ -109,7 +115,7 @@ const AdminOrderPage = () => {
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <NavLink className={styles.detailBtn}>Details</NavLink>
+                                                <button className={styles.detailBtn} onClick={() => { toDetails(orderData) }}>Details</button>
                                                 <button className={styles.cancelBtn} onClick={() => { toggleCancelPopUp(orderData.order_id) }}>Cancel</button>
                                             </div>
                                         </td>

@@ -13,7 +13,7 @@ CREATE TABLE Employee (
     emp_id INT PRIMARY KEY AUTO_INCREMENT,
     org_id INT NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,	
     name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,	
     FOREIGN KEY (org_id) REFERENCES Organization(org_id)
@@ -39,21 +39,24 @@ CREATE TABLE Products (
     Foreign Key (org_id) References Organization(org_id)
 );	
 
-CREATE TABLE Order_List (
-    product_id INT,
-    order_id INT,
-    PRIMARY KEY (product_id, order_id),
-    FOREIGN KEY (product_id) REFERENCES Products(product_id),
-    FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
-);		
+-- CREATE TABLE Order_List (
+--     product_id INT,
+--     order_id INT,
+--     qty INT,
+--     PRIMARY KEY (product_id, order_id),
+--     FOREIGN KEY (product_id) REFERENCES Products(product_id),
+--     FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
+-- );		
 
 CREATE TABLE Measurements (
 	order_id INT,
-    emp_id INT,
+    name varchar(100), 
+    address varchar(255),
     measurement JSON,
-    PRIMARY KEY (order_id, emp_id),
+    product_id INT,
+    PRIMARY KEY (order_id, name),
     FOREIGN KEY (order_id) REFERENCES `Orders`(order_id),
-    FOREIGN KEY (emp_id) REFERENCES Employee(emp_id)
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
 INSERT INTO Organization (name, email, industry, type, password, address, status)
@@ -171,50 +174,53 @@ VALUES
 
 -- Insert dummy data into the Order_List table
 
-INSERT INTO Order_List (product_id, order_id)
-VALUES 
-    (1, 1),
-    (2, 2),
-    (3, 3),
-    (4, 4),
-    (5, 5),
-    (6, 6),
-    (7, 7),
-    (8, 8),
-    (9, 9),
-    (10, 10),
-    (11, 11),
-    (12, 12),
-    (13, 13),
-    (14, 14),
-    (15, 15),
-    (16, 16),
-    (17, 17),
-    (18, 18),
-    (19, 19),
-    (20, 20);
-    
-INSERT INTO Measurements (order_id, emp_id, measurement) VALUES
-(1, 1, '{"Chest": "40 inches", "Waist": "32 inches", "Inseam": "30 inches"}'),
-(1, 2, '{"Chest": "38 inches", "Waist": "30 inches", "Inseam": "29 inches"}'),
-(2, 3, '{"Chest": "42 inches", "Waist": "34 inches", "Inseam": "31 inches"}'),
-(2, 4, '{"Chest": "36 inches", "Waist": "28 inches", "Inseam": "30 inches"}'),
-(3, 5, '{"Chest": "41 inches", "Waist": "33 inches", "Inseam": "31 inches"}'),
-(3, 6, '{"Chest": "39 inches", "Waist": "31 inches", "Inseam": "29 inches"}'),
-(4, 7, '{"Chest": "43 inches", "Waist": "35 inches", "Inseam": "32 inches"}'),
-(4, 8, '{"Chest": "37 inches", "Waist": "29 inches", "Inseam": "30 inches"}'),
-(5, 9, '{"Chest": "45 inches", "Waist": "36 inches", "Inseam": "33 inches"}'),
-(5, 10, '{"Chest": "38 inches", "Waist": "30 inches", "Inseam": "31 inches"}'),
-(6, 11, '{"Chest": "40 inches", "Waist": "32 inches", "Inseam": "30 inches"}'),
-(6, 12, '{"Chest": "36 inches", "Waist": "28 inches", "Inseam": "29 inches"}'),
-(7, 13, '{"Chest": "42 inches", "Waist": "34 inches", "Inseam": "31 inches"}'),
-(7, 14, '{"Chest": "41 inches", "Waist": "33 inches", "Inseam": "30 inches"}'),
-(8, 15, '{"Chest": "39 inches", "Waist": "31 inches", "Inseam": "32 inches"}'),
-(8, 16, '{"Chest": "43 inches", "Waist": "35 inches", "Inseam": "29 inches"}'),
-(9, 17, '{"Chest": "37 inches", "Waist": "29 inches", "Inseam": "30 inches"}'),
-(9, 18, '{"Chest": "45 inches", "Waist": "36 inches", "Inseam": "33 inches"}'),
-(10, 19, '{"Chest": "38 inches", "Waist": "30 inches", "Inseam": "31 inches"}'),
-(10, 20, '{"Chest": "44 inches", "Waist": "34 inches", "Inseam": "32 inches"}');
+-- INSERT INTO Order_List (product_id, order_id)
+-- VALUES 
+--     (1, 1),
+--     (2, 2),
+--     (3, 3),
+--     (4, 4),
+--     (5, 5),
+--     (6, 6),
+--     (7, 7),
+--     (8, 8),
+--     (9, 9),
+--     (10, 10),
+--     (11, 11),
+--     (12, 12),
+--     (13, 13),
+--     (14, 14),
+--     (15, 15),
+--     (16, 16),
+--     (17, 17),
+--     (18, 18),
+--     (19, 19),
+--     (20, 20);
+--     
+-- Create dummy data for the Measurements table with measurements in cm and units included
+INSERT INTO Measurements (order_id, name, address, measurement, product_id)
+VALUES
+    (1, 'John Doe', '123 Maple Street, Cityville', '{"Bust girth": "85.25 cm", "Under bust girth": "72.50 cm", "Upper chest girth": "88.45 cm", "Waist girth": "74.30 cm", "Knee girth": "40.55 cm", "Ankle girth": "22.15 cm", "Thigh girth": "56.40 cm", "Wrist girth": "15.35 cm"}', 1),
+    (2, 'Jane Smith', '456 Oak Avenue, Townsville', '{"Bust girth": "90.10 cm", "Under bust girth": "78.75 cm", "Upper chest girth": "92.35 cm", "Waist girth": "76.20 cm", "Knee girth": "42.45 cm", "Ankle girth": "24.60 cm", "Thigh girth": "58.55 cm", "Wrist girth": "16.05 cm"}', 2),
+    (3, 'Robert Johnson', '789 Pine Road, Villageburg', '{"Bust girth": "88.80 cm", "Under bust girth": "75.90 cm", "Upper chest girth": "90.65 cm", "Waist girth": "78.45 cm", "Knee girth": "43.25 cm", "Ankle girth": "23.30 cm", "Thigh girth": "57.75 cm", "Wrist girth": "15.45 cm"}', 3),
+    (4, 'Emily Davis', '321 Birch Lane, Hamlet', '{"Bust girth": "87.55 cm", "Under bust girth": "76.20 cm", "Upper chest girth": "89.30 cm", "Waist girth": "77.15 cm", "Knee girth": "41.10 cm", "Ankle girth": "22.85 cm", "Thigh girth": "55.60 cm", "Wrist girth": "16.10 cm"}', 4),
+    (5, 'Michael Brown', '654 Cedar Street, Metropolis', '{"Bust girth": "92.35 cm", "Under bust girth": "80.45 cm", "Upper chest girth": "95.50 cm", "Waist girth": "80.75 cm", "Knee girth": "44.65 cm", "Ankle girth": "25.25 cm", "Thigh girth": "60.10 cm", "Wrist girth": "17.30 cm"}', 5),
+    (6, 'Sophia Wilson', '987 Spruce Avenue, City', '{"Bust girth": "86.70 cm", "Under bust girth": "74.60 cm", "Upper chest girth": "89.90 cm", "Waist girth": "75.35 cm", "Knee girth": "40.25 cm", "Ankle girth": "23.05 cm", "Thigh girth": "54.50 cm", "Wrist girth": "15.60 cm"}', 6),
+    (7, 'James Taylor', '147 Elm Road, Town', '{"Bust girth": "89.40 cm", "Under bust girth": "77.80 cm", "Upper chest girth": "91.25 cm", "Waist girth": "79.50 cm", "Knee girth": "42.65 cm", "Ankle girth": "24.10 cm", "Thigh girth": "58.20 cm", "Wrist girth": "16.15 cm"}', 7),
+    (8, 'Olivia Martinez', '258 Willow Court, Suburbia', '{"Bust girth": "91.15 cm", "Under bust girth": "79.45 cm", "Upper chest girth": "93.80 cm", "Waist girth": "81.60 cm", "Knee girth": "43.40 cm", "Ankle girth": "24.70 cm", "Thigh girth": "59.35 cm", "Wrist girth": "16.40 cm"}', 8),
+    (9, 'William Anderson', '369 Chestnut Boulevard, Cityplace', '{"Bust girth": "84.65 cm", "Under bust girth": "72.10 cm", "Upper chest girth": "87.30 cm", "Waist girth": "74.80 cm", "Knee girth": "39.75 cm", "Ankle girth": "22.55 cm", "Thigh girth": "55.15 cm", "Wrist girth": "15.20 cm"}', 9),
+    (10, 'Isabella Thomas', '471 Maple Avenue, Townsquare', '{"Bust girth": "93.50 cm", "Under bust girth": "81.20 cm", "Upper chest girth": "96.40 cm", "Waist girth": "82.90 cm", "Knee girth": "45.35 cm", "Ankle girth": "26.00 cm", "Thigh girth": "61.50 cm", "Wrist girth": "17.50 cm"}', 10),
+    (11, 'Liam Jackson', '582 Oak Drive, Metropolis', '{"Bust girth": "85.30 cm", "Under bust girth": "73.50 cm", "Upper chest girth": "88.25 cm", "Waist girth": "75.40 cm", "Knee girth": "40.65 cm", "Ankle girth": "23.10 cm", "Thigh girth": "56.30 cm", "Wrist girth": "15.50 cm"}', 11),
+    (12, 'Emma White', '693 Pine Court, Cityburg', '{"Bust girth": "91.20 cm", "Under bust girth": "78.65 cm", "Upper chest girth": "93.55 cm", "Waist girth": "80.45 cm", "Knee girth": "42.35 cm", "Ankle girth": "24.35 cm", "Thigh girth": "58.65 cm", "Wrist girth": "16.20 cm"}', 12),
+    (13, 'Noah Harris', '714 Birch Way, Hamlet', '{"Bust girth": "86.95 cm", "Under bust girth": "75.35 cm", "Upper chest girth": "89.85 cm", "Waist girth": "77.15 cm", "Knee girth": "41.25 cm", "Ankle girth": "22.45 cm", "Thigh girth": "57.05 cm", "Wrist girth": "15.65 cm"}', 13),
+    (14, 'Ava Martin', '825 Cedar Street, Countryside', '{"Bust girth": "89.50 cm", "Under bust girth": "77.15 cm", "Upper chest girth": "91.45 cm", "Waist girth": "79.35 cm", "Knee girth": "43.40 cm", "Ankle girth": "23.80 cm", "Thigh girth": "57.90 cm", "Wrist girth": "16.25 cm"}', 14),
+    (15, 'Lucas Lewis', '936 Spruce Avenue, Cityside', '{"Bust girth": "87.35 cm", "Under bust girth": "76.05 cm", "Upper chest girth": "89.10 cm", "Waist girth": "76.55 cm", "Knee girth": "41.30 cm", "Ankle girth": "22.75 cm", "Thigh girth": "55.50 cm", "Wrist girth": "15.30 cm"}', 15),
+    (16, 'Charlotte Walker', '147 Elm Road, Villageplace', '{"Bust girth": "90.25 cm", "Under bust girth": "78.25 cm", "Upper chest girth": "92.65 cm", "Waist girth": "78.95 cm", "Knee girth": "42.55 cm", "Ankle girth": "24.20 cm", "Thigh girth": "58.25 cm", "Wrist girth": "16.15 cm"}', 16),
+    (17, 'Mason Hill', '258 Willow Street, Hamlet', '{"Bust girth": "84.45 cm", "Under bust girth": "72.15 cm", "Upper chest girth": "86.80 cm", "Waist girth": "73.55 cm", "Knee girth": "39.90 cm", "Ankle girth": "22.25 cm", "Thigh girth": "54.90 cm", "Wrist girth": "15.15 cm"}', 17),
+    (18, 'Amelia Scott', '369 Chestnut Lane, Cityplace', '{"Bust girth": "92.10 cm", "Under bust girth": "80.15 cm", "Upper chest girth": "95.05 cm", "Waist girth": "81.20 cm", "Knee girth": "44.20 cm", "Ankle girth": "25.30 cm", "Thigh girth": "60.20 cm", "Wrist girth": "17.20 cm"}', 18),
+    (19, 'Ethan King', '471 Maple Street, Townplace', '{"Bust girth": "87.75 cm", "Under bust girth": "76.45 cm", "Upper chest girth": "90.55 cm", "Waist girth": "77.25 cm", "Knee girth": "41.10 cm", "Ankle girth": "23.15 cm", "Thigh girth": "56.15 cm", "Wrist girth": "15.85 cm"}', 19),
+    (20, 'Mia Green', '582 Oak Drive, Suburbia', '{"Bust girth": "89.95 cm", "Under bust girth": "77.50 cm", "Upper chest girth": "92.35 cm", "Waist girth": "78.50 cm", "Knee girth": "43.05 cm", "Ankle girth": "24.75 cm", "Thigh girth": "58.85 cm", "Wrist girth": "16.30 cm"}', 20);
+
 
 
 -- Note: The `product_id` and `order_id` values assume that the `Products` and `Orders` tables 

@@ -49,6 +49,17 @@ router.get('/ready', (req, res) => {
     });
 })
 
+router.get('/measurements', (req, res) => {
+    const id = req.query.order_id
+    Order.getMeasurements(id, (err, measurements) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ error: 'Failed to retrieve measurements' });
+        }
+        res.json(measurements);
+    });
+})
+
 // Get order by ID
 router.get('/:id', (req, res) => {
     const orderId = req.params.id;

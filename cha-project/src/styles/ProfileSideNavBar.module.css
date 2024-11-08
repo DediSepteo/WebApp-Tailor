@@ -5,7 +5,7 @@
     flex-direction: column;
     color: #000000;
     text-align: center;
-    min-height: 100vh;
+    min-height: 100%;
     align-items: center;
     max-width: 17vw;
     z-index: 1;

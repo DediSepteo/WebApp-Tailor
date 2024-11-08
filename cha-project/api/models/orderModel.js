@@ -114,15 +114,27 @@ const orders = {
     },
 
     // Create a new orders
-    create: (neworders, callback) => {
-        const query = 'INSERT INTO `orders` (org_id, date, quantity, type, subtotal, measurementNo, status) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        const { Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status } = neworders;
+    create: (newOrder, products, callback) => {
+        // Insert into orders table
+        const orderQuery = 'INSERT INTO `orders` (org_id, qty, subtotal, status, date) VALUES (?, ?, ?, ?, ?)';
+        const { org_id, qty, subtotal, date } = newOrder;
 
-        db.query(query, [Org_ID, Date, Quantity, Type, Price, MeasurementNo, Status], (err, results) => {
+        db.query(orderQuery, [org_id, qty, subtotal, date], (err, orderResult) => {
             if (err) {
                 return callback(err, null);
             }
-            callback(null, results.insertId); // Return the ID of the newly created orders
+
+            const orderId = orderResult.insertId;
+
+            const orderListQuery = 'INSERT INTO `order_list` (order_id, product_id) VALUES (?, ?)';
+            const orderListInserts = products.map(productId => [orderId, productId]);
+
+            db.query(orderListQuery, [orderListInserts], (orderListErr) => {
+                if (orderListErr) {
+                    return callback(orderListErr, null);
+                }
+                callback(null, orderId);
+            });
         });
     },
 

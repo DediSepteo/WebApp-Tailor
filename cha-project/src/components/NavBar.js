@@ -405,7 +405,9 @@ const NavBar = () => {
                             <td style={{ fontWeight: 'bold' }}>{`$${subtotal.toFixed(2)}`}</td>
                         </tr>
                     </table>
-                    <button className={styles.checkoutBtn}>Checkout</button>
+                    <Link to='/shoppingcart'>
+                        <button className={styles.checkoutBtn}>Checkout</button>
+                    </Link>
                 </div>
             </div>
 

@@ -4,67 +4,60 @@ import styles from '../styles/ShoppingCart.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 
-// Sample cartItems data
-const cartItems = [
-    {
-        uni_id: 2,
-        name: 'FancyConstructionUniform1',
-        price: 299.99,
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        uni_id: 4,
-        name: 'FancyConstructionUniform',
-        price: 299.99,
-        detail: 'Black tailored polo in flat one piece collar. Fabric is 100% pique cotton',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-    {
-        uni_id: 5,
-        name: 'SafeConstructionUniform',
-        price: 999.99,
-        detail: 'A suit, also called a lounge suit, business suit, dress suit, or formal suit is a set of clothes comprising a suit jacket and trousers of identical textiles.',
-        image: [
-            require('../assets/security.png'),
-            require('../assets/restaurant.png')
-        ],
-    },
-];
 
 export const ShoppingCart = () => {
-    const [quantities, setQuantities] = useState(cartItems.map(item => item.quantity));
-    const [lastValidQuantities, setLastValidQuantities] = useState(cartItems.map(item => item.quantity));
+
+    const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
+    const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
     const [cart, setCart] = useState([]);
 
-    // Load cart from localStorage (Assume it's an array of { id, size, color })
-    const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Filter and map cart items by matching id (from localStorage) to uni_id (in cartItems)
-    const filteredCartItems = cartItems
-        .filter(item => localStorageCart.some(cartItem => cartItem.id === item.uni_id)) // Match id to uni_id
-        .map(item => {
-            const localCartItem = localStorageCart.find(cartItem => cartItem.id === item.uni_id); // Match by id
-            return {
-                ...item,
-                size: localCartItem?.size || 'N/A',
-                color: localCartItem?.color || 'N/A',
-                quantity: localCartItem?.quantity || 1,
-            };
-        });
-
     useEffect(() => {
-        setCart(filteredCartItems);
-        const initialQuantities = filteredCartItems.map(item => item.quantity);
+        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        console.log(localStorageCart, 'cart token');
+
+        // Get all item IDs and quantities from localStorageCart
+        const itemIds = localStorageCart.map(item => item.id);
+        const initialQuantities = localStorageCart.map(item => item.quantity || 1);
+        console.log(itemIds, 'this is the itemid')
+
+        if (itemIds.length > 0) {
+            // Map over each item ID to create a fetch request for each item
+            const fetchPromises = itemIds.map(id =>
+                fetch(`http://localhost:3000/api/product/${id}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch product with id ${id}`);
+                        }
+                        return response.json();
+                    })
+            );
+            // Wait for all fetch requests to complete
+            Promise.all(fetchPromises)
+                .then(products => {
+                    const updatedProducts = products.map((product) => {
+                        console.log(product[0], "A ")
+                        return product[0]
+                    })
+                    setCart(updatedProducts); // Set the cart with all fetched products
+                    console.log(products, 'cart data');
+                })
+                .catch(error => {
+                    console.error("Error fetching product data:", error);
+                });
+        } else {
+            console.log("No items in cart.");
+            setCart([]); // Clear cart data if no items are present
+        }
+
+        console.log("Cart details:");
+        console.log("Cart ids:", itemIds);
+        console.log("Cart quantities:", initialQuantities);
+
         setQuantities(initialQuantities);
         setLastValidQuantities(initialQuantities); // Initialize last valid quantities
     }, []);
@@ -80,10 +73,29 @@ export const ShoppingCart = () => {
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
 
+    // checkout handler
+    const handleCheckout = () => {
+        const decodedToken = jwtDecode(token);
+        const org_id = decodedToken.org_id;
+
+
+        const orderData = cart.map((item, index) => ({
+            id: item.id,
+            quantity: quantities[index]
+        }));
+
+        const orderDetails = {
+            org_id: org_id
+            
+        }
+    }
+    
+
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
-        const updatedCart = localStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.uni_id === cartItem.id);
+        const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
+            const matchedItem = cart.find(item => item.id === cartItem.id);
             if (matchedItem) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
@@ -240,13 +252,12 @@ export const ShoppingCart = () => {
                             {cart.map((item, index) => (
                                 <tr key={index}>
                                     <td className={styles.productRow}>
-                                        <img src={item.image[0]} alt={item.name} className={styles.productImage} />
+                                        <img src="https://placehold.co/430x640" alt={item.name} className={styles.productImage} />
                                         <div style={{ marginLeft: '10px' }}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <p className={styles.productDetails}>{item.detail}</p>
                                             <div style={{ marginTop: '5px' }}>
-                                                <p className={styles.productDetails}>Size: {item.size}</p>
-                                                <p className={styles.productDetails}>Colour: {item.color}</p>
+                                                <p className={styles.productDetails}>Description: {item.description}</p>
                                             </div>
                                         </div>
                                     </td>

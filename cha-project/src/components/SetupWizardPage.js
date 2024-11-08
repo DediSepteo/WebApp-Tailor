@@ -83,7 +83,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                 )}
                                 {field.fieldType === 'dropdown' && (
                                     <select value={field.id} onChange={field.onChange} required={field.required} className={styles.dropDown}>
-                                        <option value="" disabled>Select an option</option>
+                                        <option value="" disabled selected>Select an option</option>
                                         {field.options.map((option, i) => (
                                             <option key={i} value={option.id}>
                                                 {option.value}

@@ -26,11 +26,13 @@
     height: 3em;
     padding: 0.5em;
     resize: none;
+    overflow-y: hidden;
 }
 
 .textArea:focus {
     height: 6em;
-    width: 35%
+    width: 35%;
+    overflow-y: auto;
 }
 
 /* .inputLong {

@@ -110,16 +110,21 @@ const CreateProductBulk = () => {
     }
 
     const fetchOrg_ids = async () => {
-        await fetch("http://localhost:3000/api/org/corp")
-            .then(response => response.json())
-            .then(orgs => {
-                const options = orgs.map((org) => ({
-                    value: org.name,
-                    id: org.org_id
-                }))
-                console.log(options)
-                setDropDownInput(options);
-            })
+        try {
+            await fetch("http://localhost:3000/api/org/corp")
+                .then(response => response.json())
+                .then(orgs => {
+                    const options = orgs.map((org) => ({
+                        value: org.name,
+                        id: org.org_id
+                    }))
+                    console.log(options)
+                    setDropDownInput(options);
+                })
+        }
+        catch {
+            alert("Failed to connect to backend")
+        }
 
     }
 

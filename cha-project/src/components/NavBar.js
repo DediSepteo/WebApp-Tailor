@@ -67,22 +67,30 @@ const NavBar = () => {
     const [cart, setCart] = useState([]);
 
     // Load cart from localStorage (Assume it's an array of { id, size, color })
-    const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
-
+    const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+    console.log(localStorageCart, 'cart token')
     const filteredCartItems = cartItems
         .filter(item => localStorageCart.some(cartItem => cartItem.id === item.uni_id)) // Match id to uni_id
         .map(item => {
             const localCartItem = localStorageCart.find(cartItem => cartItem.id === item.uni_id); // Match by id
             return {
                 ...item,
-                size: localCartItem?.size || 'N/A',
-                color: localCartItem?.color || 'N/A',
                 quantity: localCartItem?.quantity || 1,
             };
         });
 
     useEffect(() => {
-        setCart(filteredCartItems);
+        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        console.log(localStorageCart, 'cart token');
+        const cartIds = localStorageCart.map(item => item.id);
+        const itemQty = localStorageCart.map(item => item.quantity)
+        fetch(`http://localhost:3000/api/product/${cartIds}`)
+            .then(response => response.json())
+            .then(data => {
+                setCart(data);
+                console.log(data, 'cart data')
+            })
+        console.log("the details", cartIds, itemQty)
         const initialQuantities = filteredCartItems.map(item => item.quantity);
         setQuantities(initialQuantities);
         setLastValidQuantities(initialQuantities); // Initialize last valid quantities
@@ -283,6 +291,7 @@ const NavBar = () => {
     const handleLogout = () => {
         sessionStorage.removeItem('token');
         localStorage.removeItem('token'); // Remove token from sessionStorage
+        localStorage.removeItem('cart'); // Remove token from sessionStorage
         setUserName(null); // Clear userName state
         navigate('/Home'); // Redirect to Home page or Login page
     };
@@ -337,11 +346,10 @@ const NavBar = () => {
                             {cart.map((item, index) => (
                                 <tr key={index}>
                                     <td className={styles.productRow}>
-                                        <img src={item.image[0]} alt={item.name} className={styles.productImage} />
+                                        <img src="https://placehold.co/430x640" alt={item.name} className={styles.productImage} />
                                         <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <div>
-                                                <p className={styles.productDetails}>Size: {item.size} | {item.color}</p>
                                                 <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p>
                                             </div>
                                         </div>
@@ -391,8 +399,8 @@ const NavBar = () => {
                 <div className={styles.checkoutContainer}>
                     <table className={styles.totalSum}>
                         <tr>
-                            <td style={{fontFamily: 'Montserrat', fontWeight: 'bold'}}>Subtotal:</td>
-                            <td style={{fontWeight: 'bold'}}>{`$${subtotal.toFixed(2)}`}</td>
+                            <td style={{ fontFamily: 'Montserrat', fontWeight: 'bold' }}>Subtotal:</td>
+                            <td style={{ fontWeight: 'bold' }}>{`$${subtotal.toFixed(2)}`}</td>
                         </tr>
                     </table>
                     <button className={styles.checkoutBtn}>Checkout</button>

@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/orderModel'); // Import the Order model
+const verifyToken = require('../middleware/authMiddleware')
 
 // Get the sum of the orders revenue
 router.get('/revenue', (req, res) => {
-    Order.sumPrice((err, totalRevenue) => {
+    Order.sumSubtotal((err, totalRevenue) => {
         if (err) {
             return res.status(500).json({ error: 'Error fetching total revenue count' });
         }
@@ -14,20 +15,37 @@ router.get('/revenue', (req, res) => {
 
 // Get all orders
 router.get('/', (req, res) => {
-    Order.getAll((err, orders) => {
+    console.log(req.query)
+    const type = req.query.type
+    Order.getAll(type, (err, orders) => {
         if (err) {
+            console.log(err)
             return res.status(500).json({ error: 'Failed to retrieve orders' });
         }
         res.json(orders);
     });
 });
 
-router.get('/get-latest-order', (req, res) => {
-    Order.getLatestOrder((err, latestOrder) => {
+
+router.get('/get-latest-order', (req, res) => { //verify token for protected route, add a verifyToken for protect route
+    const type = req.query.type
+    Order.getLatestOrder(type, (err, latestOrder) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to retrieve latest order' });
         }
         res.json(latestOrder);
+    });
+})
+
+router.get('/ready', (req, res) => {
+    const type = req.query.type
+    const limit = req.query.limit
+    Order.getReadyOrder(type, limit, (err, orders) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ error: 'Failed to retrieve orders' });
+        }
+        res.json(orders);
     });
 })
 
@@ -69,6 +87,20 @@ router.put('/:id', (req, res) => {
             return res.status(404).json({ error: 'Order not found 2' });
         }
         res.json({ message: 'Order updated' });
+    });
+});
+
+router.delete('/cancel/:id', (req, res) => {
+    const orderId = req.params.id;
+
+    Order.cancelOrder(orderId, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to update order' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+        res.json({ message: 'Order Canceled' });
     });
 });
 

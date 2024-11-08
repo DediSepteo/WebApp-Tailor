@@ -32,11 +32,27 @@ router.post(`/gen-link`, (req, res) => {
 
         res.json({ link: generatedLink }); // Send the generated link back to the client
     });
-})
+});
+
+// router.get('/:name', (req, res) => {
+//     const name = req.params.name;
+
+//     organizationModel.getOrgByCompany(name, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
+//         }
+
+//         if (results.length === 0) {
+//             return res.status(404).json({ message: 'No organization found for this company' });
+//         }
+//         return res.json(results);
+//     });
+// });
 
 // Get all organization
 router.get('/', (req, res) => {
-    organizationModel.getAll((err, results) => {
+    const type = req.query.type
+    organizationModel.getAll(type, (err, results) => {
         if (err) {
             console.error('Error fetching organization:', err);
             return res.status(500).send('Error fetching organization');
@@ -46,49 +62,10 @@ router.get('/', (req, res) => {
     });
 });
 
-// Get Govt
-router.get('/govt', (req, res) => {
-    console.log('showing govt')
-    organizationModel.getAllGovt((err, results) => {
-        if (err) {
-            console.error('Error fetching govt org:', err);
-            return res.status(500).send('Error fetching govt org');
-        }
-        console.log('Fetched govt org data:', results); // for debuggin
-        res.setHeader('Content-Type', 'application/json', results);
-        res.json(results);
-    });
-})
-
-// Get corp
-router.get(`/corp`, (req, res) => {
-    console.log("show corp")
-    organizationModel.getAllCorp((err, results) => {
-        if (err) {
-            console.error("Error fetching organization:", err)
-            return res.status(500).send('Error fetching organization');
-        }
-        console.log('Fetched corp org data:', results); // for debuggin
-        res.setHeader('Content-Type', 'application/json', results);
-        res.json(results);
-    })
-})
-
-router.get(`/corp/recent`, (req, res) => {
+router.get(`/recent`, (req, res) => {
     const limit = parseInt(req.query.limit) || 4
-    organizationModel.getCorpRecent(limit, (err, results) => {
-        if (err) {
-            console.error("Error fetching organization:", err)
-            return res.status(500).send('Error fetching organization');
-        }
-        res.setHeader('Content-Type', 'application/json');
-        res.json(results);
-    })
-})
-
-router.get(`/govt/recent`, (req, res) => {
-    const limit = parseInt(req.query.limit) || 4
-    organizationModel.getGovtRecent(limit, (err, results) => {
+    const type = req.query.type
+    organizationModel.getRecent(limit, type, (err, results) => {
         if (err) {
             console.error("Error fetching organization:", err)
             return res.status(500).send('Error fetching organization');
@@ -100,14 +77,16 @@ router.get(`/govt/recent`, (req, res) => {
 
 router.post('/register', async (req, res) => {
     const orgData = req.body
+    console.log(orgData)
     const name = orgData.name
     const email = orgData.email
     const password = orgData.password.toString()
     const type = orgData.type
     const industry = orgData.industry
+    const address = orgData.address
 
     const hashPass = await bcrypt.hash(password, saltRounds)
-    organizationModel.createOrg(name, email, hashPass, type, industry, (err, results) => {
+    organizationModel.createOrg(name, email, hashPass, type, industry, address, (err, results) => {
         if (err) {
             console.error('Error creating organization:', err);
             return res.status(500).send('Error creating organization');
@@ -116,6 +95,19 @@ router.post('/register', async (req, res) => {
         return res.status(201).json({ message: 'Organization created successfully', data: results });
     });
 });
+
+router.put("/:id", (req, res) => {
+    const id = Number(req.params.id)
+    const data = req.body
+    const { name, email, industry } = data
+    organizationModel.updateOrg(id, name, email, industry, (err, results) => {
+        if (err) {
+            console.error("Failed to update organization", err)
+            return res.status(500).send("Error updating organization")
+        }
+        return res.status(204).send("Organization updated successfully")
+    })
+})
 
 router.delete('/:id', (req, res) => {
     const orgID = req.params.id;
@@ -137,7 +129,5 @@ router.get('/count', (req, res) => {
         res.json({ results });
     });
 });
-
-
 
 module.exports = router;

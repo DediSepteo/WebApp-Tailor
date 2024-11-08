@@ -9,6 +9,7 @@ const CreateOrganization = () => {
     const [orgEmail, setOrgEmail] = useState('');
     const [orgPassword, setOrgPassword] = useState('')
     const [orgIndustry, setOrgIndustry] = useState('');
+    const [orgAddress, setOrgAddress] = useState('')
     const [orgProducts, setOrgProducts] = useState([])
 
     const [showError, setShowError] = useState(false);
@@ -23,11 +24,11 @@ const CreateOrganization = () => {
         setShowWarning(!showWarning)
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-
-        const tableHeaders = fields[1].headers
+        // Has to be index of tableInput in fields
+        const tableHeaders = fields[5].headers
         const requiredHeaders = []
         for (let i = 0; i < tableHeaders.length; i++) {
             if (tableHeaders[i].required)
@@ -94,6 +95,7 @@ const CreateOrganization = () => {
                         "password": orgPassword,
                         "type": orgType,
                         "industry": orgIndustry,
+                        "address": orgAddress,
                     }),
             });
 
@@ -105,6 +107,7 @@ const CreateOrganization = () => {
             navigate("/admin/corporate/orgs")
         } catch (error) {
             console.error('Error creating organization');
+            alert("Failed to connect to backend")
         }
     };
 
@@ -135,13 +138,23 @@ const CreateOrganization = () => {
             required: true,
         },
         {
+            fieldType: 'input',
+            label: 'Organization Address',
+            type: 'text',
+            value: orgAddress,
+            onChange: (e) => setOrgAddress(e.target.value),
+            required: true,
+        },
+        {
             fieldType: 'dropdown',
             label: 'Organization Industry',
             type: 'text',
             value: orgIndustry,
             onChange: (e) => setOrgIndustry(e.target.value),
             required: true,
-            options: [{ "value": "Healthcare" }, { "value": "Construction" }, { "value": "Technology" }, { "value": "Education" }]
+            options: [{ "value": "Technology" }, { "value": "Finance" }, { "value": "Healthcare" }, { "value": "Manufacturing" },
+            { "value": "Retail" }, { "value": "Real Estate" }, { "value": "Transportation and Logistics" },
+            { "value": "Construction" }, { "value": "Marketing and Advertising" }, { "value": "Others" }]
         },
         {
             fieldType: 'tableInput',

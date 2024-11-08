@@ -12,6 +12,8 @@ import ViewAllOrder from './pages/viewAllOrder'
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { Profile } from './pages/Profile';
+import { OrderHistory } from './pages/OrderHistory';
 import { CorporateShop } from './pages/CorporateShop';
 import { Shop1Item } from './pages/Shop1Item';
 import { GovtShop } from './pages/GovtShop';
@@ -52,7 +54,7 @@ const AppContent = () => {
     return (
         <>
 
-            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
             <ScrollTop />
             <Routes>
@@ -62,6 +64,18 @@ const AppContent = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/orderhistory" element={<OrderHistory />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
+
+                {/* Protect the following admin routes */}
+                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
+
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
+                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
                 {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
                 <Route path="/Shop1" element={<Shop1Item />} />

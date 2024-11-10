@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styles from '../styles/ShoppingCart.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
-import { jwtDecode } from "jwt-decode"
 
 
 export const ShoppingCart = () => {
@@ -74,22 +73,22 @@ export const ShoppingCart = () => {
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
 
-    // // checkout handler
-    // const handleCheckout = () => {
-    //     const decodedToken = jwtDecode(token);
-    //     const org_id = decodedToken.org_id;
+    // checkout handler
+    const handleCheckout = () => {
+        const decodedToken = jwtDecode(token);
+        const org_id = decodedToken.org_id;
 
 
-    //     const orderData = cart.map((item, index) => ({
-    //         id: item.id,
-    //         quantity: quantities[index]
-    //     }));
+        //     const orderData = cart.map((item, index) => ({
+        //         id: item.id,
+        //         quantity: quantities[index]
+        //     }));
 
-    //     const orderDetails = {
-    //         org_id: org_id
+        const orderDetails = {
+            org_id: org_id
 
-    //     }
-    // }
+        }
+    }
 
 
     // Update localStorage when quantities change

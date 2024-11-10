@@ -12,7 +12,7 @@ const Product = {
             callback(null, results);
         });
     },
-    
+
     // Get all product
     getAll: (type, callback) => {
         var query = `SELECT p.product_id as id, p.name, p.description, FORMAT(p.price, 2) AS price,
@@ -52,7 +52,7 @@ const Product = {
         });
     },
     createProduct: (name, org_id, price, description, callback) => {
-        const query = 'INSERT INTO products (name, org_id, price, description) VALUES (?, ?, ?, ?)';
+        const query = 'INSERT INTO products (name, org_id, price, description, status) VALUES (?, ?, ?, ?, "active")';
 
         db.query(query, [name, org_id, price, description], (err, results) => {
             if (err) {

@@ -431,7 +431,7 @@ const NavBar = () => {
                 <div className={styles.sideDiv}>
                     {userName ? (
                         <div className={styles.userContainer}>
-                            <span className={styles.icons}><FaRegUser /></span>
+                            <NavLink className={styles.icons} to="/profile"><FaRegUser /></NavLink>
                             <span className={styles.userName}>{userName}</span>
                             <button onClick={handleLogout} className={styles.logoutButton}>
                                 Logout

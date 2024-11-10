@@ -13,6 +13,19 @@ router.get('/', (req, res) => {
         return res.status(200).json(results);
     });
 });
+router.get('/recent', (req, res) => {
+    const type = req.query.type
+    console.log(type)
+    productModel.getRecent(type, (err, results) => {
+        if (err) {
+            console.error('Error retrieving product:', err);
+            return res.status(500).send('Error retrieving product');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        return res.json(results);
+
+    })
+})
 
 router.get('/:product_id', (req, res) => {
     const product_id = req.params.product_id;
@@ -37,20 +50,6 @@ router.get('/org/:org_id', (req, res) => {
         return res.status(200).json(results);
     });
 });
-
-router.get('/recent', (req, res) => {
-    const type = req.query.type
-    console.log(type)
-    productModel.getRecent(type, (err, results) => {
-        if (err) {
-            console.error('Error retrieving product:', err);
-            return res.status(500).send('Error retrieving product');
-        }
-        res.setHeader('Content-Type', 'application/json');
-        return res.json(results);
-
-    })
-})
 
 router.get('/count', (req, res) => {
     const org_id = req.query.org_id

@@ -120,7 +120,7 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
                 <div
                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '1em' }}
                 >
-                    <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>{`All ${category} List`}</div>
+                    <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'center' }}>{`All ${category} List`}</div>
                     <NavLink onClick={() => navigate(-1)}>Go back</NavLink>
                 </div>
                 <table className={styles.dataTable}>

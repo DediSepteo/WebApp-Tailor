@@ -4,20 +4,47 @@ import AdminNavBar from '../components/AdminNavBar';
 import styles from '../styles/OrderDetailPage.module.css';
 import CustomPopUp from '../components/CustomPopUp';
 import { useLocation } from 'react-router-dom';
+import { TiTick } from "react-icons/ti";
 
 const OrderDetailPage = ({ }) => {
     const location = useLocation()
     const [measurementData, setMeasurementData] = useState([])
-    const [showPopup, setShowPopup] = useState(false);
+    const [showMarkAllPopup, setShowMarkAllPopup] = useState(false);
+    const [showDeliveryPopup, setShowDeliveryPopup] = useState(false);
     const [completion, setCompletion] = useState([])
 
     const { orderData } = location.state
 
     const token = sessionStorage.getItem('authToken');
 
-    const togglePopUp = () => {
-        setShowPopup(!showPopup); // Toggles the confirmation popup
+    const toggleMarkAllPopUp = () => {
+        console.log("A")
+        setShowMarkAllPopup(!showMarkAllPopup); // Toggles the confirmation popup
     };
+
+    const toggleDeliveryPopUp = () => {
+        setShowDeliveryPopup(!showDeliveryPopup);
+    }
+
+    const toggleCompletionStatus = (index) => {
+        setCompletion(completion.map((status, i) => (i === index ? !status : status)))
+    }
+
+    const setAllCompleted = () => {
+        setCompletion(completion.map((status) => !status))
+    }
+
+    const handleSubmit = () => {
+        const isAllComplete = completion.every((status) => {
+            return status
+        })
+        console.log(isAllComplete)
+        if (!isAllComplete)
+            alert("One or more orders are not complete.")
+        else {
+            alert("Delivery Process begins here")
+        }
+    }
 
     useEffect(() => {
         try {
@@ -47,7 +74,10 @@ const OrderDetailPage = ({ }) => {
 
     return (
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0, overflowX: "hidden" }}>
-            {showPopup && <CustomPopUp togglePopup={togglePopUp} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />}
+            {showDeliveryPopup && <CustomPopUp togglePopup={toggleDeliveryPopUp} title="Begin Delivery Process" text="Are you sure you want to begin the delivery process? All orders have to be completed in order to begin the delivery process"
+                hasCancel={true} onConfirm={handleSubmit} />}
+            {showMarkAllPopup && <CustomPopUp togglePopup={toggleMarkAllPopUp} title="Mark all as Complete" text="Are you sure you want to mark all orders as completed?"
+                hasCancel={true} onConfirm={setAllCompleted} />}
             <AdminSideNavBar />
             <div className={styles.home}>
                 <AdminNavBar pageName={`Order Details for ${orderData["placed by"]}`} />
@@ -79,21 +109,29 @@ const OrderDetailPage = ({ }) => {
                                             )
                                         })}
                                     </div>
-                                    <div>
-                                        {console.log(completion[index])}
+                                    <div style={{ marginTop: "1em" }}>
                                         {completion[index] ? (
-                                            <div>In Progress</div>
+                                            <div className={styles.completionBtn} style={{ backgroundColor: "#18FF4E" }} onClick={() => toggleCompletionStatus(index)}>
+                                                <div className={styles.checkbox}><TiTick /></div>
+                                                <div style={{ textAlign: "center", userSelect: "none" }}>Completed</div>
+                                            </div>
                                         ) : (
-                                            <div>Completed</div>
+                                            <div className={styles.completionBtn} style={{ backgroundColor: "#DDDDDD" }} onClick={() => toggleCompletionStatus(index)}>
+                                                <div className={styles.checkbox}></div>
+                                                <div style={{ textAlign: "center", userSelect: "none" }}>In Progress</div>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                             )
                         })}
                     </div>
+
                 ) : (
                     <div>No order data found</div>
                 )}
+                <div className={styles.markAllComplete} onClick={toggleDeliveryPopUp}>Begin Delivery Process</div>
+                <div className={styles.markAllComplete} onClick={toggleMarkAllPopUp}>Mark/Unmark all as completed</div>
             </div>
         </main >
     );

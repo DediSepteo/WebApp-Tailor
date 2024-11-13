@@ -34,7 +34,6 @@ const CreateOrganization = () => {
             if (tableHeaders[i].required)
                 requiredHeaders.push(tableHeaders[i].title)
         }
-
         if (orgProducts.length) {
             const productsValid = orgProducts.every((product) => {
                 for (let i = 0; i < product.length; i++) {
@@ -43,7 +42,8 @@ const CreateOrganization = () => {
                         return false
                     }
                 }
-                var values = [product.Name, product.Price, product.Description]
+                var values = [product.name, product.price, product.description]
+                // Check if value is undefined or an empty string, including spaces
                 if (values.includes(undefined)) {
                     return false
                 }
@@ -55,7 +55,7 @@ const CreateOrganization = () => {
                 return true
             })
             const missingImages = orgProducts.some((product) => {
-                if (!product.Image) {
+                if (!product.image) {
                     return true
                 }
                 return false
@@ -83,7 +83,7 @@ const CreateOrganization = () => {
         const orgType = window.location.href.includes("corporate") ? "Corporate" : "Government"
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/api/org/register', {
+            fetch('http://localhost:3000/api/org/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,17 +97,42 @@ const CreateOrganization = () => {
                         "industry": orgIndustry,
                         "address": orgAddress,
                     }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error creating organization');
-            }
-
-            alert("Organization created!")
-            navigate("/admin/corporate/orgs")
+            })
+                .then(response => {
+                    if (!response.ok)
+                        throw new Error('Error creating organization');
+                    else
+                        return response.json()
+                })
+                .then(response => {
+                    if (orgProducts.length) {
+                        console.log(orgProducts)
+                        fetch(`http://localhost:3000/api/product/register/${response.data.insertId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(
+                                orgProducts
+                            ),
+                        })
+                            .then(response => {
+                                if (!response.ok)
+                                    throw new Error('Error creating products for organization');
+                                else {
+                                    alert("Organization created and products registered!")
+                                    navigate("/admin/corporate/orgs")
+                                }
+                            })
+                    }
+                    else {
+                        alert("Organization created!")
+                        navigate("/admin/corporate/orgs")
+                    }
+                })
         } catch (error) {
             console.error('Error creating organization');
-            alert("Failed to connect to backend")
+            alert("Error creating organization")
         }
     };
 

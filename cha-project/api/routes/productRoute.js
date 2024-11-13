@@ -63,14 +63,15 @@ router.get('/count', (req, res) => {
     });
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register/:org_id', async (req, res) => {
     const productData = req.body
     const isBulk = Array.isArray(productData)
 
     if (isBulk) {
+        const org_id = req.params.org_id
         try {
             productData.map((product) => {
-                const { name, org_id, price, description } = product
+                const { name, price, description, image } = product
                 productModel.createProduct(name, org_id, price, description, (err, results) => {
                     if (err) {
                         console.error('Error creating product:', err);

@@ -127,6 +127,26 @@ export const ShoppingCart = () => {
         }
     };
 
+    const testToCheckoutPage = () => {
+        if (!cart.length)
+            alert("Cart is empty")
+        else {
+            console.log(cart)
+            fetch("http://localhost:3000/api/payment/checkoutSes", {
+                method: "POST",
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Basic c2tfdGVzdF9oUXRTSnhEWVFjZjF4SzRhekF6amdKOXc6`
+                },
+                body: {
+                    cart: cart
+                }
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+        }
+    }
+
 
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
@@ -359,6 +379,7 @@ export const ShoppingCart = () => {
                         </tr>
                     </table>
                     <button className={styles.checkoutBtn} onClick={handleCheckout}>Checkout</button>
+                    <button className={styles.checkoutBtn} onClick={testToCheckoutPage}>To Payment (Paymongo)</button>
                 </div>
             </div>
         </main>

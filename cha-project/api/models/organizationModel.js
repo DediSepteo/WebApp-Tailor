@@ -50,16 +50,18 @@ const Organization = {
         })
 
     },
-    createOrg: (name, email, password, type, industry, address, callback) => {
-        const query = 'INSERT INTO ORGANIZATION (name, email, password, type, industry, address, status) VALUES (?, ?, ?, ?, ?, ?, "active")';
+    createOrg: (name, email, password, type, industry, address, city, country, address_line1, address_line2, postal_code, state, callback) => {
+        const query = `INSERT INTO Organization (name, email, industry, type, password, address, status, city, country, address_line1, address_line2, postal_code, state) 
+                       VALUES (?, ?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
 
-        db.query(query, [name, email, password, type, industry, address], (err, results) => {
+        db.query(query, [name, email, industry, type, password, address, city, country, address_line1, address_line2, postal_code, state], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
             callback(null, results);
         });
     },
+
 
     updateOrg: (id, name, email, industry, address, callback) => {
         const query = 'UPDATE organization SET name = ?, email = ?, industry = ?, address=? WHERE org_id = ?'

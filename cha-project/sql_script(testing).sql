@@ -1,12 +1,18 @@
 CREATE TABLE Organization (
     org_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(125) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    industry varchar(255) NOT NULL,
-    type varchar(255) NOT NULL,
+    industry varchar(100) NOT NULL,
+    type varchar(10) NOT NULL,
     password VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
-    status VARCHAR(20) NOT NULL
+    status VARCHAR(20) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    address_line1 VARCHAR(255) NOT NULL,
+    address_line2 VARCHAR(255),
+    postal_code VARCHAR(32) NOT NULL,
+	state VARCHAR(50) NOT NULL
 );	
 
 CREATE TABLE Employee (
@@ -39,14 +45,14 @@ CREATE TABLE Products (
     Foreign Key (org_id) References Organization(org_id)
 );	
 
--- CREATE TABLE Order_List (
---     product_id INT,
---     order_id INT,
---     qty INT,
---     PRIMARY KEY (product_id, order_id),
---     FOREIGN KEY (product_id) REFERENCES Products(product_id),
---     FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
--- );		
+CREATE TABLE Order_Products (
+    product_id INT,
+    order_id INT,
+    qty INT,
+    PRIMARY KEY (product_id, order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (order_id) REFERENCES `Orders`(order_id)
+);		
 
 CREATE TABLE Measurements (
 	order_id INT,
@@ -54,178 +60,154 @@ CREATE TABLE Measurements (
     address varchar(255),
     measurement JSON,
     product_id INT,
-    PRIMARY KEY (order_id, name),
+    qty INT,
+    postal_code INT(32),
+    city VARCHAR(50),
+    PRIMARY KEY (order_id, name, product_id),
     FOREIGN KEY (order_id) REFERENCES `Orders`(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-INSERT INTO Organization (name, email, industry, type, password, address, status)
-VALUES
-    ("Tech Innovations", "info@techinnovations.com", "Technology", "Corporate", "$2y$10$hashedPassword1", "101 Tech Way, Silicon Valley, CA 94043", "active"),
-    ("Gourmet Bites", "contact@gourmetbites.com", "Food Services", "Corporate", "$2y$10$hashedPassword2", "202 Culinary Rd, New York, NY 10001", "active"),
-    ("HealthCare Solutions", "support@healthcaresolutions.com", "Healthcare", "Government", "$2y$10$hashedPassword3", "303 Wellness Blvd, Chicago, IL 60601", "active"),
-    ("Eco-Friendly Products", "info@ecofriendlyproducts.com", "Sustainable Goods", "Corporate", "$2y$10$hashedPassword4", "404 Green St, Portland, OR 97201", "active"),
-    ("Smart Home Technologies", "contact@smarthometech.com", "Consumer Electronics", "Corporate", "$2y$10$hashedPassword5", "505 Future Ln, San Francisco, CA 94101", "active"),
-    ("Fashion Fusion", "hello@fashionfusion.com", "Fashion Retail", "Corporate", "$2y$10$hashedPassword6", "606 Trendy St, Miami, FL 33101", "inactive"), -- Only inactive
-    ("Education Hub", "support@educationhub.com", "E-Learning", "Government", "$2y$10$hashedPassword7", "707 Knowledge Blvd, Boston, MA 02101", "active"),
-    ("Green Energy Solutions", "contact@greenenergy.com", "Renewable Energy", "Corporate", "$2y$10$hashedPassword8", "808 Eco Ave, Denver, CO 80201", "active"),
-    ("Travel Adventures", "info@traveladventures.com", "Travel & Tourism", "Corporate", "$2y$10$hashedPassword9", "909 Wanderlust Rd, Las Vegas, NV 89101", "active"),
-    ("Digital Marketing Pros", "support@digitalmarketing.com", "Marketing", "Corporate", "$2y$10$hashedPassword10", "123 Media St, Los Angeles, CA 90001", "active"),
-    ("Real Estate Ventures", "contact@realestateventures.com", "Real Estate", "Corporate", "$2y$10$hashedPassword11", "234 Property Ave, Seattle, WA 98101", "active"),
-    ("Fitness Fanatics", "info@fitnessfanatics.com", "Health & Fitness", "Corporate", "$2y$10$hashedPassword12", "345 Workout Way, Austin, TX 73301", "active"),
-    ("Creative Design Agency", "hello@creativedesign.com", "Graphic Design", "Corporate", "$2y$10$hashedPassword13", "456 Art Ln, Atlanta, GA 30301", "active"),
-    ("Finance Solutions", "support@financesolutions.com", "Financial Services", "Government", "$2y$10$hashedPassword14", "567 Money Blvd, Philadelphia, PA 19101", "active"),
-    ("Construction Experts", "info@constructionexperts.com", "Construction", "Corporate", "$2y$10$hashedPassword15", "678 Build Ave, Charlotte, NC 28201", "active"),
-    ("Pet Supplies Co.", "support@petsupplies.com", "Pet Products", "Corporate", "$2y$10$hashedPassword16", "789 Pet St, Orlando, FL 32801", "active"),
-    ("Beauty & Wellness", "contact@beautywellness.com", "Beauty Products", "Corporate", "$2y$10$hashedPassword17", "890 Glam Ave, New York, NY 10001", "active"),
-    ("Non-Profit Organization", "info@nonprofitorg.com", "Non-Profit", "Government", "$2y$10$hashedPassword18", "901 Charity St, Washington, DC 20001", "active"),
-    ("Local Grocery Store", "support@localgrocery.com", "Retail", "Corporate", "$2y$10$hashedPassword19", "102 Fresh Rd, Houston, TX 77001", "active"),
-    ("Event Management Co.", "hello@eventmanagement.com", "Event Planning", "Corporate", "$2y$10$hashedPassword20", "203 Celebration Blvd, Nashville, TN 37201", "active");
+-- Insert data into Organization (20 entries)
+INSERT INTO Organization (name, email, industry, type, password, address, status, city, country, address_line1, address_line2, postal_code, state) VALUES
+('Tech Innovators Inc.', 'contact@techinnovators.ph', 'Technology', 'Corporate', 'password123', '1234 Tech Street', 'active', 'Manila', 'Philippines', '1234 Tech Street', 'Suite 101', '1000', 'NCR'),
+('Eco Solutions Ltd.', 'info@ecosolutions.ph', 'Environment', 'Government', 'securepass', '567 Green Road', 'inactive', 'Quezon City', 'Philippines', '567 Green Road', 'Room 202', '1101', 'NCR'),
+('Health First', 'hello@healthfirst.ph', 'Healthcare', 'Corporate', 'password456', '789 Health Ave', 'active', 'Cebu City', 'Philippines', '789 Health Ave', 'Building B', '6000', 'Central Visayas'),
+('Safety Group PH', 'support@safetygroup.ph', 'Security', 'Corporate', 'safe2023', '101 Secure Blvd', 'inactive', 'Davao City', 'Philippines', '101 Secure Blvd', 'Floor 4', '8000', 'Davao Region'),
+('Green Energy PH', 'contact@greenenergy.ph', 'Energy', 'Corporate', 'energy123', '202 Solar Road', 'active', 'Taguig', 'Philippines', '202 Solar Road', 'Building C', '1630', 'NCR'),
+('Tech Futures', 'contact@techfutures.ph', 'Technology', 'Corporate', 'futures456', '303 AI Avenue', 'inactive', 'Makati', 'Philippines', '303 AI Avenue', '5th Floor', '1200', 'NCR'),
+('Build Better Inc.', 'support@buildbetter.ph', 'Construction', 'Government', 'builder789', '404 Stone Street', 'active', 'Pasig', 'Philippines', '404 Stone Street', 'Suite 12', '1600', 'NCR'),
+('Farm Fresh Foods', 'info@farmfresh.ph', 'Agriculture', 'Corporate', 'farmer123', '505 Harvest Way', 'inactive', 'Cavite', 'Philippines', '505 Harvest Way', 'Farm B', '4100', 'Calabarzon'),
+('EcoSmart', 'hello@ecosmart.ph', 'Technology', 'Corporate', 'eco456', '606 Green Plaza', 'active', 'Caloocan', 'Philippines', '606 Green Plaza', 'Unit 202', '1400', 'NCR'),
+('City Health PH', 'support@cityhealth.ph', 'Healthcare', 'Government', 'health2023', '707 Wellness Rd', 'active', 'Las Pinas', 'Philippines', '707 Wellness Rd', 'Clinic 1A', '1740', 'NCR'),
+('Visionary Designs', 'info@visionarydesigns.ph', 'Architecture', 'Corporate', 'designs123', '808 Blue Print Ave', 'inactive', 'Mandaluyong', 'Philippines', '808 Blue Print Ave', '4th Floor', '1550', 'NCR'),
+('SecureWorld', 'contact@secureworld.ph', 'Security', 'Corporate', 'secure123', '909 Shield Blvd', 'active', 'Quezon City', 'Philippines', '909 Shield Blvd', 'Main HQ', '1102', 'NCR'),
+('Clean City PH', 'support@cleancity.ph', 'Sanitation', 'Government', 'clean1234', '1010 Hygiene St', 'inactive', 'Pasay', 'Philippines', '1010 Hygiene St', 'Block 3', '1300', 'NCR'),
+('TechConnect', 'hello@techconnect.ph', 'IT Services', 'Corporate', 'connect123', '1111 Network Ln', 'active', 'Muntinlupa', 'Philippines', '1111 Network Ln', 'Suite 5', '1770', 'NCR'),
+('Power Solutions', 'info@powersolutions.ph', 'Energy', 'Corporate', 'power456', '1212 Power Dr', 'inactive', 'Marikina', 'Philippines', '1212 Power Dr', 'Plant A', '1800', 'NCR'),
+('Blue Sky', 'support@bluesky.ph', 'Airline', 'Corporate', 'sky789', '1313 Cloud St', 'active', 'Bacolod', 'Philippines', '1313 Cloud St', 'Unit 304', '6100', 'Western Visayas'),
+('Civic Help PH', 'contact@civichealth.ph', 'Healthcare', 'Government', 'civic123', '1414 Care St', 'inactive', 'Zamboanga', 'Philippines', '1414 Care St', 'Clinic 1', '7000', 'Zamboanga Peninsula'),
+('Agri Life', 'info@agrilife.ph', 'Agriculture', 'Corporate', 'agri456', '1515 Farm Rd', 'active', 'Iloilo', 'Philippines', '1515 Farm Rd', 'Field 8', '5000', 'Western Visayas'),
+('Protective Services', 'hello@protective.ph', 'Security', 'Corporate', 'protect789', '1616 Shield St', 'inactive', 'Dagupan', 'Philippines', '1616 Shield St', 'Unit 8', '2400', 'Ilocos Region'),
+('Clean Water Initiative', 'info@cleanwater.ph', 'Non-Profit', 'Government', 'water123', '1717 Waterway Blvd', 'active', 'Manila', 'Philippines', '1717 Waterway Blvd', 'Floor 2', '1005', 'NCR');
 
-
--- Note: Passwords are hashed (using bcrypt in this example) and are placeholders.
-
-
--- Note: The hashed passwords above are just examples. 
--- Use a hashing library like bcrypt in your application to generate real hashes.
-
--- Insert dummy data into the Employee table
-
+-- Insert data into Employee (20 entries)
 INSERT INTO Employee (org_id, email, password, name, address) VALUES
-(1, 'john.doe@example.com', 'password123', 'John Doe', '123 Elm St, CityA'),
-(2, 'jane.smith@example.com', 'password123', 'Jane Smith', '456 Oak St, CityB'),
-(3, 'alice.johnson@example.com', 'password123', 'Alice Johnson', '789 Pine St, CityC'),
-(4, 'bob.brown@example.com', 'password123', 'Bob Brown', '321 Maple St, CityD'),
-(5, 'charlie.jones@example.com', 'password123', 'Charlie Jones', '654 Cedar St, CityE'),
-(6, 'david.white@example.com', 'password123', 'David White', '987 Birch St, CityF'),
-(7, 'emma.green@example.com', 'password123', 'Emma Green', '135 Willow St, CityG'),
-(8, 'frank.lee@example.com', 'password123', 'Frank Lee', '246 Spruce St, CityH'),
-(9, 'grace.harris@example.com', 'password123', 'Grace Harris', '369 Fir St, CityI'),
-(10, 'henry.miller@example.com', 'password123', 'Henry Miller', '147 Elm St, CityJ'),
-(11, 'isabella.garcia@example.com', 'password123', 'Isabella Garcia', '258 Oak St, CityK'),
-(12, 'jack.wilson@example.com', 'password123', 'Jack Wilson', '369 Pine St, CityL'),
-(13, 'karen.martinez@example.com', 'password123', 'Karen Martinez', '789 Maple St, CityM'),
-(14, 'liam.davis@example.com', 'password123', 'Liam Davis', '951 Cedar St, CityN'),
-(15, 'mason.rodriguez@example.com', 'password123', 'Mason Rodriguez', '357 Birch St, CityO'),
-(16, 'nora.perez@example.com', 'password123', 'Nora Perez', '159 Willow St, CityP'),
-(17, 'olivia.brown@example.com', 'password123', 'Olivia Brown', '753 Spruce St, CityQ'),
-(18, 'peter.jones@example.com', 'password123', 'Peter Jones', '159 Fir St, CityR'),
-(19, 'quinn.smith@example.com', 'password123', 'Quinn Smith', '753 Elm St, CityS'),
-(20, 'ryan.clark@example.com', 'password123', 'Ryan Clark', '951 Oak St, CityT');
-
+(1, 'employee1@techinnovators.ph', 'emp123', 'Juan dela Cruz', '1234 Tech Street, Manila'),
+(1, 'employee2@techinnovators.ph', 'emp456', 'Maria Santos', '5678 Innovate Road, Manila'),
+(2, 'employee1@ecosolutions.ph', 'emp789', 'Jose Rizal', '910 Greenfield, Quezon City'),
+(3, 'employee1@healthfirst.ph', 'emp321', 'Ana de la Cruz', '321 Healthy Lane, Cebu City'),
+(4, 'employee1@safetygroup.ph', 'emp654', 'Carlos Garcia', '101 Secure Blvd, Davao City'),
+(5, 'employee1@greenenergy.ph', 'emp987', 'Miguel Tan', '202 Solar Road, Taguig'),
+(6, 'employee1@techfutures.ph', 'emp111', 'Luis Reyes', '303 AI Avenue, Makati'),
+(7, 'employee1@buildbetter.ph', 'emp222', 'Patricia Cruz', '404 Stone Street, Pasig'),
+(8, 'employee1@farmfresh.ph', 'emp333', 'Lorna Abad', '505 Harvest Way, Cavite'),
+(9, 'employee1@ecosmart.ph', 'emp444', 'Gabriel Villanueva', '606 Green Plaza, Caloocan'),
+(10, 'employee1@cityhealth.ph', 'emp555', 'Isabel Romero', '707 Wellness Rd, Las Pinas'),
+(11, 'employee1@visionarydesigns.ph', 'emp666', 'Francis Torres', '808 Blue Print Ave, Mandaluyong'),
+(12, 'employee1@secureworld.ph', 'emp777', 'Alvin Aquino', '909 Shield Blvd, Quezon City'),
+(13, 'employee1@cleancity.ph', 'emp888', 'Dolores Mateo', '1010 Hygiene St, Pasay'),
+(14, 'employee1@techconnect.ph', 'emp999', 'Emilio Ramos', '1111 Network Ln, Muntinlupa'),
+(15, 'employee1@powersolutions.ph', 'emp101', 'Jessica Lee', '1212 Power Dr, Marikina'),
+(16, 'employee1@bluesky.ph', 'emp102', 'Oscar Dominguez', '1313 Cloud St, Bacolod'),
+(17, 'employee1@civichealth.ph', 'emp103', 'Lorena Gomez', '1414 Care St, Zamboanga'),
+(18, 'employee1@agrilife.ph', 'emp104', 'Carlos Bautista', '1515 Farm Rd, Iloilo'),
+(19, 'employee1@protective.ph', 'emp105', 'Sofia Cruz', '1616 Shield St, Dagupan'),
+(20, 'employee1@cleanwater.ph', 'emp106', 'Rafael Jimenez', '1717 Waterway Blvd, Manila');
 
 -- Note: Passwords are hashed (using bcrypt in this example) and are placeholders.
 -- The measurements column contains typical height, weight, and body measurements.
 
 
-INSERT INTO Products (product_id, org_id, price, description, name, status) 
-VALUES 
-(1, 12, 499.99, 'This elegant tuxedo is crafted from luxurious wool, featuring a satin peak lapel and a fitted silhouette that flatters every body type. Ideal for formal events and black-tie occasions.', 'Classic Wool Tuxedo', 'active'), 
-(2, 9, 299.99, 'Made from premium linen, this lightweight suit offers breathability and comfort for summer weddings. The natural fibers give a relaxed yet refined look.', 'Lightweight Linen Suit', 'active'), 
-(3, 2, 399.99, 'This striking navy blazer is tailored to perfection, with a modern cut and intricate stitching. Perfect for professional settings or upscale events.', 'Tailored Navy Blazer', 'active'), 
-(4, 8, 350.00, 'This sophisticated three-piece suit features a subtle check pattern, ideal for making a lasting impression at business meetings and social gatherings.', 'Checked Three-Piece Suit', 'active'), 
-(5, 5, 450.00, 'An eye-catching velvet suit that adds a touch of opulence to your wardrobe. Perfect for parties and special events, it features a slim fit and deep color.', 'Luxury Velvet Suit', 'discontinued'), 
-(6, 6, 329.99, 'This modern-fit suit is made from breathable polyester fabric, ensuring a comfortable wear throughout the day. Perfect for both work and play.', 'Modern Fit Polyester Suit', 'active'), 
-(7, 14, 599.99, 'This high-end silk suit shines with elegance, featuring fine tailoring and a luxurious feel. Ideal for weddings and gala events, it makes you stand out in any crowd.', 'Premium Silk Suit', 'active'), 
-(8, 17, 279.99, 'With a contemporary cut and soft fabric, this casual suit is perfect for less formal occasions while maintaining an air of sophistication.', 'Casual Smart Suit', 'active'), 
-(9, 11, 399.00, 'A versatile charcoal suit that can transition from the office to a night out with ease. Features a classic notch lapel and two-button closure.', 'Charcoal Classic Suit', 'active'), 
-(10, 3, 550.00, 'This statement-making burgundy suit is ideal for those looking to stand out. Made from rich fabric with a unique pattern, it’s perfect for weddings and events.', 'Burgundy Statement Suit', 'active'), 
-(11, 14, 379.99, 'A timeless black suit with a modern twist, featuring a slightly tapered leg and crisp lines. Perfect for any formal occasion.', 'Modern Black Suit', 'active'), 
-(12, 16, 320.00, 'This elegant cream suit is perfect for summer events, offering a light and airy feel while maintaining style and sophistication.', 'Summer Cream Suit', 'active'), 
-(13, 12, 450.00, 'This refined houndstooth suit is made from premium materials, ensuring comfort and durability while making a stylish statement.', 'Houndstooth Suit', 'active'), 
-(14, 5, 475.00, 'Crafted with attention to detail, this striking patterned suit adds personality to your wardrobe. Perfect for fashion-forward individuals.', 'Patterned Designer Suit', 'active'), 
-(15, 19, 299.99, 'A sleek and simple suit made from stretch fabric that allows for ease of movement, making it perfect for active professionals.', 'Stretch Fabric Suit', 'active'), 
-(16, 14, 369.99, 'An exquisite navy plaid suit that offers a refined look. Great for both business and formal occasions, it ensures you look sharp and polished.', 'Navy Plaid Suit', 'active'), 
-(17, 11, 400.00, 'This versatile light grey suit features a modern cut, ideal for any occasion from business meetings to evening events.', 'Light Grey Modern Suit', 'active'), 
-(18, 15, 450.00, 'A sharp and stylish dark green suit that brings a unique twist to formal wear. Perfect for those who want to make a bold statement.', 'Dark Green Suit', 'active'), 
-(19, 13, 310.00, 'This fitted suit offers a contemporary silhouette, making it an excellent choice for young professionals looking to elevate their style.', 'Fitted Young Professional Suit', 'active'), 
-(20, 5, 420.00, 'An upscale charcoal tweed suit that combines classic elements with modern design, perfect for chilly evenings and stylish outings.', 'Charcoal Tweed Suit', 'active');
+INSERT INTO `Orders` (org_id, qty, subtotal, status, date) VALUES
+(1, 10, 1500.00, 'Awaiting Measurements', '2024-11-01'),
+(2, 5, 750.00, 'Completed', '2024-10-15'),
+(3, 20, 2000.00, 'Ready', '2024-11-10'),
+(4, 15, 1800.00, 'Cancelled', '2024-09-05'),
+(5, 7, 1050.00, 'Completed', '2024-08-20'),
+(6, 12, 1350.00, 'Ready', '2024-07-10'),
+(7, 3, 450.00, 'Cancelled', '2024-06-25'),
+(8, 14, 1680.00, 'Awaiting Measurements', '2024-10-02'),
+(9, 9, 1260.00, 'Completed', '2024-11-03'),
+(10, 6, 900.00, 'Ready', '2024-11-05'),
+(11, 15, 2250.00, 'Cancelled', '2024-05-15'),
+(12, 4, 600.00, 'Awaiting Measurements', '2024-08-01'),
+(13, 18, 2700.00, 'Completed', '2024-07-18'),
+(14, 8, 1200.00, 'Ready', '2024-04-04'),
+(15, 10, 1500.00, 'Cancelled', '2024-09-12'),
+(16, 2, 300.00, 'Awaiting Measurements', '2024-10-11'),
+(17, 20, 3000.00, 'Completed', '2024-10-23'),
+(18, 16, 2400.00, 'Ready', '2024-03-30'),
+(19, 11, 1650.00, 'Cancelled', '2024-06-15'),
+(20, 13, 1950.00, 'Awaiting Measurements', '2024-11-08');
 
+-- Insert data into Products (20 entries)
+INSERT INTO Products (org_id, price, description, name, status) VALUES
+(1, 150.00, 'High-quality office chair', 'ErgoChair', 'active'),
+(2, 300.00, 'Eco-friendly desk', 'GreenDesk', 'inactive'),
+(3, 75.00, 'Ergonomic mouse', 'ComfortMouse', 'active'),
+(4, 50.00, 'Anti-glare screen protector', 'ClearVision', 'inactive'),
+(5, 120.00, 'Wireless keyboard', 'KeyFree', 'active'),
+(6, 250.00, 'Laptop stand', 'LaptopElevate', 'inactive'),
+(7, 40.00, 'Cable organizer', 'NeatCables', 'active'),
+(8, 200.00, 'Standing desk mat', 'ComfortMat', 'inactive'),
+(9, 175.00, 'Noise-cancelling headphones', 'SilenceMax', 'active'),
+(10, 65.00, 'Smartphone holder', 'PhoneGrip', 'active'),
+(11, 150.00, 'Lumbar support cushion', 'BackEase', 'inactive'),
+(12, 85.00, 'Wireless charger', 'ChargeFast', 'active'),
+(13, 130.00, 'Adjustable desk lamp', 'BrightLight', 'inactive'),
+(14, 300.00, 'Air purifier', 'CleanAir', 'active'),
+(15, 110.00, 'Desktop whiteboard', 'IdeaBoard', 'inactive'),
+(16, 60.00, 'Portable projector', 'ProjectX', 'active'),
+(17, 220.00, 'Smart coffee maker', 'BrewSmart', 'active'),
+(18, 95.00, 'Document scanner', 'ScanEasy', 'inactive'),
+(19, 150.00, 'Desk organizer', 'DeskMate', 'active'),
+(20, 70.00, 'USB hub', 'HubCentral', 'inactive');
 
--- Note: The `org_id` values correspond to the 20 different organizations (1 through 20).
+-- Insert data into Order_Products (20 entries)
+INSERT INTO Order_Products (product_id, order_id, qty) VALUES
+(1, 1, 2),
+(2, 2, 3),
+(3, 3, 1),
+(4, 4, 5),
+(5, 5, 7),
+(6, 6, 4),
+(7, 7, 6),
+(8, 8, 8),
+(9, 9, 10),
+(10, 10, 9),
+(11, 11, 1),
+(12, 12, 2),
+(13, 13, 5),
+(14, 14, 3),
+(15, 15, 4),
+(16, 16, 2),
+(17, 17, 6),
+(18, 18, 7),
+(19, 19, 8),
+(20, 20, 3);
 
--- Insert dummy data into the Orders table
-
-INSERT INTO Orders (org_id, qty, subtotal, status, date)
-VALUES 
-    (1, 10, 199.90, 'Awaiting Measurements', '2024-09-01'),
-    (2, 5, 499.75, 'Ready', '2024-09-05'),
-    (3, 12, 2388.00, 'Completed', '2024-09-10'),
-    (4, 8, 366.00, 'Cancelled', '2024-09-15'),
-    (5, 7, 1750.00, 'Awaiting Measurements', '2024-09-20'),
-    (6, 4, 59.96, 'Completed', '2024-09-22'),
-    (7, 20, 2599.80, 'Ready', '2024-09-25'),
-    (8, 15, 1125.00, 'Awaiting Measurements', '2024-09-28'),
-    (9, 18, 1619.82, 'Completed', '2024-10-01'),
-    (10, 25, 1499.75, 'Cancelled', '2024-10-03'),
-    (11, 6, 660.00, 'Ready', '2024-10-07'),
-    (12, 3, 119.97, 'Cancelled', '2024-10-10'),
-    (13, 2, 599.98, 'Completed', '2024-10-12'),
-    (14, 10, 499.90, 'Awaiting Measurements', '2024-10-15'),
-    (15, 8, 1439.92, 'Ready', '2024-10-18'),
-    (16, 7, 1399.93, 'Completed', '2024-10-19'),
-    (17, 12, 906.00, 'Cancelled', '2024-10-20'),
-    (18, 9, 2025.00, 'Awaiting Measurements', '2024-10-21'),
-    (19, 5, 499.95, 'Completed', '2024-10-22'),
-    (20, 4, 598.00, 'Ready', '2024-10-23');
-
--- Note: The `org_id` values correspond to the 20 different organizations (1 through 20).
--- The `status` field is randomly selected from the provided statuses.
-
--- Insert dummy data into the Order_List table
-
--- INSERT INTO Order_List (product_id, order_id)
--- VALUES 
---     (1, 1),
---     (2, 2),
---     (3, 3),
---     (4, 4),
---     (5, 5),
---     (6, 6),
---     (7, 7),
---     (8, 8),
---     (9, 9),
---     (10, 10),
---     (11, 11),
---     (12, 12),
---     (13, 13),
---     (14, 14),
---     (15, 15),
---     (16, 16),
---     (17, 17),
---     (18, 18),
---     (19, 19),
---     (20, 20);
---     
--- Create dummy data for the Measurements table with measurements in cm and units included
-INSERT INTO Measurements (order_id, name, address, measurement, product_id)
-VALUES
-    (1, 'John Doe', '123 Maple Street, Cityville', '{"Bust girth": "85.25 cm", "Under bust girth": "72.50 cm", "Upper chest girth": "88.45 cm", "Waist girth": "74.30 cm", "Knee girth": "40.55 cm", "Ankle girth": "22.15 cm", "Thigh girth": "56.40 cm", "Wrist girth": "15.35 cm"}', 1),
-    (2, 'Jane Smith', '456 Oak Avenue, Townsville', '{"Bust girth": "90.10 cm", "Under bust girth": "78.75 cm", "Upper chest girth": "92.35 cm", "Waist girth": "76.20 cm", "Knee girth": "42.45 cm", "Ankle girth": "24.60 cm", "Thigh girth": "58.55 cm", "Wrist girth": "16.05 cm"}', 2),
-    (3, 'Robert Johnson', '789 Pine Road, Villageburg', '{"Bust girth": "88.80 cm", "Under bust girth": "75.90 cm", "Upper chest girth": "90.65 cm", "Waist girth": "78.45 cm", "Knee girth": "43.25 cm", "Ankle girth": "23.30 cm", "Thigh girth": "57.75 cm", "Wrist girth": "15.45 cm"}', 3),
-    (4, 'Emily Davis', '321 Birch Lane, Hamlet', '{"Bust girth": "87.55 cm", "Under bust girth": "76.20 cm", "Upper chest girth": "89.30 cm", "Waist girth": "77.15 cm", "Knee girth": "41.10 cm", "Ankle girth": "22.85 cm", "Thigh girth": "55.60 cm", "Wrist girth": "16.10 cm"}', 4),
-    (5, 'Michael Brown', '654 Cedar Street, Metropolis', '{"Bust girth": "92.35 cm", "Under bust girth": "80.45 cm", "Upper chest girth": "95.50 cm", "Waist girth": "80.75 cm", "Knee girth": "44.65 cm", "Ankle girth": "25.25 cm", "Thigh girth": "60.10 cm", "Wrist girth": "17.30 cm"}', 5),
-    (6, 'Sophia Wilson', '987 Spruce Avenue, City', '{"Bust girth": "86.70 cm", "Under bust girth": "74.60 cm", "Upper chest girth": "89.90 cm", "Waist girth": "75.35 cm", "Knee girth": "40.25 cm", "Ankle girth": "23.05 cm", "Thigh girth": "54.50 cm", "Wrist girth": "15.60 cm"}', 6),
-    (7, 'James Taylor', '147 Elm Road, Town', '{"Bust girth": "89.40 cm", "Under bust girth": "77.80 cm", "Upper chest girth": "91.25 cm", "Waist girth": "79.50 cm", "Knee girth": "42.65 cm", "Ankle girth": "24.10 cm", "Thigh girth": "58.20 cm", "Wrist girth": "16.15 cm"}', 7),
-    (8, 'Olivia Martinez', '258 Willow Court, Suburbia', '{"Bust girth": "91.15 cm", "Under bust girth": "79.45 cm", "Upper chest girth": "93.80 cm", "Waist girth": "81.60 cm", "Knee girth": "43.40 cm", "Ankle girth": "24.70 cm", "Thigh girth": "59.35 cm", "Wrist girth": "16.40 cm"}', 8),
-    (9, 'William Anderson', '369 Chestnut Boulevard, Cityplace', '{"Bust girth": "84.65 cm", "Under bust girth": "72.10 cm", "Upper chest girth": "87.30 cm", "Waist girth": "74.80 cm", "Knee girth": "39.75 cm", "Ankle girth": "22.55 cm", "Thigh girth": "55.15 cm", "Wrist girth": "15.20 cm"}', 9),
-    (10, 'Isabella Thomas', '471 Maple Avenue, Townsquare', '{"Bust girth": "93.50 cm", "Under bust girth": "81.20 cm", "Upper chest girth": "96.40 cm", "Waist girth": "82.90 cm", "Knee girth": "45.35 cm", "Ankle girth": "26.00 cm", "Thigh girth": "61.50 cm", "Wrist girth": "17.50 cm"}', 10),
-    (11, 'Liam Jackson', '582 Oak Drive, Metropolis', '{"Bust girth": "85.30 cm", "Under bust girth": "73.50 cm", "Upper chest girth": "88.25 cm", "Waist girth": "75.40 cm", "Knee girth": "40.65 cm", "Ankle girth": "23.10 cm", "Thigh girth": "56.30 cm", "Wrist girth": "15.50 cm"}', 11),
-    (12, 'Emma White', '693 Pine Court, Cityburg', '{"Bust girth": "91.20 cm", "Under bust girth": "78.65 cm", "Upper chest girth": "93.55 cm", "Waist girth": "80.45 cm", "Knee girth": "42.35 cm", "Ankle girth": "24.35 cm", "Thigh girth": "58.65 cm", "Wrist girth": "16.20 cm"}', 12),
-    (13, 'Noah Harris', '714 Birch Way, Hamlet', '{"Bust girth": "86.95 cm", "Under bust girth": "75.35 cm", "Upper chest girth": "89.85 cm", "Waist girth": "77.15 cm", "Knee girth": "41.25 cm", "Ankle girth": "22.45 cm", "Thigh girth": "57.05 cm", "Wrist girth": "15.65 cm"}', 13),
-    (14, 'Ava Martin', '825 Cedar Street, Countryside', '{"Bust girth": "89.50 cm", "Under bust girth": "77.15 cm", "Upper chest girth": "91.45 cm", "Waist girth": "79.35 cm", "Knee girth": "43.40 cm", "Ankle girth": "23.80 cm", "Thigh girth": "57.90 cm", "Wrist girth": "16.25 cm"}', 14),
-    (15, 'Lucas Lewis', '936 Spruce Avenue, Cityside', '{"Bust girth": "87.35 cm", "Under bust girth": "76.05 cm", "Upper chest girth": "89.10 cm", "Waist girth": "76.55 cm", "Knee girth": "41.30 cm", "Ankle girth": "22.75 cm", "Thigh girth": "55.50 cm", "Wrist girth": "15.30 cm"}', 15),
-    (16, 'Charlotte Walker', '147 Elm Road, Villageplace', '{"Bust girth": "90.25 cm", "Under bust girth": "78.25 cm", "Upper chest girth": "92.65 cm", "Waist girth": "78.95 cm", "Knee girth": "42.55 cm", "Ankle girth": "24.20 cm", "Thigh girth": "58.25 cm", "Wrist girth": "16.15 cm"}', 16),
-    (17, 'Mason Hill', '258 Willow Street, Hamlet', '{"Bust girth": "84.45 cm", "Under bust girth": "72.15 cm", "Upper chest girth": "86.80 cm", "Waist girth": "73.55 cm", "Knee girth": "39.90 cm", "Ankle girth": "22.25 cm", "Thigh girth": "54.90 cm", "Wrist girth": "15.15 cm"}', 17),
-    (18, 'Amelia Scott', '369 Chestnut Lane, Cityplace', '{"Bust girth": "92.10 cm", "Under bust girth": "80.15 cm", "Upper chest girth": "95.05 cm", "Waist girth": "81.20 cm", "Knee girth": "44.20 cm", "Ankle girth": "25.30 cm", "Thigh girth": "60.20 cm", "Wrist girth": "17.20 cm"}', 18),
-    (19, 'Ethan King', '471 Maple Street, Townplace', '{"Bust girth": "87.75 cm", "Under bust girth": "76.45 cm", "Upper chest girth": "90.55 cm", "Waist girth": "77.25 cm", "Knee girth": "41.10 cm", "Ankle girth": "23.15 cm", "Thigh girth": "56.15 cm", "Wrist girth": "15.85 cm"}', 19),
-    (20, 'Mia Green', '582 Oak Drive, Suburbia', '{"Bust girth": "89.95 cm", "Under bust girth": "77.50 cm", "Upper chest girth": "92.35 cm", "Waist girth": "78.50 cm", "Knee girth": "43.05 cm", "Ankle girth": "24.75 cm", "Thigh girth": "58.85 cm", "Wrist girth": "16.30 cm"}', 20);
-
-
-
--- Note: The `product_id` and `order_id` values assume that the `Products` and `Orders` tables 
--- have 20 entries each, with product IDs and order IDs ranging from 1 to 20.
-	
-
+-- Insert data into Measurements (20 entries)
+INSERT INTO Measurements (order_id, name, address, measurement, product_id, qty, postal_code, city) VALUES
+(1, 'Juan dela Cruz', '1234 Tech Street, Manila', '{"height":170,"chest":38,"waist":32}', 1, 2, 1000, 'Manila'),
+(2, 'Maria Santos', '5678 Innovate Road, Manila', '{"height":165,"chest":36,"waist":30}', 2, 3, 1101, 'Quezon City'),
+(3, 'Jose Rizal', '910 Greenfield, Quezon City', '{"height":168,"chest":37,"waist":32}', 3, 1, 6000, 'Cebu City'),
+(4, 'Ana de la Cruz', '321 Healthy Lane, Cebu City', '{"height":172,"chest":39,"waist":34}', 4, 5, 8000, 'Davao City'),
+(5, 'Carlos Garcia', '101 Secure Blvd, Davao City', '{"height":175,"chest":40,"waist":36}', 5, 7, 1630, 'Taguig'),
+(6, 'Miguel Tan', '202 Solar Road, Taguig', '{"height":167,"chest":35,"waist":31}', 6, 4, 1200, 'Makati'),
+(7, 'Luis Reyes', '303 AI Avenue, Makati', '{"height":174,"chest":39,"waist":33}', 7, 6, 1600, 'Pasig'),
+(8, 'Patricia Cruz', '404 Stone Street, Pasig', '{"height":169,"chest":37,"waist":32}', 8, 8, 4100, 'Cavite'),
+(9, 'Lorna Abad', '505 Harvest Way, Cavite', '{"height":166,"chest":36,"waist":30}', 9, 10, 1400, 'Caloocan'),
+(10, 'Gabriel Villanueva', '606 Green Plaza, Caloocan', '{"height":178,"chest":41,"waist":35}', 10, 9, 1740, 'Las Pinas'),
+(11, 'Isabel Romero', '707 Wellness Rd, Las Pinas', '{"height":160,"chest":34,"waist":29}', 11, 1, 1550, 'Mandaluyong'),
+(12, 'Francis Torres', '808 Blue Print Ave, Mandaluyong', '{"height":172,"chest":39,"waist":33}', 12, 2, 1102, 'Quezon City'),
+(13, 'Alvin Aquino', '909 Shield Blvd, Quezon City', '{"height":165,"chest":35,"waist":31}', 13, 5, 1300, 'Pasay'),
+(14, 'Dolores Mateo', '1010 Hygiene St, Pasay', '{"height":169,"chest":36,"waist":32}', 14, 3, 1770, 'Muntinlupa'),
+(15, 'Emilio Ramos', '1111 Network Ln, Muntinlupa', '{"height":175,"chest":40,"waist":34}', 15, 4, 1800, 'Marikina'),
+(16, 'Jessica Lee', '1212 Power Dr, Marikina', '{"height":164,"chest":35,"waist":30}', 16, 2, 6100, 'Bacolod'),
+(17, 'Oscar Dominguez', '1313 Cloud St, Bacolod', '{"height":176,"chest":41,"waist":35}', 17, 6, 7000, 'Zamboanga'),
+(18, 'Lorena Gomez', '1414 Care St, Zamboanga', '{"height":170,"chest":38,"waist":32}', 18, 7, 5000, 'Iloilo'),
+(19, 'Carlos Bautista', '1515 Farm Rd, Iloilo', '{"height":171,"chest":39,"waist":33}', 19, 8, 2400, 'Dagupan'),
+(20, 'Sofia Cruz', '1616 Shield St, Dagupan', '{"height":162,"chest":35,"waist":30}', 20, 3, 1005, 'Manila');
 
 

@@ -131,19 +131,23 @@ export const ShoppingCart = () => {
         if (!cart.length)
             alert("Cart is empty")
         else {
+            quantities.forEach((quantity, index) => {
+                cart[index].qty = quantity
+            })
             console.log(cart)
             fetch("http://localhost:3000/api/payment/checkoutSes", {
                 method: "POST",
                 headers: {
-                    'accept': 'application/json',
-                    'Authorization': `Basic c2tfdGVzdF9oUXRTSnhEWVFjZjF4SzRhekF6amdKOXc6`
+                    "Content-Type": "application/json"
                 },
-                body: {
+                body: JSON.stringify({
                     cart: cart
-                }
+                })
             })
                 .then(response => response.json())
                 .then(data => console.log(data))
+                .catch(error => console.error("Error:", error));
+
         }
     }
 

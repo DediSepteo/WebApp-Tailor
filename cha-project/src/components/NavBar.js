@@ -432,7 +432,7 @@ const NavBar = () => {
                     {userName ? (
                         <div className={styles.userContainer}>
                             <span className={styles.icons}><FaRegUser /></span>
-                            <span className={styles.userName}>{userName}</span>
+                            <Link to="/profile" className={styles.userName}>{userName}</Link>
                             <button onClick={handleLogout} className={styles.logoutButton}>
                                 Logout
                             </button>

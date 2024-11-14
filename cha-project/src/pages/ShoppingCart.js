@@ -74,23 +74,6 @@ export const ShoppingCart = () => {
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
 
-    // checkout handler
-    // const handleCheckout = () => {
-    //     const decodedToken = jwtDecode(token);
-    //     const org_id = decodedToken.org_id;
-
-
-    //     const orderData = cart.map((item, index) => ({
-    //         id: item.id,
-    //         quantity: quantities[index]
-    //     }));
-
-    //     const orderDetails = {
-    //         org_id: org_id
-            
-    //     }
-    // }
-    
     const handleCheckout = () => {
 
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -180,17 +163,16 @@ export const ShoppingCart = () => {
 
     // Handle item removal
     const handleRemoveItem = (index) => {
-        // Get the item to remove
-        const itemToRemove = cart[0]; // Access the product object within the nested array
+        // Get the item to remove based on index
+        const itemToRemove = cart[index][0]; 
 
-        // Update the cart in localStorage
-        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem[0]);
+        const updatedLocalStorageCart = localStorageCart.filter((cartItem, i) => i !== index);
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
-        // Update the cart state: remove the item from the nested structure
         setCart(prevCart => prevCart.filter((_, i) => i !== index));
         setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
+
 
 
     // Function to handle quantity increase (max 50)

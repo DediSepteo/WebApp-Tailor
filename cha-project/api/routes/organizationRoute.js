@@ -62,6 +62,7 @@ router.get('/', (req, res) => {
     });
 });
 
+
 router.get(`/recent`, (req, res) => {
     const limit = parseInt(req.query.limit) || 4
     const type = req.query.type
@@ -75,26 +76,60 @@ router.get(`/recent`, (req, res) => {
     })
 })
 
-router.post('/register', async (req, res) => {
-    const orgData = req.body
-    console.log(orgData)
-    const name = orgData.name
-    const email = orgData.email
-    const password = orgData.password.toString()
-    const type = orgData.type
-    const industry = orgData.industry
-    const address = orgData.address
 
-    const hashPass = await bcrypt.hash(password, saltRounds)
-    organizationModel.createOrg(name, email, hashPass, type, industry, address, (err, results) => {
+router.get('/names', (req, res) => {
+    const type = req.query.type
+    organizationModel.getOrgNames(type, (err, results) => {
         if (err) {
-            console.error('Error creating organization:', err);
-            return res.status(500).send('Error creating organization');
+            console.error('Error retrieving product:', err);
+            return res.status(500).send('Error retrieving product');
         }
         res.setHeader('Content-Type', 'application/json');
-        return res.status(201).json({ message: 'Organization created successfully', data: results });
-    });
+        return res.json(results);
+
+    })
+})
+
+router.post('/register', async (req, res) => {
+    const orgData = req.body;
+    const name = orgData.name;
+    const email = orgData.email;
+    const password = orgData.password.toString();
+    const type = orgData.type;
+    const industry = orgData.industry;
+    const address = orgData.address;
+    const city = orgData.city;
+    const country = orgData.country;
+    const address_line1 = orgData.address_line1;
+    const address_line2 = orgData.address_line2;
+    const postal_code = orgData.postal_code;
+    const state = orgData.state;
+
+    const hashPass = await bcrypt.hash(password, saltRounds);
+    organizationModel.createOrg(
+        name,
+        email,
+        hashPass,
+        type,
+        industry,
+        address,
+        city,
+        country,
+        address_line1,
+        address_line2,
+        postal_code,
+        state,
+        (err, results) => {
+            if (err) {
+                console.error('Error creating organization:', err);
+                return res.status(500).send('Error creating organization');
+            }
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(201).json({ message: 'Organization created successfully', data: results });
+        }
+    );
 });
+
 
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)

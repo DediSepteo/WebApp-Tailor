@@ -13,6 +13,19 @@ router.get('/', (req, res) => {
         return res.status(200).json(results);
     });
 });
+router.get('/recent', (req, res) => {
+    const type = req.query.type
+    console.log(type)
+    productModel.getRecent(type, (err, results) => {
+        if (err) {
+            console.error('Error retrieving product:', err);
+            return res.status(500).send('Error retrieving product');
+        }
+        res.setHeader('Content-Type', 'application/json');
+        return res.json(results);
+
+    })
+})
 
 router.get('/:product_id', (req, res) => {
     const product_id = req.params.product_id;
@@ -38,20 +51,6 @@ router.get('/org/:org_id', (req, res) => {
     });
 });
 
-router.get('/recent', (req, res) => {
-    const type = req.query.type
-    console.log(type)
-    productModel.getRecent(type, (err, results) => {
-        if (err) {
-            console.error('Error retrieving product:', err);
-            return res.status(500).send('Error retrieving product');
-        }
-        res.setHeader('Content-Type', 'application/json');
-        return res.json(results);
-
-    })
-})
-
 router.get('/count', (req, res) => {
     const org_id = req.query.org_id
     productModel.getCount(org_id, (err, results) => {
@@ -64,14 +63,15 @@ router.get('/count', (req, res) => {
     });
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register/:org_id', async (req, res) => {
     const productData = req.body
     const isBulk = Array.isArray(productData)
 
     if (isBulk) {
+        const org_id = req.params.org_id
         try {
             productData.map((product) => {
-                const { name, org_id, price, description } = product
+                const { name, price, description, image } = product
                 productModel.createProduct(name, org_id, price, description, (err, results) => {
                     if (err) {
                         console.error('Error creating product:', err);

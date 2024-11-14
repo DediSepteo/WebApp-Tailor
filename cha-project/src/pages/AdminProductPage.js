@@ -47,11 +47,7 @@ const AdminProductPage = () => {
     const type = isCorpPage ? "corporate" : "government";
 
     useEffect(() => {
-
-
         // Set the page title based on the URL
-
-
         fetch(`http://localhost:3000/api/product/recent?type=${type}`)
             .then(response => response.json())
             .then(data => {

@@ -1,48 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar';
 import AdminNavBar from '../components/AdminNavBar';
-import styles from '../styles/AdminHomePage.module.css';
-import ConfirmPopUp from '../components/CustomPopUp';
-import { MdBusinessCenter } from 'react-icons/md';
-import { FaHandHoldingUsd } from 'react-icons/fa';
-import { RiCustomerServiceFill } from 'react-icons/ri';
-import { NavLink } from 'react-router-dom';
+import styles from '../styles/OrderDetailPage.module.css';
 import CustomPopUp from '../components/CustomPopUp';
+import { useLocation } from 'react-router-dom';
+import { TiTick } from "react-icons/ti";
 
-const AdminOrderPage = () => {
-    const [recentOrders, setRecentOrders] = useState([]);
-    const [readyOrders, setReadyOrders] = useState([]);
-    const [showPopup, setShowPopup] = useState(false);
+const OrderDetailPage = ({ }) => {
+    const location = useLocation()
+    const [measurementData, setMeasurementData] = useState([])
+    const [showMarkAllPopup, setShowMarkAllPopup] = useState(false);
+    const [showDeliveryPopup, setShowDeliveryPopup] = useState(false);
+    const [completion, setCompletion] = useState([])
+
+    const { orderData } = location.state
 
     const token = sessionStorage.getItem('authToken');
 
-    const togglePopUp = () => {
-        setShowPopup(!showPopup); // Toggles the confirmation popup
+    const toggleMarkAllPopUp = () => {
+        console.log("A")
+        setShowMarkAllPopup(!showMarkAllPopup); // Toggles the confirmation popup
     };
 
-    const isCorpPage = window.location.href.includes("corporate")
+    const toggleDeliveryPopUp = () => {
+        setShowDeliveryPopup(!showDeliveryPopup);
+    }
 
-    const type = isCorpPage ? "Corporate" : "Government"
+    const toggleCompletionStatus = (index) => {
+        setCompletion(completion.map((status, i) => (i === index ? !status : status)))
+    }
+
+    const setAllCompleted = () => {
+        setCompletion(completion.map((status) => !status))
+    }
+
+    const handleSubmit = () => {
+        const isAllComplete = completion.every((status) => {
+            return status
+        })
+        console.log(isAllComplete)
+        if (!isAllComplete)
+            alert("One or more orders are not complete.")
+        else {
+            alert("Delivery Process begins here")
+        }
+    }
 
     useEffect(() => {
         try {
-            fetch(`http://localhost:3000/api/order/get-latest-order?type=${type}`, {
+            fetch(`http://localhost:3000/api/order/measurements?order_id=${orderData.order_id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
                     'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
                 }
             })
                 .then(response => response.json())
-                .then(data => setRecentOrders(data))
-                .catch(error => console.error('Error fetching orders:', error));
-            fetch(`http://localhost:3000/api/order/ready?type=${type}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
-                    'Content-Type': 'application/json'   // Optional: you can add other headers if necessary
-                }
-            })
-                .then(response => response.json())
-                .then(data => setReadyOrders(data))
+                .then(data => {
+                    setCompletion(Array(data.length).fill(false))
+                    setMeasurementData(data)
+                })
                 .catch(error => console.error('Error fetching orders:', error));
         }
         // Get Orders
@@ -52,102 +68,73 @@ const AdminOrderPage = () => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log(measurementData)
+    }, [measurementData])
+
     return (
-        <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0 }}>
-            {showPopup && <CustomPopUp togglePopup={togglePopUp} title="Cancel Order" text="Are you sure you want to cancel this order?" hasCancel={true} />}
+        <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0, overflowX: "hidden" }}>
+            {showDeliveryPopup && <CustomPopUp togglePopup={toggleDeliveryPopUp} title="Begin Delivery Process" text="Are you sure you want to begin the delivery process? All orders have to be completed in order to begin the delivery process"
+                hasCancel={true} onConfirm={handleSubmit} />}
+            {showMarkAllPopup && <CustomPopUp togglePopup={toggleMarkAllPopUp} title="Mark all as Complete" text="Are you sure you want to mark all orders as completed?"
+                hasCancel={true} onConfirm={setAllCompleted} />}
             <AdminSideNavBar />
             <div className={styles.home}>
-                <AdminNavBar pageName="Dashboard" />
+                <AdminNavBar pageName={`Order Details for ${orderData["placed by"]}`} />
+                <header style={{ fontFamily: "inter", fontWeight: "600", padding: "1em 0", textAlign: "center" }}>Measurement List</header>
+                {measurementData.length > 0 ? (
+                    <div className={styles.list}>
+                        {measurementData.map((data, index) => {
+                            const measurements = JSON.parse(data.measurement)
+                            return (
+                                <div className={styles.card}>
+                                    <div style={{ display: "flex", flexDirection: "row", alignItems: "stretch" }}>
+                                        <header className={styles.headerInfo}>
+                                            <div style={{ fontSize: "1.5em" }}>{`${data.employee_name}`}</div>
+                                            <div style={{ fontWeight: "1.5em", marginRight: "1.5em" }}>{`${data.product_name}`}</div>
+                                        </header>
+                                        <header className={styles.headerInfo} style={{ alignItems: "flex-end" }}>
+                                            <div style={{ fontWeight: "200" }}>ID: {`02-6901`}</div>
+                                            <div style={{ fontWeight: "200" }}>Product-ID:  {`${data.product_id}`}</div>
+                                        </header>
+                                    </div>
+                                    <div>
+                                        <header style={{ marginTop: "1.5em", fontWeight: 500, fontSize: "1.1em" }}>Measurements</header>
+                                        {Object.entries(measurements).map(([key, value]) => {
+                                            return (
+                                                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", height: "2.5em" }}>
+                                                    <p style={{ textDecoration: "underline" }}>{key}</p>
+                                                    <p>{value}</p>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                    <div style={{ marginTop: "1em" }}>
+                                        {completion[index] ? (
+                                            <div className={styles.completionBtn} style={{ backgroundColor: "#18FF4E" }} onClick={() => toggleCompletionStatus(index)}>
+                                                <div className={styles.checkbox}><TiTick /></div>
+                                                <div style={{ textAlign: "center", userSelect: "none" }}>Completed</div>
+                                            </div>
+                                        ) : (
+                                            <div className={styles.completionBtn} style={{ backgroundColor: "#DDDDDD" }} onClick={() => toggleCompletionStatus(index)}>
+                                                <div className={styles.checkbox}></div>
+                                                <div style={{ textAlign: "center", userSelect: "none" }}>In Progress</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
 
-                <div className={styles.orderHist}>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
-                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Orders Ready For Tailoring</div>
-                        <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
-                    </div>
-                    <table className={styles.orderTable}>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Placed By</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>No. of Measurements Obtained</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {readyOrders.length > 0 ? (
-                                readyOrders.map((orderData) => (
-                                    <tr key={orderData.Order_ID}>
-                                        <td>{new Date(orderData.Date).toLocaleString()}</td>
-                                        <td>{orderData.name}</td>
-                                        <td>{`$${orderData.price}`}</td>
-                                        <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
-                                        <td>{orderData.status}</td>
-                                        <td className={styles.tableBtns}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <NavLink className={styles.detailBtn}>Details</NavLink>
-                                                <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="8">No orders available</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-                <div className={styles.orderHist}>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>
-                        <div style={{ fontFamily: 'Inter', fontWeight: 'bold', alignSelf: 'flex-start' }}>Latest Order History</div>
-                        <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
-                    </div>
-                    <table className={styles.orderTable}>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Placed By</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>No. of Measurements Obtained</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {recentOrders.length > 0 ? (
-                                recentOrders.map((orderData) => (
-                                    <tr key={orderData.Order_ID}>
-                                        <td>{new Date(orderData.Date).toLocaleString()}</td>
-                                        <td>{orderData.name}</td>
-                                        <td>{`$${orderData.price}`}</td>
-                                        <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
-                                        <td>{orderData.status}</td>
-                                        <td className={styles.tableBtns}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <NavLink className={styles.detailBtn}>Details</NavLink>
-                                                <button className={styles.cancelBtn} onClick={togglePopUp}>Cancel</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="8">No orders available</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                ) : (
+                    <div>No order data found</div>
+                )}
+                <div className={styles.markAllComplete} onClick={toggleDeliveryPopUp}>Begin Delivery Process</div>
+                <div className={styles.markAllComplete} onClick={toggleMarkAllPopUp}>Mark/Unmark all as completed</div>
             </div>
         </main >
     );
 };
 
-export default AdminOrderPage;
+export default OrderDetailPage;

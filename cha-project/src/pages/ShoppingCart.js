@@ -91,6 +91,78 @@ export const ShoppingCart = () => {
     //     }
     // }
     
+    const handleCheckout = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            const org_id = decodedToken.org_id;
+
+            const orderData = cart.map((item, index) => ({
+                id: item.id,
+                quantity: quantities[index]
+            }));
+
+            const totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0);
+
+            const newOrder = {
+                org_id: org_id,
+                qty: totalQuantity, // Total quantity extracted from orderData
+                subtotal: calculateSubtotal(),
+                status: "Awaiting Measurement",
+                date: new Date().toISOString().slice(0, 10) // Current date in YYYY-MM-DD format
+            };
+
+            fetch('http://localhost:3000/api/order/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newOrder),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to create order');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log('Order created with ID:', data.orderId);
+                    localStorage.removeItem('cart');
+                    setCart([]);
+                    console.log(newOrder, "aaaa")
+                    alert('Order successfully created!');
+                })
+                .catch((error) => {
+                    console.error('Error during checkout:', error);
+                    console.log(newOrder, "bbbbb")
+                    alert('There was a problem creating your order.');
+                });
+        } else {
+            console.error("No token found. Please log in.");
+            alert("Please log in to proceed with checkout.");
+        }
+    };
+
+    const testToCheckoutPage = () => {
+        if (!cart.length)
+            alert("Cart is empty")
+        else {
+            console.log(cart)
+            fetch("http://localhost:3000/api/payment/checkoutSes", {
+                method: "POST",
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Basic c2tfdGVzdF9oUXRTSnhEWVFjZjF4SzRhekF6amdKOXc6`
+                },
+                body: {
+                    cart: cart
+                }
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+        }
+    }
 
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
@@ -322,7 +394,8 @@ export const ShoppingCart = () => {
                             <td>{`$${grandTotal.toFixed(2)}`}</td>
                         </tr>
                     </table>
-                    <button className={styles.checkoutBtn}>Checkout</button>
+                    <button className={styles.checkoutBtn} onClick={handleCheckout}>Checkout</button>
+                    <button className={styles.checkoutBtn} onClick={testToCheckoutPage}>To Payment (Paymongo)</button>
                 </div>
             </div>
         </main>

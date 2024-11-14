@@ -40,7 +40,7 @@ const orders = {
                 o.date,
                 FORMAT(o.subtotal,2) AS subtotal,
                 org.name AS "placed by",
-                COUNT(emp_id) AS measurementNo
+                COUNT(m.name) AS measurementNo
             FROM 
                 \`orders\` o
             JOIN 
@@ -74,7 +74,7 @@ const orders = {
             o.date,
             FORMAT(o.subtotal, 2) AS subtotal,
             org.name AS "placed by",
-            COUNT(emp_id) AS measurementNo
+            COUNT(m.name) AS measurementNo
             FROM
                 \`orders\` o
             JOIN 
@@ -102,6 +102,17 @@ const orders = {
         });
     },
 
+    getMeasurements: (id, callback) => {
+        const query = `SELECT measurement, p.name as product_name, m.name as employee_name, p.product_id, address
+                        FROM measurements m INNER JOIN products p ON m.product_id = p.product_id WHERE order_id = ?`
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results); // Assuming orders_ID is unique, we return the first (and only) result
+        });
+    },
+
     // Get a single orders by ID
     getById: (id, callback) => {
         const query = 'SELECT * FROM `orders` WHERE orders_id = ?';
@@ -114,27 +125,15 @@ const orders = {
     },
 
     // Create a new orders
-    create: (newOrder, products, callback) => {
-        // Insert into orders table
-        const orderQuery = 'INSERT INTO `orders` (org_id, qty, subtotal, status, date) VALUES (?, ?, ?, ?, ?)';
-        const { org_id, qty, subtotal, date } = newOrder;
+    create: (neworders, callback) => {
+        const query = 'INSERT INTO orders (order_id, org_id, subtotal, qty, status, date) VALUES (?, ?, ?, ?, ?, ?)';
+        const { order_id, org_id, subtotal, qty, status, date } = neworders;
 
-        db.query(orderQuery, [org_id, qty, subtotal, date], (err, orderResult) => {
+        db.query(query, [order_id, org_id, subtotal, qty, status, date], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
-
-            const orderId = orderResult.insertId;
-
-            const orderListQuery = 'INSERT INTO `order_list` (order_id, product_id) VALUES (?, ?)';
-            const orderListInserts = products.map(productId => [orderId, productId]);
-
-            db.query(orderListQuery, [orderListInserts], (orderListErr) => {
-                if (orderListErr) {
-                    return callback(orderListErr, null);
-                }
-                callback(null, orderId);
-            });
+            callback(null, results.insertId); // Return the ID of the newly created orders
         });
     },
 

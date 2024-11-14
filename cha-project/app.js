@@ -10,6 +10,7 @@ const loginRouter = require('./api/routes/loginRoute');
 const protectedRoute = require('./api/routes/protectedRoute')
 const orderRouter = require('./api/routes/ordersRoute')
 const productRouter = require('./api/routes/productRoute')
+const paymentRouter = require('./api/routes/paymentRoute')
 
 // Middleware
 app.use(cors());
@@ -23,6 +24,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/admin', protectedRoute)
 app.use('/api/order', orderRouter)
 app.use('/api/product', productRouter)
+app.use('/api/payment', paymentRouter)
 
 
 // Error handling middleware

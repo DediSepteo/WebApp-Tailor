@@ -74,6 +74,23 @@ export const ShoppingCart = () => {
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
 
+    // checkout handler
+    // const handleCheckout = () => {
+    //     const decodedToken = jwtDecode(token);
+    //     const org_id = decodedToken.org_id;
+
+
+    //     const orderData = cart.map((item, index) => ({
+    //         id: item.id,
+    //         quantity: quantities[index]
+    //     }));
+
+    //     const orderDetails = {
+    //         org_id: org_id
+            
+    //     }
+    // }
+    
     const handleCheckout = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
@@ -146,7 +163,6 @@ export const ShoppingCart = () => {
                 .then(data => console.log(data))
         }
     }
-
 
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {

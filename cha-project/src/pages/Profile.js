@@ -1,10 +1,11 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import ProfileSideNavBar from '../components/ProfileSideNavBar';
 import { Link } from 'react-router-dom';
 import styles from '../styles/Profile.module.css';
+import { jwtDecode } from 'jwt-decode';
 import { FaUserCircle } from "react-icons/fa";
 
-const user = { name: "John Doe", email: "testuser123@gmail.com", phone: "+85 98765432", password: "abcde12345" }
+const user = { phone: "+85 98765432" }
 
 const orders = [
     {
@@ -42,6 +43,29 @@ const orders = [
 ]
 
 export const Profile = () => {
+    const [ userName, setUserName ] = useState(null);
+    const [ userEmail, setUserEmail ] = useState(null);
+    const [maskedPassword, setMaskedPassword] = useState('No password set');
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                setUserName(decodedToken.org_name);
+                setUserEmail(decodedToken.email);
+            } catch (error) {
+                console.error('Invalid token:', error);
+            }
+        }
+
+        // Retrieve password length from localStorage and set masked password
+        const passwordLength = localStorage.getItem('passwordLength');
+        if (passwordLength) {
+            setMaskedPassword('*'.repeat(Number(passwordLength)));
+        }
+    }, []);
+
     return (
         <main className={styles.mainContainer}>
             <div className={styles.profileSideNav}>
@@ -57,22 +81,22 @@ export const Profile = () => {
                         <div className={styles.userMainInfo}>
                             <FaUserCircle style={{ fontSize: '6em', color: "grey" }} />
                             <div>
-                                <p className={styles.username}>{user.name}</p>
-                                <p className={styles.email}>{user.email}</p>
+                                <p className={styles.username}>{userName || "Guest"}</p>
+                                <p className={styles.email}>{userEmail}</p>
                             </div>
                         </div>
                         <div className={styles.userFullInfo}>
                             <div style={{ margin: '15px 0' }}>
                                 <span className={styles.title}>Your Name: </span>
                                 <div className={styles.infoRow}>
-                                    <p>{user.name}</p>
+                                    <p>{userName}</p>
                                     <button className={styles.editBtn}>Edit</button>
                                 </div>
                             </div>
                             <div style={{ margin: '15px 0' }}>
                                 <span className={styles.title}>Email: </span>
                                 <div className={styles.infoRow}>
-                                    <p>{user.email}</p>
+                                    <p>{userEmail}</p>
                                     <button className={styles.editBtn}>Edit</button>
                                 </div>
                             </div>
@@ -86,7 +110,7 @@ export const Profile = () => {
                             <div style={{ margin: '15px 0' }}>
                                 <span className={styles.title}>Password: </span>
                                 <div className={styles.infoRow}>
-                                    <p>{user.password}</p>
+                                    <p>{maskedPassword}</p>
                                     <button className={styles.editBtn}>Edit</button>
                                 </div>
                             </div>

@@ -218,6 +218,8 @@
 }
 
 .userName {
+  text-decoration: none;
+  color: #ffffff;
   font-size: 120%;
   white-space: nowrap;
   margin-left: 5px;
@@ -450,6 +452,7 @@
 }
 
 .checkoutBtn {
+  width: 100%;
   background-color: #28A197;
   color: #ffffff;
   border: none;

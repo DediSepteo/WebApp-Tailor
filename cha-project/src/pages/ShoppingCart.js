@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/ShoppingCart.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
@@ -7,9 +7,8 @@ import { jwtDecode } from 'jwt-decode';
 
 
 export const ShoppingCart = () => {
-
+    const navigate = useNavigate();
     const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
-
     const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
@@ -18,6 +17,7 @@ export const ShoppingCart = () => {
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
+
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         console.log(localStorageCart, 'cart token');
 
@@ -74,7 +74,25 @@ export const ShoppingCart = () => {
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
 
+    // checkout handler
+    // const handleCheckout = () => {
+    //     const decodedToken = jwtDecode(token);
+    //     const org_id = decodedToken.org_id;
+
+
+    //     const orderData = cart.map((item, index) => ({
+    //         id: item.id,
+    //         quantity: quantities[index]
+    //     }));
+
+    //     const orderDetails = {
+    //         org_id: org_id
+            
+    //     }
+    // }
+    
     const handleCheckout = () => {
+
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
         if (token) {
@@ -151,7 +169,6 @@ export const ShoppingCart = () => {
         }
     }
 
-
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
         const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
@@ -167,16 +184,18 @@ export const ShoppingCart = () => {
 
     // Handle item removal
     const handleRemoveItem = (index) => {
-        const itemToRemove = cart[index];
+        // Get the item to remove
+        const itemToRemove = cart[0]; // Access the product object within the nested array
 
-        // Remove item from localStorage cart
-        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem.id !== itemToRemove.uni_id);
+        // Update the cart in localStorage
+        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem[0]);
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
-        // Update state: remove item from cart and adjust quantities
+        // Update the cart state: remove the item from the nested structure
         setCart(prevCart => prevCart.filter((_, i) => i !== index));
         setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
+
 
     // Function to handle quantity increase (max 50)
     const increaseQuantity = (index) => {

@@ -27,10 +27,11 @@ router.post("/checkoutSes", async (req, res) => {
         body: JSON.stringify({
             data: {
                 "attributes": {
-                    send_email_receipt: false,
+                    send_email_receipt: true,
                     show_description: true,
                     show_line_items: true,
                     line_items: line_items,
+                    // Payment method types must be allowed from paymongo account, currently using unactivated account. 
                     payment_method_types: [
                         "card",
                         "gcash",
@@ -43,9 +44,23 @@ router.post("/checkoutSes", async (req, res) => {
     };
 
     fetch('https://api.paymongo.com/v1/checkout_sessions', options)
-        .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.error(err));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data?.data?.attributes?.checkout_url) {
+                res.json({ checkoutUrl: data.data.attributes.checkout_url });
+            } else {
+                res.status(500).json({ error: 'Checkout URL not found in response' });
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching checkout session:', err);
+            res.status(500).json({ error: 'An error occurred while processing the request' })
+        });
 })
 
 module.exports = router;

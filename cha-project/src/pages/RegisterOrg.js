@@ -31,9 +31,57 @@ const CreateOrganization = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Validate required fields and products as in the original code...
-        handleRegister(e);
-    };
+        // Has to be index of tableInput in fields
+        const tableHeaders = fields[5].headers
+        const requiredHeaders = []
+        for (let i = 0; i < tableHeaders.length; i++) {
+            if (tableHeaders[i].required)
+                requiredHeaders.push(tableHeaders[i].title)
+        }
+        if (orgProducts.length) {
+            const productsValid = orgProducts.every((product) => {
+                for (let i = 0; i < product.length; i++) {
+                    if (!requiredHeaders.includes(Object.keys(product)[i])) {
+                        setShowError(true)
+                        return false
+                    }
+                }
+                var values = [product.name, product.price, product.description]
+                // Check if value is undefined or an empty string, including spaces
+                if (values.includes(undefined)) {
+                    return false
+                }
+                const requiredValues = values.map((value) => { return value.trim() })
+                if (requiredValues.includes("")) {
+                    setShowError(true)
+                    return false
+                }
+                return true
+            })
+            const missingImages = orgProducts.some((product) => {
+                if (!product.image) {
+                    return true
+                }
+                return false
+            })
+            console.log(orgProducts)
+            if (productsValid) {
+                if (missingImages) {
+                    setShowWarning(true)
+                }
+                else {
+                    handleRegister(e)
+                }
+            }
+            else {
+                setShowError(true)
+            }
+        }
+        else {
+            handleRegister(e)
+        }
+
+    }
 
     const handleRegister = async (event) => {
         const orgType = window.location.href.includes("corporate") ? "Corporate" : "Government";
@@ -84,7 +132,7 @@ const CreateOrganization = () => {
                 });
         } catch (error) {
             console.error('Error creating organization');
-            alert("Error creating organization");
+            alert("Failed to connect to backend")
         }
     };
 

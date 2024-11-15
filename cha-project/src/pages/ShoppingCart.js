@@ -87,10 +87,10 @@ export const ShoppingCart = () => {
 
     //     const orderDetails = {
     //         org_id: org_id
-            
+
     //     }
     // }
-    
+
     const handleCheckout = () => {
 
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -163,7 +163,10 @@ export const ShoppingCart = () => {
                 })
             })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    window.location.href = data.checkoutUrl
+                })
                 .catch(error => console.error("Error:", error));
 
         }

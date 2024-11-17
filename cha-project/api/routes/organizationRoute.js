@@ -34,21 +34,6 @@ router.post(`/gen-link`, (req, res) => {
     });
 });
 
-// router.get('/:name', (req, res) => {
-//     const name = req.params.name;
-
-//     organizationModel.getOrgByCompany(name, (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
-//         }
-
-//         if (results.length === 0) {
-//             return res.status(404).json({ message: 'No organization found for this company' });
-//         }
-//         return res.json(results);
-//     });
-// });
-
 // Get all organization
 router.get('/', (req, res) => {
     const type = req.query.type
@@ -90,6 +75,45 @@ router.get('/names', (req, res) => {
     })
 })
 
+router.get('/count', (req, res) => {
+    organizationModel.countAll((err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fertching organization count' });
+        }
+        res.json({ results });
+    });
+});
+
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
+
+    organizationModel.getOrgById(id, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No organization found for this company' });
+        }
+        return res.json(results);
+    });
+});
+
+// router.get('/:name', (req, res) => {
+//     const name = req.params.name;
+
+//     organizationModel.getOrgByCompany(name, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
+//         }
+
+//         if (results.length === 0) {
+//             return res.status(404).json({ message: 'No organization found for this company' });
+//         }
+//         return res.json(results);
+//     });
+// });
+
 router.post('/register', async (req, res) => {
     const orgData = req.body;
     const name = orgData.name;
@@ -97,11 +121,10 @@ router.post('/register', async (req, res) => {
     const password = orgData.password.toString();
     const type = orgData.type;
     const industry = orgData.industry;
-    const address = orgData.address;
     const city = orgData.city;
     const country = orgData.country;
     const address_line1 = orgData.address_line1;
-    const address_line2 = orgData.address_line2;
+    const address_line2 = orgData.address_line2 || null;
     const postal_code = orgData.postal_code;
     const state = orgData.state;
 
@@ -112,7 +135,6 @@ router.post('/register', async (req, res) => {
         hashPass,
         type,
         industry,
-        address,
         city,
         country,
         address_line1,
@@ -153,15 +175,6 @@ router.delete('/:id', (req, res) => {
             return res.status(500).send('Error deleting organization');
         }
         return res.status(200).send('Organization deleted successfully');
-    });
-});
-
-router.get('/count', (req, res) => {
-    organizationModel.countAll((err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Error fertching organization count' });
-        }
-        res.json({ results });
     });
 });
 

@@ -81,7 +81,7 @@ export const Shop1Item = () => {
                         <div>
                             <p className={styles.categoryName}>{item.name}</p>
                             <p className={styles.categoryDetail}>{item.description}</p>
-                            <p className={styles.categoryPrice}>${item.price}</p>
+                            <p className={styles.categoryPrice}>₱{item.price}</p>
                         </div>
                     </Link>
                 )) : <p>No products available.</p>}

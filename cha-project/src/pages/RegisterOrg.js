@@ -31,8 +31,8 @@ const CreateOrganization = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Has to be index of tableInput in fields
-        const tableHeaders = fields[5].headers
+        // Assume that there is only one tableInput
+        const tableHeaders = fields.find(field => field.fieldType === 'tableInput').headers;
         const requiredHeaders = []
         for (let i = 0; i < tableHeaders.length; i++) {
             if (tableHeaders[i].required)
@@ -98,7 +98,6 @@ const CreateOrganization = () => {
                     "password": orgPassword,
                     "type": orgType,
                     "industry": orgIndustry,
-                    "address": orgAddress,
                     "city": city,
                     "country": country,
                     "address_line1": addressLine1,
@@ -140,11 +139,20 @@ const CreateOrganization = () => {
         { fieldType: 'input', label: 'Organization Name', type: 'text', value: orgName, onChange: (e) => setOrgName(e.target.value), required: true },
         { fieldType: 'input', label: 'Organization Email', type: 'text', value: orgEmail, onChange: (e) => setOrgEmail(e.target.value), required: true },
         { fieldType: 'input', label: 'Organization Password', type: 'password', value: orgPassword, onChange: (e) => setOrgPassword(e.target.value), required: true },
-        { fieldType: 'input', label: 'Organization Address', type: 'text', value: orgAddress, onChange: (e) => setOrgAddress(e.target.value), required: true },
         { fieldType: 'input', label: 'City', type: 'text', value: city, onChange: (e) => setCity(e.target.value), required: true },
-        { fieldType: 'input', label: 'Country', type: 'text', value: country, onChange: (e) => setCountry(e.target.value), required: true },
+        {
+            fieldType: 'dropdown',
+            label: 'Country',
+            type: 'text',
+            value: country,
+            onChange: (e) => setCountry(e.target.value),
+            required: true,
+            options: [
+                { value: "PH" }, { value: "SG" }
+            ]
+        },
         { fieldType: 'input', label: 'Address Line 1', type: 'text', value: addressLine1, onChange: (e) => setAddressLine1(e.target.value), required: true },
-        { fieldType: 'input', label: 'Address Line 2', type: 'text', value: addressLine2, onChange: (e) => setAddressLine2(e.target.value), required: false },
+        { fieldType: 'input', label: 'Address Line 2 (Optional)', type: 'text', value: addressLine2, onChange: (e) => setAddressLine2(e.target.value), required: false },
         { fieldType: 'input', label: 'Postal Code', type: 'text', value: postalCode, onChange: (e) => setPostalCode(e.target.value), required: true },
         { fieldType: 'input', label: 'State', type: 'text', value: state, onChange: (e) => setState(e.target.value), required: true },
         {
@@ -182,7 +190,7 @@ const CreateOrganization = () => {
                 <CustomPopUp togglePopup={toggleError} title="Error" text="Please ensure that all fields are filled for all registered products" />
             )}
             {showWarning && (
-                <CustomPopUp togglePopup={toggleWarning} onConfirm={handleRegister} title="Warning" text="Some images are not filled. Placeholder images will be used for these products, are you sure you want to proceed?" hasCancel={true} />
+                <CustomPopUp togglePopup={toggleWarning} onConfirm={(e) => handleRegister(e)} title="Warning" text="Some images are not filled. Placeholder images will be used for these products, are you sure you want to proceed?" hasCancel={true} />
             )}
             <SetupWizardPage title="Register Organization" fields={fields} onSubmit={handleSubmit} />
         </main>

@@ -69,27 +69,29 @@ CREATE TABLE Measurements (
 );
 
 -- Insert data into Organization (20 entries)
-INSERT INTO Organization (name, email, industry, type, password, address, status, city, country, address_line1, address_line2, postal_code, state) VALUES
-('Tech Innovators Inc.', 'contact@techinnovators.ph', 'Technology', 'Corporate', 'password123', '1234 Tech Street', 'active', 'Manila', 'Philippines', '1234 Tech Street', 'Suite 101', '1000', 'NCR'),
-('Eco Solutions Ltd.', 'info@ecosolutions.ph', 'Environment', 'Government', 'securepass', '567 Green Road', 'inactive', 'Quezon City', 'Philippines', '567 Green Road', 'Room 202', '1101', 'NCR'),
-('Health First', 'hello@healthfirst.ph', 'Healthcare', 'Corporate', 'password456', '789 Health Ave', 'active', 'Cebu City', 'Philippines', '789 Health Ave', 'Building B', '6000', 'Central Visayas'),
-('Safety Group PH', 'support@safetygroup.ph', 'Security', 'Corporate', 'safe2023', '101 Secure Blvd', 'inactive', 'Davao City', 'Philippines', '101 Secure Blvd', 'Floor 4', '8000', 'Davao Region'),
-('Green Energy PH', 'contact@greenenergy.ph', 'Energy', 'Corporate', 'energy123', '202 Solar Road', 'active', 'Taguig', 'Philippines', '202 Solar Road', 'Building C', '1630', 'NCR'),
-('Tech Futures', 'contact@techfutures.ph', 'Technology', 'Corporate', 'futures456', '303 AI Avenue', 'inactive', 'Makati', 'Philippines', '303 AI Avenue', '5th Floor', '1200', 'NCR'),
-('Build Better Inc.', 'support@buildbetter.ph', 'Construction', 'Government', 'builder789', '404 Stone Street', 'active', 'Pasig', 'Philippines', '404 Stone Street', 'Suite 12', '1600', 'NCR'),
-('Farm Fresh Foods', 'info@farmfresh.ph', 'Agriculture', 'Corporate', 'farmer123', '505 Harvest Way', 'inactive', 'Cavite', 'Philippines', '505 Harvest Way', 'Farm B', '4100', 'Calabarzon'),
-('EcoSmart', 'hello@ecosmart.ph', 'Technology', 'Corporate', 'eco456', '606 Green Plaza', 'active', 'Caloocan', 'Philippines', '606 Green Plaza', 'Unit 202', '1400', 'NCR'),
-('City Health PH', 'support@cityhealth.ph', 'Healthcare', 'Government', 'health2023', '707 Wellness Rd', 'active', 'Las Pinas', 'Philippines', '707 Wellness Rd', 'Clinic 1A', '1740', 'NCR'),
-('Visionary Designs', 'info@visionarydesigns.ph', 'Architecture', 'Corporate', 'designs123', '808 Blue Print Ave', 'inactive', 'Mandaluyong', 'Philippines', '808 Blue Print Ave', '4th Floor', '1550', 'NCR'),
-('SecureWorld', 'contact@secureworld.ph', 'Security', 'Corporate', 'secure123', '909 Shield Blvd', 'active', 'Quezon City', 'Philippines', '909 Shield Blvd', 'Main HQ', '1102', 'NCR'),
-('Clean City PH', 'support@cleancity.ph', 'Sanitation', 'Government', 'clean1234', '1010 Hygiene St', 'inactive', 'Pasay', 'Philippines', '1010 Hygiene St', 'Block 3', '1300', 'NCR'),
-('TechConnect', 'hello@techconnect.ph', 'IT Services', 'Corporate', 'connect123', '1111 Network Ln', 'active', 'Muntinlupa', 'Philippines', '1111 Network Ln', 'Suite 5', '1770', 'NCR'),
-('Power Solutions', 'info@powersolutions.ph', 'Energy', 'Corporate', 'power456', '1212 Power Dr', 'inactive', 'Marikina', 'Philippines', '1212 Power Dr', 'Plant A', '1800', 'NCR'),
-('Blue Sky', 'support@bluesky.ph', 'Airline', 'Corporate', 'sky789', '1313 Cloud St', 'active', 'Bacolod', 'Philippines', '1313 Cloud St', 'Unit 304', '6100', 'Western Visayas'),
-('Civic Help PH', 'contact@civichealth.ph', 'Healthcare', 'Government', 'civic123', '1414 Care St', 'inactive', 'Zamboanga', 'Philippines', '1414 Care St', 'Clinic 1', '7000', 'Zamboanga Peninsula'),
-('Agri Life', 'info@agrilife.ph', 'Agriculture', 'Corporate', 'agri456', '1515 Farm Rd', 'active', 'Iloilo', 'Philippines', '1515 Farm Rd', 'Field 8', '5000', 'Western Visayas'),
-('Protective Services', 'hello@protective.ph', 'Security', 'Corporate', 'protect789', '1616 Shield St', 'inactive', 'Dagupan', 'Philippines', '1616 Shield St', 'Unit 8', '2400', 'Ilocos Region'),
-('Clean Water Initiative', 'info@cleanwater.ph', 'Non-Profit', 'Government', 'water123', '1717 Waterway Blvd', 'active', 'Manila', 'Philippines', '1717 Waterway Blvd', 'Floor 2', '1005', 'NCR');
+-- Country has to be two-letter ISO code
+INSERT INTO Organization (name, email, industry, type, password, status, city, country, address_line1, address_line2, postal_code, state) VALUES
+('Tech Innovators', 'info@techinnovators.com', 'Technology', 'Corporate', 'password123', 'active', 'Manila', 'PH', '1234 Tech Park Ave', 'Suite 500', '1000', 'Metro Manila'),
+('EcoSolutions', 'contact@ecosolutions.ph', 'Environmental Services', 'Government', 'securepass456', 'inactive', 'Quezon City', 'PH', '789 Greenway Blvd', 'Floor 4', '1101', 'Metro Manila'),
+('HealthFirst Clinics', 'support@healthfirst.com', 'Healthcare', 'Corporate', 'clinicpass789', 'active', 'Cebu City', 'PH', '56 Wellness St', NULL, '6000', 'Cebu'),
+('Manila Motors', 'info@manilamotors.ph', 'Automotive', 'Corporate', 'drivefast321', 'active', 'Manila', 'PH', '321 Drive Lane', NULL, '1002', 'Metro Manila'),
+('BuildStrong Construction', 'contact@buildstrong.ph', 'Construction', 'Government', 'construct2024', 'inactive', 'Davao City', 'PH', '789 Scaffold Rd', 'Warehouse B', '8000', 'Davao'),
+('Fashion Forward', 'hello@fashionforward.ph', 'Retail', 'Corporate', 'fashionpass1', 'active', 'Makati', 'PH', '202 Style Ave', 'Unit 10F', '1224', 'Metro Manila'),
+('Agricore Enterprises', 'info@agricore.com', 'Agriculture', 'Corporate', 'agripass456', 'active', 'Taguig', 'PH', '456 Harvest Blvd', NULL, '1630', 'Metro Manila'),
+('CyberSecure Solutions', 'support@cybersecure.com', 'Cybersecurity', 'Government', 'protectdata789', 'active', 'Pasig', 'PH', '99 Shield St', '5th Floor', '1600', 'Metro Manila'),
+('Global Finance Inc.', 'finance@globalfinance.com', 'Finance', 'Corporate', 'moneysecure', 'inactive', 'Pasay', 'PH', '88 Wealth Ave', NULL, '1300', 'Metro Manila'),
+('EduGrowth Learning', 'contact@edugrowth.com', 'Education', 'Government', 'learnpass321', 'active', 'Caloocan', 'PH', '123 Knowledge Rd', 'Building A', '1400', 'Metro Manila'),
+('Pure Produce Farms', 'info@pureproduce.ph', 'Agriculture', 'Corporate', 'farmfresh1', 'active', 'Cebu City', 'PH', '34 Orchard Rd', NULL, '6001', 'Cebu'),
+('SkyHigh Airlines', 'support@skyhighairlines.com', 'Aviation', 'Corporate', 'flysafe2024', 'inactive', 'Muntinlupa', 'PH', '67 Runway St', 'Hangar 2', '1771', 'Metro Manila'),
+('PowerPlus Energy', 'info@powerplus.ph', 'Energy', 'Government', 'poweron789', 'active', 'Marikina', 'PH', '789 Volt Ave', NULL, '1800', 'Metro Manila'),
+('Green Growth', 'contact@greengrowth.ph', 'Environmental Services', 'Corporate', 'ecofriendly123', 'active', 'Iloilo', 'PH', '12 Sustain St', 'Suite 4', '5000', 'Western Visayas'),
+('Metro Transport Corp', 'info@metrotransport.ph', 'Logistics', 'Government', 'transportpass', 'inactive', 'Bacolod', 'PH', '987 Cargo Rd', 'Warehouse 8', '6100', 'Negros Occidental'),
+('MedicalCare Solutions', 'hello@medicalcare.ph', 'Healthcare', 'Corporate', 'medsecure456', 'active', 'Quezon City', 'PH', '101 Health Plaza', '3rd Floor', '1102', 'Metro Manila'),
+('Insight Media', 'support@insightmedia.ph', 'Media', 'Corporate', 'mediasecure789', 'active', 'Cebu City', 'PH', '15 Broadcast Blvd', NULL, '6002', 'Cebu'),
+('TechQuest Innovations', 'info@techquest.com', 'Technology', 'Corporate', 'questpass123', 'inactive', 'Pasig', 'PH', '456 Dev Ave', 'Lab 9', '1601', 'Metro Manila'),
+('Unity Logistics', 'logistics@unitylogistics.com', 'Logistics', 'Government', 'logipass', 'active', 'Davao City', 'PH', '102 Cargo Lane', NULL, '8001', 'Davao'),
+('Fresh Bakes', 'contact@freshbakes.com', 'Food & Beverage', 'Corporate', 'bakeit456', 'active', 'Las Piñas', 'PH', '654 Pastry Rd', 'Ground Floor', '1741', 'Metro Manila');
+
 
 -- Insert data into Employee (20 entries)
 INSERT INTO Employee (org_id, email, password, name, address) VALUES
@@ -187,27 +189,86 @@ INSERT INTO Order_Products (product_id, order_id, qty) VALUES
 (19, 19, 8),
 (20, 20, 3);
 
--- Insert data into Measurements (20 entries)
 INSERT INTO Measurements (order_id, name, address, measurement, product_id, qty, postal_code, city) VALUES
-(1, 'Juan dela Cruz', '1234 Tech Street, Manila', '{"height":170,"chest":38,"waist":32}', 1, 2, 1000, 'Manila'),
-(2, 'Maria Santos', '5678 Innovate Road, Manila', '{"height":165,"chest":36,"waist":30}', 2, 3, 1101, 'Quezon City'),
-(3, 'Jose Rizal', '910 Greenfield, Quezon City', '{"height":168,"chest":37,"waist":32}', 3, 1, 6000, 'Cebu City'),
-(4, 'Ana de la Cruz', '321 Healthy Lane, Cebu City', '{"height":172,"chest":39,"waist":34}', 4, 5, 8000, 'Davao City'),
-(5, 'Carlos Garcia', '101 Secure Blvd, Davao City', '{"height":175,"chest":40,"waist":36}', 5, 7, 1630, 'Taguig'),
-(6, 'Miguel Tan', '202 Solar Road, Taguig', '{"height":167,"chest":35,"waist":31}', 6, 4, 1200, 'Makati'),
-(7, 'Luis Reyes', '303 AI Avenue, Makati', '{"height":174,"chest":39,"waist":33}', 7, 6, 1600, 'Pasig'),
-(8, 'Patricia Cruz', '404 Stone Street, Pasig', '{"height":169,"chest":37,"waist":32}', 8, 8, 4100, 'Cavite'),
-(9, 'Lorna Abad', '505 Harvest Way, Cavite', '{"height":166,"chest":36,"waist":30}', 9, 10, 1400, 'Caloocan'),
-(10, 'Gabriel Villanueva', '606 Green Plaza, Caloocan', '{"height":178,"chest":41,"waist":35}', 10, 9, 1740, 'Las Pinas'),
-(11, 'Isabel Romero', '707 Wellness Rd, Las Pinas', '{"height":160,"chest":34,"waist":29}', 11, 1, 1550, 'Mandaluyong'),
-(12, 'Francis Torres', '808 Blue Print Ave, Mandaluyong', '{"height":172,"chest":39,"waist":33}', 12, 2, 1102, 'Quezon City'),
-(13, 'Alvin Aquino', '909 Shield Blvd, Quezon City', '{"height":165,"chest":35,"waist":31}', 13, 5, 1300, 'Pasay'),
-(14, 'Dolores Mateo', '1010 Hygiene St, Pasay', '{"height":169,"chest":36,"waist":32}', 14, 3, 1770, 'Muntinlupa'),
-(15, 'Emilio Ramos', '1111 Network Ln, Muntinlupa', '{"height":175,"chest":40,"waist":34}', 15, 4, 1800, 'Marikina'),
-(16, 'Jessica Lee', '1212 Power Dr, Marikina', '{"height":164,"chest":35,"waist":30}', 16, 2, 6100, 'Bacolod'),
-(17, 'Oscar Dominguez', '1313 Cloud St, Bacolod', '{"height":176,"chest":41,"waist":35}', 17, 6, 7000, 'Zamboanga'),
-(18, 'Lorena Gomez', '1414 Care St, Zamboanga', '{"height":170,"chest":38,"waist":32}', 18, 7, 5000, 'Iloilo'),
-(19, 'Carlos Bautista', '1515 Farm Rd, Iloilo', '{"height":171,"chest":39,"waist":33}', 19, 8, 2400, 'Dagupan'),
-(20, 'Sofia Cruz', '1616 Shield St, Dagupan', '{"height":162,"chest":35,"waist":30}', 20, 3, 1005, 'Manila');
+(1, 'John Doe', '123 Example Street', 
+    '{"Bust girth": "56.78 cm", "Under bust girth": "48.54 cm", "Upper chest girth": "62.39 cm", "Waist girth": "58.25 cm", "Upper hip girth": "66.72 cm", "Hip girth": "72.19 cm", "Upper arm girth": "34.67 cm"}', 
+    1, 2, 1000, 'Manila'),
+
+(2, 'Jane Smith', '456 Sample Avenue', 
+    '{"Bust girth": "78.52 cm", "Under bust girth": "60.33 cm", "Upper chest girth": "82.74 cm", "Waist girth": "64.18 cm", "Upper hip girth": "70.27 cm", "Hip girth": "88.61 cm", "Upper arm girth": "36.49 cm"}', 
+    2, 1, 2000, 'Cebu City'),
+
+(3, 'Alice Tan', '789 Another Blvd', 
+    '{"Bust girth": "66.84 cm", "Under bust girth": "54.13 cm", "Upper chest girth": "70.25 cm", "Waist girth": "62.59 cm", "Upper hip girth": "68.93 cm", "Hip girth": "80.42 cm", "Upper arm girth": "32.51 cm"}', 
+    3, 1, 3000, 'Davao City'),
+
+(4, 'Bob Lee', '101 Main St', 
+    '{"Bust girth": "72.37 cm", "Under bust girth": "58.92 cm", "Upper chest girth": "76.41 cm", "Waist girth": "66.83 cm", "Upper hip girth": "74.26 cm", "Hip girth": "84.79 cm", "Upper arm girth": "34.54 cm"}', 
+    4, 3, 4000, 'Quezon City'),
+
+(5, 'Charlie Reyes', '202 Market Road', 
+    '{"Bust girth": "84.19 cm", "Under bust girth": "68.35 cm", "Upper chest girth": "88.47 cm", "Waist girth": "72.61 cm", "Upper hip girth": "80.29 cm", "Hip girth": "90.72 cm", "Upper arm girth": "38.14 cm"}', 
+    5, 2, 5000, 'Taguig City'),
+
+(6, 'Diana Cruz', '303 Hilltop Street', 
+    '{"Bust girth": "64.78 cm", "Under bust girth": "52.46 cm", "Upper chest girth": "68.23 cm", "Waist girth": "60.38 cm", "Upper hip girth": "72.49 cm", "Hip girth": "78.91 cm", "Upper arm girth": "30.67 cm"}', 
+    6, 1, 6000, 'Makati City'),
+
+(7, 'Ethan Lim', '404 Coastal Rd', 
+    '{"Bust girth": "90.12 cm", "Under bust girth": "72.37 cm", "Upper chest girth": "94.89 cm", "Waist girth": "76.23 cm", "Upper hip girth": "86.15 cm", "Hip girth": "96.43 cm", "Upper arm girth": "40.21 cm"}', 
+    7, 2, 7000, 'Pasay City'),
+
+(8, 'Fiona Santos', '505 High Street', 
+    '{"Bust girth": "60.83 cm", "Under bust girth": "46.72 cm", "Upper chest girth": "64.58 cm", "Waist girth": "56.48 cm", "Upper hip girth": "62.34 cm", "Hip girth": "70.29 cm", "Upper arm girth": "28.69 cm"}', 
+    8, 1, 8000, 'Baguio City'),
+
+(9, 'George Wong', '606 Riverside Drive', 
+    '{"Bust girth": "68.95 cm", "Under bust girth": "56.18 cm", "Upper chest girth": "72.37 cm", "Waist girth": "64.59 cm", "Upper hip girth": "76.21 cm", "Hip girth": "82.41 cm", "Upper arm girth": "32.73 cm"}', 
+    9, 3, 9000, 'Iloilo City'),
+
+(10, 'Hannah Villa', '707 Lakeside Rd', 
+    '{"Bust girth": "74.67 cm", "Under bust girth": "60.24 cm", "Upper chest girth": "78.49 cm", "Waist girth": "68.37 cm", "Upper hip girth": "80.16 cm", "Hip girth": "88.54 cm", "Upper arm girth": "36.12 cm"}', 
+    10, 2, 1001, 'Cagayan de Oro'),
+
+(11, 'Ian Gomez', '808 Pine Street', 
+    '{"Bust girth": "88.32 cm", "Under bust girth": "70.15 cm", "Upper chest girth": "92.47 cm", "Waist girth": "74.89 cm", "Upper hip girth": "84.56 cm", "Hip girth": "94.37 cm", "Upper arm girth": "40.13 cm"}', 
+    11, 1, 1002, 'General Santos City'),
+
+(12, 'Jessica Cruz', '909 Forest Ave', 
+    '{"Bust girth": "76.45 cm", "Under bust girth": "64.27 cm", "Upper chest girth": "80.91 cm", "Waist girth": "70.62 cm", "Upper hip girth": "78.52 cm", "Hip girth": "86.49 cm", "Upper arm girth": "36.25 cm"}', 
+    12, 2, 1003, 'Batangas City'),
+
+(13, 'Kevin Tan', '1010 Ocean Blvd', 
+    '{"Bust girth": "62.72 cm", "Under bust girth": "50.34 cm", "Upper chest girth": "66.47 cm", "Waist girth": "60.16 cm", "Upper hip girth": "70.83 cm", "Hip girth": "76.53 cm", "Upper arm girth": "30.18 cm"}', 
+    13, 3, 1004, 'Puerto Princesa'),
+
+(14, 'Laura Lee', '1111 Sunset Road', 
+    '{"Bust girth": "82.65 cm", "Under bust girth": "66.52 cm", "Upper chest girth": "86.73 cm", "Waist girth": "72.34 cm", "Upper hip girth": "78.45 cm", "Hip girth": "88.12 cm", "Upper arm girth": "38.76 cm"}', 
+    14, 1, 1005, 'Naga City'),
+
+(15, 'Mike Reyes', '1212 Gold Street', 
+    '{"Bust girth": "70.48 cm", "Under bust girth": "60.25 cm", "Upper chest girth": "74.33 cm", "Waist girth": "66.57 cm", "Upper hip girth": "76.12 cm", "Hip girth": "82.23 cm", "Upper arm girth": "34.84 cm"}', 
+    15, 2, 1006, 'Antipolo'),
+
+(16, 'Nina Santos', '1313 Pearl Avenue', 
+    '{"Bust girth": "68.39 cm", "Under bust girth": "54.82 cm", "Upper chest girth": "72.47 cm", "Waist girth": "64.58 cm", "Upper hip girth": "74.29 cm", "Hip girth": "80.57 cm", "Upper arm girth": "32.13 cm"}', 
+    16, 1, 1007, 'Legazpi'),
+
+(17, 'Oscar Lim', '1414 Silver Lane', 
+    '{"Bust girth": "60.93 cm", "Under bust girth": "50.68 cm", "Upper chest girth": "64.27 cm", "Waist girth": "58.93 cm", "Upper hip girth": "68.51 cm", "Hip girth": "74.29 cm", "Upper arm girth": "30.42 cm"}', 
+    17, 3, 1008, 'San Fernando'),
+
+(18, 'Patricia Gomez', '1515 Olive Rd', 
+    '{"Bust girth": "66.24 cm", "Under bust girth": "52.94 cm", "Upper chest girth": "70.78 cm", "Waist girth": "62.49 cm", "Upper hip girth": "72.54 cm", "Hip girth": "80.27 cm", "Upper arm girth": "32.69 cm"}', 
+    18, 1, 1009, 'Tacloban'),
+
+(19, 'Quincy Villa', '1616 Cedar Way', 
+    '{"Bust girth": "84.37 cm", "Under bust girth": "68.47 cm", "Upper chest girth": "88.51 cm", "Waist girth": "74.38 cm", "Upper hip girth": "80.95 cm", "Hip girth": "90.49 cm", "Upper arm girth": "40.72 cm"}', 
+    19, 2, 1010, 'Dumaguete City'),
+
+(20, 'Rebecca Cruz', '1717 Elm St', 
+    '{"Bust girth": "72.53 cm", "Under bust girth": "58.36 cm", "Upper chest girth": "76.34 cm", "Waist girth": "66.92 cm", "Upper hip girth": "76.49 cm", "Hip girth": "84.78 cm", "Upper arm girth": "36.24 cm"}', 
+    20, 3, 1011, 'Ormoc City');
+
 
 

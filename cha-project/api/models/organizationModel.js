@@ -2,7 +2,7 @@ const db = require('./dbconnection'); // Import the MySQL connection from dbconn
 
 const Organization = {
     getAll: (type, callback) => {
-        var query = `SELECT o.org_id as "id", o.name, email, industry, address, COUNT(product_id) as "Number of Products"
+        var query = `SELECT o.org_id as "id", o.name, email, industry, city, country, address_line1, address_line2, postal_code, state, COUNT(product_id) as "Number of Products"
                     FROM organization o LEFT JOIN products p ON o.org_id = p.org_id
                     WHERE 
                         o.status = "active" 
@@ -19,7 +19,7 @@ const Organization = {
     },
 
     getRecent: (limit, type, callback) => {
-        var query = `SELECT o.org_id as "id", o.name, email, industry, address, COUNT(product_id) as "Number of Products"
+        var query = `SELECT o.org_id as "id", o.name, email, industry, city, country, address_line1, address_line2, postal_code, state, COUNT(product_id) as "Number of Products"
                     FROM organization o LEFT JOIN products p ON o.org_id = p.org_id 
                     WHERE 
                         o.status = "active" 
@@ -31,6 +31,16 @@ const Organization = {
         db.query(query, [type, limit], (err, results) => {
             if (err) {
                 return callback(err, null)
+            }
+            callback(null, results)
+        })
+    },
+
+    getOrgById: (id, callback) => {
+        const query = 'SELECT name, email, industry, type, city, country, address_line1, address_line2, postal_code, state FROM ORGANIZATION WHERE org_id = ? AND status = "active"';
+        db.query(query, [id], (err, results) => {
+            if (err) {
+                return callback(err, null);
             }
             callback(null, results)
         })
@@ -56,11 +66,11 @@ const Organization = {
         })
 
     },
-    createOrg: (name, email, password, type, industry, address, city, country, address_line1, address_line2, postal_code, state, callback) => {
-        const query = `INSERT INTO Organization (name, email, industry, type, password, address, status, city, country, address_line1, address_line2, postal_code, state)
-VALUES(?, ?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
+    createOrg: (name, email, password, type, industry, city, country, address_line1, address_line2, postal_code, state, callback) => {
+        const query = `INSERT INTO Organization (name, email, industry, type, password, status, city, country, address_line1, address_line2, postal_code, state)
+        VALUES(?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
 
-        db.query(query, [name, email, industry, type, password, address, city, country, address_line1, address_line2, postal_code, state], (err, results) => {
+        db.query(query, [name, email, industry, type, password, city, country, address_line1, address_line2, postal_code, state], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -69,9 +79,9 @@ VALUES(?, ?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
     },
 
 
-    updateOrg: (id, name, email, industry, address, callback) => {
-        const query = 'UPDATE organization SET name = ?, email = ?, industry = ?, address=? WHERE org_id = ?'
-        db.query(query, [name, email, industry, address, id], (err, results) => {
+    updateOrg: (id, name, email, industry, city, country, address_line1, address_line2, postal_code, state, callback) => {
+        const query = 'UPDATE organization SET name = ?, email = ?, industry = ?, city = ?, country = ?, address_line1 = ?, address_line2 = ?, postal_code = ?, state = ? WHERE org_id = ?'
+        db.query(query, [name, email, industry, city, country, address_line1, address_line2, postal_code, state, id], (err, results) => {
             if (err) {
                 return callback(err, null);
             }

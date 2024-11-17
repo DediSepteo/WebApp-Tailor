@@ -6,7 +6,7 @@ import ConfirmPopUp from '../components/CustomPopUp';
 import { MdBusinessCenter } from 'react-icons/md';
 import { FaHandHoldingUsd } from 'react-icons/fa';
 import { RiCustomerServiceFill } from 'react-icons/ri';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CustomPopUp from '../components/CustomPopUp';
 
 const AdminPage = () => {
@@ -19,10 +19,16 @@ const AdminPage = () => {
 
     const token = sessionStorage.getItem('authToken');
 
+    const navigate = useNavigate()
+
     const toggleCancelPopUp = (id) => {
         setCancelOrderID(id)
         setCancelPopup(!showCancelPopup); // Toggles the confirmation popup
     };
+
+    const toDetails = (orderData) => {
+        navigate('/admin/order-details', { state: { orderData: orderData } })
+    }
 
     const handleCancel = async () => {
         try {
@@ -170,13 +176,13 @@ const AdminPage = () => {
                                     <tr key={orderData.order_id}>
                                         <td>{new Date(orderData.date).toLocaleString()}</td>
                                         <td>{orderData["placed by"]}</td>
-                                        <td>{`$${orderData.subtotal}`}</td>
+                                        <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
                                         <td>{orderData.measurementNo}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <NavLink className={styles.detailBtn}>Details</NavLink>
+                                                <button className={styles.detailBtn} onClick={() => { toDetails(orderData) }}>Details</button>
                                                 <button className={styles.cancelBtn} onClick={() => toggleCancelPopUp(orderData.order_id)}>Cancel</button>
                                             </div>
                                         </td>

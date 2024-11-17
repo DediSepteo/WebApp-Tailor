@@ -3,8 +3,9 @@ import AdminSideNavBar from '../components/AdminSideNavBar';
 import AdminNavBar from '../components/AdminNavBar';
 import styles from '../styles/OrderDetailPage.module.css';
 import CustomPopUp from '../components/CustomPopUp';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TiTick } from "react-icons/ti";
+import { NavLink } from 'react-router-dom';
 
 const OrderDetailPage = ({ }) => {
     const location = useLocation()
@@ -13,12 +14,13 @@ const OrderDetailPage = ({ }) => {
     const [showDeliveryPopup, setShowDeliveryPopup] = useState(false);
     const [completion, setCompletion] = useState([])
 
-    const { orderData } = location.state
+    const orderData = location.state?.orderData
+
+    const navigate = useNavigate()
 
     const token = sessionStorage.getItem('authToken');
 
     const toggleMarkAllPopUp = () => {
-        console.log("A")
         setShowMarkAllPopup(!showMarkAllPopup); // Toggles the confirmation popup
     };
 
@@ -68,10 +70,6 @@ const OrderDetailPage = ({ }) => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log(measurementData)
-    }, [measurementData])
-
     return (
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7', margin: 0, overflowX: "hidden" }}>
             {showDeliveryPopup && <CustomPopUp togglePopup={toggleDeliveryPopUp} title="Begin Delivery Process" text="Are you sure you want to begin the delivery process? All orders have to be completed in order to begin the delivery process"
@@ -81,7 +79,10 @@ const OrderDetailPage = ({ }) => {
             <AdminSideNavBar />
             <div className={styles.home}>
                 <AdminNavBar pageName={`Order Details for ${orderData["placed by"]}`} />
-                <header style={{ fontFamily: "inter", fontWeight: "600", padding: "1em 0", textAlign: "center" }}>Measurement List</header>
+                <header style={{}}>
+                    <NavLink className={styles.backBtn} onClick={(e) => { e.preventDefault(); navigate(-1) }}>Go back</NavLink>
+                    <div style={{ fontFamily: "inter", fontWeight: "600", padding: "1em 0", textAlign: "center" }}>Measurement List</div>
+                </header>
                 {measurementData.length > 0 ? (
                     <div className={styles.list}>
                         {measurementData.map((data, index) => {

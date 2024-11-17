@@ -462,6 +462,10 @@
   margin: 4% 0;
 }
 
+.checkoutBtn:hover{
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
   .navbar {
     justify-content: space-between;

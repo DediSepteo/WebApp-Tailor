@@ -146,26 +146,36 @@ export const ShoppingCart = () => {
     };
 
     const testToCheckoutPage = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         if (!cart.length)
             alert("Cart is empty")
+        else if (!token) {
+            alert("Something went wrong, please relogin")
+            navigate("/login")
+        }
         else {
+            const decodedToken = jwtDecode(token);
+            const org_id = decodedToken.org_id;
             quantities.forEach((quantity, index) => {
                 cart[index].qty = quantity
             })
-            console.log(cart)
             fetch("http://localhost:3000/api/payment/checkoutSes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    cart: cart
+                    cart: cart,
+                    org_id: org_id,
                 })
             })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
-                    window.location.href = data.checkoutUrl
+                    if (data.checkoutUrl)
+                        window.location.href = data.checkoutUrl
+                    else
+                        alert("Something went wrong")
                 })
                 .catch(error => console.error("Error:", error));
 

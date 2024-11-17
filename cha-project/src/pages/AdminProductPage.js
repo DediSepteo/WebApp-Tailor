@@ -119,7 +119,7 @@ const AdminProductPage = () => {
                                             <td>{productData.name}</td>
                                             <td>{productData.org_name}</td>
                                             <td>{productData.description}</td>
-                                            <td>{`$${productData.price}`}</td>
+                                            <td>{`₱${productData.price}`}</td>
                                             <td className={styles.tableBtns}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <button className={styles.editBtn} onClick={() => editProd("product", productData.id, fields)}>Edit</button>

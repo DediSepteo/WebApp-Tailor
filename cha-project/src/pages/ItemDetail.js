@@ -43,7 +43,8 @@ export const ItemDetail = () => {
 
         const newItem = {
             id: item.product_id,
-            quantity: quantity,
+            // Ensure that quantity is a number, if user types value, data will be string
+            quantity: parseInt(quantity),
         };
 
         existingCart.push(newItem);
@@ -156,7 +157,7 @@ export const ItemDetail = () => {
                 </div>
                 <div className={styles.contents}>
                     <p className={styles.itemName}>{item.name}</p>
-                    <p className={styles.itemPrice}>${item.price}</p>
+                    <p className={styles.itemPrice}>₱{item.price}</p>
                     <div className={styles.separator}></div>
                     <form>
                         <div className={styles.quantityContainer}>

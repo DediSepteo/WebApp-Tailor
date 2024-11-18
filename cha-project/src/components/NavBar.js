@@ -87,7 +87,6 @@ const NavBar = () => {
     }, []);
 
 
-
     // Function to calculate subtotal
     const calculateSubtotal = () => {
         return cart.reduce((total, item, index) => {
@@ -99,11 +98,9 @@ const NavBar = () => {
 
     // Update localStorage when quantities change
     const updateLocalStorageCart = (updatedQuantities) => {
-        // Re-fetch `localStorageCart` to get the latest data
         const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.id === cartItem.id);
-            if (matchedItem) {
+            if (updatedQuantities[index] !== undefined) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
             return cartItem;
@@ -111,18 +108,21 @@ const NavBar = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
+    // to make it persist 
+    useEffect(() => {
+        updateLocalStorageCart(quantities);
+    }, [quantities]);
+
+
     // Handle item removal
     const handleRemoveItem = (index) => {
-        const itemToRemove = cart[index];
-        console.log(cart, index)
-        // Re-fetch `localStorageCart` to get the latest data
-        const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-        // Remove item from localStorage cart
-        const updatedLocalStorageCart = currentLocalStorageCart.filter(cartItem => cartItem.id !== itemToRemove.id);
+        // Get the item to remove based on index
+        const itemToRemove = cart[index][0];
 
+        const updatedLocalStorageCart = localStorageCart.filter((cartItem, i) => i !== index);
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
-        // Update state: remove item from cart and adjust quantities
+        console.log(updatedLocalStorageCart);
         setCart(prevCart => prevCart.filter((_, i) => i !== index));
         setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
@@ -285,10 +285,10 @@ const NavBar = () => {
     // Logout Handler
     const handleLogout = () => {
         sessionStorage.removeItem('token');
-        localStorage.removeItem('token'); // Remove token from sessionStorage
-        localStorage.removeItem('cart'); // Remove token from sessionStorage
-        setUserName(null); // Clear userName state
-        navigate('/Home'); // Redirect to Home page or Login page
+        localStorage.removeItem('token');
+        localStorage.removeItem('cart');
+        setUserName(null);
+        navigate('/Home');
     };
 
     return (

@@ -17,14 +17,6 @@ export const ItemDetail = () => {
     const [lastValidQuantity, setLastValidQuantity] = useState(1); // Track last valid quantity
     const intervalRef = useRef(null); // Reference for auto increment/decrement
 
-    // const item = items.find(item => item.company === company && item.name === name);
-
-    // useEffect(() => {
-    //     if (item && item.colour.length > 0) {
-    //         setSelectedColor(item.colour[0]); // Set default color to the first color in the list
-    //     }
-    // }, [item]);
-
     useEffect(() => {
         if (addedToCart) {
             const timer = setTimeout(() => {
@@ -51,7 +43,7 @@ export const ItemDetail = () => {
 
         // Reset values after submit
         setQuantity(1);
-
+        
         console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); //for checking
 
     };

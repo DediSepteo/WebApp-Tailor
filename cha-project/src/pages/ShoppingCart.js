@@ -75,9 +75,7 @@ export const ShoppingCart = () => {
     const grandTotal = subtotal + deliveryCharge;
 
     const handleCheckout = () => {
-
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
         if (token) {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
@@ -152,8 +150,7 @@ export const ShoppingCart = () => {
     const updateLocalStorageCart = (updatedQuantities) => {
         const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.id === cartItem.id);
-            if (matchedItem) {
+            if (updatedQuantities[index] !== undefined) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
             return cartItem;
@@ -161,14 +158,20 @@ export const ShoppingCart = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
+    // to make it persist 
+    useEffect(() => {
+        updateLocalStorageCart(quantities);
+    }, [quantities]);
+
     // Handle item removal
     const handleRemoveItem = (index) => {
         // Get the item to remove based on index
-        const itemToRemove = cart[index][0]; 
+        const itemToRemove = cart[index][0];
 
         const updatedLocalStorageCart = localStorageCart.filter((cartItem, i) => i !== index);
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
+        console.log(updatedLocalStorageCart);
         setCart(prevCart => prevCart.filter((_, i) => i !== index));
         setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };

@@ -74,6 +74,23 @@ export const ShoppingCart = () => {
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
 
+    // checkout handler
+    // const handleCheckout = () => {
+    //     const decodedToken = jwtDecode(token);
+    //     const org_id = decodedToken.org_id;
+
+
+    //     const orderData = cart.map((item, index) => ({
+    //         id: item.id,
+    //         quantity: quantities[index]
+    //     }));
+
+    //     const orderDetails = {
+    //         org_id: org_id
+
+    //     }
+    // }
+
     const handleCheckout = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         if (token) {
@@ -130,19 +147,26 @@ export const ShoppingCart = () => {
         if (!cart.length)
             alert("Cart is empty")
         else {
+            quantities.forEach((quantity, index) => {
+                cart[index].qty = quantity
+            })
             console.log(cart)
             fetch("http://localhost:3000/api/payment/checkoutSes", {
                 method: "POST",
                 headers: {
-                    'accept': 'application/json',
-                    'Authorization': `Basic c2tfdGVzdF9oUXRTSnhEWVFjZjF4SzRhekF6amdKOXc6`
+                    "Content-Type": "application/json"
                 },
-                body: {
+                body: JSON.stringify({
                     cart: cart
-                }
+                })
             })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    window.location.href = data.checkoutUrl
+                })
+                .catch(error => console.error("Error:", error));
+
         }
     }
 
@@ -165,17 +189,18 @@ export const ShoppingCart = () => {
 
     // Handle item removal
     const handleRemoveItem = (index) => {
-        // Get the item to remove based on index
-        const itemToRemove = cart[index][0];
+        // Get the item to remove
+        const itemToRemove = cart[0];// Access the product object within the nested array
 
-        const updatedLocalStorageCart = localStorageCart.filter((cartItem, i) => i !== index);
+        // Update the cart in localStorage
+        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem[0]);
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
 
+        // Update the cart state: remove the item from the nested structure
         console.log(updatedLocalStorageCart);
         setCart(prevCart => prevCart.filter((_, i) => i !== index));
         setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
-
 
 
     // Function to handle quantity increase (max 50)

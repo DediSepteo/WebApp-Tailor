@@ -92,9 +92,7 @@ export const ShoppingCart = () => {
     // }
 
     const handleCheckout = () => {
-
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
         if (token) {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
@@ -186,8 +184,7 @@ export const ShoppingCart = () => {
     const updateLocalStorageCart = (updatedQuantities) => {
         const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.id === cartItem.id);
-            if (matchedItem) {
+            if (updatedQuantities[index] !== undefined) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
             return cartItem;
@@ -195,18 +192,24 @@ export const ShoppingCart = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
+    // to make it persist 
+    useEffect(() => {
+        updateLocalStorageCart(quantities);
+    }, [quantities]);
+
     // Handle item removal
     const handleRemoveItem = (index) => {
-        // Get the item to remove
-        const itemToRemove = cart[0]; // Access the product object within the nested array
+        const updatedCart = cart.filter((_, i) => i !== index);
 
-        // Update the cart in localStorage
-        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem[0]);
+        setCart(updatedCart);
+
+        // Transform `updatedCart` back to the original structure for localStorage
+        const updatedLocalStorageCart = updatedCart.map(item => ({
+            id: item.product_id || item.id,
+            quantity: item.quantity,
+        }));
+
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
-
-        // Update the cart state: remove the item from the nested structure
-        setCart(prevCart => prevCart.filter((_, i) => i !== index));
-        setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
 
 

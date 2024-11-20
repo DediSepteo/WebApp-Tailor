@@ -189,17 +189,17 @@ export const ShoppingCart = () => {
 
     // Handle item removal
     const handleRemoveItem = (index) => {
-        // Get the item to remove
-        const itemToRemove = cart[0];// Access the product object within the nested array
+        const updatedCart = cart.filter((_, i) => i !== index);
 
-        // Update the cart in localStorage
-        const updatedLocalStorageCart = localStorageCart.filter(cartItem => cartItem[0]);
+        setCart(updatedCart);
+
+        // Transform `updatedCart` back to the original structure for localStorage
+        const updatedLocalStorageCart = updatedCart.map(item => ({
+            id: item.product_id || item.id,
+            quantity: item.quantity,
+        }));
+
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
-
-        // Update the cart state: remove the item from the nested structure
-        console.log(updatedLocalStorageCart);
-        setCart(prevCart => prevCart.filter((_, i) => i !== index));
-        setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
 
 

@@ -34,19 +34,29 @@ export const ItemDetail = () => {
         const existingCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
         const newItem = {
-            id: item.product_id,
-            quantity: quantity,
+            id: item.product_id, // Store only the product ID
+            quantity: quantity, // Store quantity
         };
 
-        existingCart.push(newItem);
+        // Check if item already exists in the cart
+        const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
+
+        if (existingItemIndex >= 0) {
+            // If item exists, update its quantity
+            existingCart[existingItemIndex].quantity += newItem.quantity;
+        } else {
+            // Otherwise, add the new item
+            existingCart.push(newItem);
+        }
+
         localStorage.setItem('cart', JSON.stringify(existingCart));
 
         // Reset values after submit
         setQuantity(1);
-        
-        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); //for checking
-
+        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
+
+
 
     // Handle quantity increase
     const increaseQuantity = () => {

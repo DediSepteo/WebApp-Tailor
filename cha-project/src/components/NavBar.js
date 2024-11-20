@@ -44,13 +44,12 @@ const NavBar = () => {
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         console.log(localStorageCart, 'cart token');
 
-        // Get all item IDs and quantities from localStorageCart
+        // Extract product IDs and quantities from local storage
         const itemIds = localStorageCart.map(item => item.id);
-        const initialQuantities = localStorageCart.map(item => item.quantity || 1);
-        console.log(itemIds, 'this is the itemid')
+        const quantities = localStorageCart.map(item => item.quantity);
 
         if (itemIds.length > 0) {
-            // Map over each item ID to create a fetch request for each item
+            // Fetch product details for all IDs
             const fetchPromises = itemIds.map(id =>
                 fetch(`http://localhost:3000/api/product/${id}`)
                     .then(response => {
@@ -60,31 +59,30 @@ const NavBar = () => {
                         return response.json();
                     })
             );
-            // Wait for all fetch requests to complete
+
             Promise.all(fetchPromises)
                 .then(products => {
-                    const updatedProducts = products.map((product) => {
-                        console.log(product[0], "A ")
-                        return product[0]
-                    })
-                    setCart(updatedProducts); // Set the cart with all fetched products
-                    console.log(products, 'cart data');
+                    // Merge product details with quantities
+                    const updatedCart = products.map((product, index) => ({
+                        ...product[0], // Assuming the API returns an array with one product
+                        quantity: quantities[index],
+                    }));
+                    setCart(updatedCart);
+                    console.log('Updated cart data:', updatedCart);
                 })
                 .catch(error => {
                     console.error("Error fetching product data:", error);
                 });
         } else {
             console.log("No items in cart.");
-            setCart([]); // Clear cart data if no items are present
+            setCart([]);
         }
 
-        console.log("Cart details:");
-        console.log("Cart ids:", itemIds);
-        console.log("Cart quantities:", initialQuantities);
-
-        setQuantities(initialQuantities);
-        setLastValidQuantities(initialQuantities); // Initialize last valid quantities
+        setQuantities(quantities); // Update quantities in state
+        setLastValidQuantities(quantities); // Update last valid quantities
     }, []);
+
+
 
 
     // Function to calculate subtotal
@@ -114,18 +112,20 @@ const NavBar = () => {
     }, [quantities]);
 
 
-    // Handle item removal
     const handleRemoveItem = (index) => {
-        // Get the item to remove based on index
-        const itemToRemove = cart[index][0];
+        const updatedCart = cart.filter((_, i) => i !== index);
 
-        const updatedLocalStorageCart = localStorageCart.filter((cartItem, i) => i !== index);
+        setCart(updatedCart);
+
+        // Transform `updatedCart` back to the original structure for localStorage
+        const updatedLocalStorageCart = updatedCart.map(item => ({
+            id: item.product_id || item.id,
+            quantity: item.quantity,
+        }));
+
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
-
-        console.log(updatedLocalStorageCart);
-        setCart(prevCart => prevCart.filter((_, i) => i !== index));
-        setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
+
 
     // Function to handle quantity increase (max 50)
     const increaseQuantity = (index) => {
@@ -237,7 +237,6 @@ const NavBar = () => {
                 setUserName(decodedToken.org_name); // Ensure your token has a 'name' field
             } catch (error) {
                 console.error('Invalid token:', error);
-                navigate('/Home');
                 handleLogout();
             }
         }
@@ -284,9 +283,8 @@ const NavBar = () => {
 
     // Logout Handler
     const handleLogout = () => {
-        sessionStorage.removeItem('token');
-        localStorage.removeItem('token');
-        localStorage.removeItem('cart');
+        sessionStorage.clear();
+        localStorage.clear();
         setUserName(null);
         navigate('/Home');
     };
@@ -338,65 +336,56 @@ const NavBar = () => {
                 <div className={styles.contentWrapper}>
                     <table className={styles.tableContent}>
                         <tbody>
-                            {cart.map((item, index) => {
-                                console.log(item.name)
-                                return (
-                                    <tr key={index}>
-                                        <td className={styles.productRow}>
-                                            <img src="https://placehold.co/430x640" alt={item.name} className={styles.productImage} />
-                                            <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
-                                                <p className={styles.productName}>{item.name}</p>
-                                                <div>
-                                                    <p className={styles.productPrice}>{item.description}</p>
-                                                    <br />
-                                                    {/* <p className={styles.productPrice}>{`$${item.price.toFixed(2)}`}</p> */}
-                                                </div>
+                            {cart.map((item, index) => (
+                                <tr key={index}>
+                                    <td className={styles.productRow}>
+                                        <img
+                                            src="https://placehold.co/430x640" // Replace with item.image_url if available
+                                            alt={item.name}
+                                            className={styles.productImage}
+                                        />
+                                        <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
+                                            <p className={styles.productName}>{item.name}</p>
+                                            <p className={styles.productPrice}>{item.description}</p>
+                                            <p className={styles.productPrice}>${item.price.toFixed(2)}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className={styles.quantityContainer}>
+                                            <div className={styles.quantityBox}>
+                                                <button
+                                                    className={styles.quantityButton}
+                                                    onClick={() => decreaseQuantity(index)}
+                                                >
+                                                    -
+                                                </button>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <div className={styles.quantityContainer}>
-                                                <div className={styles.quantityBox}
-                                                    onMouseDown={() => startDecreasing(index)}
-                                                    onMouseUp={stopChanging}
-                                                    onMouseLeave={stopChanging}>
-                                                    <button className={styles.quantityButton} onClick={() => decreaseQuantity(index)}>-</button>
-                                                </div>
-                                                {editingIndex === index ? (
-                                                    <input
-                                                        ref={inputRef}
-                                                        className={styles.quantityInput}
-                                                        type="number"
-                                                        value={quantities[index]}
-                                                        min="1"
-                                                        max="50"
-                                                        onChange={(e) => handleInputChange(index, e.target.value)}
-                                                        onBlur={() => handleSaveQuantity(index)}
-                                                        onKeyPress={(e) => handleKeyPress(e, index)}
-                                                    />
-                                                ) : (
-                                                    <div className={styles.quantityRectangle} onClick={() => setEditingIndex(index)}>
-                                                        <span>{quantities[index]}</span>
-                                                    </div>
-                                                )}
-                                                <div className={styles.quantityBox}
-                                                    onMouseDown={() => startIncreasing(index)}
-                                                    onMouseUp={stopChanging}
-                                                    onMouseLeave={stopChanging}>
-                                                    <button className={styles.quantityButton} onClick={() => increaseQuantity(index)}>+</button>
-                                                </div>
+                                            <div className={styles.quantityRectangle}>
+                                                <span>{item.quantity}</span>
                                             </div>
-                                        </td>
-                                        <td className={styles.iconWrapper}>
-                                            <IoClose className={styles.closeIcon} onClick={() => handleRemoveItem(index)} />
-                                        </td>
-                                    </tr>)
-                            }
-
-
-                            )}
+                                            <div className={styles.quantityBox}>
+                                                <button
+                                                    className={styles.quantityButton}
+                                                    onClick={() => increaseQuantity(index)}
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className={styles.iconWrapper}>
+                                        <IoClose
+                                            className={styles.closeIcon}
+                                            onClick={() => handleRemoveItem(index)}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
+
+
 
                 <div className={styles.checkoutContainer}>
                     <table className={styles.totalSum}>

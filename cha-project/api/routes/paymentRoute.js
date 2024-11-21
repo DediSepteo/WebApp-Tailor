@@ -4,8 +4,22 @@ const express = require('express');
 const router = express.Router();
 const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY
 
+
+// Incomplete as payment account is unactivated
 router.post("/checkoutSes", async (req, res) => {
     const cart = req.body.cart
+    const org_id = req.body.org_id
+    const org_data = await fetch(`http://localhost:3000/api/org/${org_id}`)
+        .then(response => {
+            if (!response.ok) {
+                return res.status(404).send("Organization not found")
+            }
+            return response.json()
+        })
+        .then(data => {
+            return data[0]
+        })
+    console.log(org_data)
     const line_items = cart.map(item => ({
         amount: parseInt(item.price * 100),
         currency: "PHP",
@@ -27,6 +41,18 @@ router.post("/checkoutSes", async (req, res) => {
         body: JSON.stringify({
             data: {
                 "attributes": {
+                    billing: {
+                        address: {
+                            country: org_data.country,
+                            state: org_data.state,
+                            city: org_data.city,
+                            line1: org_data.address_line1,
+                            line2: org_data.address_line2 || null,
+                            postal_code: org_data.postal_code
+                        },
+                        email: org_data.email
+                    },
+                    cancel_url: "http://localhost:3001/shoppingcart",
                     send_email_receipt: true,
                     show_description: true,
                     show_line_items: true,
@@ -44,14 +70,26 @@ router.post("/checkoutSes", async (req, res) => {
     };
 
     fetch('https://api.paymongo.com/v1/checkout_sessions', options)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json()
-        })
+        .then(response => response.json())
         .then(data => {
-            if (data?.data?.attributes?.checkout_url) {
+            if (data.errors) {
+                console.log(data.errors)
+            }
+            else if (data?.data?.attributes?.checkout_url) {
+                const checkout_id = data.data.id
+                // Expire checkout session after 10 minutes
+                setTimeout(() => {
+                    fetch(`https://api.paymongo.com/v1/checkout_sessions/${checkout_id}/expire`, {
+                        method: 'POST',
+                        headers: {
+                            accept: 'application/json',
+                            authorization: `Basic ${PAYMONGO_SECRET_KEY}`
+                        }
+                    })
+                        .then(res => res.json())
+                        .then(res => console.log(res))
+                        .catch(err => console.error(err));
+                }, 600000)
                 res.json({ checkoutUrl: data.data.attributes.checkout_url });
             } else {
                 res.status(500).json({ error: 'Checkout URL not found in response' });

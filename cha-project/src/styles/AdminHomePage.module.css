@@ -124,20 +124,25 @@
   background-color: white;
   padding: 0 1em 1em 1em;
   width: 88%;
-  justify-content: center;
 }
 
 .orderTable {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse; /* Ensures borders don't have gaps */
-  border: 1px solid #d9d9d9; /* Border around the entire table */
+    width: 100%;
+    text-align:left;
+    border: 2px solid #D9D9D9;
+    border-collapse: collapse; 
 }
 
-.orderTable th,
+.orderTable th {
+    padding: 0.5em;
+    font-family: "Noto Serif";
+    background-color: #e6e6e6;
+}
+
 .orderTable td {
-  border: 1px solid #d9d9d9; /* Add borders around cells */
-  padding: 0.8em;
+    border-bottom: 1.5px solid #D9d9d9;
+    padding: 0.5em;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .orderTable th {

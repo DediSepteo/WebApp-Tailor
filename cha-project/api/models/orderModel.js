@@ -35,7 +35,7 @@ const orders = {
         var query = `
             SELECT 
                 o.order_id,
-                o.qty,
+                SUM(op.qty) AS qty,
                 o.status,
                 o.date,
                 FORMAT(o.subtotal,2) AS subtotal,
@@ -47,6 +47,8 @@ const orders = {
                 \`organization\` org ON o.org_id = org.org_id
             LEFT JOIN
 				\`measurements\` m ON m.order_id = o.order_id
+            JOIN 
+				\`order_products\` op ON op.order_id = o.order_id
             WHERE 
                 o.status != "Ready"`
         if (type) {
@@ -69,7 +71,7 @@ const orders = {
     getReadyOrder: (type, limit, callback) => {
         var query = `SELECT
             o.order_id,
-            o.qty,
+            SUM(op.qty) AS qty,
             o.status,
             o.date,
             FORMAT(o.subtotal, 2) AS subtotal,
@@ -81,6 +83,8 @@ const orders = {
                 \`organization\` org ON o.org_id = org.org_id
             LEFT JOIN
 				\`measurements\` m ON m.order_id = o.order_id
+            JOIN 
+				\`order_products\` op ON op.order_id = o.order_id
             WHERE o.status = "Ready"`
         if (type) {
             query += ` AND org.type = ?`

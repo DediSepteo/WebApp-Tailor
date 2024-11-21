@@ -43,8 +43,11 @@
     color: white;
     padding: 0.5em 1em;
     border-radius: 10em;
+    border:none;
+    font-size: 1em;
     font-family: "Inter";
-    font-weight: bold;
+    font-weight: 600;
+    cursor: pointer;
 }
   
 .cancelBtn {
@@ -58,8 +61,6 @@
     border-radius: 10em;
     font-size: 1em;
     margin-left: 1em;
-}
-  
-.cancelBtn:hover {
     cursor: pointer;
 }
+  

@@ -157,19 +157,17 @@ const AdminPage = () => {
                         <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
                     </div>
                     <table className={styles.orderTable}>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Placed By</th>
-                                <th>Subtotal</th>
-                                <th>Quantity</th>
-                                <th>No. of Measurements Obtained</th>
-                                <th>Status</th>
-                                {ordersData.length > 0 && (
-                                    <th></th>
-                                )}
-                            </tr>
-                        </thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Placed By</th>
+                            <th>Subtotal</th>
+                            <th>Quantity</th>
+                            <th>No. of Measurements Obtained</th>
+                            <th>Status</th>
+                            {ordersData.length > 0 && (
+                                <th></th>
+                            )}
+                        </tr>
                         <tbody>
                             {ordersData.length > 0 ? (
                                 ordersData.map((orderData) => (
@@ -178,7 +176,7 @@ const AdminPage = () => {
                                         <td>{orderData["placed by"]}</td>
                                         <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
+                                        <td>{orderData.measurementNo}/{orderData.qty}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -154,6 +154,7 @@ export const ShoppingCart = () => {
         else {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
+            console.log(quantities)
             quantities.forEach((quantity, index) => {
                 cart[index].qty = quantity
             })

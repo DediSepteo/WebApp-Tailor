@@ -111,7 +111,7 @@ const AdminOrderPage = () => {
                                         <td>{orderData["placed by"]}</td>
                                         <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
+                                        <td>{orderData.measurementNo}/{orderData.qty}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -156,7 +156,7 @@ const AdminOrderPage = () => {
                                         <td>{orderData["placed by"]}</td>
                                         <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
+                                        <td>{orderData.measurementNo}/{orderData.qty}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

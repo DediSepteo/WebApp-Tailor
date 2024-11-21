@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const CreateOrganization = () => {
     const [orgName, setOrgName] = useState('');
     const [orgEmail, setOrgEmail] = useState('');
+    const [orgPhone, setOrgPhone] = useState('');
     const [orgPassword, setOrgPassword] = useState('');
     const [orgIndustry, setOrgIndustry] = useState('');
-    const [orgAddress, setOrgAddress] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [addressLine1, setAddressLine1] = useState('');
@@ -95,6 +95,7 @@ const CreateOrganization = () => {
                 body: JSON.stringify({
                     "name": orgName,
                     "email": orgEmail,
+                    "phone": orgPhone,
                     "password": orgPassword,
                     "type": orgType,
                     "industry": orgIndustry,
@@ -138,7 +139,22 @@ const CreateOrganization = () => {
     const fields = [
         { fieldType: 'input', label: 'Organization Name', type: 'text', value: orgName, onChange: (e) => setOrgName(e.target.value), required: true },
         { fieldType: 'input', label: 'Organization Email', type: 'text', value: orgEmail, onChange: (e) => setOrgEmail(e.target.value), required: true },
+        { fieldType: 'input', label: 'Organization Phone', type: 'tel', value: orgPhone, onChange: (e) => setOrgPhone(e.target.value), required: true },
         { fieldType: 'input', label: 'Organization Password', type: 'password', value: orgPassword, onChange: (e) => setOrgPassword(e.target.value), required: true },
+        {
+            fieldType: 'dropdown',
+            label: 'Organization Industry',
+            type: 'text',
+            value: orgIndustry,
+            onChange: (e) => setOrgIndustry(e.target.value),
+            required: true,
+            options: [
+                { value: "Technology" }, { value: "Finance" }, { value: "Healthcare" },
+                { value: "Manufacturing" }, { value: "Retail" }, { value: "Real Estate" },
+                { value: "Transportation and Logistics" }, { value: "Construction" },
+                { value: "Marketing and Advertising" }, { value: "Others" }
+            ]
+        },
         { fieldType: 'input', label: 'City', type: 'text', value: city, onChange: (e) => setCity(e.target.value), required: true },
         {
             fieldType: 'dropdown',
@@ -155,20 +171,6 @@ const CreateOrganization = () => {
         { fieldType: 'input', label: 'Address Line 2 (Optional)', type: 'text', value: addressLine2, onChange: (e) => setAddressLine2(e.target.value), required: false },
         { fieldType: 'input', label: 'Postal Code', type: 'text', value: postalCode, onChange: (e) => setPostalCode(e.target.value), required: true },
         { fieldType: 'input', label: 'State', type: 'text', value: state, onChange: (e) => setState(e.target.value), required: true },
-        {
-            fieldType: 'dropdown',
-            label: 'Organization Industry',
-            type: 'text',
-            value: orgIndustry,
-            onChange: (e) => setOrgIndustry(e.target.value),
-            required: true,
-            options: [
-                { value: "Technology" }, { value: "Finance" }, { value: "Healthcare" },
-                { value: "Manufacturing" }, { value: "Retail" }, { value: "Real Estate" },
-                { value: "Transportation and Logistics" }, { value: "Construction" },
-                { value: "Marketing and Advertising" }, { value: "Others" }
-            ]
-        },
         {
             fieldType: 'tableInput',
             label: 'Register Product (Optional)',

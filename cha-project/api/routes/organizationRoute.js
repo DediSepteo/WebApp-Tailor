@@ -116,17 +116,8 @@ router.get('/:id', (req, res) => {
 
 router.post('/register', async (req, res) => {
     const orgData = req.body;
-    const name = orgData.name;
-    const email = orgData.email;
+    const { name, email, type, industry, city, country, address_line1, address_line2, postal_code, state, phone } = orgData
     const password = orgData.password.toString();
-    const type = orgData.type;
-    const industry = orgData.industry;
-    const city = orgData.city;
-    const country = orgData.country;
-    const address_line1 = orgData.address_line1;
-    const address_line2 = orgData.address_line2 || null;
-    const postal_code = orgData.postal_code;
-    const state = orgData.state;
 
     const hashPass = await bcrypt.hash(password, saltRounds);
     organizationModel.createOrg(
@@ -141,6 +132,7 @@ router.post('/register', async (req, res) => {
         address_line2,
         postal_code,
         state,
+        phone,
         (err, results) => {
             if (err) {
                 console.error('Error creating organization:', err);
@@ -156,8 +148,9 @@ router.post('/register', async (req, res) => {
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
     const data = req.body
-    const { name, email, industry } = data
-    organizationModel.updateOrg(id, name, email, industry, (err, results) => {
+    if (!data)
+        return res.status(500).send("Empty body")
+    organizationModel.updateOrg(id, data, (err, results) => {
         if (err) {
             console.error("Failed to update organization", err)
             return res.status(500).send("Error updating organization")

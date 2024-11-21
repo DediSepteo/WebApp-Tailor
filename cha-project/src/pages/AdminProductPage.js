@@ -98,7 +98,7 @@ const AdminProductPage = () => {
                                             currentVal: productData.name,
                                         },
                                         {
-                                            key: "desc",
+                                            key: "description",
                                             fieldType: "textarea",
                                             label: "Product Description",
                                             type: "textarea",
@@ -110,6 +110,7 @@ const AdminProductPage = () => {
                                             fieldType: "input",
                                             label: "Product Price",
                                             type: "number",
+                                            step: "0.01",
                                             required: true,
                                             currentVal: productData.price
                                         }

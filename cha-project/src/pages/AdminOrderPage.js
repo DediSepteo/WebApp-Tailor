@@ -109,9 +109,9 @@ const AdminOrderPage = () => {
                                     <tr key={orderData.order_id}>
                                         <td>{new Date(orderData.date).toLocaleString()}</td>
                                         <td>{orderData["placed by"]}</td>
-                                        <td>{`$${orderData.subtotal}`}</td>
+                                        <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
+                                        <td>{orderData.measurementNo}/{orderData.qty}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -154,13 +154,13 @@ const AdminOrderPage = () => {
                                     <tr key={orderData.order_id}>
                                         <td>{new Date(orderData.date).toLocaleString()}</td>
                                         <td>{orderData["placed by"]}</td>
-                                        <td>{`$${orderData.subtotal}`}</td>
+                                        <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
+                                        <td>{orderData.measurementNo}/{orderData.qty}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <NavLink className={styles.detailBtn}>Details</NavLink>
+                                                <button className={styles.detailBtn} onClick={() => { toDetails(orderData) }}>Details</button>
                                                 <button className={styles.cancelBtn} onClick={() => { toggleCancelPopUp(orderData.order_id) }}>Cancel</button>
                                             </div>
                                         </td>

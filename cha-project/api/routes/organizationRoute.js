@@ -34,21 +34,6 @@ router.post(`/gen-link`, (req, res) => {
     });
 });
 
-// router.get('/:name', (req, res) => {
-//     const name = req.params.name;
-
-//     organizationModel.getOrgByCompany(name, (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
-//         }
-
-//         if (results.length === 0) {
-//             return res.status(404).json({ message: 'No organization found for this company' });
-//         }
-//         return res.json(results);
-//     });
-// });
-
 // Get all organization
 router.get('/', (req, res) => {
     const type = req.query.type
@@ -90,20 +75,49 @@ router.get('/names', (req, res) => {
     })
 })
 
+router.get('/count', (req, res) => {
+    organizationModel.countAll((err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fertching organization count' });
+        }
+        res.json({ results });
+    });
+});
+
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
+
+    organizationModel.getOrgById(id, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No organization found for this company' });
+        }
+        return res.json(results);
+    });
+});
+
+// router.get('/:name', (req, res) => {
+//     const name = req.params.name;
+
+//     organizationModel.getOrgByCompany(name, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error fetching organization data 123aaaa' });
+//         }
+
+//         if (results.length === 0) {
+//             return res.status(404).json({ message: 'No organization found for this company' });
+//         }
+//         return res.json(results);
+//     });
+// });
+
 router.post('/register', async (req, res) => {
     const orgData = req.body;
-    const name = orgData.name;
-    const email = orgData.email;
+    const { name, email, type, industry, city, country, address_line1, address_line2, postal_code, state, phone } = orgData
     const password = orgData.password.toString();
-    const type = orgData.type;
-    const industry = orgData.industry;
-    const address = orgData.address;
-    const city = orgData.city;
-    const country = orgData.country;
-    const address_line1 = orgData.address_line1;
-    const address_line2 = orgData.address_line2;
-    const postal_code = orgData.postal_code;
-    const state = orgData.state;
 
     const hashPass = await bcrypt.hash(password, saltRounds);
     organizationModel.createOrg(
@@ -112,13 +126,13 @@ router.post('/register', async (req, res) => {
         hashPass,
         type,
         industry,
-        address,
         city,
         country,
         address_line1,
         address_line2,
         postal_code,
         state,
+        phone,
         (err, results) => {
             if (err) {
                 console.error('Error creating organization:', err);
@@ -134,8 +148,9 @@ router.post('/register', async (req, res) => {
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
     const data = req.body
-    const { name, email, industry } = data
-    organizationModel.updateOrg(id, name, email, industry, (err, results) => {
+    if (!data)
+        return res.status(500).send("Empty body")
+    organizationModel.updateOrg(id, data, (err, results) => {
         if (err) {
             console.error("Failed to update organization", err)
             return res.status(500).send("Error updating organization")
@@ -153,15 +168,6 @@ router.delete('/:id', (req, res) => {
             return res.status(500).send('Error deleting organization');
         }
         return res.status(200).send('Organization deleted successfully');
-    });
-});
-
-router.get('/count', (req, res) => {
-    organizationModel.countAll((err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Error fertching organization count' });
-        }
-        res.json({ results });
     });
 });
 

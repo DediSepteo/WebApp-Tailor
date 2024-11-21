@@ -81,7 +81,8 @@ const CreateProductBulk = () => {
 
     const handleRegister = async (e) => {
         try {
-            const token = sessionStorage.getItem("token")
+            // Remember to implement adminToken for all database query
+            const token = localStorage.getItem("token")
             if (!token)
                 alert("Error retrieving token")
             else {
@@ -99,7 +100,7 @@ const CreateProductBulk = () => {
                     return
                 }
                 alert("Products registered!")
-                // navigate("/admin/corporate/products")
+                navigate("/admin/corporate/products")
             }
         }
         catch (error) {

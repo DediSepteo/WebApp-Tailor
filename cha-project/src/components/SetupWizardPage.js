@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import AdminSideNavBar from '../components/AdminSideNavBar'
 import styles from '../styles/SetupWizardPage.module.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 const SetupWizardPage = ({ title, fields, onSubmit }) => {
 
@@ -56,6 +56,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
         <main style={{ display: "flex", flexDirection: "row" }}>
             <AdminSideNavBar />
             <div className={styles.container}>
+                <NavLink onClick={() => navigate(-1)} style={{ float: 'right' }}> Go Back</NavLink>
                 <span style={{ fontFamily: "Inter", fontWeight: 400, fontSize: "2em" }}>{title}</span>
                 <form onSubmit={onSubmit} className={styles.form}>
                     {fields ? (
@@ -69,6 +70,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                                         className={styles.input}
                                         type={field.type}
                                         value={field.value}
+                                        step={field.step || null}
                                         onChange={field.onChange}
                                         required={field.required}
                                     />

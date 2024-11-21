@@ -32,8 +32,9 @@ export const ItemDetail = () => {
         const existingCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
         const newItem = {
-            id: item.product_id, // Store only the product ID
-            quantity: quantity, // Store quantity
+            id: item.product_id,
+            // Ensure that quantity is a number, if user types value, data will be string
+            quantity: parseInt(quantity),
         };
 
         // Check if item already exists in the cart
@@ -154,7 +155,7 @@ export const ItemDetail = () => {
                 </div>
                 <div className={styles.contents}>
                     <p className={styles.itemName}>{item.name}</p>
-                    <p className={styles.itemPrice}>${item.price}</p>
+                    <p className={styles.itemPrice}>₱{item.price}</p>
                     <div className={styles.separator}></div>
                     <form>
                         <div className={styles.quantityContainer}>

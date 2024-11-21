@@ -3,14 +3,14 @@ import styles from "../styles/confirmPopUp.module.css"
 
 const CustomPopUp = ({ togglePopup, title, text, hasCancel, onConfirm }) => {
 
-    const handleConfirm = () => {
+    const handleConfirm = (event) => {
         togglePopup()
         if (onConfirm)
-            onConfirm();
+            onConfirm(event);
     };
 
-    const handleCancel = () => {
-        togglePopup()
+    const handleCancel = (event) => {
+        togglePopup(event)
     }
 
     return (

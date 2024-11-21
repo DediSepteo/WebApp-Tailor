@@ -83,8 +83,6 @@ const NavBar = () => {
     }, []);
 
 
-
-
     // Function to calculate subtotal
     const calculateSubtotal = () => {
         return cart.reduce((total, item, index) => {
@@ -106,26 +104,23 @@ const NavBar = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
-    // to make it persist 
-    useEffect(() => {
-        updateLocalStorageCart(quantities);
-    }, [quantities]);
-
 
     const handleRemoveItem = (index) => {
         const updatedCart = cart.filter((_, i) => i !== index);
-
         setCart(updatedCart);
-
         // Transform `updatedCart` back to the original structure for localStorage
         const updatedLocalStorageCart = updatedCart.map(item => ({
             id: item.product_id || item.id,
             quantity: item.quantity,
         }));
-
+        console.log(localStorage.getItem('cart'), "sjkadjka")
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
     };
 
+    // to make it persist 
+    useEffect(() => {
+        updateLocalStorageCart(quantities);
+    }, [quantities]);
 
     // Function to handle quantity increase (max 50)
     const increaseQuantity = (index) => {
@@ -384,8 +379,6 @@ const NavBar = () => {
                         </tbody>
                     </table>
                 </div>
-
-
 
                 <div className={styles.checkoutContainer}>
                     <table className={styles.totalSum}>

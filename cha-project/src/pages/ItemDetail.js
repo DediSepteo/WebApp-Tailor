@@ -8,8 +8,6 @@ import { FaCheck } from "react-icons/fa";
 export const ItemDetail = () => {
     const location = useLocation();
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
-
-    console.log(item)
     const [selectedImage, setSelectedImage] = useState(null);
     const [addedToCart, setAddedToCart] = useState(false);
     const [quantity, setQuantity] = useState(1);
@@ -55,8 +53,6 @@ export const ItemDetail = () => {
         setQuantity(1);
         console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
-
-
 
     // Handle quantity increase
     const increaseQuantity = () => {

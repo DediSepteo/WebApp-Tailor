@@ -17,7 +17,6 @@ export const ShoppingCart = () => {
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
-
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         console.log(localStorageCart, 'cart token');
 
@@ -73,23 +72,6 @@ export const ShoppingCart = () => {
     const subtotal = calculateSubtotal();
     const deliveryCharge = 0; // Set to 0 for the time being
     const grandTotal = subtotal + deliveryCharge;
-
-    // checkout handler
-    // const handleCheckout = () => {
-    //     const decodedToken = jwtDecode(token);
-    //     const org_id = decodedToken.org_id;
-
-
-    //     const orderData = cart.map((item, index) => ({
-    //         id: item.id,
-    //         quantity: quantities[index]
-    //     }));
-
-    //     const orderDetails = {
-    //         org_id: org_id
-
-    //     }
-    // }
 
     const handleCheckout = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -187,20 +169,21 @@ export const ShoppingCart = () => {
         updateLocalStorageCart(quantities);
     }, [quantities]);
 
-    // Handle item removal
     const handleRemoveItem = (index) => {
+        // Remove the item from the cart
         const updatedCart = cart.filter((_, i) => i !== index);
-
         setCart(updatedCart);
 
-        // Transform `updatedCart` back to the original structure for localStorage
-        const updatedLocalStorageCart = updatedCart.map(item => ({
-            id: item.product_id || item.id,
-            quantity: item.quantity,
-        }));
+        const updatedQuantities = quantities.filter((_, i) => i !== index);
+        setQuantities(updatedQuantities);
 
+        const updatedLocalStorageCart = updatedCart.map((item, idx) => ({
+            id: item.product_id || item.id,
+            quantity: updatedQuantities[idx],
+        }));
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
     };
+
 
 
     // Function to handle quantity increase (max 50)

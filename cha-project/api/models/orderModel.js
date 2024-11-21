@@ -125,17 +125,49 @@ const orders = {
     },
 
     // Create a new orders
-    create: (neworders, callback) => {
-        const query = 'INSERT INTO orders (order_id, org_id, subtotal, qty, status, date) VALUES (?, ?, ?, ?, ?, ?)';
-        const { order_id, org_id, subtotal, qty, status, date } = neworders;
+    create: (newOrder, cart, callback) => {
+        try {
+            // Ensure cart is parsed correctly
+            const parsedCart = Array.isArray(cart) ? cart : JSON.parse(cart);
 
-        db.query(query, [order_id, org_id, subtotal, qty, status, date], (err, results) => {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, results.insertId); // Return the ID of the newly created orders
-        });
+            const orderQuery = `
+                INSERT INTO orders (org_id, qty, subtotal, status, date)
+                VALUES (?, ?, ?, ?, ?)
+            `;
+            const { org_id, qty, subtotal, status, date } = newOrder;
+
+            db.query(orderQuery, [org_id, qty, subtotal, status, date], (err, results) => {
+                if (err) {
+                    return callback(err, null);
+                }
+
+                const orderId = results.insertId; // Newly created order ID
+                const orderProductsQuery = `
+                    INSERT INTO order_products (order_id, product_id, qty)
+                    VALUES ?
+                `;
+
+                // Map cart items for bulk insert
+                const orderProductsData = parsedCart.map(item => [
+                    orderId,      // order_id
+                    item.id,      // product_id
+                    item.quantity // qty
+                ]);
+
+                db.query(orderProductsQuery, [orderProductsData], (err, results) => {
+                    if (err) {
+                        return callback(err, null);
+                    }
+                    callback(null, { orderId, affectedRows: results.affectedRows });
+                });
+            });
+        } catch (error) {
+            callback(error, null); // Handle JSON parsing errors or unexpected input
+        }
     },
+
+
+
 
     cancelOrder: (id, callback) => {
         console.log(id)

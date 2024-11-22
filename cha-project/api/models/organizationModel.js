@@ -56,6 +56,20 @@ const Organization = {
         })
 
     },
+
+    getOrgPassById: (org_id, callback) => {
+        const query = 'SELECT password FROM ORGANIZATION WHERE org_id = ?';
+        db.query(query, [org_id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            if (results.length === 0) {
+                return callback('Organization not found', null);
+            }
+            callback(null, results[0]);
+        });
+    },
+
     createOrg: (name, email, password, type, industry, address, city, country, address_line1, address_line2, postal_code, state, callback) => {
         const query = `INSERT INTO Organization (name, email, industry, type, password, address, status, city, country, address_line1, address_line2, postal_code, state)
 VALUES(?, ?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
@@ -68,16 +82,24 @@ VALUES(?, ?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
         });
     },
 
-
-    updateOrg: (id, name, email, industry, address, callback) => {
-        const query = 'UPDATE organization SET name = ?, email = ?, industry = ?, address=? WHERE org_id = ?'
-        db.query(query, [name, email, industry, address, id], (err, results) => {
+    updateOrg: (id, data, callback) => {
+        let query = "UPDATE organization SET";
+        const keys = Object.keys(data)
+        keys.forEach((key) => {
+            query += ` ${key} = ?,`
+        })
+        query = query.slice(0, -1)
+        query += " WHERE org_id = ?"
+        var params = Object.values(data)
+        params.push(id)
+        db.query(query, params, (err, results) => {
             if (err) {
                 return callback(err, null);
             }
             callback(null, results);
         });
     },
+
     deleteOrg: (id, callback) => {
         const query = 'UPDATE organization SET status = "inactive" WHERE org_id = ?';
 
@@ -88,6 +110,7 @@ VALUES(?, ?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?)`;
             callback(null, results);
         });
     },
+
     countAll: (callback) => {
         const query = 'SELECT COUNT(*) AS totalOrganizations FROM organization WHERE status = "active"';
         db.query(query, (err, results) => {

@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
 
         // Create a token and send it to the client
         console.log(organization)
-        const token = jwt.sign({ org_id: organization.org_id, email: organization.email, org_name: organization.name }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ org_id: organization.org_id, email: organization.email, org_name: organization.name, address: organization.address, industry: organization.industry }, JWT_SECRET, { expiresIn: '1h' });
         return res.json({ token });
     });
 });

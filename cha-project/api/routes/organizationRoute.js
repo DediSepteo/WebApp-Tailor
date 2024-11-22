@@ -131,18 +131,51 @@ router.post('/register', async (req, res) => {
 });
 
 
-router.put("/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const data = req.body
-    const { name, email, industry } = data
-    organizationModel.updateOrg(id, name, email, industry, (err, results) => {
-        if (err) {
-            console.error("Failed to update organization", err)
-            return res.status(500).send("Error updating organization")
+router.put("/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    const data = req.body;
+    if (!data) {
+        return res.status(400).send("Empty body");
+    }
+    if (data.password) {
+        try {
+            const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+            data.password = hashedPassword;
+        } catch (err) {
+            console.error('Error hashing password:', err);
+            return res.status(500).send("Error hashing password");
         }
-        return res.status(204).send("Organization updated successfully")
-    })
-})
+    }
+    organizationModel.updateOrg(id, data, (err, results) => {
+        if (err) {
+            console.error("Failed to update organization", err);
+            return res.status(500).send("Error updating organization");
+        }
+        return res.status(204).send("Organization updated successfully");
+    });
+});
+
+router.post('/verify-password', (req, res) => {
+    const { org_id, currentPassword } = req.body;
+    if (!org_id || !currentPassword) {
+        return res.status(400).json({ error: 'Organization ID and current password are required' });
+    }
+    Organization.getOrgPassById(org_id, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+        bcrypt.compare(currentPassword, result.password, (err, isMatch) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error comparing passwords' });
+            }
+            if (isMatch) {
+                return res.status(200).json({ success: true, message: 'Password verified' });
+            } else {
+                return res.status(400).json({ error: 'Incorrect password' });
+            }
+        });
+    });
+});
 
 router.delete('/:id', (req, res) => {
     const orgID = req.params.id;

@@ -1,0 +1,91 @@
+.editingTitle {
+    font-size: 23px;
+    color: #28A197;
+    font-family: "Felgine";
+    margin: 0 0 15px 0;
+}
+
+.closeIcon {
+    font-size: 24px;
+    color: #28A197;
+}
+
+.forgetPasswordButton {
+    height: 40px;
+    font-size: 16px;
+    background-color: #28A197;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-family: "Montserrat-Regular";
+    width: 20%;
+    margin-left: auto;
+}
+
+.forgetPasswordTop {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-family: "Noto-Serif-TC";
+    border-bottom: solid 1px #D9D9D9;
+}
+
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.popupContent {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 30%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.popupContent h2 {
+    margin-top: 0;
+}
+
+.popupContent form {
+    display: flex;
+    flex-direction: column;
+}
+
+.popupContent label {
+    margin-bottom: 5px;
+}
+
+.popupContent input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.inputField {
+    width: 100%;
+    height: 42px;
+    padding: 10px;
+    padding-right: 40px;
+    font-size: 16px;
+    border: 1px solid grey;
+    box-sizing: border-box;
+    font-family: "Montserrat";
+}
+
+.inputUnderline {
+    width: 100%;
+    height: 1px;
+    background-color: #D9D9D9;
+    margin: 10px 0 20px 0;
+}

@@ -102,9 +102,9 @@ const AdminPage = () => {
                             {orgsData.length > 0 ? (
                                 orgsData.map((orgData, index) => {
                                     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-                                    console.log(regionNames.of("PH"))
+                                    {/* console.log(regionNames.of("PH"))
                                     console.log(parsePhoneNumberFromString(orgData.phone, "PH").isValid())
-                                    console.log(orgData, index)
+                                    console.log(orgData, index) */}
                                     const fields = [
                                         { key: "name", currentVal: orgData.name, fieldType: 'input', label: 'Organization Name', type: 'text', required: true },
                                         { key: "email", currentVal: orgData.email, fieldType: 'input', label: 'Organization Email', type: 'text', required: true },

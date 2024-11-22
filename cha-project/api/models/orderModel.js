@@ -128,47 +128,45 @@ const orders = {
         });
     },
 
-    // Create a new orders
-    create: (newOrder, cart, callback) => {
-        try {
-            // Ensure cart is parsed correctly
-            const parsedCart = Array.isArray(cart) ? cart : JSON.parse(cart);
+    create: (newOrder, callback) => {
+        const { org_id, subtotal, status, date, orderData } = newOrder;
 
-            const orderQuery = `
-                INSERT INTO orders (org_id, qty, subtotal, status, date)
-                VALUES (?, ?, ?, ?, ?)
+        // Start by inserting into the `orders` table
+        const insertOrderQuery = `
+            INSERT INTO orders (org_id, subtotal, status, date)
+            VALUES (?, ?, ?, ?)
+        `;
+
+        db.query(insertOrderQuery, [org_id, subtotal, status, date], (err, orderResult) => {
+            if (err) {
+                return callback(err, null);
+            }
+
+            const orderId = orderResult.insertId; // Get the newly created `order_id`
+
+            // Now, insert products into `order_products`
+            const insertOrderProductsQuery = `
+                INSERT INTO order_products (product_id, order_id, qty)
+                VALUES ?
             `;
-            const { org_id, qty, subtotal, status, date } = newOrder;
 
-            db.query(orderQuery, [org_id, qty, subtotal, status, date], (err, results) => {
+            // Prepare data for bulk insertion
+            const orderProductsData = orderData.map(orderData => [
+                orderId, // order_id
+                orderData.id, // product_id
+                orderData.quantity // qty
+            ]);
+
+            db.query(insertOrderProductsQuery, [orderProductsData], (err, orderProductsResult) => {
                 if (err) {
                     return callback(err, null);
                 }
 
-                const orderId = results.insertId; // Newly created order ID
-                const orderProductsQuery = `
-                    INSERT INTO order_products (order_id, product_id, qty)
-                    VALUES ?
-                `;
-
-                // Map cart items for bulk insert
-                const orderProductsData = parsedCart.map(item => [
-                    orderId,      // order_id
-                    item.id,      // product_id
-                    item.quantity // qty
-                ]);
-
-                db.query(orderProductsQuery, [orderProductsData], (err, results) => {
-                    if (err) {
-                        return callback(err, null);
-                    }
-                    callback(null, { orderId, affectedRows: results.affectedRows });
-                });
+                callback(null, { orderId, message: "Order created successfully" });
             });
-        } catch (error) {
-            callback(error, null); // Handle JSON parsing errors or unexpected input
-        }
+        });
     },
+
 
 
 

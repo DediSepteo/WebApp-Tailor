@@ -65,6 +65,17 @@ const AdminPage = () => {
         setIsExpanded(newExpandedState);
     }
 
+    const splitPhoneNumber = (phoneNumber, countryCode) => {
+        const parsed = parsePhoneNumberFromString(phoneNumber, countryCode);
+        if (parsed) {
+            console.log(`+${parsed.countryCallingCode} ${parsed.nationalNumber}`)
+            return `+${parsed.countryCallingCode} ${parsed.nationalNumber}`
+        } else {
+            console.log(phoneNumber, countryCode)
+        }
+    }
+
+
     useEffect(() => {
         fetch(`http://localhost:3000/api/org/recent?type=${type}&limit=5`)
             .then(response => response.json())
@@ -74,7 +85,12 @@ const AdminPage = () => {
                     console.log(item)
                     statusData[item.id] = item.status == "active"
                 })
-                setOrgsData(data)
+                const formattedData = data.map((item) => {
+                    const formattedPhoneNumber = splitPhoneNumber(item.phone, item.country)
+                    const newItem = { ...item, phone: formattedPhoneNumber }
+                    return newItem
+                })
+                setOrgsData(formattedData)
                 setIsExpanded(Array(data.length).fill(false))
                 setOrgStatus(statusData)
             })

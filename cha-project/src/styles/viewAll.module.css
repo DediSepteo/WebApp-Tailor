@@ -65,7 +65,7 @@
 }
 
 .activated { 
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
@@ -78,10 +78,11 @@
     border-radius: 10em;
     font-size: 1em;
     margin-left: 1em;
+    width: 150px
 }
 
 .deactivated {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;

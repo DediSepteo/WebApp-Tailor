@@ -136,7 +136,7 @@
 .orderTable th {
     padding: 0.5em;
     font-family: "Noto Serif";
-    background-color: #e6e6e6;
+    background-color: #e5e5e5;
 }
 
 .orderTable td {
@@ -144,12 +144,12 @@
     padding: 0.5em;
     font-family: 'Open Sans', sans-serif;
 }
-
+/* 
 .orderTable th {
-  background-color: #f1f1f1; /* Give header a subtle background color */
+  background-color: #f1f1f1; 
   font-family: "Noto Serif";
   font-weight: bold;
-}
+} */
 
 .orderTable td {
   font-family: "Inter";

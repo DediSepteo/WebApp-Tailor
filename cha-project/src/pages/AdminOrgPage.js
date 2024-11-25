@@ -8,34 +8,41 @@ import { useNavigate } from 'react-router-dom';
 import { FaChevronDown } from "react-icons/fa";
 import { FaChevronUp } from "react-icons/fa";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { BsToggleOn } from "react-icons/bs";
+import { BsToggleOff } from "react-icons/bs"
 
 const AdminPage = () => {
-    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [showOrgStatusPopup, setShowOrgStatusPopup] = useState(false);
     const [orgsData, setOrgsData] = useState([])
-    const [orgDeleteID, setOrgDeleteID] = useState("")
-
+    const [orgStatusToggleID, setOrgStatusToggleID] = useState("")
     const [isExpanded, setIsExpanded] = useState([]);
+    const [orgStatus, setOrgStatus] = useState({})
 
 
     const navigate = useNavigate()
 
-    const toggleDeletePopUp = (id) => {
-        setOrgDeleteID(id)
-        setShowDeletePopup(!showDeletePopup); // Show popup when you want
+    const toggleOrgStatusPopUp = (id) => {
+        setOrgStatusToggleID(id)
+        setShowOrgStatusPopup(!showOrgStatusPopup); // Show popup when you want
     };
 
-    const handleDelete = async () => {
+    const handleUpdateOrgStatus = async () => {
+        const link = orgStatus[orgStatusToggleID] ? `http://localhost:3000/api/org/deactivate/${orgStatusToggleID}` : `http://localhost:3000/api/org/activate${orgStatusToggleID}`
         try {
-            const response = await fetch(`http://localhost:3000/api/org/${orgDeleteID}`, {
-                method: 'DELETE',
+            const response = await fetch(link, {
+                method: 'PUT',
             });
 
             if (response.ok) {
-                alert("Organization Deleted!")
-                window.location.reload()
+                setOrgStatus(() => {
+                    const updatedStatus = { ...orgStatus }; // Create a copy of the current state
+                    updatedStatus[orgStatusToggleID] = !updatedStatus[orgStatusToggleID]; // Toggle the specific index
+                    return updatedStatus; // Return the updated array
+                });
+                alert("Organization")
             }
             else {
-                alert('Failed to delete organization');
+                alert('Failed to update organization');
             }
         }
         catch (error) {
@@ -62,8 +69,14 @@ const AdminPage = () => {
         fetch(`http://localhost:3000/api/org/recent?type=${type}&limit=5`)
             .then(response => response.json())
             .then(data => {
+                var statusData = {}
+                data.forEach((item) => {
+                    console.log(item)
+                    statusData[item.id] = item.status == "active"
+                })
                 setOrgsData(data)
                 setIsExpanded(Array(data.length).fill(false))
+                setOrgStatus(statusData)
             })
             .catch(error => console.error('Error fetching organization:', error));
     }, [getURL]);
@@ -72,12 +85,12 @@ const AdminPage = () => {
 
     return (
         <main style={{ display: 'flex', flexDirection: "row", backgroundColor: "#F1F2F7" }}>
-            {showDeletePopup && (
-                <CustomPopUp togglePopup={toggleDeletePopUp}
-                    title="Delete Organization"
-                    text="Are you sure you want to delete this Organization?"
+            {showOrgStatusPopup && (
+                <CustomPopUp togglePopup={toggleOrgStatusPopUp}
+                    title={orgStatus[orgStatusToggleID] ? "Deactivate Organization" : "Activate Organization"}
+                    text={`Are you sure you want to ${orgStatus[orgStatusToggleID] ? "deactivate" : "activate"} this organization?`}
                     hasCancel={true}
-                    onConfirm={handleDelete} />
+                    onConfirm={handleUpdateOrgStatus} />
             )}
             <AdminSideNavBar />
             <div className={styles.container}>
@@ -101,10 +114,10 @@ const AdminPage = () => {
                             </tr>
                             {orgsData.length > 0 ? (
                                 orgsData.map((orgData, index) => {
+                                    const id = orgData.id
                                     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
                                     console.log(regionNames.of("PH"))
                                     console.log(parsePhoneNumberFromString(orgData.phone, "PH").isValid())
-                                    console.log(orgData, index)
                                     const fields = [
                                         { key: "name", currentVal: orgData.name, fieldType: 'input', label: 'Organization Name', type: 'text', required: true },
                                         { key: "email", currentVal: orgData.email, fieldType: 'input', label: 'Organization Email', type: 'text', required: true },
@@ -149,7 +162,8 @@ const AdminPage = () => {
                                                 <td className={styles.tableBtns}>
                                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                         <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.id, fields)}>Edit</button>
-                                                        <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.id)}>Delete</button>
+                                                        <button className={orgStatus[id] ? styles.activated : styles.deactivated} onClick={() => toggleOrgStatusPopUp(orgData.id)}>
+                                                            {orgStatus[id] ? <> <BsToggleOn size={20} style={{ marginRight: "0.5em" }} /> Activated  </> : <> <BsToggleOff size={20} style={{ marginRight: "0.5em" }} /> Deactivated  </>}</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -202,7 +216,6 @@ const AdminPage = () => {
                         <ul>
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/view-orgs`}>View all Organizations</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/orgs/register`}>Register New Organization</NavLink></li>
-                            <li className={styles.li}><NavLink className={styles.link}>Delete Organization</NavLink></li>
                         </ul>
                     </div>
                     {/* <div className={styles.manageDiv}>

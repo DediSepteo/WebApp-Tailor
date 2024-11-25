@@ -144,6 +144,28 @@ router.post('/register', async (req, res) => {
     );
 });
 
+router.put("/activate/:id", (req, res) => {
+    const orgID = req.params.id;
+    organizationModel.activateOrg(orgID, (err, results) => {
+        if (err) {
+            console.error('Error deleting organization:', err);
+            return res.status(500).send('Error deleting organization');
+        }
+        return res.status(200).send('Organization deleted successfully');
+    });
+})
+
+router.put("/deactivate/:id", (req, res) => {
+    const orgID = req.params.id;
+    organizationModel.deactivateOrg(orgID, (err, results) => {
+        if (err) {
+            console.error('Error deleting organization:', err);
+            return res.status(500).send('Error deleting organization');
+        }
+        return res.status(200).send('Organization deleted successfully');
+    });
+})
+
 
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
@@ -159,16 +181,18 @@ router.put("/:id", (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res) => {
-    const orgID = req.params.id;
-    console.log(orgID)
-    organizationModel.deleteOrg(orgID, (err, results) => {
-        if (err) {
-            console.error('Error deleting organization:', err);
-            return res.status(500).send('Error deleting organization');
-        }
-        return res.status(200).send('Organization deleted successfully');
-    });
-});
+// router.delete('/:id', (req, res) => {
+//     const orgID = req.params.id;
+//     console.log(orgID)
+//     organizationModel.cancelOrg(orgID, (err, results) => {
+//         if (err) {
+//             console.error('Error deleting organization:', err);
+//             return res.status(500).send('Error deleting organization');
+//         }
+//         return res.status(200).send('Organization deleted successfully');
+//     });
+// });
+
+
 
 module.exports = router;

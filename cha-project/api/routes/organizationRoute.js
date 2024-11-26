@@ -144,7 +144,7 @@ router.post('/register', async (req, res) => {
     );
 });
 
-
+// Add in password encryption
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
     const data = req.body
@@ -155,9 +155,31 @@ router.put("/:id", (req, res) => {
             console.error("Failed to update organization", err)
             return res.status(500).send("Error updating organization")
         }
-        return res.status(204).send("Organization updated successfully")
-    })
-})
+        return res.status(200).send("Organization updated successfully")
+    });
+});
+
+// router.post('/verify-password', (req, res) => {
+//     const { org_id, currentPassword } = req.body;
+//     if (!org_id || !currentPassword) {
+//         return res.status(400).json({ error: 'Organization ID and current password are required' });
+//     }
+//     Organization.getOrgPassById(org_id, (err, result) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Error fetching organization data' });
+//         }
+//         bcrypt.compare(currentPassword, result.password, (err, isMatch) => {
+//             if (err) {
+//                 return res.status(500).json({ error: 'Error comparing passwords' });
+//             }
+//             if (isMatch) {
+//                 return res.status(200).json({ success: true, message: 'Password verified' });
+//             } else {
+//                 return res.status(400).json({ error: 'Incorrect password' });
+//             }
+//         });
+//     });
+// });
 
 router.delete('/:id', (req, res) => {
     const orgID = req.params.id;

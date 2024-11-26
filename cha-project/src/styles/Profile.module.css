@@ -38,7 +38,7 @@
 .userDetails,
 .deliveryDetails {
     z-index: 2;
-    height: 700px;
+    height: 750px;
     background-color: #ffffff;
     border-radius: 10px;
     border: 1.6px solid #EBEBEE;
@@ -126,7 +126,7 @@
     background-color: #F0EFFA;
     color: #646464;
     height: 30px;
-    width: 70px;
+    min-width: 70px;
     border-radius: 20px;
     border: none;
     cursor: pointer;

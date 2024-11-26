@@ -6,7 +6,7 @@ import ConfirmPopUp from '../components/CustomPopUp';
 import { MdBusinessCenter } from 'react-icons/md';
 import { FaHandHoldingUsd } from 'react-icons/fa';
 import { RiCustomerServiceFill } from 'react-icons/ri';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CustomPopUp from '../components/CustomPopUp';
 
 const AdminPage = () => {
@@ -19,10 +19,16 @@ const AdminPage = () => {
 
     const token = sessionStorage.getItem('authToken');
 
+    const navigate = useNavigate()
+
     const toggleCancelPopUp = (id) => {
         setCancelOrderID(id)
         setCancelPopup(!showCancelPopup); // Toggles the confirmation popup
     };
+
+    const toDetails = (orderData) => {
+        navigate('/admin/order-details', { state: { orderData: orderData } })
+    }
 
     const handleCancel = async () => {
         try {
@@ -151,32 +157,30 @@ const AdminPage = () => {
                         <NavLink className={styles.link} to='/admin/dashboard/view-orders'>View All</NavLink>
                     </div>
                     <table className={styles.orderTable}>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Placed By</th>
-                                <th>Subtotal</th>
-                                <th>Quantity</th>
-                                <th>No. of Measurements Obtained</th>
-                                <th>Status</th>
-                                {ordersData.length > 0 && (
-                                    <th></th>
-                                )}
-                            </tr>
-                        </thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Placed By</th>
+                            <th>Subtotal</th>
+                            <th>Quantity</th>
+                            <th>No. of Measurements Obtained</th>
+                            <th>Status</th>
+                            {ordersData.length > 0 && (
+                                <th></th>
+                            )}
+                        </tr>
                         <tbody>
                             {ordersData.length > 0 ? (
                                 ordersData.map((orderData) => (
                                     <tr key={orderData.order_id}>
                                         <td>{new Date(orderData.date).toLocaleString()}</td>
                                         <td>{orderData["placed by"]}</td>
-                                        <td>{`$${orderData.subtotal}`}</td>
+                                        <td>{`₱${orderData.subtotal}`}</td>
                                         <td>{orderData.qty}</td>
-                                        <td>{orderData.measurementNo}</td>
+                                        <td>{orderData.measurementNo}/{orderData.qty}</td>
                                         <td>{orderData.status}</td>
                                         <td className={styles.tableBtns}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <NavLink className={styles.detailBtn}>Details</NavLink>
+                                                <button className={styles.detailBtn} onClick={() => { toDetails(orderData) }}>Details</button>
                                                 <button className={styles.cancelBtn} onClick={() => toggleCancelPopUp(orderData.order_id)}>Cancel</button>
                                             </div>
                                         </td>

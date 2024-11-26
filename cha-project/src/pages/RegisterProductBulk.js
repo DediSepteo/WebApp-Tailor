@@ -81,14 +81,13 @@ const CreateProductBulk = () => {
 
     const handleRegister = async (e) => {
         try {
-            const token = sessionStorage.getItem("token")
+            // Remember to implement adminToken for all database query
+            const token = localStorage.getItem("token")
             if (!token)
                 alert("Error retrieving token")
             else {
-                prodList.map((product) => {
-                    product.org_id = org_id
-                })
-                const response = await fetch("http://localhost:3000/api/product/register", {
+                console.log(org_id)
+                const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -100,23 +99,23 @@ const CreateProductBulk = () => {
                     alert("Error registering products")
                     return
                 }
-                alert("Organization created!")
+                alert("Products registered!")
                 navigate("/admin/corporate/products")
             }
         }
         catch (error) {
-            console.error('Error creating organization');
+            console.error('Error registering products');
         }
     }
 
     const fetchOrg_ids = async () => {
         try {
-            await fetch("http://localhost:3000/api/org/corp")
+            await fetch("http://localhost:3000/api/org?type=corporate")
                 .then(response => response.json())
                 .then(orgs => {
                     const options = orgs.map((org) => ({
                         value: org.name,
-                        id: org.org_id
+                        id: org.id
                     }))
                     console.log(options)
                     setDropDownInput(options);

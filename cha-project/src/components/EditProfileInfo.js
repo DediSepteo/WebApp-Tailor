@@ -3,27 +3,34 @@ import styles from '../styles/EditProfileInfo.module.css';
 import { IoClose } from "react-icons/io5";
 
 const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId }) => {
-    const [value, setValue] = useState(initialValue || ''); // New value (name, email, password, etc.)
-    const [currentPassword, setCurrentPassword] = useState(''); // For email change validation (optional)
-    const [confirmPassword, setConfirmPassword] = useState(''); // For confirm new password
+    const [value, setValue] = useState(initialValue || '');
     const [mouseDownInside, setMouseDownInside] = useState(false);
 
-    const title = fieldToEdit === 'name' ? 'Change Name' : 
-                  fieldToEdit === 'email' ? 'Change Email' :
-                  fieldToEdit === 'phone' ? 'Change Phone Number' :
-                  fieldToEdit === 'address' ? 'Change Address' :
-                  fieldToEdit === 'industry' ? 'Change Industry' :
-                  fieldToEdit === 'password' ? 'Change Password' : '';
+    // Determine title and input type based on the field being edited
+    const titleMap = {
+        name: 'Change Name',
+        email: 'Change Email',
+        phone: 'Change Phone Number',
+        address_line1: 'Change Address',
+        industry: 'Change Industry',
+        password: 'Change Password',
+    };
 
+    const title = titleMap[fieldToEdit] || '';
+    const inputType = fieldToEdit === 'password' ? 'password' : 'text';
+    const placeholder = fieldToEdit === 'password' 
+        ? 'Enter new password' 
+        : `Enter new ${fieldToEdit}`;
+
+    // Update the input value whenever initialValue changes
     useEffect(() => {
         if (isVisible) {
             setValue(initialValue || '');
-            setCurrentPassword(''); // Reset on visibility change
-            setConfirmPassword(''); // Reset confirm password
         }
     }, [initialValue, fieldToEdit, isVisible]);
 
     const handleMouseDown = (e) => {
+        // Check if the mouse is down inside the popup content
         if (e.target.closest(`.${styles.popupContent}`)) {
             setMouseDownInside(true);
         } else {
@@ -32,6 +39,7 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
     };
 
     const handleMouseUp = (e) => {
+        // Close popup only if mouseDown was outside and mouseUp is also outside
         if (!mouseDownInside && !e.target.closest(`.${styles.popupContent}`)) {
             onClose();
         }
@@ -46,36 +54,10 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
             return;
         }
 
-        // Password-specific validation
-        if (fieldToEdit === 'password') {
-            if (!currentPassword.trim()) {
-                alert('Please enter your current password.');
-                return;
-            }
-            if (!value.trim()) {
-                alert('Please enter a new password.');
-                return;
-            }
-            if (value !== confirmPassword) {
-                alert('New passwords do not match. Please try again.');
-                return;
-            }
-        }
-
-        // Email-specific validation (confirm password)
-        if (fieldToEdit === 'email' && currentPassword.trim() === '') {
-            alert('Please enter your password to confirm changes.');
-            return;
-        }
-
         try {
-            const payload = fieldToEdit === 'password'
-                ? { currentPassword, newPassword: value } // Include current password and new password
-                : fieldToEdit === 'email'
-                ? { email: value, password: currentPassword } // Include current password for email change
-                : { [fieldToEdit]: value }; // For other fields
+            const payload = { [fieldToEdit]: value };
+            console.log("Payload:", payload);
 
-            // Replace with your actual backend URL
             const response = await fetch(`http://localhost:3000/api/org/${userId}`, {
                 method: 'PUT',
                 headers: {
@@ -111,59 +93,14 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
                     <IoClose className={styles.closeIcon} onClick={onClose} />
                 </div>
                 <form onSubmit={handleSubmit}>
-                    {fieldToEdit === 'password' && (
-                        <>
-                            <input
-                                type="password"
-                                placeholder="Enter current password"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                className={styles.inputField}
-                            />
-                            <input
-                                type="password"
-                                placeholder="Enter new password"
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                                className={styles.inputField}
-                            />
-                            <input
-                                type="password"
-                                placeholder="Confirm new password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className={styles.inputField}
-                            />
-                        </>
-                    )}
-                    {fieldToEdit === 'email' && (
-                        <>
-                            <input
-                                type="email"
-                                placeholder="Enter new email"
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                                className={styles.inputField}
-                            />
-                            <input
-                                type="password"
-                                placeholder="Enter your password to confirm"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                className={styles.inputField}
-                            />
-                        </>
-                    )}
-                    {fieldToEdit !== 'password' && fieldToEdit !== 'email' && (
-                        <input
-                            type="text"
-                            placeholder={`Enter new ${fieldToEdit}`}
-                            value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            required
-                            className={styles.inputField}
-                        />
-                    )}
+                    <input
+                        type={inputType}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        required
+                        className={styles.inputField}
+                    />
                     <div className={styles.inputUnderline}></div>
                     <button className={styles.forgetPasswordButton} type="submit">Save</button>
                 </form>

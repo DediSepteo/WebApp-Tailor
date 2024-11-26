@@ -5,12 +5,17 @@ import styles from "../styles/AdminOrgPage.module.css"
 import CustomPopUp from '../components/CustomPopUp';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { FaChevronDown } from "react-icons/fa";
+import { FaChevronUp } from "react-icons/fa";
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const AdminPage = () => {
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [orgsData, setOrgsData] = useState([])
     const [orgDeleteID, setOrgDeleteID] = useState("")
+
+    const [isExpanded, setIsExpanded] = useState([]);
+
 
     const navigate = useNavigate()
 
@@ -39,48 +44,18 @@ const AdminPage = () => {
         }
     }
 
-    // const getAll = async () => {
-    //     try {
-    //         fetch('http://localhost:3000/api/org/corp')
-    //             .then(response => response.json())
-    //             .then(data => {
-    //                 const fetchCounts = data.map(org => {
-    //                     const id = org.org_id;
-    //                     return Promise.all([fetch(`http://localhost:3000/api/emp/count?org_id=${id}`), fetch(`http://localhost:3000/api/product/count?org_id=${id}`)])
-    //                         .then(responses => {
-    //                             return Promise.all(responses.map(response => response.json()));
-    //                         })
-    //                         .then(counts => {
-    //                             console.log(counts)
-    //                             org.employeeNo = counts[0]
-    //                             org.productNo = counts[1]
-    //                             return org
-    //                         })
-    //                 });
-    //                 Promise.all(fetchCounts)
-    //                     .then(updatedOrgs => {
-    //                         console.log(updatedOrgs)
-    //                         setOrgsData(updatedOrgs);
-    //                     });
-    //             })
-    //             .catch(error => console.error('Error fetching organization:', error));
-
-    //     }
-
-    //     catch (error) {
-    //         console.error('Error:', error);
-    //         alert('Error retrieving organizations');
-    //     }
-    // }
-
     const getURL = window.location.href
-
     const isCorpPage = getURL == "http://localhost:3001/admin/corporate/orgs"
-
     const type = isCorpPage ? "corporate" : "government"
-    console.log(getURL)
+
     const editOrg = (category, id, fields) => {
         navigate('/admin/edit', { state: { id: id, fields: fields, category: category } })
+    }
+
+    const toggleAddressInfo = (index) => {
+        const newExpandedState = [...isExpanded];
+        newExpandedState[index] = !newExpandedState[index];
+        setIsExpanded(newExpandedState);
     }
 
     useEffect(() => {
@@ -88,6 +63,7 @@ const AdminPage = () => {
             .then(response => response.json())
             .then(data => {
                 setOrgsData(data)
+                setIsExpanded(Array(data.length).fill(false))
             })
             .catch(error => console.error('Error fetching organization:', error));
     }, [getURL]);
@@ -117,53 +93,98 @@ const AdminPage = () => {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Industry</th>
+                                <th>Phone</th>
                                 <th>No. of Products</th>
                                 {orgsData.length > 0 && (
                                     <th></th>
                                 )}
                             </tr>
                             {orgsData.length > 0 ? (
-                                orgsData.map((orgData) => {
-                                    console.log(orgData)
+                                orgsData.map((orgData, index) => {
+                                    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+                                    {/* console.log(regionNames.of("PH"))
+                                    console.log(parsePhoneNumberFromString(orgData.phone, "PH").isValid())
+                                    console.log(orgData, index) */}
                                     const fields = [
+                                        { key: "name", currentVal: orgData.name, fieldType: 'input', label: 'Organization Name', type: 'text', required: true },
+                                        { key: "email", currentVal: orgData.email, fieldType: 'input', label: 'Organization Email', type: 'text', required: true },
                                         {
-                                            key: "name",
-                                            fieldType: "input",
-                                            label: "Organization Name",
-                                            type: "text",
+                                            key: "industry", currentVal: orgData.industry,
+                                            fieldType: 'dropdown',
+                                            label: 'Organization Industry',
+                                            type: 'text',
                                             required: true,
-                                            currentVal: orgData.name,
+                                            options: [
+                                                { value: "Technology" }, { value: "Finance" }, { value: "Healthcare" },
+                                                { value: "Manufacturing" }, { value: "Retail" }, { value: "Real Estate" },
+                                                { value: "Transportation and Logistics" }, { value: "Construction" },
+                                                { value: "Marketing and Advertising" }, { value: "Others" }
+                                            ]
                                         },
+                                        { key: "city", currentVal: orgData.city, fieldType: 'input', label: 'City', type: 'text', required: true },
                                         {
-                                            key: "email",
-                                            fieldType: "input",
-                                            label: "Organization Email",
-                                            type: "text",
+                                            key: "country", currentVal: orgData.country,
+                                            fieldType: 'dropdown',
+                                            label: 'Country',
+                                            type: 'text',
                                             required: true,
-                                            currentVal: orgData.email
+                                            options: [
+                                                { value: "PH" }, { value: "SG" }
+                                            ]
                                         },
-                                        {
-                                            key: "industry",
-                                            fieldType: "dropdown",
-                                            label: "Organization Industry",
-                                            required: true,
-                                            currentVal: orgData.industry,
-                                            options: [{ "value": "Healthcare" }, { "value": "Construction" }, { "value": "Technology" }, { "value": "Education" }]
-                                        }
+                                        { key: "address_line1", currentVal: orgData.address_line1, fieldType: 'input', label: 'Address Line 1', type: 'text', required: true },
+                                        { key: "address_line2", currentVal: orgData.address_line2, fieldType: 'input', label: 'Address Line 2 (Optional)', type: 'text', required: false },
+                                        { key: "postal_code", currentVal: orgData.postal_code, fieldType: 'input', label: 'Postal Code', type: 'text', required: true },
+                                        { key: "state", currentVal: orgData.state, fieldType: 'input', label: 'State', type: 'text', required: true },
+                                        { key: "phone", currentVal: orgData.phone, fieldType: 'input', label: "Phone", type: "tel", required: true }
                                     ]
                                     return (
-                                        <tr id={orgData.id}>
-                                            <td>{orgData.name}</td>
-                                            <td>{orgData.email}</td>
-                                            <td>{orgData.industry}</td>
-                                            <td>{orgData["Number of Products"]}</td>
-                                            <td className={styles.tableBtns}>
-                                                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                    <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.id, fields)}>Edit</button>
-                                                    <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.id)}>Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <>
+                                            <tr id={orgData.id}>
+                                                <td>{orgData.name}</td>
+                                                <td>{orgData.email}</td>
+                                                <td>{orgData.industry}</td>
+                                                <td>{orgData.phone}</td>
+                                                <td>{orgData["Number of Products"]}</td>
+                                                <td className={styles.tableBtns}>
+                                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                        <button className={styles.editBtn} onClick={() => editOrg("organization", orgData.id, fields)}>Edit</button>
+                                                        <button className={styles.cancelBtn} onClick={() => toggleDeletePopUp(orgData.id)}>Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <td colSpan="6" className={styles.addressDropdown}
+                                                onClick={() => { toggleAddressInfo(index) }}>Address Details {isExpanded[index] ? <FaChevronUp style={{ float: 'right', marginTop: "3px" }} />
+                                                    : <FaChevronDown style={{ float: 'right', marginTop: "3px" }} />}</td>
+                                            {isExpanded[index] && (
+                                                <tr style={{ borderBottom: "2px solid #D9D9D9" }}>
+                                                    <td colSpan="6" style={{ backgroundColor: "#f9f9f9", padding: "10px" }}>
+                                                        <table style={{ width: "100%", borderCollapse: "collapse", border: "2px solid #D9D9D9" }}>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Country</th>
+                                                                    <th>State</th>
+                                                                    <th>City</th>
+                                                                    <th>Postal Code</th>
+                                                                    <th>Address Line 1</th>
+                                                                    <th>Address Line 2</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>{orgData.country}</td>
+                                                                    <td>{orgData.state}</td>
+                                                                    <td>{orgData.city}</td>
+                                                                    <td>{orgData.postal_code}</td>
+                                                                    <td>{orgData.address_line1}</td>
+                                                                    <td>{orgData.address_line2}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </>
                                     )
                                 })
                             ) : (
@@ -172,8 +193,7 @@ const AdminPage = () => {
                                 </tr>
                             )
                             }
-
-                        </table>
+                        </table >
                     </div>
                 </div>
                 <div className={styles.management}>

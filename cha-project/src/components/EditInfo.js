@@ -1,10 +1,10 @@
 // CreateProduct.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import CustomPopUp from '../components/CustomPopUp';
 import SetupWizardPage from '../components/SetupWizardPage';
 
-const CreateProduct = () => {
+const EditInfo = () => {
     const [data, setData] = useState({})
     const [showPopup, setShowPopup] = useState(false);
 
@@ -13,6 +13,7 @@ const CreateProduct = () => {
     const id = location.state?.id
     const fields = location.state?.fields
     const category = location.state?.category
+    console.log(id, fields, category)
 
     const togglePopUp = () => {
         setShowPopup(!showPopup);
@@ -26,10 +27,10 @@ const CreateProduct = () => {
         }
         else {
             fields.forEach((field) => {
-                initData[field.key] = field.currentVal || ""
-                field.value = initData[field.key]
+                field.value = field.currentVal || ""
                 field.onChange = (e) => {
-                    field.currentVal = e.target.value
+                    console.log(e.target.value)
+                    field.value = e.target.value
                     setData((prevData) => ({
                         ...prevData,
                         [field.key]: e.target.value
@@ -40,7 +41,19 @@ const CreateProduct = () => {
         setData(initData)
     }, [])
 
-    const handleEdit = async () => {
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (Object.keys(data).includes("price")) {
+            if (data.price <= 0) {
+                alert("Price must not be zero or negative")
+                return
+            }
+        }
         var url = ""
         switch (category) {
             case ("product"):
@@ -69,19 +82,6 @@ const CreateProduct = () => {
         catch {
             alert("Failed to connect to backend")
         }
-
-    }
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if (Object.keys(data).includes("price")) {
-            if (data.price <= 0) {
-                alert("Price must not be zero or negative")
-                return
-            }
-        }
-        handleEdit()
     }
 
     return (
@@ -94,4 +94,4 @@ const CreateProduct = () => {
     )
 };
 
-export default CreateProduct;
+export default EditInfo;

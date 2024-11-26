@@ -17,7 +17,6 @@ export const ShoppingCart = () => {
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
-
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         console.log(localStorageCart, 'cart token');
 
@@ -75,17 +74,22 @@ export const ShoppingCart = () => {
     const grandTotal = subtotal + deliveryCharge;
 
     const handleCheckout = () => {
-
+        const products = cart.map(item => ({
+            id: item.product_id, // Use the correct key for product ID in your cart
+            quantity: item.quantity   // Use the correct key for quantity
+        }));
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
         if (token) {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
 
             const orderData = cart.map((item, index) => ({
-                id: item.id,
-                quantity: quantities[index]
+                id: item.product_id,
+                quantity: quantities[index],
             }));
+
+            console.log(products, "sdjksjjs")
+            console.log(orderData, "sajdjsjsj")
 
             const totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -94,10 +98,13 @@ export const ShoppingCart = () => {
                 qty: totalQuantity, // Total quantity extracted from orderData
                 subtotal: calculateSubtotal(),
                 status: "Awaiting Measurement",
-                date: new Date().toISOString().slice(0, 10) // Current date in YYYY-MM-DD format
+                date: new Date().toISOString().slice(0, 10), // Current date in YYYY-MM-DD format
+                orderData
             };
 
-            fetch('http://localhost:3000/api/order/', {
+            console.log("Prepared newOrder object:", newOrder); // Log here for debugging
+
+            fetch('http://localhost:3000/api/order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,12 +121,11 @@ export const ShoppingCart = () => {
                     console.log('Order created with ID:', data.orderId);
                     localStorage.removeItem('cart');
                     setCart([]);
-                    console.log(newOrder, "aaaa")
                     alert('Order successfully created!');
                 })
                 .catch((error) => {
                     console.error('Error during checkout:', error);
-                    console.log(newOrder, "bbbbb")
+                    console.log("Failed newOrder object:", newOrder); // Log again for troubleshooting
                     alert('There was a problem creating your order.');
                 });
         } else {
@@ -128,23 +134,45 @@ export const ShoppingCart = () => {
         }
     };
 
+    console.log("Cart:", cart);
+    console.log("Quantities:", quantities);
+
+
     const testToCheckoutPage = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         if (!cart.length)
             alert("Cart is empty")
+        else if (!token) {
+            alert("Something went wrong, please relogin")
+            navigate("/login")
+        }
         else {
-            console.log(cart)
+            const decodedToken = jwtDecode(token);
+            const org_id = decodedToken.org_id;
+            console.log(quantities)
+            quantities.forEach((quantity, index) => {
+                cart[index].qty = quantity
+            })
             fetch("http://localhost:3000/api/payment/checkoutSes", {
                 method: "POST",
                 headers: {
-                    'accept': 'application/json',
-                    'Authorization': `Basic c2tfdGVzdF9oUXRTSnhEWVFjZjF4SzRhekF6amdKOXc6`
+                    "Content-Type": "application/json"
                 },
-                body: {
-                    cart: cart
-                }
+                body: JSON.stringify({
+                    cart: cart,
+                    org_id: org_id,
+                })
             })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    if (data.checkoutUrl)
+                        window.location.href = data.checkoutUrl
+                    else
+                        alert("Something went wrong")
+                })
+                .catch(error => console.error("Error:", error));
+
         }
     }
 
@@ -152,8 +180,7 @@ export const ShoppingCart = () => {
     const updateLocalStorageCart = (updatedQuantities) => {
         const currentLocalStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
         const updatedCart = currentLocalStorageCart.map((cartItem, index) => {
-            const matchedItem = cart.find(item => item.id === cartItem.id);
-            if (matchedItem) {
+            if (updatedQuantities[index] !== undefined) {
                 return { ...cartItem, quantity: updatedQuantities[index] };
             }
             return cartItem;
@@ -161,16 +188,24 @@ export const ShoppingCart = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
-    // Handle item removal
+    // to make it persist 
+    useEffect(() => {
+        updateLocalStorageCart(quantities);
+    }, [quantities]);
+
     const handleRemoveItem = (index) => {
-        // Get the item to remove based on index
-        const itemToRemove = cart[index][0]; 
+        // Remove the item from the cart
+        const updatedCart = cart.filter((_, i) => i !== index);
+        setCart(updatedCart);
 
-        const updatedLocalStorageCart = localStorageCart.filter((cartItem, i) => i !== index);
+        const updatedQuantities = quantities.filter((_, i) => i !== index);
+        setQuantities(updatedQuantities);
+
+        const updatedLocalStorageCart = updatedCart.map((item, idx) => ({
+            id: item.product_id || item.id,
+            quantity: updatedQuantities[idx],
+        }));
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
-
-        setCart(prevCart => prevCart.filter((_, i) => i !== index));
-        setQuantities(prevQuantities => prevQuantities.filter((_, i) => i !== index));
     };
 
 

@@ -8,22 +8,12 @@ import { FaCheck } from "react-icons/fa";
 export const ItemDetail = () => {
     const location = useLocation();
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
-
-    console.log(item)
     const [selectedImage, setSelectedImage] = useState(null);
     const [addedToCart, setAddedToCart] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [isEditing, setIsEditing] = useState(false); // To track if in editing mode
     const [lastValidQuantity, setLastValidQuantity] = useState(1); // Track last valid quantity
     const intervalRef = useRef(null); // Reference for auto increment/decrement
-
-    // const item = items.find(item => item.company === company && item.name === name);
-
-    // useEffect(() => {
-    //     if (item && item.colour.length > 0) {
-    //         setSelectedColor(item.colour[0]); // Set default color to the first color in the list
-    //     }
-    // }, [item]);
 
     useEffect(() => {
         if (addedToCart) {
@@ -43,17 +33,26 @@ export const ItemDetail = () => {
 
         const newItem = {
             id: item.product_id,
-            quantity: quantity,
+            // Ensure that quantity is a number, if user types value, data will be string
+            quantity: parseInt(quantity),
         };
 
-        existingCart.push(newItem);
+        // Check if item already exists in the cart
+        const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
+
+        if (existingItemIndex >= 0) {
+            // If item exists, update its quantity
+            existingCart[existingItemIndex].quantity += newItem.quantity;
+        } else {
+            // Otherwise, add the new item
+            existingCart.push(newItem);
+        }
+
         localStorage.setItem('cart', JSON.stringify(existingCart));
 
         // Reset values after submit
         setQuantity(1);
-
-        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); //for checking
-
+        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
 
     // Handle quantity increase
@@ -156,7 +155,7 @@ export const ItemDetail = () => {
                 </div>
                 <div className={styles.contents}>
                     <p className={styles.itemName}>{item.name}</p>
-                    <p className={styles.itemPrice}>${item.price}</p>
+                    <p className={styles.itemPrice}>₱{item.price}</p>
                     <div className={styles.separator}></div>
                     <form>
                         <div className={styles.quantityContainer}>

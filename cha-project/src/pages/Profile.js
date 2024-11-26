@@ -6,8 +6,6 @@ import styles from '../styles/Profile.module.css';
 import { jwtDecode } from 'jwt-decode';
 import { FaUserCircle } from "react-icons/fa";
 
-const user = { phone: "+85 98765432" }
-
 const orders = [
     {
         order_id: "1234567890",
@@ -47,8 +45,9 @@ export const Profile = () => {
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
+    const [userPhone, setUserPhone] = useState(null);
     const [orgIndustry, setOrgIndustry] = useState(null);
-    const [userAddress, setUserAddress] = useState(null);
+    const [userAddress1, setUserAddress1] = useState(null);
     const [maskedPassword, setMaskedPassword] = useState('No password set');
     const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
     const [fieldToEdit, setFieldToEdit] = useState(null);
@@ -63,7 +62,8 @@ export const Profile = () => {
                 setUserName(decodedToken.org_name);
                 setUserEmail(decodedToken.email);
                 setOrgIndustry(decodedToken.industry);
-                setUserAddress(decodedToken.address);
+                setUserAddress1(decodedToken.address);
+                setUserPhone(decodedToken.org_phone);
             } catch (error) {
                 console.error('Invalid token:', error);
             }
@@ -121,15 +121,15 @@ export const Profile = () => {
                             <div style={{ margin: '10px 0' }}>
                                 <span className={styles.title}>Phone Number: </span>
                                 <div className={styles.infoRow}>
-                                    <p>{user.phone}</p>
+                                    <p>{userPhone}</p>
                                     <button onClick={() => handleEditClick('phone')} className={styles.editBtn}>Edit</button>
                                 </div>
                             </div>
                             <div style={{ margin: '10px 0' }}>
                                 <span className={styles.title}>Address: </span>
                                 <div className={styles.infoRow}>
-                                    <p>{userAddress}</p>
-                                    <button onClick={() => handleEditClick('address')} className={styles.editBtn}>Edit</button>
+                                    <p>{userAddress1}</p>
+                                    <button onClick={() => handleEditClick('address_line1')} className={styles.editBtn}>Edit</button>
                                 </div>
                             </div>
                             <div style={{ margin: '10px 0' }}>
@@ -170,8 +170,8 @@ export const Profile = () => {
                 initialValue={
                     fieldToEdit === 'name' ? userName : 
                     fieldToEdit === 'email' ? userEmail :
-                    fieldToEdit === 'phone' ? user.phone :
-                    fieldToEdit === 'address' ? userAddress :
+                    fieldToEdit === 'phone' ? userPhone :
+                    fieldToEdit === 'address_line1' ? userAddress1 :
                     fieldToEdit === 'industry' ? orgIndustry : ''
                 }
                 userId={userId}

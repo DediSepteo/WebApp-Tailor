@@ -62,9 +62,18 @@ const Product = {
         });
     },
 
-    updateProduct: (id, name, desc, price, callback) => {
-        const query = 'UPDATE products SET name = ?, description = ?, price = ? WHERE product_id = ?'
-        db.query(query, [name, desc, price, id], (err, results) => {
+    updateProduct: (id, data, callback) => {
+        const keys = Object.keys(data)
+        //  var query = 'UPDATE products SET name = ?, description = ?, price = ? WHERE product_id = ?'
+        var query = 'UPDATE products SET'
+        keys.forEach((key) => {
+            query += ` ${key} = ?,`
+        })
+        query = query.slice(0, -1)
+        query += " WHERE product_id = ?"
+        var params = Object.values(data)
+        params.push(id)
+        db.query(query, params, (err, results) => {
             if (err) {
                 return callback(err, null);
             }

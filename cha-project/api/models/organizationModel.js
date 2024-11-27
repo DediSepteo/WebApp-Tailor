@@ -88,6 +88,7 @@ const Organization = {
         query = query.slice(0, -1)
         query += " WHERE org_id = ?"
         var params = Object.values(data)
+        console.log(data)
         params.push(id)
         db.query(query, params, (err, results) => {
             if (err) {
@@ -96,6 +97,7 @@ const Organization = {
             callback(null, results);
         });
     },
+    
     deleteOrg: (id, callback) => {
         const query = 'UPDATE organization SET status = "inactive" WHERE org_id = ?';
 

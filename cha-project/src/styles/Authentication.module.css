@@ -234,7 +234,6 @@ body {
   justify-content: space-between;
   margin-bottom: 20px;
   font-family: "Noto-Serif-TC";
-  color: grey;
 }
 
 .popupOverlay {
@@ -247,6 +246,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 
 .popupContent {

@@ -66,6 +66,7 @@ const Organization = {
         })
 
     },
+
     createOrg: (name, email, password, type, industry, city, country, address_line1, address_line2, postal_code, state, phone, callback) => {
         const query = `INSERT INTO Organization (name, email, industry, type, password, status, city, country, address_line1, address_line2, postal_code, state, phone)
         VALUES(?, ?, ?, ?, ?, "active", ?, ?, ?, ?, ?, ?, ?)`;
@@ -77,7 +78,6 @@ const Organization = {
             callback(null, results);
         });
     },
-
 
     updateOrg: (id, data, callback) => {
         var query = 'UPDATE organization SET'
@@ -97,7 +97,8 @@ const Organization = {
             callback(null, results);
         });
     },
-    
+
+
     deleteOrg: (id, callback) => {
         const query = 'UPDATE organization SET status = "inactive" WHERE org_id = ?';
 
@@ -108,6 +109,7 @@ const Organization = {
             callback(null, results);
         });
     },
+
     countAll: (callback) => {
         const query = 'SELECT COUNT(*) AS totalOrganizations FROM organization WHERE status = "active"';
         db.query(query, (err, results) => {

@@ -148,6 +148,7 @@ router.post('/register', async (req, res) => {
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
     const data = req.body
+    console.log(data, "asdfjsdasdhad")
     if (!data)
         return res.status(500).send("Empty body")
     organizationModel.updateOrg(id, data, (err, results) => {

@@ -64,7 +64,6 @@ const Organization = {
             }
             callback(null, results)
         })
-
     },
 
     createOrg: (name, email, password, type, industry, city, country, address_line1, address_line2, postal_code, state, phone, callback) => {
@@ -97,6 +96,25 @@ const Organization = {
         });
     },
 
+    getOrgPassById: (org_id, callback) => {
+        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ?';
+        db.query(query, [org_id], (err, results) => {
+            console.log('Query executed:', query);
+            console.log('Query parameters:', org_id);
+            console.log('Query results:', results);
+    
+            if (err) {
+                console.error('Database error:', err);
+                return callback(err, null);
+            }
+            if (!results || results.length === 0) {
+                console.error('No results found for org_id:', org_id);
+                return callback(new Error('Organization not found'), null);
+            }
+            callback(null, results);
+        });
+    },
+    
     deleteOrg: (id, callback) => {
         const query = 'UPDATE organization SET status = "inactive" WHERE org_id = ?';
 

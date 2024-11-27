@@ -4,9 +4,10 @@ import { IoClose } from "react-icons/io5";
 
 const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId }) => {
     const [value, setValue] = useState(initialValue || '');
+    const [currentPassword, setCurrentPassword] = useState('');
     const [mouseDownInside, setMouseDownInside] = useState(false);
 
-    // Determine title and input type based on the field being edited
+    // Title and input configuration based on the field
     const titleMap = {
         name: 'Change Name',
         email: 'Change Email',
@@ -18,19 +19,18 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
 
     const title = titleMap[fieldToEdit] || '';
     const inputType = fieldToEdit === 'password' ? 'password' : 'text';
-    const placeholder = fieldToEdit === 'password' 
-        ? 'Enter new password' 
+    const placeholder = fieldToEdit === 'password'
+        ? 'Enter new password'
         : `Enter new ${fieldToEdit}`;
 
-    // Update the input value whenever initialValue changes
     useEffect(() => {
         if (isVisible) {
             setValue(initialValue || '');
+            setCurrentPassword(''); // Reset current password
         }
     }, [initialValue, fieldToEdit, isVisible]);
 
     const handleMouseDown = (e) => {
-        // Check if the mouse is down inside the popup content
         if (e.target.closest(`.${styles.popupContent}`)) {
             setMouseDownInside(true);
         } else {
@@ -39,7 +39,6 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
     };
 
     const handleMouseUp = (e) => {
-        // Close popup only if mouseDown was outside and mouseUp is also outside
         if (!mouseDownInside && !e.target.closest(`.${styles.popupContent}`)) {
             onClose();
         }
@@ -54,15 +53,33 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
             return;
         }
 
+        // Verify password if editing the email
+        if (fieldToEdit === 'email' && currentPassword) {
+            try {
+                const verifyResponse = await fetch('http://localhost:3000/api/org/verify-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ org_id: userId, currentPassword }),
+                });
+
+                if (!verifyResponse.ok) {
+                    const verifyResult = await verifyResponse.json();
+                    alert(`Password verification failed: ${verifyResult.error || 'Unknown error'}`);
+                    return;
+                }
+            } catch (error) {
+                console.error('Error verifying password:', error);
+                alert('Failed to verify password. Please try again.');
+                return;
+            }
+        }
+
+        // Proceed with the update
         try {
             const payload = { [fieldToEdit]: value };
-            console.log("Payload:", payload);
-
             const response = await fetch(`http://localhost:3000/api/org/${userId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
 
@@ -101,8 +118,34 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
                         required
                         className={styles.inputField}
                     />
+                    {fieldToEdit === 'password' && (
+                        <>
+                            <input
+                                type="password"
+                                placeholder="Confirm new password"
+                                value={currentPassword}
+                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                required
+                                className={styles.inputField}
+                            />
+                        </>
+                    )}
+                    {(fieldToEdit === 'email' || fieldToEdit === 'password') && (
+                        <>
+                            <input
+                                type="password"
+                                placeholder="Enter current password"
+                                value={currentPassword}
+                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                required
+                                className={styles.inputField}
+                            />
+                        </>
+                    )}
                     <div className={styles.inputUnderline}></div>
-                    <button className={styles.forgetPasswordButton} type="submit">Save</button>
+                    <button className={styles.forgetPasswordButton} type="submit">
+                        Save
+                    </button>
                 </form>
             </div>
         </div>

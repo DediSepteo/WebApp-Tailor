@@ -6,7 +6,7 @@ const verifyToken = require("../middleware/adminAuth")
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-router.use(verifyToken)
+// router.use(verifyToken)
 
 const saltRounds = 10;
 

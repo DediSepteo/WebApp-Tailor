@@ -2,14 +2,11 @@ const db = require('./dbconnection'); // Import the MySQL connection from dbconn
 
 const Organization = {
     getAll: (type, callback) => {
-        var query = `SELECT o.org_id as "id", o.name, email, phone, industry, city, country, address_line1, address_line2, postal_code, state, COUNT(product_id) as "Number of Products"
-                    FROM organization o LEFT JOIN products p ON o.org_id = p.org_id
-                    WHERE 
-                        o.status = "active" 
-                        AND (p.status = "active" or p.product_id IS NULL)`
+        var query = `SELECT o.org_id as "id", o.name, email, phone, industry, city, country, address_line1, address_line2, postal_code, state, o.status, COUNT(product_id) as "Number of Products"
+                    FROM organization o LEFT JOIN products p ON o.org_id = p.org_id AND p.status = "active" `
         if (type)
-            query += ' AND o.type = ?'
-        query += ' GROUP BY o.org_id'
+            query += ' WHERE o.type = ?'
+        query += ' GROUP BY o.org_id ORDER BY o.status'
         db.query(query, type ? [type] : [], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -19,11 +16,10 @@ const Organization = {
     },
 
     getRecent: (limit, type, callback) => {
-        var query = `SELECT o.org_id as "id", o.name, email, phone, industry, city, country, address_line1, address_line2, postal_code, state, COUNT(product_id) as "Number of Products"
-                    FROM organization o LEFT JOIN products p ON o.org_id = p.org_id 
+        var query = `SELECT o.org_id as "id", o.name, email, phone, industry, city, country, address_line1, address_line2, postal_code, state, o.status, COUNT(product_id) as "Number of Products"
+                    FROM organization o LEFT JOIN products p ON o.org_id = p.org_id AND p.status = "active" 
                     WHERE 
-                        o.status = "active" 
-                        AND(p.status = "active" or p.product_id IS NULL)`
+                        o.status = "active"`
         if (type) {
             query += " AND o.type = ?"
         }
@@ -37,7 +33,7 @@ const Organization = {
     },
 
     getOrgById: (id, callback) => {
-        const query = 'SELECT name, email, phone, industry, type, city, country, address_line1, address_line2, postal_code, state FROM ORGANIZATION WHERE org_id = ? AND status = "active"';
+        const query = 'SELECT name, email, phone, industry, type, city, country, address_line1, address_line2, postal_code, state, status FROM ORGANIZATION WHERE org_id = ? AND status = "active"';
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -47,7 +43,7 @@ const Organization = {
     },
 
     getOrgNames: (type, callback) => {
-        const query = 'SELECT name, org_id as id FROM ORGANIZATION WHERE type = ?';
+        const query = 'SELECT name, org_id as id FROM ORGANIZATION WHERE type = ? AND status = "active"';
         db.query(query, [type], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -64,6 +60,25 @@ const Organization = {
             }
             callback(null, results)
         })
+    },
+
+    getOrgPassById: (org_id, callback) => {
+        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ?';
+        db.query(query, [org_id], (err, results) => {
+            console.log('Query executed:', query);
+            console.log('Query parameters:', org_id);
+            console.log('Query results:', results);
+
+            if (err) {
+                console.error('Database error:', err);
+                return callback(err, null);
+            }
+            if (!results || results.length === 0) {
+                console.error('No results found for org_id:', org_id);
+                return callback(new Error('Organization not found'), null);
+            }
+            callback(null, results);
+        });
     },
 
     createOrg: (name, email, password, type, industry, city, country, address_line1, address_line2, postal_code, state, phone, callback) => {
@@ -96,27 +111,17 @@ const Organization = {
             callback(null, results);
         });
     },
+    activateOrg: (id, callback) => {
+        const query = 'UPDATE organization SET status = "active" WHERE org_id = ?';
 
-    getOrgPassById: (org_id, callback) => {
-        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ?';
-        db.query(query, [org_id], (err, results) => {
-            console.log('Query executed:', query);
-            console.log('Query parameters:', org_id);
-            console.log('Query results:', results);
-    
+        db.query(query, [id], (err, results) => {
             if (err) {
-                console.error('Database error:', err);
                 return callback(err, null);
-            }
-            if (!results || results.length === 0) {
-                console.error('No results found for org_id:', org_id);
-                return callback(new Error('Organization not found'), null);
             }
             callback(null, results);
         });
     },
-      
-    deleteOrg: (id, callback) => {
+    deactivateOrg: (id, callback) => {
         const query = 'UPDATE organization SET status = "inactive" WHERE org_id = ?';
 
         db.query(query, [id], (err, results) => {

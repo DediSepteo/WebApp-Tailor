@@ -1,9 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const organizationModel = require('../models/organizationModel'); // Import the model for organization
+const verifyToken = require("../middleware/adminAuth")
 
 const router = express.Router();
 const bcrypt = require('bcrypt');
+
+router.use(verifyToken)
 
 const saltRounds = 10;
 
@@ -78,7 +81,7 @@ router.get('/names', (req, res) => {
 router.get('/count', (req, res) => {
     organizationModel.countAll((err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Error fertching organization count' });
+            return res.status(500).json({ error: 'Error fetching organization count' });
         }
         res.json({ results });
     });
@@ -144,22 +147,6 @@ router.post('/register', async (req, res) => {
     );
 });
 
-// Add in password encryption
-router.put("/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const data = req.body
-    console.log(data, "asdfjsdasdhad")
-    if (!data)
-        return res.status(500).send("Empty body")
-    organizationModel.updateOrg(id, data, (err, results) => {
-        if (err) {
-            console.error("Failed to update organization", err)
-            return res.status(500).send("Error updating organization")
-        }
-        return res.status(200).send("Organization updated successfully")
-    });
-});
-
 router.post('/verify-password', (req, res) => {
     const { org_id, currentPassword } = req.body;
 
@@ -197,16 +184,55 @@ router.post('/verify-password', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.put("/activate/:id", (req, res) => {
     const orgID = req.params.id;
-    console.log(orgID)
-    organizationModel.deleteOrg(orgID, (err, results) => {
+    organizationModel.activateOrg(orgID, (err, results) => {
         if (err) {
             console.error('Error deleting organization:', err);
             return res.status(500).send('Error deleting organization');
         }
         return res.status(200).send('Organization deleted successfully');
     });
-});
+})
+
+router.put("/deactivate/:id", (req, res) => {
+    const orgID = req.params.id;
+    organizationModel.deactivateOrg(orgID, (err, results) => {
+        if (err) {
+            console.error('Error deleting organization:', err);
+            return res.status(500).send('Error deleting organization');
+        }
+        return res.status(200).send('Organization deleted successfully');
+    });
+})
+
+
+router.put("/:id", (req, res) => {
+    const id = Number(req.params.id)
+    const data = req.body
+    if (!Object.keys(data).length)
+        return res.status(500).send("Empty body")
+    organizationModel.updateOrg(id, data, (err, results) => {
+        if (err) {
+            console.error("Failed to update organization", err)
+            return res.status(500).send("Error updating organization")
+        }
+        return res.status(200).send("Organization updated successfully")
+    })
+})
+
+// router.delete('/:id', (req, res) => {
+//     const orgID = req.params.id;
+//     console.log(orgID)
+//     organizationModel.cancelOrg(orgID, (err, results) => {
+//         if (err) {
+//             console.error('Error deleting organization:', err);
+//             return res.status(500).send('Error deleting organization');
+//         }
+//         return res.status(200).send('Organization deleted successfully');
+//     });
+// });
+
+
 
 module.exports = router;

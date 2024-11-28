@@ -147,7 +147,6 @@ const AdminProductPage = () => {
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/view-products`}  >View all Products</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/products/register`}>Register Product</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/products/registerBulk`}>Register Multiple Products</NavLink></li>
-                            <li className={styles.li}><NavLink className={styles.link}>Delete Product</NavLink></li>
                         </ul>
                     </div>
                 </div>

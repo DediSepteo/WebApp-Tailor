@@ -35,6 +35,7 @@ import EditInfo from './components/EditInfo'
 import ViewAllOrg from './pages/viewAllOrg';
 import ViewAllProduct from './pages/viewAllProduct';
 import OrderDetailPage from './pages/OrderDetailPage'
+import DeactivateOrganization from './pages/DeactivateOrg';
 
 const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
@@ -99,6 +100,7 @@ const AppContent = () => {
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/corporate/orgs/deactivate" element={<DeactivateOrganization />} />
                 <Route path="/admin/corporate/view-orgs" element={<ViewAllOrg type="corporate" />} />
                 <Route path="/admin/corporate/products" element={<AdminProductPage />} />
                 <Route path="/admin/corporate/products/register" element={<RegisterProduct />} />
@@ -115,10 +117,12 @@ const AppContent = () => {
                 {/* govt page */}
                 <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/government/orgs/register" element={<RegisterOrg />} />
+                <Route path="/admin/government/orgs/deactivate" element={<DeactivateOrganization />} />
                 <Route path="/admin/government/orgs/view-orgs" element={<ViewAllOrg type="government" />} />
                 <Route path="/admin/government/products" element={<AdminProductPage />} />
                 <Route path="/admin/government/products/register" element={<RegisterProduct />} />
                 <Route path="/admin/government/products/registerBulk" element={<RegisterProductBulk />} />
+                <Route path="/admin/government/view-orgs" element={<ViewAllOrg type="government" />} />
                 <Route path="/admin/government/view-products" element={<ViewAllProduct type="government" />} />
                 <Route path="/admin/government/orders" element={<AdminOrderPage />} />
                 <Route path="/admin/government/view-ready-orders" element={<ViewAllOrder type="government" isReady={true} />} />

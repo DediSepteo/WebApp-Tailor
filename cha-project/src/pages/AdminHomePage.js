@@ -11,7 +11,6 @@ import CustomPopUp from '../components/CustomPopUp';
 
 const AdminPage = () => {
     const [ordersData, setOrdersData] = useState([]);
-    const [showPopup, setShowPopup] = useState(false);
     const [orgCount, setOrgCount] = useState(0);
     const [revSum, setRevSum] = useState(0);
     const [cancelOrderID, setCancelOrderID] = useState("")

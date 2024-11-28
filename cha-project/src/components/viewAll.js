@@ -269,7 +269,7 @@ const ViewAll = ({ category, type, isReady }) => {
                                                         <button className={orgStatus[id] ? styles.activated : styles.deactivated} onClick={() => toggleDeletePopUp(id)}>
                                                             {orgStatus[id] ? (
                                                                 <>
-                                                                    <BsToggleOn size={20} style={{ marginRight: "0.5em" }} /> Activated
+                                                                    <BsToggleOn size={20} style={{ marginRight: "0.5em" }} />Activated
                                                                 </>
                                                             ) : (
                                                                 <>

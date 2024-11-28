@@ -48,6 +48,10 @@ const EditInfo = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (!Object.keys(data).length) {
+            alert("Fields are unchanged")
+            return
+        }
         if (Object.keys(data).includes("price")) {
             if (data.price <= 0) {
                 alert("Price must not be zero or negative")
@@ -55,7 +59,7 @@ const EditInfo = () => {
             }
         }
         var url = ""
-        switch (category) {
+        switch (category.toLowerCase()) {
             case ("product"):
                 url = `http://localhost:3000/api/product/${id}`
                 break;
@@ -65,6 +69,7 @@ const EditInfo = () => {
             default:
                 return
         }
+        console.log(url)
         try {
             const response = await fetch(url, {
                 method: "PUT",
@@ -73,7 +78,7 @@ const EditInfo = () => {
             })
             if (response.ok) {
                 alert(`${category} Edited!`)
-                navigate("/admin/dashboard")
+                navigate(-1)
             }
             else {
                 alert(`Failed to edit ${category}`);

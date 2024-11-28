@@ -43,7 +43,7 @@ const Organization = {
     },
 
     getOrgNames: (type, callback) => {
-        const query = 'SELECT name, org_id as id FROM ORGANIZATION WHERE type = ?';
+        const query = 'SELECT name, org_id as id FROM ORGANIZATION WHERE type = ? AND status = "active"';
         db.query(query, [type], (err, results) => {
             if (err) {
                 return callback(err, null);

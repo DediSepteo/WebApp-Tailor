@@ -5,6 +5,7 @@ import CustomPopUp from '../components/CustomPopUp';
 import SetupWizardPage from '../components/SetupWizardPage';
 
 const CreateProductBulk = () => {
+    const [type, setType] = useState("")
     const [org_id, setOrg_id] = useState('')
     const [prodList, setProdList] = useState({})
     const [dropDownInput, setDropDownInput] = useState([])
@@ -75,7 +76,6 @@ const CreateProductBulk = () => {
         else {
             handleRegister(e)
         }
-
     }
 
 
@@ -100,7 +100,7 @@ const CreateProductBulk = () => {
                     return
                 }
                 alert("Products registered!")
-                navigate("/admin/corporate/products")
+                navigate(-1)
             }
         }
         catch (error) {
@@ -110,14 +110,13 @@ const CreateProductBulk = () => {
 
     const fetchOrg_ids = async () => {
         try {
-            await fetch("http://localhost:3000/api/org?type=corporate")
+            await fetch(`http://localhost:3000/api/org/names?type=${type}`)
                 .then(response => response.json())
                 .then(orgs => {
                     const options = orgs.map((org) => ({
                         value: org.name,
                         id: org.id
                     }))
-                    console.log(options)
                     setDropDownInput(options);
                 })
         }
@@ -128,8 +127,17 @@ const CreateProductBulk = () => {
     }
 
     useEffect(() => {
-        fetchOrg_ids()
+        if (window.location.href.includes("corporate")) {
+            setType("corporate")
+        }
+        else {
+            setType("government")
+        }
     }, [])
+
+    useEffect(() => {
+        fetchOrg_ids()
+    }, [type])
 
 
     const fields = [

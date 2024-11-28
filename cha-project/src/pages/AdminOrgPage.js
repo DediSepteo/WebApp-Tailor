@@ -81,13 +81,15 @@ const AdminPage = () => {
             .then(response => response.json())
             .then(data => {
                 var statusData = {}
+                const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
                 data.forEach((item) => {
                     console.log(item)
                     statusData[item.id] = item.status == "active"
                 })
                 const formattedData = data.map((item) => {
-                    const formattedPhoneNumber = splitPhoneNumber(item.phone, item.country)
-                    const newItem = { ...item, phone: formattedPhoneNumber }
+                    const countryCode = item.country
+                    const formattedPhoneNumber = splitPhoneNumber(item.phone, countryCode)
+                    const newItem = { ...item, phone: formattedPhoneNumber, country: regionNames.of(countryCode) }
                     return newItem
                 })
                 setOrgsData(formattedData)
@@ -131,9 +133,6 @@ const AdminPage = () => {
                             {orgsData.length > 0 ? (
                                 orgsData.map((orgData, index) => {
                                     const id = orgData.id
-                                    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-                                    console.log(regionNames.of("PH"))
-                                    console.log(parsePhoneNumberFromString(orgData.phone, "PH").isValid())
                                     const fields = [
                                         { key: "name", currentVal: orgData.name, fieldType: 'input', label: 'Organization Name', type: 'text', required: true },
                                         { key: "email", currentVal: orgData.email, fieldType: 'input', label: 'Organization Email', type: 'text', required: true },
@@ -232,6 +231,7 @@ const AdminPage = () => {
                         <ul>
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/view-orgs`}>View all Organizations</NavLink></li>
                             <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/orgs/register`}>Register New Organization</NavLink></li>
+                            <li className={styles.li}><NavLink className={styles.link} to={`/admin/${type}/orgs/deactivate`}>Deactivate Organization</NavLink></li>
                         </ul>
                     </div>
                     {/* <div className={styles.manageDiv}>

@@ -123,11 +123,11 @@ const CreateOrganization = () => {
                             .then(productResponse => {
                                 if (!productResponse.ok) throw new Error('Error creating products for organization');
                                 alert("Organization created and products registered!");
-                                navigate("/admin/corporate/orgs");
+                                navigate(-1);
                             });
                     } else {
                         alert("Organization created!");
-                        navigate("/admin/corporate/orgs");
+                        navigate(-1);
                     }
                 });
         } catch (error) {

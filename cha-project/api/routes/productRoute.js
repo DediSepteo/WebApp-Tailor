@@ -107,9 +107,8 @@ router.post('/register/:org_id', async (req, res) => {
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
     const data = req.body
-    if (!data)
+    if (!Object.keys(data).length)
         return res.status(500).send("Empty body")
-    // const { name, desc, price } = data
     productModel.updateProduct(id, data, (err, results) => {
         if (err) {
             console.error("Failed to update product", err)

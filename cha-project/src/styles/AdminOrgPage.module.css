@@ -65,7 +65,28 @@
     cursor: pointer;
 }  
 
-.cancelBtn {
+.activated { 
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    background-color: #4CBB17;
+    border:none;
+    font-family: "Inter";
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 10em;
+    font-size: 1em;
+    margin-left: 1em;
+    width: 150px
+}
+
+.deactivated {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
     background-color: #D44837;
     border:none;
     font-family: "Inter";
@@ -76,10 +97,6 @@
     font-size: 1em;
     margin-left: 1em;
 }
-
-.cancelBtn:hover {
-    cursor: pointer;
-}   
 
 .management {
     display: flex;

@@ -5,9 +5,9 @@ import { IoClose } from "react-icons/io5";
 const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId }) => {
     const [value, setValue] = useState(initialValue || '');
     const [currentPassword, setCurrentPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [mouseDownInside, setMouseDownInside] = useState(false);
 
-    // Title and input configuration based on the field
     const titleMap = {
         name: 'Change Name',
         email: 'Change Email',
@@ -26,7 +26,8 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
     useEffect(() => {
         if (isVisible) {
             setValue(initialValue || '');
-            setCurrentPassword(''); // Reset current password
+            setCurrentPassword('');
+            setConfirmPassword('');
         }
     }, [initialValue, fieldToEdit, isVisible]);
 
@@ -53,8 +54,14 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
             return;
         }
 
-        // Verify password if editing the email
-        if (fieldToEdit === 'email' && currentPassword) {
+        // Ensure new password and confirm password match
+        if (fieldToEdit === 'password' && value !== confirmPassword) {
+            alert('New password and confirm password must match.');
+            return;
+        }
+
+        // Verify current password for email or password changes
+        if ((fieldToEdit === 'email' || fieldToEdit === 'password') && currentPassword) {
             try {
                 const verifyResponse = await fetch('http://localhost:3000/api/org/verify-password', {
                     method: 'POST',
@@ -85,7 +92,7 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
 
             if (response.ok) {
                 alert('Profile updated successfully');
-                onClose(); // Close modal
+                onClose();
             } else {
                 const errorData = await response.json();
                 alert(`Failed to update profile: ${errorData.message || 'Unknown error'}`);
@@ -123,24 +130,22 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
                             <input
                                 type="password"
                                 placeholder="Confirm new password"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                                 className={styles.inputField}
                             />
                         </>
                     )}
                     {(fieldToEdit === 'email' || fieldToEdit === 'password') && (
-                        <>
-                            <input
-                                type="password"
-                                placeholder="Enter current password"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                required
-                                className={styles.inputField}
-                            />
-                        </>
+                        <input
+                            type="password"
+                            placeholder="Enter current password"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            required
+                            className={styles.inputField}
+                        />
                     )}
                     <div className={styles.inputUnderline}></div>
                     <button className={styles.forgetPasswordButton} type="submit">

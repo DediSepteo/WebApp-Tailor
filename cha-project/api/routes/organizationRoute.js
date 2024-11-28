@@ -145,18 +145,28 @@ router.post('/register', async (req, res) => {
 });
 
 // Add in password encryption
-router.put("/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const data = req.body
-    if (!data)
-        return res.status(500).send("Empty body")
-    organizationModel.updateOrg(id, data, (err, results) => {
-        if (err) {
-            console.error("Failed to update organization", err)
-            return res.status(500).send("Error updating organization")
+router.put("/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    const data = req.body;
+    if (!data || Object.keys(data).length === 0) {
+        return res.status(400).send("Empty body");
+    }
+    try {
+        // Check if password needs to be hashed
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password.toString(), saltRounds);
         }
-        return res.status(200).send("Organization updated successfully")
-    });
+        organizationModel.updateOrg(id, data, (err, results) => {
+            if (err) {
+                console.error("Failed to update organization", err);
+                return res.status(500).send("Error updating organization");
+            }
+            return res.status(200).send("Organization updated successfully");
+        });
+    } catch (err) {
+        console.error("Error hashing password:", err);
+        return res.status(500).send("Error processing request");
+    }
 });
 
 router.post('/verify-password', (req, res) => {

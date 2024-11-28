@@ -74,15 +74,22 @@ export const ShoppingCart = () => {
     const grandTotal = subtotal + deliveryCharge;
 
     const handleCheckout = () => {
+        const products = cart.map(item => ({
+            id: item.product_id, // Use the correct key for product ID in your cart
+            quantity: item.quantity   // Use the correct key for quantity
+        }));
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         if (token) {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
 
             const orderData = cart.map((item, index) => ({
-                id: item.id,
-                quantity: quantities[index]
+                id: item.product_id,
+                quantity: quantities[index],
             }));
+
+            console.log(products, "sdjksjjs")
+            console.log(orderData, "sajdjsjsj")
 
             const totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -91,10 +98,13 @@ export const ShoppingCart = () => {
                 qty: totalQuantity, // Total quantity extracted from orderData
                 subtotal: calculateSubtotal(),
                 status: "Awaiting Measurement",
-                date: new Date().toISOString().slice(0, 10) // Current date in YYYY-MM-DD format
+                date: new Date().toISOString().slice(0, 10), // Current date in YYYY-MM-DD format
+                orderData
             };
 
-            fetch('http://localhost:3000/api/order/', {
+            console.log("Prepared newOrder object:", newOrder); // Log here for debugging
+
+            fetch('http://localhost:3000/api/order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,12 +121,11 @@ export const ShoppingCart = () => {
                     console.log('Order created with ID:', data.orderId);
                     localStorage.removeItem('cart');
                     setCart([]);
-                    console.log(newOrder, "aaaa")
                     alert('Order successfully created!');
                 })
                 .catch((error) => {
                     console.error('Error during checkout:', error);
-                    console.log(newOrder, "bbbbb")
+                    console.log("Failed newOrder object:", newOrder); // Log again for troubleshooting
                     alert('There was a problem creating your order.');
                 });
         } else {
@@ -124,6 +133,10 @@ export const ShoppingCart = () => {
             alert("Please log in to proceed with checkout.");
         }
     };
+
+    console.log("Cart:", cart);
+    console.log("Quantities:", quantities);
+
 
     const testToCheckoutPage = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');

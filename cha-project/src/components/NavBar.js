@@ -251,14 +251,6 @@ const NavBar = () => {
         }
     };
 
-    const hideDropDown = () => {
-        setDropDownOpen(false);
-    };
-
-    const openDropDown = () => {
-        setDropDownOpen(true);
-    };
-
     const disableScroll = (event) => {
         event.preventDefault();
         window.scrollTo(0, 0);
@@ -342,7 +334,7 @@ const NavBar = () => {
                                         <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <p className={styles.productPrice}>{item.description}</p>
-                                            <p className={styles.productPrice}>${item.price.toFixed(2)}</p>
+                                            <p className={styles.productPrice}>₱{item.price.toFixed(2)}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -356,7 +348,7 @@ const NavBar = () => {
                                                 </button>
                                             </div>
                                             <div className={styles.quantityRectangle}>
-                                                <span>{item.quantity}</span>
+                                                <span>{quantities[index]}</span>
                                             </div>
                                             <div className={styles.quantityBox}>
                                                 <button
@@ -387,7 +379,7 @@ const NavBar = () => {
                             <td style={{ fontWeight: 'bold' }}>{`$${subtotal.toFixed(2)}`}</td>
                         </tr>
                     </table>
-                    <Link to='/shoppingcart'>
+                    <Link to='../shoppingcart'>
                         <button className={styles.checkoutBtn}>Checkout</button>
                     </Link>
                 </div>

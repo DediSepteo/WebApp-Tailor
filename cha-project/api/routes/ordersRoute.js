@@ -76,20 +76,55 @@ router.get('/:id', (req, res) => {
 
 // Create a new order
 router.post('/', (req, res) => {
-    const newOrder = req.body; // Assuming the body contains all necessary fields
-    Order.create(newOrder, (err, orderId) => {
+    const { org_id, subtotal, status, date, orderData } = req.body;
+
+    // Validate the request body
+    if (
+        !org_id ||
+        !subtotal ||
+        !status ||
+        !date ||
+        !Array.isArray(orderData) ||
+        orderData.length === 0 ||
+        !orderData.every(p => p.id && p.quantity)
+    ) {
+        return res.status(400).json({
+            error: 'Invalid input. Ensure all required fields are provided, and each product has an id and quantity.'
+        });
+    }
+
+    console.log('Request body:', req.body);
+
+    // Construct the order object
+    const newOrder = {
+        org_id,
+        subtotal,
+        status,
+        date,
+        orderData
+    };
+
+    console.log('New Order:', newOrder);
+
+    // Call the `create` method in your model
+    Order.create(newOrder, (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Failed to create order' });
+            console.error('Error creating order:', err);
+            return res.status(500).json({ error: 'Failed to create order. Please try again later.' });
         }
-        res.status(201).json({ message: 'Order created', orderId });
+
+        res.status(201).json({
+            message: 'Order created successfully',
+            orderId: result.orderId // Return the generated `order_id`
+        });
     });
 });
+
 
 // Update an order by ID
 router.put('/:id', (req, res) => {
     const orderId = req.params.id;
     const updatedOrder = req.body; // Assuming the body contains updated fields
-
     Order.update(orderId, updatedOrder, (err, affectedRows) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to update order' });
@@ -98,6 +133,7 @@ router.put('/:id', (req, res) => {
             return res.status(404).json({ error: 'Order not found 2' });
         }
         res.json({ message: 'Order updated' });
+
     });
 });
 

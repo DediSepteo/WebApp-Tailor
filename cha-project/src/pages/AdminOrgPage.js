@@ -81,6 +81,7 @@ const AdminPage = () => {
             .then(response => response.json())
             .then(data => {
                 var statusData = {}
+                // Format data to change country code to country, phone number to separate prefix from number
                 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
                 data.forEach((item) => {
                     console.log(item)

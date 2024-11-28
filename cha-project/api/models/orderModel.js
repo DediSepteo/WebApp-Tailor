@@ -128,18 +128,48 @@ const orders = {
         });
     },
 
-    // Create a new orders
-    create: (neworders, callback) => {
-        const query = 'INSERT INTO orders (order_id, org_id, subtotal, qty, status, date) VALUES (?, ?, ?, ?, ?, ?)';
-        const { order_id, org_id, subtotal, qty, status, date } = neworders;
+    create: (newOrder, callback) => {
+        const { org_id, subtotal, status, date, orderData } = newOrder;
 
-        db.query(query, [order_id, org_id, subtotal, qty, status, date], (err, results) => {
+        // Start by inserting into the `orders` table
+        const insertOrderQuery = `
+            INSERT INTO orders (org_id, subtotal, status, date)
+            VALUES (?, ?, ?, ?)
+        `;
+
+        db.query(insertOrderQuery, [org_id, subtotal, status, date], (err, orderResult) => {
             if (err) {
                 return callback(err, null);
             }
-            callback(null, results.insertId); // Return the ID of the newly created orders
+
+            const orderId = orderResult.insertId; // Get the newly created `order_id`
+
+            // Now, insert products into `order_products`
+            const insertOrderProductsQuery = `
+                INSERT INTO order_products (product_id, order_id, qty)
+                VALUES ?
+            `;
+
+            // Prepare data for bulk insertion
+            const orderProductsData = orderData.map(orderData => [
+                orderId, // order_id
+                orderData.id, // product_id
+                orderData.quantity // qty
+            ]);
+
+            db.query(insertOrderProductsQuery, [orderProductsData], (err, orderProductsResult) => {
+                if (err) {
+                    return callback(err, null);
+                }
+
+                callback(null, { orderId, message: "Order created successfully" });
+            });
         });
     },
+
+
+
+
 
     cancelOrder: (id, callback) => {
         console.log(id)

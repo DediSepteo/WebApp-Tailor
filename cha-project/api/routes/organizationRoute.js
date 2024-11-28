@@ -147,6 +147,43 @@ router.post('/register', async (req, res) => {
     );
 });
 
+router.post('/verify-password', (req, res) => {
+    const { org_id, currentPassword } = req.body;
+
+    if (!org_id || !currentPassword) {
+        console.error('Missing organization ID or password in request.');
+        return res.status(400).json({ error: 'Organization ID and current password are required' });
+    }
+
+    organizationModel.getOrgPassById(org_id, (err, results) => {
+        if (err) {
+            console.error('Error fetching organization data:', err);
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+
+        if (!results || results.length === 0) {
+            console.error('Organization not found.');
+            return res.status(404).json({ error: 'Organization not found' });
+        }
+
+        const organization = results[0]; // Access the first result
+        bcrypt.compare(currentPassword, organization.password, (err, isMatch) => {
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).json({ error: 'Error comparing passwords' });
+            }
+
+            if (!isMatch) {
+                console.warn('Password mismatch.');
+                return res.status(400).json({ error: 'Incorrect password' });
+            }
+
+            console.log('Password verified successfully.');
+            return res.status(200).json({ success: true, message: 'Password verified' });
+        });
+    });
+});
+
 router.put("/activate/:id", (req, res) => {
     const orgID = req.params.id;
     organizationModel.activateOrg(orgID, (err, results) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/EditProfileInfo.module.css';
 import { IoClose } from "react-icons/io5";
 
-const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId }) => {
+const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId, onUpdate }) => {
     const [value, setValue] = useState(initialValue || '');
     const [currentPassword, setCurrentPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -101,6 +101,10 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
             if (response.ok) {
                 alert('Profile updated successfully');
                 onClose();
+                // Update parent component
+                if (onUpdate) {
+                    onUpdate(fieldToEdit, value);
+                }
             } else {
                 const errorData = await response.json();
                 alert(`Failed to update profile: ${errorData.message || 'Unknown error'}`);
@@ -125,14 +129,37 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
                     <IoClose className={styles.closeIcon} onClick={onClose} />
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type={inputType}
-                        placeholder={placeholder}
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
-                        required
-                        className={styles.inputField}
-                    />
+                    {fieldToEdit !== 'industry' ? (
+                        <input
+                            type={inputType}
+                            placeholder={placeholder}
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            required
+                            className={styles.inputField}
+                        />
+                    ) : (
+                        <div className={styles.selectWrapper}>
+                            <select
+                                value={value}
+                                onChange={(e) => setValue(e.target.value)}
+                                required
+                                className={styles.industryDropdown}
+                            >
+                                <option value="" disabled selected>Select Industry</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Transportation and Logistics">Transportation and Logistics</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Marketing and Advertising">Marketing and Advertising</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    )}
                     {fieldToEdit === 'password' && (
                         <>
                             <input

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/EditProfileInfo.module.css';
 import { IoClose } from "react-icons/io5";
 
-const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId }) => {
+const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId, onUpdate }) => {
     const [value, setValue] = useState(initialValue || '');
     const [currentPassword, setCurrentPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -93,6 +93,10 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
             if (response.ok) {
                 alert('Profile updated successfully');
                 onClose();
+                // Update parent component
+                if (onUpdate) {
+                    onUpdate(fieldToEdit, value);
+                }
             } else {
                 const errorData = await response.json();
                 alert(`Failed to update profile: ${errorData.message || 'Unknown error'}`);

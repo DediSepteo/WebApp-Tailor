@@ -52,12 +52,34 @@ export const Profile = () => {
     const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
     const [fieldToEdit, setFieldToEdit] = useState(null);
 
+    const updateUserDetails = (updatedField, newValue) => {
+        switch (updatedField) {
+            case 'name':
+                setUserName(newValue);
+                break;
+            case 'email':
+                setUserEmail(newValue);
+                break;
+            case 'phone':
+                setUserPhone(newValue);
+                break;
+            case 'address_line1':
+                setUserAddress1(newValue);
+                break;
+            case 'industry':
+                setOrgIndustry(newValue);
+                break;
+            default:
+                break;
+        }
+    };
+
+
     useEffect(() => {
         const token = sessionStorage.getItem('token') || localStorage.getItem('token');
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-                console.log(decodedToken);
                 setUserId(decodedToken.org_id);
                 setUserName(decodedToken.org_name);
                 setUserEmail(decodedToken.email);
@@ -68,12 +90,13 @@ export const Profile = () => {
                 console.error('Invalid token:', error);
             }
         }
-
+    
         const passwordLength = localStorage.getItem('passwordLength');
         if (passwordLength) {
             setMaskedPassword('*'.repeat(Number(passwordLength)));
         }
-    });
+    }, []);
+    
 
     const handleEditClick = (field) => {
         setFieldToEdit(field);
@@ -163,18 +186,19 @@ export const Profile = () => {
                     </section>
                 </div>
             </div>
-            <EditProfileInfo 
-                isVisible={isEditProfileVisible} 
-                onClose={closeEditProfile} 
+            <EditProfileInfo
+                isVisible={isEditProfileVisible}
+                onClose={closeEditProfile}
                 fieldToEdit={fieldToEdit}
                 initialValue={
-                    fieldToEdit === 'name' ? userName : 
-                    fieldToEdit === 'email' ? userEmail :
-                    fieldToEdit === 'phone' ? userPhone :
-                    fieldToEdit === 'address_line1' ? userAddress1 :
-                    fieldToEdit === 'industry' ? orgIndustry : ''
+                    fieldToEdit === 'name' ? userName :
+                        fieldToEdit === 'email' ? userEmail :
+                            fieldToEdit === 'phone' ? userPhone :
+                                fieldToEdit === 'address_line1' ? userAddress1 :
+                                    fieldToEdit === 'industry' ? orgIndustry : ''
                 }
                 userId={userId}
+                onUpdate={updateUserDetails}
             />
         </main>
     );

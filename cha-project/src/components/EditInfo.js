@@ -8,6 +8,9 @@ const EditInfo = () => {
     const [data, setData] = useState({})
     const [showPopup, setShowPopup] = useState(false);
 
+    const token = sessionStorage.getItem("authToken")
+
+
     const navigate = useNavigate()
     const location = useLocation();  // Hook to access location state
     const id = location.state?.id
@@ -69,11 +72,13 @@ const EditInfo = () => {
             default:
                 return
         }
-        console.log(url)
         try {
             const response = await fetch(url, {
                 method: "PUT",
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(data)
             })
             if (response.ok) {

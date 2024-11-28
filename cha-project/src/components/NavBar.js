@@ -31,6 +31,8 @@ const NavBar = () => {
     // Load cart from localStorage (Assume it's an array of { id, size, color, quantity })
     const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
 
+
+
     // Side cart states
     const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));

@@ -90,8 +90,8 @@ router.post('/admin', (req, res) => { // add a verifytoken ti secure api, not ye
         return res.status(400).send('Email and password are required');
     }
 
-    // Assuming admin passwords are hashed as well
-    const query = 'SELECT * FROM admin WHERE email = ?';
+    // Assuming admin passwords are hashed as well 
+    const query = 'SELECT admin_id AS id, email, role, password FROM admin WHERE email = ?';
 
     db.query(query, [email], async (err, results) => {
         if (err) {
@@ -102,17 +102,17 @@ router.post('/admin', (req, res) => { // add a verifytoken ti secure api, not ye
             return res.status(401).send('Invalid email or password');
         }
 
-        const admin = results[0];
-        const match = await bcrypt.compare(password.toString(), admin.password); // Admin password should be hashed
+        const data = results[0];
+        const match = await bcrypt.compare(password.toString(), data.password); // Admin password should be hashed
         if (!match) {
             return res.status(403).send("Incorrect credentials");
         }
 
         // Create a token with admin role and send it to the client
         const token = jwt.sign({
-            admin_id: admin.Admin_id,
-            email: admin.Email,
-            role: 'admin'
+            admin_id: data.id,
+            email: data.email,
+            role: data.role
         }, JWT_SECRET, { expiresIn: '1h' });
 
         res.json({ token });

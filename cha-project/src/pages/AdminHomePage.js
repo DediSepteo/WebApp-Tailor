@@ -32,7 +32,9 @@ const AdminPage = () => {
     const handleCancel = async () => {
         try {
             const response = await fetch(`http://localhost:3000/api/order/cancel/${cancelOrderID}`, {
-                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                }
             });
 
             if (response.ok) {
@@ -63,7 +65,7 @@ const AdminPage = () => {
                 .catch(error => console.error('Error fetching orders:', error));
 
             // Get the total biz
-            fetch('http://localhost:3000/api/org/count/', {
+            fetch('http://localhost:3000/api/org/count', {
                 headers: {
                     'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
                     'Content-Type': 'application/json'   // Optional: you can add other headers if necessary

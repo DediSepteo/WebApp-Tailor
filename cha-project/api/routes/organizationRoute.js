@@ -6,7 +6,7 @@ const verifyToken = require("../middleware/adminAuth")
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-// router.use(verifyToken)
+router.use(verifyToken)
 
 const saltRounds = 10;
 
@@ -31,9 +31,9 @@ router.post(`/gen-link`, (req, res) => {
         }
         const jwtLinkToken = jwt.sign({ orgID }, JWT_SECRET);
         // Generate the link based on orgID
-        const generatedLink = `http:/localhost:3001/snap/login?t=${jwtLinkToken}`; // Replace with actual link generation logic
+        const generatedLink = `http:/localhost:3001/snap/login?t=${jwtLinkToken}`;
 
-        res.json({ link: generatedLink }); // Send the generated link back to the client
+        res.json({ link: generatedLink });
     });
 });
 

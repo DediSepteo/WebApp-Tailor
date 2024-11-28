@@ -18,6 +18,9 @@ const ViewAll = ({ category, type, isReady }) => {
 
     const navigate = useNavigate()
 
+    const token = sessionStorage.getItem("authToken")
+
+
     const toggleDeletePopUp = (id) => {
         setItemDeleteID(id)
         setShowDeletePopup(!showDeletePopup); // Show popup when you want
@@ -42,6 +45,7 @@ const ViewAll = ({ category, type, isReady }) => {
             try {
                 const response = await fetch(`${deleteLink}/${itemDeleteID}`, {
                     method: category == "Organization" ? "PUT" : "DELETE",
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
 
                 if (response.ok) {

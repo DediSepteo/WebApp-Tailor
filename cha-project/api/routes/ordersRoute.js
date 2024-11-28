@@ -125,7 +125,6 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const orderId = req.params.id;
     const updatedOrder = req.body; // Assuming the body contains updated fields
-
     Order.update(orderId, updatedOrder, (err, affectedRows) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to update order' });
@@ -134,6 +133,7 @@ router.put('/:id', (req, res) => {
             return res.status(404).json({ error: 'Order not found 2' });
         }
         res.json({ message: 'Order updated' });
+
     });
 });
 

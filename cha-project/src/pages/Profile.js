@@ -90,13 +90,13 @@ export const Profile = () => {
                 console.error('Invalid token:', error);
             }
         }
-    
+
         const passwordLength = localStorage.getItem('passwordLength');
         if (passwordLength) {
             setMaskedPassword('*'.repeat(Number(passwordLength)));
         }
     }, []);
-    
+
 
     const handleEditClick = (field) => {
         setFieldToEdit(field);

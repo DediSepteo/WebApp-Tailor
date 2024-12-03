@@ -151,7 +151,17 @@ const Organization = {
             }
             return callback(null, results);
         });
-    }
+    },
+
+    getUserByEmail: (email, callback) => {
+        const query = 'SELECT * FROM organization WHERE email = ?';
+        db.query(query, [email], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
 };
 
 module.exports = Organization;

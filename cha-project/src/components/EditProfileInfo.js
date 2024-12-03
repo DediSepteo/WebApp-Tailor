@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/EditProfileInfo.module.css';
-import { IoClose } from "react-icons/io5";
+import { IoClose } from 'react-icons/io5';
+import { jwtDecode } from 'jwt-decode';
 
-const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId, onUpdate }) => {
-    const [value, setValue] = useState(initialValue || '');
+const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId, onUpdateProfile }) => {
+    const [value, setValue] = useState(initialValue || ''); // Set initial value for input
     const [currentPassword, setCurrentPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [mouseDownInside, setMouseDownInside] = useState(false);
@@ -25,9 +26,10 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
         ? 'Enter new password'
         : `Enter new ${fieldToEdit}`;
 
+    // Ensure the initial value is reset each time the modal is shown
     useEffect(() => {
         if (isVisible) {
-            setValue(initialValue || '');
+            setValue(initialValue || ''); // Set the initial value for the input field
             setCurrentPassword('');
             setConfirmPassword('');
         }
@@ -98,16 +100,27 @@ const EditProfileInfo = ({ isVisible, onClose, fieldToEdit, initialValue, userId
                 body: JSON.stringify(payload),
             });
 
+            const data = await response.json();
+
             if (response.ok) {
+                const { token } = data;
+
+                sessionStorage.setItem('token', token);
+                localStorage.setItem('token', token);
+
+                const decodedToken = jwtDecode(token);
+                const updatedDetails = {};
+                if (fieldToEdit === 'name') updatedDetails.userName = decodedToken.org_name;
+                if (fieldToEdit === 'email') updatedDetails.userEmail = decodedToken.email;
+                if (fieldToEdit === 'phone') updatedDetails.userPhone = decodedToken.org_phone;
+                if (fieldToEdit === 'industry') updatedDetails.orgIndustry = decodedToken.industry;
+                if (fieldToEdit === 'address_line1') updatedDetails.userAddress1 = decodedToken.address;
+
+                onUpdateProfile(updatedDetails);
                 alert('Profile updated successfully');
                 onClose();
-                // Update parent component
-                if (onUpdate) {
-                    onUpdate(fieldToEdit, value);
-                }
             } else {
-                const errorData = await response.json();
-                alert(`Failed to update profile: ${errorData.message || 'Unknown error'}`);
+                alert(`Failed to update profile: ${data.message || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error updating profile:', error);

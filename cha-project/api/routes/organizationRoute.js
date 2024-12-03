@@ -147,7 +147,6 @@ router.post('/register', async (req, res) => {
     );
 });
 
-// Add in password encryption
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
     const data = req.body;
@@ -155,7 +154,6 @@ router.put("/:id", async (req, res) => {
         return res.status(400).send("Empty body");
     }
     try {
-        // Check if password needs to be hashed
         if (data.password) {
             data.password = await bcrypt.hash(data.password.toString(), saltRounds);
         }
@@ -164,10 +162,29 @@ router.put("/:id", async (req, res) => {
                 console.error("Failed to update organization", err);
                 return res.status(500).send("Error updating organization");
             }
-            return res.status(200).send("Organization updated successfully");
+
+            // Retrieve the updated organization data
+            organizationModel.getOrgPassById(id, (err, orgResults) => {
+                if (err || !orgResults || orgResults.length === 0) {
+                    console.error("Failed to fetch updated organization data", err);
+                    return res.status(500).send("Error fetching updated organization data");
+                }
+
+                const updatedOrg = orgResults[0];
+                const token = jwt.sign({
+                    org_id: updatedOrg.org_id,
+                    email: updatedOrg.email,
+                    org_name: updatedOrg.name,
+                    address: updatedOrg.address_line1,
+                    industry: updatedOrg.industry,
+                    org_phone: updatedOrg.phone,
+                }, JWT_SECRET, { expiresIn: '1h' });
+
+                return res.status(200).json({ token, message: "Organization updated successfully" });
+            });
         });
     } catch (err) {
-        console.error("Error hashing password:", err);
+        console.error("Error processing request:", err);
         return res.status(500).send("Error processing request");
     }
 });

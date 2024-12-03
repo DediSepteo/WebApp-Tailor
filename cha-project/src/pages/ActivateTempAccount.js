@@ -21,7 +21,7 @@ export const ActivateTempAccount = () => {
     }
 
 
-    createTemporaryAccount('YourOrgName', mockDB).then((account) => console.log('Account:', account));
+    createTemporaryAccount('YourOrgName').then((account) => console.log('Account:', account));
 
     return (
         <main className={styles.mainContainer}>

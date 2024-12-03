@@ -6,6 +6,9 @@ const crypto = require('crypto'); // For generating random passwords
 
 
 router.post('/', (req, res) => {
+    console.log(req.query)
+    const org_id = req.query.org_id
+    const orgName = req.query.orgName
     const name = `${orgName.slice(0, 5)}_${Math.floor(Math.random() * 10000)}`;
     const email = `${orgName.slice(0, 5)}${Math.floor(Math.random() * 10000)}@tempemail.com`;
     const password = crypto.randomBytes(4).toString('hex'); // 8-character random password
@@ -13,21 +16,21 @@ router.post('/', (req, res) => {
 
     // Temporary user data
     const tempUser = {
-        username,
+        name,
         email,
         password,
-        name: 'Temporary User',
-        address: '123 Example St, City, Country', // Default address
-        isTemporary: true,
         createdAt: new Date(),
+        expiresIn: 604800
     };
 
-    tempAccountModel.create(name, email, password, createdAt, (err, results) => {
-
+    tempAccountModel.create(org_id, name, email, password, createdAt, (err, results) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ error: 'Failed to create new account' });
+        }
     })
 
-
-
+    res.json(tempUser)
 });
 
 module.exports = router;

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import styles from '../styles/Profile.module.css';
 import { jwtDecode } from 'jwt-decode';
 import { FaUserCircle } from "react-icons/fa";
+import { BsQuestionCircle } from "react-icons/bs";
+import { FaRegQuestionCircle } from "react-icons/fa";
 
 const orders = [
     {
@@ -53,6 +55,7 @@ export const Profile = () => {
     });
     const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
     const [fieldToEdit, setFieldToEdit] = useState(null);
+    const [accountDuration, setAccountDuration] = useState(3600000)
 
     const updateUserDetails = (updatedField) => {
         setUserDetails((prevDetails) => ({ ...prevDetails, ...updatedField }));
@@ -99,6 +102,42 @@ export const Profile = () => {
         setIsEditProfileVisible(false);
     };
 
+    const handleDurationChange = (event) => {
+        setAccountDuration(event.target.value)
+    }
+
+    const handleAccountCreation = () => {
+        const token = sessionStorage.getItem('token')
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                fetch("http://localhost:3000/api/temp", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Remember to do authorization for registered orgs only
+                    },
+                    body: JSON.stringify({
+                        org_id: decodedToken.org_id,
+                        orgName: decodedToken.org_name,
+                        expiresIn: accountDuration
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok)
+                            throw new Error("Could not create temporary account")
+                        else {
+                            alert("Temporary account created! Please check your registered email for the credentials")
+                        }
+                    })
+
+            }
+            catch {
+                throw new Error("token not found")
+            }
+        };
+    }
+
     const {
         userId,
         userName,
@@ -130,11 +169,9 @@ export const Profile = () => {
                         </div>
                         <div className={styles.userFullInfo}>
                             {[
-                                { title: 'Your Name', value: userName, field: 'name' },
                                 { title: 'Email', value: userEmail, field: 'email' },
                                 { title: 'Phone Number', value: userPhone, field: 'phone' },
                                 { title: 'Address', value: userAddress1, field: 'address_line1' },
-                                { title: 'Industry', value: orgIndustry, field: 'industry' },
                                 { title: 'Password', value: maskedPassword, field: 'password' },
                             ].map(({ title, value, field }) => (
                                 <div key={field} style={{ margin: '10px 0' }}>
@@ -145,6 +182,19 @@ export const Profile = () => {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className={styles.createTempAccount}>
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>Create temporary account lasting for:<FaRegQuestionCircle size={20} /></div>
+
+                            <div style={{ display: 'flex', justifyContent: "space-between", marginTop: "1em" }}>
+                                <select style={{ width: "20%" }} onChange={handleDurationChange}>
+                                    <option value="3600000">1 hour</option>
+                                    <option value="7200000">2 hours</option>
+                                    <option value="14400000">4 hours</option>
+                                    <option value="28800000">8 hours</option>
+                                </select>
+                                <button className={styles.createBtn} onClick={handleAccountCreation}>Create</button>
+                            </div>
                         </div>
                     </section>
                     <section className={styles.deliveryDetails}>

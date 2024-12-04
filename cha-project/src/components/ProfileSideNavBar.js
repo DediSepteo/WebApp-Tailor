@@ -4,12 +4,14 @@ import { NavLink } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { FaHistory } from "react-icons/fa";
+import { MdOutlineSupervisorAccount } from "react-icons/md";
 
 
 const Links = [
-    { name: "Back Home", path: "/home", icon: <IoMdArrowRoundBack />},
+    { name: "Back Home", path: "/home", icon: <IoMdArrowRoundBack /> },
     { name: "My Profile", path: "/profile", icon: <FaUser /> },
     { name: "Order History", path: "/orderhistory", icon: <FaHistory /> },
+    { name: "Temporary Account", path: "/tempacc", icon: <MdOutlineSupervisorAccount /> },
 ];
 
 const ProfileSideNavBar = () => {

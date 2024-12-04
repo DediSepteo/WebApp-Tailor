@@ -113,6 +113,14 @@ const ViewAll = ({ category, type, isReady }) => {
                             setOrgStatus(statusData)
                             setData(formattedData)
                         }
+                        else if (category == "Order") {
+                            const formattedData = response.map((item) => {
+                                console.log(item)
+                                const newItem = { ...item, measurementNo: `${item.measurementNo}/${item.qty}` }
+                                return newItem
+                            })
+                            setData(formattedData)
+                        }
                         else {
                             if (Object.keys(response[0]).includes("date")) {
                                 response.forEach((row) => {

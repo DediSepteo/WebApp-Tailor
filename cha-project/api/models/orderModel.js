@@ -10,11 +10,14 @@ const orders = {
                 o.status,
                 o.date as date,
                 FORMAT(o.subtotal, 2) AS subtotal,
-                org.name AS "placed by"
+                org.name AS "placed by",
+                COUNT(m.name) AS measurementNo
             FROM 
                 \`orders\` o
             JOIN 
                 \`organization\` org ON o.org_id = org.org_id
+            LEFT JOIN
+				\`measurements\` m ON m.order_id = o.order_id
             JOIN 
 				\`order_products\` op ON op.order_id = o.order_id
         `;

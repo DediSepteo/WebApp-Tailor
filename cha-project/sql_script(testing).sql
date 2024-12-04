@@ -68,6 +68,28 @@ CREATE TABLE Measurements (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
+CREATE TABLE admin (
+	admin_id INT AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    role VARCHAR(25) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (admin_id)
+);
+
+INSERT INTO admin(email, role, password) VALUES("a@a.com", "admin", "$2b$10$5rMHCwoIcyu/dbTvZ5JC8unnynnTdzABTVQzVrBDXUdUw8g62QybK");
+
+CREATE TABLE TempAccount (
+	account_id INT AUTO_INCREMENT,
+    org_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    createdAt DATETIME NOT NULL,
+    status VARCHAR(35) NOT NULL,
+    PRIMARY KEY (account_id, org_id),
+    FOREIGN KEY (org_id) REFERENCES organization(org_id)
+);
+
 -- Insert data into Organization (20 entries)
 INSERT INTO Organization (name, email, industry, type, password, status, city, country, address_line1, address_line2, postal_code, state, phone) VALUES
 ('TechVision Solutions', 'contact@techvision.com', 'Technology', 'Corporate', 'securepassword123', 'active', 'Manila', 'Philippines', '123 Tech Park', NULL, '1000', 'Metro Manila', 639171234567),

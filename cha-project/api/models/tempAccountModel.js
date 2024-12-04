@@ -9,6 +9,15 @@ const TempAccount = {
             }
             callback(null, results);
         });
+    },
+    deactivate: (email, callback) => {
+        const query = 'UPDATE TempAccount SET status = "inactive" WHERE email = ?'
+        db.query(query, [email], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
     }
 };
 

@@ -42,38 +42,53 @@ const orders = [
 ]
 
 export const Profile = () => {
-    const [userId, setUserId] = useState(null);
-    const [userName, setUserName] = useState(null);
-    const [userEmail, setUserEmail] = useState(null);
-    const [userPhone, setUserPhone] = useState(null);
-    const [orgIndustry, setOrgIndustry] = useState(null);
-    const [userAddress1, setUserAddress1] = useState(null);
-    const [maskedPassword, setMaskedPassword] = useState('No password set');
+    const [userDetails, setUserDetails] = useState({
+        userId: null,
+        userName: null,
+        userEmail: null,
+        userPhone: null,
+        orgIndustry: null,
+        userAddress1: null,
+        maskedPassword: 'No password set',
+    });
     const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
     const [fieldToEdit, setFieldToEdit] = useState(null);
 
-    useEffect(() => {
-        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-        if (token) {
-            try {
-                const decodedToken = jwtDecode(token);
-                console.log(decodedToken);
-                setUserId(decodedToken.org_id);
-                setUserName(decodedToken.org_name);
-                setUserEmail(decodedToken.email);
-                setOrgIndustry(decodedToken.industry);
-                setUserAddress1(decodedToken.address);
-                setUserPhone(decodedToken.org_phone);
-            } catch (error) {
-                console.error('Invalid token:', error);
-            }
-        }
+    const updateUserDetails = (updatedField) => {
+        setUserDetails((prevDetails) => ({ ...prevDetails, ...updatedField }));
+    };
 
-        const passwordLength = localStorage.getItem('passwordLength');
-        if (passwordLength) {
-            setMaskedPassword('*'.repeat(Number(passwordLength)));
-        }
-    });
+    useEffect(() => {
+        const fetchAndSetUserDetails = () => {
+            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token);
+                    setUserDetails((prevDetails) => ({
+                        ...prevDetails,
+                        userId: decodedToken.org_id,
+                        userName: decodedToken.org_name,
+                        userEmail: decodedToken.email,
+                        orgIndustry: decodedToken.industry,
+                        userAddress1: decodedToken.address,
+                        userPhone: decodedToken.org_phone,
+                    }));
+                } catch (error) {
+                    console.error('Invalid token:', error);
+                }
+            }
+
+            const passwordLength = localStorage.getItem('passwordLength');
+            if (passwordLength) {
+                setUserDetails((prevDetails) => ({
+                    ...prevDetails,
+                    maskedPassword: '*'.repeat(Number(passwordLength)),
+                }));
+            }
+        };
+
+        fetchAndSetUserDetails();
+    }, []);
 
     const handleEditClick = (field) => {
         setFieldToEdit(field);
@@ -82,7 +97,17 @@ export const Profile = () => {
 
     const closeEditProfile = () => {
         setIsEditProfileVisible(false);
-    }
+    };
+
+    const {
+        userId,
+        userName,
+        userEmail,
+        userPhone,
+        orgIndustry,
+        userAddress1,
+        maskedPassword,
+    } = userDetails;
 
     return (
         <main className={styles.mainContainer}>
@@ -104,48 +129,22 @@ export const Profile = () => {
                             </div>
                         </div>
                         <div className={styles.userFullInfo}>
-                            <div style={{ margin: '10px 0' }}>
-                                <span className={styles.title}>Your Name: </span>
-                                <div className={styles.infoRow}>
-                                    <p>{userName}</p>
-                                    <button onClick={() => handleEditClick('name')} className={styles.editBtn}>Edit</button>
+                            {[
+                                { title: 'Your Name', value: userName, field: 'name' },
+                                { title: 'Email', value: userEmail, field: 'email' },
+                                { title: 'Phone Number', value: userPhone, field: 'phone' },
+                                { title: 'Address', value: userAddress1, field: 'address_line1' },
+                                { title: 'Industry', value: orgIndustry, field: 'industry' },
+                                { title: 'Password', value: maskedPassword, field: 'password' },
+                            ].map(({ title, value, field }) => (
+                                <div key={field} style={{ margin: '10px 0' }}>
+                                    <span className={styles.title}>{title}: </span>
+                                    <div className={styles.infoRow}>
+                                        <p>{value}</p>
+                                        <button onClick={() => handleEditClick(field)} className={styles.editBtn}>Edit</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div style={{ margin: '10px 0' }}>
-                                <span className={styles.title}>Email: </span>
-                                <div className={styles.infoRow}>
-                                    <p>{userEmail}</p>
-                                    <button onClick={() => handleEditClick('email')} className={styles.editBtn}>Edit</button>
-                                </div>
-                            </div>
-                            <div style={{ margin: '10px 0' }}>
-                                <span className={styles.title}>Phone Number: </span>
-                                <div className={styles.infoRow}>
-                                    <p>{userPhone}</p>
-                                    <button onClick={() => handleEditClick('phone')} className={styles.editBtn}>Edit</button>
-                                </div>
-                            </div>
-                            <div style={{ margin: '10px 0' }}>
-                                <span className={styles.title}>Address: </span>
-                                <div className={styles.infoRow}>
-                                    <p>{userAddress1}</p>
-                                    <button onClick={() => handleEditClick('address_line1')} className={styles.editBtn}>Edit</button>
-                                </div>
-                            </div>
-                            <div style={{ margin: '10px 0' }}>
-                                <span className={styles.title}>Industry: </span>
-                                <div className={styles.infoRow}>
-                                    <p>{orgIndustry}</p>
-                                    <button onClick={() => handleEditClick('industry')} className={styles.editBtn}>Edit</button>
-                                </div>
-                            </div>
-                            <div style={{ margin: '10px 0' }}>
-                                <span className={styles.title}>Password: </span>
-                                <div className={styles.infoRow}>
-                                    <p>{maskedPassword}</p>
-                                    <button onClick={() => handleEditClick('password')} className={styles.editBtn}>Edit</button>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </section>
                     <section className={styles.deliveryDetails}>
@@ -163,18 +162,13 @@ export const Profile = () => {
                     </section>
                 </div>
             </div>
-            <EditProfileInfo 
-                isVisible={isEditProfileVisible} 
-                onClose={closeEditProfile} 
+            <EditProfileInfo
+                isVisible={isEditProfileVisible}
+                onClose={closeEditProfile}
                 fieldToEdit={fieldToEdit}
-                initialValue={
-                    fieldToEdit === 'name' ? userName : 
-                    fieldToEdit === 'email' ? userEmail :
-                    fieldToEdit === 'phone' ? userPhone :
-                    fieldToEdit === 'address_line1' ? userAddress1 :
-                    fieldToEdit === 'industry' ? orgIndustry : ''
-                }
+                initialValue={userDetails[fieldToEdit]}
                 userId={userId}
+                onUpdateProfile={updateUserDetails}
             />
         </main>
     );

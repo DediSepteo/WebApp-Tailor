@@ -211,6 +211,9 @@ INSERT INTO Measurements (order_id, name, address, measurement, product_id, qty,
 (19, 'Grace Sison', '101 Garden St, Baguio', '{"Bust girth": "55.70 cm", "Under bust girth": "47.50 cm", "Upper chest girth": "61.80 cm", "Waist girth": "56.20 cm", "Upper hip girth": "65.30 cm", "Hip girth": "71.50 cm", "Upper arm girth": "33.80 cm"}', 19, 4, 2600, 'Baguio', 639176543876),
 (20, 'Ethan Cruz', '202 Summit Ave, Davao City', '{"Bust girth": "59.20 cm", "Under bust girth": "51.00 cm", "Upper chest girth": "66.00 cm", "Waist girth": "60.70 cm", "Upper hip girth": "69.00 cm", "Hip girth": "76.20 cm", "Upper arm girth": "36.50 cm"}', 20, 3, 8002, 'Davao City', 639189874567);
 
+UPDATE organization
+SET country = "PH"
+WHERE country = 'Philippines';
 
 
 

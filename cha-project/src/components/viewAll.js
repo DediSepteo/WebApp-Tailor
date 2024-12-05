@@ -4,13 +4,17 @@ import styles from '../styles/viewAll.module.css';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import CustomPopUp from "../components/CustomPopUp";
+import { BsToggleOn } from "react-icons/bs";
+import { BsToggleOff } from "react-icons/bs"
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
-const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText }) => {
+const ViewAll = ({ category, type, isReady }) => {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [rowsPerPage] = useState(10); // Display 10 rows per page
+    const [rowsPerPage] = useState(6); // Display 6 rows per page
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [itemDeleteID, setItemDeleteID] = useState("")
+    const [orgStatus, setOrgStatus] = useState({})
 
     const navigate = useNavigate()
 
@@ -20,24 +24,38 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
     };
 
     const handleDelete = async () => {
-        console.log(deleteLink)
-        try {
-            const response = await fetch(`${deleteLink}${itemDeleteID}`, {
-                method: 'DELETE',
-            });
+        var deleteLink = ""
+        switch (category) {
+            case "Order":
+                deleteLink = `http://localhost:3000/api/order/cancel`
+                break
+            case "Organization":
+                deleteLink = orgStatus[itemDeleteID] ? `http://localhost:3000/api/org/deactivate` : `http://localhost:3000/api/org/activate`
+                break
+            case "Product":
+                deleteLink = `http://localhost:3000/api/product`;
+                break
+            default:
+                throw new Error("Invalid category");
+        }
+        if (deleteLink)
+            try {
+                const response = await fetch(`${deleteLink}/${itemDeleteID}`, {
+                    method: category == "Organization" ? "PUT" : "DELETE",
+                });
 
-            if (response.ok) {
-                alert(`${category} Deleted!`)
-                window.location.reload()
+                if (response.ok) {
+                    alert(`${category} ${category === "Organization" ? (orgStatus[itemDeleteID] ? "Deactivated" : "Activated") : "Deleted"}!`);
+                    window.location.reload()
+                }
+                else {
+                    alert(`Failed to delete ${category}`);
+                }
             }
-            else {
-                alert(`Failed to delete ${category}`);
+            catch (error) {
+                console.error('Error:', error);
+                alert('Error deleting organization');
             }
-        }
-        catch (error) {
-            console.error('Error:', error);
-            alert('Error deleting organization');
-        }
     }
 
     const getLink = (category, type, isReady) => {
@@ -55,6 +73,16 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
         }
     };
 
+    const splitPhoneNumber = (phoneNumber, countryCode) => {
+        const parsed = parsePhoneNumberFromString(phoneNumber, countryCode);
+        if (parsed) {
+            console.log(`+${parsed.countryCallingCode} ${parsed.nationalNumber}`)
+            return `+${parsed.countryCallingCode} ${parsed.nationalNumber}`
+        } else {
+            console.log(phoneNumber, countryCode)
+        }
+    }
+
     useEffect(() => {
         const link = getLink(category, type, isReady)
         try {
@@ -67,12 +95,29 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
                         return response.json();
                     })
                     .then(response => {
-                        if (Object.keys(response[0]).includes("date")) {
-                            response.forEach((row) => {
-                                row.date = new Date(row.date).toLocaleString()
+                        if (category == "Organization") {
+                            var statusData = {}
+                            response.forEach((item) => {
+                                console.log(item)
+                                statusData[item.id] = item.status == "active"
                             })
+                            const formattedData = response.map((item) => {
+                                const formattedPhoneNumber = splitPhoneNumber(item.phone, item.country)
+                                const newItem = { ...item, phone: formattedPhoneNumber }
+                                return newItem
+                            })
+                            setOrgStatus(statusData)
+                            setData(formattedData)
                         }
-                        setData(response)
+                        else {
+                            if (Object.keys(response[0]).includes("date")) {
+                                response.forEach((row) => {
+                                    row.date = new Date(row.date).toLocaleString()
+                                })
+                            }
+                            setData(response)
+                        }
+
                     })
                     .catch(error => console.error(`Error fetching ${category}:`, error));
             }
@@ -108,8 +153,8 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
         <main style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#F1F2F7' }}>
             {showDeletePopup && (
                 <CustomPopUp togglePopup={toggleDeletePopUp}
-                    title={deleteTitle}
-                    text={deleteText}
+                    title={`${category == "Order" ? "Cancelling" : (category == "Organization" ? (orgStatus[itemDeleteID] ? "Deactivating" : "Activating") : "Deleting")} ${category}`}
+                    text={`Are you sure you want to ${category == "Order" ? "cancel" : (category == "Organization" ? (orgStatus[itemDeleteID] ? "deactivate" : "activate") : "delete")} this ${category}?`}
                     hasCancel={true}
                     onConfirm={handleDelete} />
             )}
@@ -136,6 +181,7 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
                         <tbody>
                             {currentDataList.length > 0 ? (
                                 currentDataList.map((currentData) => {
+                                    const id = currentData.id
                                     var fields = []
                                     switch (category) {
                                         case ("Order"):
@@ -219,7 +265,22 @@ const ViewAll = ({ category, type, isReady, deleteLink, deleteTitle, deleteText 
                                                     ) : (
                                                         <button className={styles.detailBtn} onClick={() => toDetails(currentData)}>Details</button>
                                                     )}
-                                                    <NavLink className={styles.cancelBtn} onClick={() => toggleDeletePopUp(currentData.id)}>{category == "Order" ? "Cancel" : "Delete"}</NavLink>
+                                                    {category == "Organization" ? (
+                                                        <button className={orgStatus[id] ? styles.activated : styles.deactivated} onClick={() => toggleDeletePopUp(id)}>
+                                                            {orgStatus[id] ? (
+                                                                <>
+                                                                    <BsToggleOn size={20} style={{ marginRight: "0.5em" }} />Activated
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <BsToggleOff size={20} style={{ marginRight: "0.5em" }} /> Deactivated
+                                                                </>
+                                                            )}
+                                                        </button>
+                                                    ) : (
+                                                        <NavLink className={styles.cancelBtn} onClick={() => toggleDeletePopUp(currentData.id)}>{category == "Order" ? "Cancel" : "Delete"}</NavLink>
+                                                    )}
+
                                                 </div>
                                             </td>
                                         </tr>

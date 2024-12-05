@@ -1,9 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const organizationModel = require('../models/organizationModel'); // Import the model for organization
+const verifyToken = require("../middleware/adminAuth")
 
 const router = express.Router();
 const bcrypt = require('bcrypt');
+
+// router.use(verifyToken)
 
 const saltRounds = 10;
 
@@ -78,7 +81,7 @@ router.get('/names', (req, res) => {
 router.get('/count', (req, res) => {
     organizationModel.countAll((err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Error fertching organization count' });
+            return res.status(500).json({ error: 'Error fetching organization count' });
         }
         res.json({ results });
     });
@@ -144,12 +147,112 @@ router.post('/register', async (req, res) => {
     );
 });
 
-// Add in password encryption
+router.put("/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    const data = req.body;
+    if (!data || Object.keys(data).length === 0) {
+        return res.status(400).send("Empty body");
+    }
+    try {
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password.toString(), saltRounds);
+        }
+        organizationModel.updateOrg(id, data, (err, results) => {
+            if (err) {
+                console.error("Failed to update organization", err);
+                return res.status(500).send("Error updating organization");
+            }
+
+            // Retrieve the updated organization data
+            organizationModel.getOrgPassById(id, (err, orgResults) => {
+                if (err || !orgResults || orgResults.length === 0) {
+                    console.error("Failed to fetch updated organization data", err);
+                    return res.status(500).send("Error fetching updated organization data");
+                }
+
+                const updatedOrg = orgResults[0];
+                const token = jwt.sign({
+                    org_id: updatedOrg.org_id,
+                    email: updatedOrg.email,
+                    org_name: updatedOrg.name,
+                    address: updatedOrg.address_line1,
+                    industry: updatedOrg.industry,
+                    org_phone: updatedOrg.phone,
+                }, JWT_SECRET, { expiresIn: '1h' });
+
+                return res.status(200).json({ token, message: "Organization updated successfully" });
+            });
+        });
+    } catch (err) {
+        console.error("Error processing request:", err);
+        return res.status(500).send("Error processing request");
+    }
+});
+
+router.post('/verify-password', (req, res) => {
+    const { org_id, currentPassword } = req.body;
+
+    if (!org_id || !currentPassword) {
+        console.error('Missing organization ID or password in request.');
+        return res.status(400).json({ error: 'Organization ID and current password are required' });
+    }
+
+    organizationModel.getOrgPassById(org_id, (err, results) => {
+        if (err) {
+            console.error('Error fetching organization data:', err);
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+
+        if (!results || results.length === 0) {
+            console.error('Organization not found.');
+            return res.status(404).json({ error: 'Organization not found' });
+        }
+
+        const organization = results[0]; // Access the first result
+        bcrypt.compare(currentPassword, organization.password, (err, isMatch) => {
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).json({ error: 'Error comparing passwords' });
+            }
+
+            if (!isMatch) {
+                console.warn('Password mismatch.');
+                return res.status(400).json({ error: 'Incorrect password' });
+            }
+
+            console.log('Password verified successfully.');
+            return res.status(200).json({ success: true, message: 'Password verified' });
+        });
+    });
+});
+
+router.put("/activate/:id", (req, res) => {
+    const orgID = req.params.id;
+    organizationModel.activateOrg(orgID, (err, results) => {
+        if (err) {
+            console.error('Error deleting organization:', err);
+            return res.status(500).send('Error deleting organization');
+        }
+        return res.status(200).send('Organization deleted successfully');
+    });
+})
+
+router.put("/deactivate/:id", (req, res) => {
+    const orgID = req.params.id;
+    organizationModel.deactivateOrg(orgID, (err, results) => {
+        if (err) {
+            console.error('Error deleting organization:', err);
+            return res.status(500).send('Error deleting organization');
+        }
+        return res.status(200).send('Organization deleted successfully');
+    });
+})
+
+
 router.put("/:id", (req, res) => {
     const id = Number(req.params.id)
     const data = req.body
-    console.log(data, "asdfjsdasdhad")
-    if (!data)
+    if (!Object.keys(data).length)
         return res.status(500).send("Empty body")
     organizationModel.updateOrg(id, data, (err, results) => {
         if (err) {
@@ -157,41 +260,21 @@ router.put("/:id", (req, res) => {
             return res.status(500).send("Error updating organization")
         }
         return res.status(200).send("Organization updated successfully")
-    });
-});
+    })
+})
 
-// router.post('/verify-password', (req, res) => {
-//     const { org_id, currentPassword } = req.body;
-//     if (!org_id || !currentPassword) {
-//         return res.status(400).json({ error: 'Organization ID and current password are required' });
-//     }
-//     Organization.getOrgPassById(org_id, (err, result) => {
+// router.delete('/:id', (req, res) => {
+//     const orgID = req.params.id;
+//     console.log(orgID)
+//     organizationModel.cancelOrg(orgID, (err, results) => {
 //         if (err) {
-//             return res.status(500).json({ error: 'Error fetching organization data' });
+//             console.error('Error deleting organization:', err);
+//             return res.status(500).send('Error deleting organization');
 //         }
-//         bcrypt.compare(currentPassword, result.password, (err, isMatch) => {
-//             if (err) {
-//                 return res.status(500).json({ error: 'Error comparing passwords' });
-//             }
-//             if (isMatch) {
-//                 return res.status(200).json({ success: true, message: 'Password verified' });
-//             } else {
-//                 return res.status(400).json({ error: 'Incorrect password' });
-//             }
-//         });
+//         return res.status(200).send('Organization deleted successfully');
 //     });
 // });
 
-router.delete('/:id', (req, res) => {
-    const orgID = req.params.id;
-    console.log(orgID)
-    organizationModel.deleteOrg(orgID, (err, results) => {
-        if (err) {
-            console.error('Error deleting organization:', err);
-            return res.status(500).send('Error deleting organization');
-        }
-        return res.status(200).send('Organization deleted successfully');
-    });
-});
+
 
 module.exports = router;

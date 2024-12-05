@@ -106,11 +106,8 @@
 import ViewAll from "../components/viewAll";
 
 const ViewAllOrder = ({ type, isReady }) => {
-    const deleteLink = "http://localhost:3000/api/order/cancel/"
     return (
-        <ViewAll category="Order" type={type} isReady={isReady}
-            deleteLink={deleteLink} deleteTitle={"Cancelling Order"}
-            deleteText={"Are you sure you want to cancel this order?"}></ViewAll>
+        <ViewAll category="Order" type={type} isReady={isReady}></ViewAll>
     )
 }
 

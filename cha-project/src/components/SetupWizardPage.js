@@ -3,7 +3,7 @@ import AdminSideNavBar from '../components/AdminSideNavBar'
 import styles from '../styles/SetupWizardPage.module.css'
 import { useNavigate, NavLink } from 'react-router-dom';
 
-const SetupWizardPage = ({ title, fields, onSubmit }) => {
+const SetupWizardPage = ({ title, fields, onSubmit, isCancel }) => {
 
     // addedRows does not count the first unremovable row in the table
     const [addedRows, setAddedRows] = useState(0)
@@ -194,7 +194,7 @@ const SetupWizardPage = ({ title, fields, onSubmit }) => {
                         <div>No fields available</div>
                     )}
 
-                    <button type="submit" className={styles.submit}>Submit</button>
+                    <button type="submit" className={isCancel ? styles.cancel : styles.submit}>{isCancel ? "Cancel" : "Submit"}</button>
                 </form>
             </div >
         </main >

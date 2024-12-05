@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 
     const mailOptions = {
         from: email, // Sender's email address
-        to: 'eudora.carroll60@ethereal.email', // Your receiving email address
+        to: process.env.EMAIL_NAME, // Your receiving email address
         subject: subject,
         text: `You received a new message from ${name} (${email}):\n\n${message}`
     };

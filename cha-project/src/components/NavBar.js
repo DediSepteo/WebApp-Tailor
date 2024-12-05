@@ -225,7 +225,7 @@ const NavBar = () => {
     }, [editingIndex]);
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);

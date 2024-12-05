@@ -1,6 +1,10 @@
 const db = require('./dbconnection'); // Import the MySQL connection from dbconnection.js
 
 const TempAccount = {
+    getActiveAccount: (org_id, callback) => {
+
+    },
+
     create: (org_id, name, email, password, createdAt, callback) => {
         const query = 'INSERT INTO TempAccount (org_id, name, email, password, createdAt, status) VALUES (?, ?, ?, ?, ?, "active")';
         db.query(query, [org_id, name, email, password, createdAt], (err, results) => {

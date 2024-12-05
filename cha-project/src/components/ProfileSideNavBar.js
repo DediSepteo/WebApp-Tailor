@@ -11,7 +11,6 @@ const Links = [
     { name: "Back Home", path: "/home", icon: <IoMdArrowRoundBack /> },
     { name: "My Profile", path: "/profile", icon: <FaUser /> },
     { name: "Order History", path: "/orderhistory", icon: <FaHistory /> },
-    { name: "Temporary Account", path: "/tempacc", icon: <MdOutlineSupervisorAccount /> },
 ];
 
 const ProfileSideNavBar = () => {

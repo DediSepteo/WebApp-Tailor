@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import { FaUserCircle } from "react-icons/fa";
 import { BsQuestionCircle } from "react-icons/bs";
 import { FaRegQuestionCircle } from "react-icons/fa";
+import CustomPopUp from '../components/CustomPopUp';
 
 const orders = [
     {
@@ -49,17 +50,23 @@ export const Profile = () => {
         userName: null,
         userEmail: null,
         userPhone: null,
-        orgIndustry: null,
         userAddress1: null,
         maskedPassword: 'No password set',
     });
     const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
     const [fieldToEdit, setFieldToEdit] = useState(null);
     const [accountDuration, setAccountDuration] = useState(3600000)
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupTitle, setPopupTitle] = useState("Loading...")
+    const [popupText, setPopupText] = useState("Creating and sending account credentials to email...")
 
     const updateUserDetails = (updatedField) => {
         setUserDetails((prevDetails) => ({ ...prevDetails, ...updatedField }));
     };
+
+    const togglePopup = () => {
+        setShowPopup(!showPopup)
+    }
 
     useEffect(() => {
         const fetchAndSetUserDetails = () => {
@@ -72,7 +79,6 @@ export const Profile = () => {
                         userId: decodedToken.org_id,
                         userName: decodedToken.org_name,
                         userEmail: decodedToken.email,
-                        orgIndustry: decodedToken.industry,
                         userAddress1: decodedToken.address,
                         userPhone: decodedToken.org_phone,
                     }));
@@ -107,6 +113,7 @@ export const Profile = () => {
     }
 
     const handleAccountCreation = () => {
+        togglePopup()
         const token = sessionStorage.getItem('token')
         if (token) {
             try {
@@ -124,10 +131,15 @@ export const Profile = () => {
                     })
                 })
                     .then(response => {
-                        if (!response.ok)
+                        if (!response.ok) {
+                            setPopupTitle("Error")
+                            setPopupText("Could not create temporary account.")
                             throw new Error("Could not create temporary account")
+                        }
+
                         else {
-                            alert("Temporary account created! Please check your registered email for the credentials")
+                            setPopupTitle("Success!")
+                            setPopupText("Credentials generated! Please check your email for more details.")
                         }
                     })
 
@@ -143,13 +155,13 @@ export const Profile = () => {
         userName,
         userEmail,
         userPhone,
-        orgIndustry,
         userAddress1,
         maskedPassword,
     } = userDetails;
 
     return (
         <main className={styles.mainContainer}>
+            {showPopup && <CustomPopUp togglePopup={togglePopup} hasConfirm={false} title={popupTitle} text={popupText} hasCancel={true} />}
             <div className={styles.profileSideNav}>
                 <ProfileSideNavBar />
             </div>
@@ -187,7 +199,7 @@ export const Profile = () => {
                             <div style={{ display: "flex", justifyContent: "space-between" }}>Create temporary account lasting for:<FaRegQuestionCircle size={20} /></div>
 
                             <div style={{ display: 'flex', justifyContent: "space-between", marginTop: "1em" }}>
-                                <select style={{ width: "20%" }} onChange={handleDurationChange}>
+                                <select style={{ width: "30%" }} onChange={handleDurationChange}>
                                     <option value="3600000">1 hour</option>
                                     <option value="7200000">2 hours</option>
                                     <option value="14400000">4 hours</option>

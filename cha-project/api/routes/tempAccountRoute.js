@@ -8,6 +8,10 @@ router.post('/', async (req, res) => {
     const { org_id, orgName, expiresIn } = req.body;
     const saltRounds = 10;
 
+    function checkActiveAccount(org_id) {
+        tempAccountModel.getActiveAccount(org_id, (err, results) => { })
+    }
+
     // Convert tempAccountModel.create to return a Promise
     async function createTempAccount(org_id, retries = 3) {
         const randomInt = Math.floor(Math.random() * 10000);

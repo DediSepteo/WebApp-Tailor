@@ -36,18 +36,20 @@ import ViewAllOrg from './pages/viewAllOrg';
 import ViewAllProduct from './pages/viewAllProduct';
 import OrderDetailPage from './pages/OrderDetailPage'
 import DeactivateOrganization from './pages/DeactivateOrg';
+import ProtectAdminRoute from './components/ProtectAdminRoute';
+import ProtectTempAccRoute from './components/ProtectTempAccRoute';
 
-const ProtectAdminRoute = ({ element }) => {
-    const navigate = useNavigate();
-    const token = sessionStorage.getItem('token');
+// const ProtectAdminRoute = ({ element }) => {
+//     const navigate = useNavigate();
+//     const token = sessionStorage.getItem('token');
 
-    if (!token) {
-        navigate('/admin/login');
-        return null;
-    }
+//     if (!token) {
+//         navigate('/admin/login');
+//         return null;
+//     }
 
-    return element;
-}
+//     return element;
+// }
 
 const AppContent = () => {
     const location = useLocation();
@@ -65,7 +67,7 @@ const AppContent = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
 
@@ -73,10 +75,6 @@ const AppContent = () => {
                 {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
                 <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
-
-                <Route path="/admin/dashboard" element={<AdminHomePage />} />
-                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
-                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
 
                 {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
                 <Route path="/Shop1" element={<Shop1Item />} />
@@ -90,13 +88,14 @@ const AppContent = () => {
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
 
                 {/* Protect the following admin routes */}
-                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                {/*
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
                 <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
 
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                {/* <Route path="/admin/dashboard" element={<AdminHomePage />} /> */}
+                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />

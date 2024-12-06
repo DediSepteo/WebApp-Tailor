@@ -28,6 +28,9 @@ const AdminOrderPage = () => {
         try {
             const response = await fetch(`http://localhost:3000/api/order/cancel/${cancelOrderID}`, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (response.ok) {

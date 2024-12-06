@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/confirmPopUp.module.css"
 
-const CustomPopUp = ({ togglePopup, title, text, hasCancel, onConfirm }) => {
+const CustomPopUp = ({ togglePopup, title, text, hasCancel, onConfirm, hasConfirm = true }) => {
 
     const handleConfirm = (event) => {
         togglePopup()
@@ -25,7 +25,10 @@ const CustomPopUp = ({ togglePopup, title, text, hasCancel, onConfirm }) => {
                             {hasCancel && (
                                 <button className={styles.cancelBtn} onClick={handleCancel}>Cancel</button>
                             )}
-                            <button className={styles.confirmBtn} onClick={handleConfirm}>Confirm</button>
+                            {hasConfirm && (
+                                <button className={styles.confirmBtn} onClick={handleConfirm}>Confirm</button>
+                            )}
+
                         </div>
 
                     </div>

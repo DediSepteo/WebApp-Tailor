@@ -6,21 +6,26 @@ const orders = {
         var query = `
             SELECT 
                 o.order_id AS id,
-                o.qty,
+                SUM(op.qty) AS qty,
                 o.status,
                 o.date as date,
                 FORMAT(o.subtotal, 2) AS subtotal,
-                org.name AS "placed by"
+                org.name AS "placed by",
+                COUNT(m.name) AS measurementNo
             FROM 
                 \`orders\` o
             JOIN 
                 \`organization\` org ON o.org_id = org.org_id
+            LEFT JOIN
+				\`measurements\` m ON m.order_id = o.order_id
+            JOIN 
+				\`order_products\` op ON op.order_id = o.order_id
         `;
         if (type) {
             query += ` WHERE org.type = ?`
         }
 
-        query += " ORDER BY o.order_id DESC"
+        query += " GROUP BY o.order_id ORDER BY o.order_id DESC"
 
         db.query(query, type ? [type] : [], (err, results) => {
             if (err) {

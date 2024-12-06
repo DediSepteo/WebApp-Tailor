@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const transporter = require('../models/emailTransporter')
+require('dotenv').config();
 const organization = require('../models/organizationModel')
 
 
 router.post('/', (req, res) => {
     const { name, email, subject, message } = req.body;
+    console.log(req.body)
 
     if (!name || !email || !subject || !message) {
         return res.status(400).json({ error: 'All fields are required' });

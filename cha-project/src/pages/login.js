@@ -29,21 +29,35 @@ export const Login = () => {
                 },
                 body: JSON.stringify(inputs),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Invalid credentials');
             }
-    
+
             const data = await response.json();
-            sessionStorage.setItem('token', data.token) || localStorage.setItem('token', data.token); // Save the token in session
-    
-            // Store password length in localStorage
+            const tokenExpiryDuration = data.expiresIn || 3600; // set to 1hr
+
+            // Save token with expiry using helper function
+            saveTokenWithExpiry(data.token, tokenExpiryDuration, inputs.rememberPassword);
+
             localStorage.setItem('passwordLength', inputs.password.length);
-    
+
             navigate('/Home'); // Redirect to Home page
         } catch (error) {
             console.error('Login failed:', error);
             setError(error.message);
+        }
+    };
+
+    // set expiry for local and session storage.
+    const saveTokenWithExpiry = (token, expiresIn, rememberPassword) => {
+        const expiryTime = Date.now() + expiresIn * 1000;
+        const tokenData = JSON.stringify({ token, expiryTime });
+
+        if (rememberPassword) {
+            localStorage.setItem('token', tokenData);
+        } else {
+            sessionStorage.setItem('token', tokenData);
         }
     };
 

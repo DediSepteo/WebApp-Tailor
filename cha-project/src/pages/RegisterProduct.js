@@ -18,6 +18,7 @@ const CreateProduct = () => {
 
     const navigate = useNavigate()
 
+
     const togglePopUp = () => {
         setShowPopup(!showPopup); // Show popup when you want
     };
@@ -44,7 +45,7 @@ const CreateProduct = () => {
             setShowError(true)
             return false
         }
-        const token = sessionStorage.getItem("token")
+        const token = sessionStorage.getItem("authToken")
         if (!body.org_id)
             alert("Error with organization")
         else if (!token)

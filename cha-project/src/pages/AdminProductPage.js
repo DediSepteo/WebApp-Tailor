@@ -10,6 +10,8 @@ const AdminProductPage = () => {
     const [productsData, setProductsData] = useState([])
     const [productDeleteID, setProductDeleteID] = useState("")
 
+    const token = sessionStorage.getItem("authToken")
+
     const navigate = useNavigate()
 
     const toggleDeletePopUp = (id) => {
@@ -22,6 +24,9 @@ const AdminProductPage = () => {
             console.log(productDeleteID)
             const response = await fetch(`http://localhost:3000/api/product/${productDeleteID}`, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (response.ok) {
@@ -48,7 +53,11 @@ const AdminProductPage = () => {
 
     useEffect(() => {
         // Set the page title based on the URL
-        fetch(`http://localhost:3000/api/product/recent?type=${type}`)
+        fetch(`http://localhost:3000/api/product/recent?type=${type}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 console.log(data);

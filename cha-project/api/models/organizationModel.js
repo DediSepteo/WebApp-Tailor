@@ -52,8 +52,18 @@ const Organization = {
         })
     },
 
-    getOrgPass: (email, callback) => {
-        const query = 'SELECT * FROM ORGANIZATION WHERE email = ?';
+    // getOrgPass: (email, callback) => {
+    //     const query = 'SELECT * FROM ORGANIZATION WHERE email = ?';
+    //     db.query(query, [email], (err, results) => {
+    //         if (err) {
+    //             return callback(err, null);
+    //         }
+    //         callback(null, results)
+    //     })
+    // },
+
+    getOrgByEmail: (email, callback) => {
+        const query = 'SELECT org_id, email, industry, name, address_line1, phone FROM ORGANIZATION WHERE email = ? AND status = "active"';
         db.query(query, [email], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -63,7 +73,7 @@ const Organization = {
     },
 
     getOrgPassById: (org_id, callback) => {
-        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ?';
+        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ? AND status = "active"';
         db.query(query, [org_id], (err, results) => {
             console.log('Query executed:', query);
             console.log('Query parameters:', org_id);

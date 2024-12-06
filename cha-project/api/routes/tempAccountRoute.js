@@ -4,12 +4,39 @@ const tempAccountModel = require('../models/tempAccountModel');
 const bcrypt = require("bcrypt");
 const crypto = require('crypto'); // For generating random passwords
 
+router.get("/email", (req, res) => {
+    const email = req.headers.email
+    tempAccountModel.getAccountByEmail(email, (err, results) => {
+        if (err) {
+            console.log(err)
+            return res.status(400).json({ message: "Failed to send email" });
+        }
+        else {
+            return res.json(results);
+        }
+    })
+})
+
 router.post('/', async (req, res) => {
     const { org_id, orgName, expiresIn } = req.body;
     const saltRounds = 10;
 
     function checkActiveAccount(org_id) {
-        tempAccountModel.getActiveAccount(org_id, (err, results) => { })
+        return new Promise((resolve, reject) => {
+            tempAccountModel.getActiveAccount(org_id, (err, results) => {
+                if (err) {
+                    console.log(err)
+                    reject({ message: 'Something went wrong, please try again' });
+                }
+                else if (results.length > 0) {
+                    console.log(results)
+                    reject({ message: 'Temporary account already active, please check email for account credentials' });
+                }
+                else {
+                    resolve()
+                }
+            })
+        })
     }
 
     // Convert tempAccountModel.create to return a Promise
@@ -37,7 +64,7 @@ router.post('/', async (req, res) => {
                         tempAccountModel.deactivate(email, (err, results) => {
                             if (err) {
                                 console.log(err);
-                                reject({ error: 'Failed to deactivate account' });
+                                reject({ message: 'Failed to deactivate account' });
                             } else {
                                 console.log("Account deactivated!"); // Log for admin page
                             }
@@ -51,6 +78,10 @@ router.post('/', async (req, res) => {
     }
 
     try {
+        const error = await checkActiveAccount(org_id)
+        if (error) {
+            return res.status(400).json({ error: error })
+        }
         const accountDetails = await createTempAccount(org_id);
         console.log(accountDetails);
 
@@ -73,7 +104,7 @@ router.post('/', async (req, res) => {
         });
 
         if (!response.ok) {
-            return res.status(400).json({ error: "Failed to send email" });
+            return res.status(400).json({ message: "Failed to send email" });
         }
         console.log(response)
 

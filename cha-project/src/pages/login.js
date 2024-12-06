@@ -29,17 +29,18 @@ export const Login = () => {
                 },
                 body: JSON.stringify(inputs),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Invalid credentials');
             }
-    
+
             const data = await response.json();
+            console.log(data)
             sessionStorage.setItem('token', data.token) || localStorage.setItem('token', data.token); // Save the token in session
-    
+
             // Store password length in localStorage
             localStorage.setItem('passwordLength', inputs.password.length);
-    
+
             navigate('/Home'); // Redirect to Home page
         } catch (error) {
             console.error('Login failed:', error);

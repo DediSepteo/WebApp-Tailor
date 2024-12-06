@@ -87,6 +87,20 @@ router.get('/count', (req, res) => {
     });
 });
 
+router.get('/email', (req, res) => {
+    const email = req.headers.email
+    organizationModel.getOrgByEmail(email, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No organization found for this company' });
+        }
+        return res.json(results);
+    });
+})
+
 router.get('/:id', (req, res) => {
     const id = req.params.id;
 

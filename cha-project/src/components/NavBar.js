@@ -25,6 +25,7 @@ const NavBar = () => {
     const [sideCartOpen, setSideCartOpen] = useState(false); // State for the side cart
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [userName, setUserName] = useState(null);
+    const [isTempAccount, setIsTempAccount] = useState(false)
     const navigate = useNavigate(); // Initialize navigate
 
     // Side cart states
@@ -231,6 +232,10 @@ const NavBar = () => {
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
+                const source = decodedToken.source
+                if (source == "temporary") {
+                    setIsTempAccount(true)
+                }
                 setUserName(decodedToken.org_name); // Ensure your token has a 'name' field
             } catch (error) {
                 console.error('Invalid token:', error);
@@ -407,7 +412,16 @@ const NavBar = () => {
                 <div className={styles.sideDiv}>
                     {userName ? (
                         <div className={styles.userContainer}>
-                            <NavLink className={styles.icons} to="/profile"><FaRegUser /></NavLink>
+                            {isTempAccount ? (
+                                <div className={styles.icons} style={{ cursor: "default" }}>
+                                    <FaRegUser />
+                                </div>
+                            ) : (
+                                <NavLink className={styles.icons} to="/profile">
+                                    <FaRegUser />
+                                </NavLink>
+                            )}
+
                             <Link to="/profile" className={styles.userName}>{userName}</Link>
 
                             <button onClick={handleLogout} className={styles.logoutButton}>

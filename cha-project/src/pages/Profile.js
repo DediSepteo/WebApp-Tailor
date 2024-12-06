@@ -131,15 +131,24 @@ export const Profile = () => {
                     })
                 })
                     .then(response => {
-                        if (!response.ok) {
-                            setPopupTitle("Error")
-                            setPopupText("Could not create temporary account.")
-                            throw new Error("Could not create temporary account")
-                        }
-
-                        else {
+                        if (response.ok) {
                             setPopupTitle("Success!")
                             setPopupText("Credentials generated! Please check your email for more details.")
+                        }
+                        else {
+                            return response.json()
+                        }
+                    })
+                    .then(err => {
+                        if (err) {
+                            if (err.message) {
+                                setPopupTitle("Error")
+                                setPopupText(err.message)
+                            }
+                            else {
+                                setPopupTitle("Error")
+                                setPopupText("Could not create temporary account.")
+                            }
                         }
                     })
 

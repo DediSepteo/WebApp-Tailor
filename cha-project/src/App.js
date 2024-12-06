@@ -37,6 +37,7 @@ import ViewAllProduct from './pages/viewAllProduct';
 import OrderDetailPage from './pages/OrderDetailPage'
 import DeactivateOrganization from './pages/DeactivateOrg';
 import ProtectAdminRoute from './components/ProtectAdminRoute';
+import ProtectTempAccRoute from './components/ProtectTempAccRoute';
 
 // const ProtectAdminRoute = ({ element }) => {
 //     const navigate = useNavigate();
@@ -66,7 +67,7 @@ const AppContent = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
 

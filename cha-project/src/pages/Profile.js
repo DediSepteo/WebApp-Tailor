@@ -141,7 +141,7 @@ export const Profile = () => {
                                     <span className={styles.title}>{title}: </span>
                                     <div className={styles.infoRow}>
                                         <p>{value}</p>
-                                        <button onClick={() => handleEditClick(field)} className={styles.editBtn}>Edit</button>
+                                        <button onClick={() => handleEditClick(field)} className={styles.editBtn}>{field === 'password' ? 'Change' : 'Edit'}</button>
                                     </div>
                                 </div>
                             ))}

@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
+import ResetPassword from './components/resetPassword';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
 import AdminProductPage from './pages/AdminProductPage';
@@ -37,6 +38,7 @@ import ViewAllProduct from './pages/viewAllProduct';
 import OrderDetailPage from './pages/OrderDetailPage'
 import DeactivateOrganization from './pages/DeactivateOrg';
 
+
 const ProtectAdminRoute = ({ element }) => {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
@@ -68,6 +70,9 @@ const AppContent = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
+
+                {/* reset password */}
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 {/* Protect the following admin routes */}
                 {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />

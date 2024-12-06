@@ -20,4 +20,27 @@ transporter.verify((error, success) => {
     }
 });
 
-module.exports = transporter;
+// Send the email
+const sendResetEmail = async (email, resetUrl) => {
+    const mailOptions = {
+        from: process.env.EMAIL_NAME,
+        to: email,
+        subject: 'Password Reset Request',
+        html: `
+        <p>You requested a password reset. Click the link below to reset your password:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+      `,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+    } catch (err) {
+        console.error("Error sending email:", err);
+        throw new Error('Failed to send reset email');
+    }
+};
+
+module.exports = {
+    transporter,
+    sendResetEmail
+};

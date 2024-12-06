@@ -153,7 +153,7 @@ const Organization = {
         });
     },
 
-    getUserByEmail: (email, callback) => {
+    getOrgByEmail: (email, callback) => {
         const query = 'SELECT * FROM organization WHERE email = ?';
         db.query(query, [email], (err, results) => {
             if (err) {

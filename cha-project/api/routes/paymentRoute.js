@@ -9,6 +9,7 @@ const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY
 router.post("/checkoutSes", async (req, res) => {
     const cart = req.body.cart
     const org_id = req.body.org_id
+    const source = req.headers.source
     const org_data = await fetch(`http://localhost:3000/api/org/${org_id}`)
         .then(response => {
             if (!response.ok) {
@@ -19,7 +20,6 @@ router.post("/checkoutSes", async (req, res) => {
         .then(data => {
             return data[0]
         })
-    console.log(org_data)
     const line_items = cart.map(item => ({
         amount: parseInt(item.price * 100),
         currency: "PHP",
@@ -30,28 +30,38 @@ router.post("/checkoutSes", async (req, res) => {
         name: item.name,
         quantity: item.qty
     }));
-    console.log(line_items)
-    const options = {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            authorization: `Basic ${PAYMONGO_SECRET_KEY}`
-        },
-        body: JSON.stringify({
+    const paymongo_body = source == "organization" ? {
+        data: {
+            "attributes": {
+                billing: {
+                    address: {
+                        country: org_data.country,
+                        state: org_data.state,
+                        city: org_data.city,
+                        line1: org_data.address_line1,
+                        line2: org_data.address_line2 || null,
+                        postal_code: org_data.postal_code
+                    },
+                    email: org_data.email
+                },
+                cancel_url: "http://localhost:3001/shoppingcart",
+                send_email_receipt: true,
+                show_description: true,
+                show_line_items: true,
+                line_items: line_items,
+                // Payment method types must be allowed from paymongo account, currently using unactivated account. 
+                payment_method_types: [
+                    "card",
+                    "gcash",
+                    "atome"
+                ],
+                description: "Testing"
+            }
+        }
+    } :
+        {
             data: {
                 "attributes": {
-                    billing: {
-                        address: {
-                            country: org_data.country,
-                            state: org_data.state,
-                            city: org_data.city,
-                            line1: org_data.address_line1,
-                            line2: org_data.address_line2 || null,
-                            postal_code: org_data.postal_code
-                        },
-                        email: org_data.email
-                    },
                     cancel_url: "http://localhost:3001/shoppingcart",
                     send_email_receipt: true,
                     show_description: true,
@@ -66,7 +76,15 @@ router.post("/checkoutSes", async (req, res) => {
                     description: "Testing"
                 }
             }
-        })
+        }
+    const options = {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            authorization: `Basic ${PAYMONGO_SECRET_KEY}`
+        },
+        body: JSON.stringify(paymongo_body)
     };
 
     fetch('https://api.paymongo.com/v1/checkout_sessions', options)

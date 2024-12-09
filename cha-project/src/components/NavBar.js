@@ -434,7 +434,6 @@ const NavBar = () => {
                             <span className={styles.loginText}>Login / Register</span>
                         </NavLink>
                     )}
-                    <span className={styles.icons}><IoSearch /></span>
                     <span className={styles.icons} onClick={toggleSideCart} id="cart"><MdOutlineShoppingCart /></span>
                     <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>

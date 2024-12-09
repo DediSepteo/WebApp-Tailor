@@ -95,7 +95,7 @@ const OrderDetailPage = ({ }) => {
                                             <div style={{ fontWeight: "1.5em", marginRight: "1.5em" }}>{`${data.product_name}`}</div>
                                         </header>
                                         <header className={styles.headerInfo} style={{ alignItems: "flex-end" }}>
-                                            <div style={{ fontWeight: "200" }}>ID: {`02-6901`}</div>
+                                            <div style={{ fontWeight: "200" }}>Qty: {`${data.qty}`}</div>
                                             <div style={{ fontWeight: "200" }}>Product-ID:  {`${data.product_id}`}</div>
                                         </header>
                                     </div>

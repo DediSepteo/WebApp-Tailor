@@ -5,9 +5,9 @@ import { IoMail } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import styles from "../styles/Footer.module.css"; // Updated import
 
-const Footer = () => {
+const Footer = ({ isContentShort }) => {
     return (
-        <footer className={styles.footer}>
+        <footer className={styles.footer} style={{ position: isContentShort ? 'absolute' : 'static', bottom: isContentShort ? 0 : 'auto' }}>
             <div className={styles.info}>
                 <h2 className={styles.brand}>
                     BrandTailors Co.

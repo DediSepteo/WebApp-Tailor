@@ -41,7 +41,7 @@ const NavBar = () => {
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
     const [cart, setCart] = useState([]);
-
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
@@ -228,7 +228,6 @@ const NavBar = () => {
     }, [editingIndex]);
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
@@ -434,7 +433,9 @@ const NavBar = () => {
                             <span className={styles.loginText}>Login / Register</span>
                         </NavLink>
                     )}
-                    <span className={styles.icons} onClick={toggleSideCart} id="cart"><MdOutlineShoppingCart /></span>
+                    {token && (
+                        <span className={styles.icons} onClick={toggleSideCart} id="cart"><MdOutlineShoppingCart /></span>
+                    )}
                     <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>
             </nav>

@@ -1,6 +1,7 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
@@ -43,6 +44,24 @@ import ProtectTempAccRoute from './components/ProtectTempAccRoute';
 
 const AppContent = () => {
     const location = useLocation();
+
+    const [isContentShort, setIsContentShort] = useState(false);
+
+    const updateFooterPosition = () => {
+        const contentHeight = document.body.scrollHeight;
+        const windowHeight = window.innerHeight;
+        console.log(contentHeight, windowHeight)
+        setIsContentShort(contentHeight < windowHeight);
+    };
+
+    useEffect(() => {
+        if (!location.pathname.includes("profile")) {
+            updateFooterPosition();
+            window.addEventListener('resize', updateFooterPosition);
+            return () => window.removeEventListener('resize', updateFooterPosition);
+        }
+    }, [location]);
+
 
     return (
         <>
@@ -127,7 +146,7 @@ const AppContent = () => {
 
             </Routes>
 
-            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer isContentShort={isContentShort} />}
 
         </>
     );

@@ -40,17 +40,6 @@ import DeactivateOrganization from './pages/DeactivateOrg';
 import ProtectAdminRoute from './components/ProtectAdminRoute';
 import ProtectTempAccRoute from './components/ProtectTempAccRoute';
 
-// const ProtectAdminRoute = ({ element }) => {
-//     const navigate = useNavigate();
-//     const token = sessionStorage.getItem('token');
-
-//     if (!token) {
-//         navigate('/admin/login');
-//         return null;
-//     }
-
-//     return element;
-// }
 
 const AppContent = () => {
     const location = useLocation();
@@ -58,7 +47,7 @@ const AppContent = () => {
     return (
         <>
 
-            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/Login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
             <ScrollTop />
             <Routes>
@@ -138,7 +127,7 @@ const AppContent = () => {
 
             </Routes>
 
-            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
+            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
 
         </>
     );

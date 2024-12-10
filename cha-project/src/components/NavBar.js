@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
@@ -9,6 +9,7 @@ import { IoClose } from "react-icons/io5";
 import { PiArrowBendUpRightBold } from "react-icons/pi";
 import { jwtDecode } from "jwt-decode";
 import styles from "../styles/NavBar.module.css";
+import { CartContext } from '../components/CartContext';
 
 // Sample cartItems data
 
@@ -35,12 +36,14 @@ const NavBar = () => {
 
 
     // Side cart states
-    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
+    // const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
-    const [cart, setCart] = useState([]);
+    // const [cart, setCart] = useState([]);
+    const { cart, setCart } = useContext(CartContext);
+    const [quantities, setQuantities] = useState([])
     const token = sessionStorage.getItem('token');
 
     useEffect(() => {
@@ -56,6 +59,7 @@ const NavBar = () => {
             const fetchPromises = itemIds.map(id =>
                 fetch(`http://localhost:3000/api/product/${id}`)
                     .then(response => {
+                        console.log("READIASDJAISDI")
                         if (!response.ok) {
                             throw new Error(`Failed to fetch product with id ${id}`);
                         }
@@ -329,51 +333,55 @@ const NavBar = () => {
                 <div className={styles.contentWrapper}>
                     <table className={styles.tableContent}>
                         <tbody>
-                            {cart.map((item, index) => (
-                                <tr key={index}>
-                                    <td className={styles.productRow}>
-                                        <img
-                                            src="https://placehold.co/430x640" // Replace with item.image_url if available
-                                            alt={item.name}
-                                            className={styles.productImage}
-                                        />
-                                        <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
-                                            <p className={styles.productName}>{item.name}</p>
-                                            <p className={styles.productPrice}>{item.description}</p>
-                                            <p className={styles.productPrice}>₱{item.price.toFixed(2)}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={styles.quantityContainer}>
-                                            <div className={styles.quantityBox}>
-                                                <button
-                                                    className={styles.quantityButton}
-                                                    onClick={() => decreaseQuantity(index)}
-                                                >
-                                                    -
-                                                </button>
+                            {cart.map((item, index) => {
+                                console.log(item.price)
+                                const price = item.price ? Number(item.price).toFixed(2) : "0.00";
+                                return (
+                                    <tr key={index}>
+                                        <td className={styles.productRow}>
+                                            <img
+                                                src="https://placehold.co/430x640" // Replace with item.image_url if available
+                                                alt={item.name}
+                                                className={styles.productImage}
+                                            />
+                                            <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
+                                                <p className={styles.productName}>{item.name}</p>
+                                                <p className={styles.productPrice}>{item.description}</p>
+                                                <p className={styles.productPrice}>₱{price}</p>
                                             </div>
-                                            <div className={styles.quantityRectangle}>
-                                                <span>{quantities[index]}</span>
+                                        </td>
+                                        <td>
+                                            <div className={styles.quantityContainer}>
+                                                <div className={styles.quantityBox}>
+                                                    <button
+                                                        className={styles.quantityButton}
+                                                        onClick={() => decreaseQuantity(index)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                </div>
+                                                <div className={styles.quantityRectangle}>
+                                                    <span>{quantities[index]}</span>
+                                                </div>
+                                                <div className={styles.quantityBox}>
+                                                    <button
+                                                        className={styles.quantityButton}
+                                                        onClick={() => increaseQuantity(index)}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className={styles.quantityBox}>
-                                                <button
-                                                    className={styles.quantityButton}
-                                                    onClick={() => increaseQuantity(index)}
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className={styles.iconWrapper}>
-                                        <IoClose
-                                            className={styles.closeIcon}
-                                            onClick={() => handleRemoveItem(index)}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className={styles.iconWrapper}>
+                                            <IoClose
+                                                className={styles.closeIcon}
+                                                onClick={() => handleRemoveItem(index)}
+                                            />
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>

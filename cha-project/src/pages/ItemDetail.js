@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styles from '../styles/ItemDetail.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
-
+import { CartContext } from '../components/CartContext'
 
 export const ItemDetail = () => {
+    const { cart } = useContext(CartContext);
+    console.log(cart)
     const location = useLocation();
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
     const [selectedImage, setSelectedImage] = useState(null);
@@ -37,18 +39,19 @@ export const ItemDetail = () => {
             quantity: parseInt(quantity),
         };
 
-        // Check if item already exists in the cart
-        const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
+        // // Check if item already exists in the cart
+        // const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
 
-        if (existingItemIndex >= 0) {
-            // If item exists, update its quantity
-            existingCart[existingItemIndex].quantity += newItem.quantity;
-        } else {
-            // Otherwise, add the new item
-            existingCart.push(newItem);
-        }
+        // if (existingItemIndex >= 0) {
+        //     // If item exists, update its quantity
+        //     existingCart[existingItemIndex].quantity += newItem.quantity;
+        // } else {
+        //     // Otherwise, add the new item
+        //     existingCart.push(newItem);
+        // }
 
-        localStorage.setItem('cart', JSON.stringify(existingCart));
+        // localStorage.setItem('cart', JSON.stringify(existingCart));
+        // addToCart(newItem)
 
         // Reset values after submit
         setQuantity(1);

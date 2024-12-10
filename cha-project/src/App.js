@@ -26,6 +26,7 @@ import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { SnapLogin } from './pages/SnapStitchLogin'
 import { SnapRegister } from './pages/SnapStitchRegister'
+import { CartProvider } from '../src/components/CartContext'
 import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
 import AdminOrderPage from './pages/AdminOrderPage';
@@ -73,7 +74,7 @@ const AppContent = () => {
 
 
     return (
-        <>
+        <CartProvider>
 
             {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
@@ -157,7 +158,7 @@ const AppContent = () => {
 
             {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer isContentShort={isContentShort} />}
 
-        </>
+        </CartProvider>
     );
 };
 

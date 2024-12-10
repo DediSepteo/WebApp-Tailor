@@ -15,11 +15,6 @@ export const Shop1Item = () => {
 
     //const filteredItems = options.filter(item => item.company === company); idk whats this lol @jav
 
-    const toDetails = (data) => {
-        navigate(`/Shop1/${data.name}`, { state: { data: data } })
-    }
-
-
     useEffect(() => {
         // Retrieve token from sessionStorage
         const token = sessionStorage.getItem('token');

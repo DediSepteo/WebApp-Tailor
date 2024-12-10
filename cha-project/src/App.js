@@ -47,20 +47,29 @@ const AppContent = () => {
 
     const [isContentShort, setIsContentShort] = useState(false);
 
-    const updateFooterPosition = () => {
-        const contentHeight = document.body.scrollHeight;
-        const windowHeight = window.innerHeight;
-        console.log(contentHeight, windowHeight)
-        setIsContentShort(contentHeight < windowHeight);
+    const updateFooterPosition = (value) => {
+        if (value) {
+            setIsContentShort(value)
+        }
+        else {
+            const contentHeight = document.body.scrollHeight;
+            const windowHeight = window.innerHeight;
+            console.log(contentHeight, windowHeight)
+            setIsContentShort(contentHeight < windowHeight);
+        }
     };
 
+    // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
     useEffect(() => {
-        if (!location.pathname.includes("profile")) {
+        const pathname = location.pathname.toLowerCase()
+        if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('shop')) {
+            setIsContentShort(false)
+        }
+        else {
             updateFooterPosition();
-            window.addEventListener('resize', updateFooterPosition);
-            return () => window.removeEventListener('resize', updateFooterPosition);
         }
     }, [location]);
+
 
 
     return (

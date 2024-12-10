@@ -84,7 +84,7 @@ export const Shop1Item = () => {
                             <p className={styles.categoryPrice}>₱{item.price}</p>
                         </div>
                     </Link>
-                )) : <p>No products available.</p>}
+                )) : <div style={{ height: "40vh" }}>No products available.</div>}
             </div>
         </main>
     );

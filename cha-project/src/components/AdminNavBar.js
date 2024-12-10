@@ -4,8 +4,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { LuUserCircle2 } from "react-icons/lu";
 
 const AdminNavBar = ({ pageName }) => {
-        const handleLogout = () => {
-        sessionStorage.removeItem('token')
+    const handleLogout = () => {
+        sessionStorage.removeItem('authToken')
     }
     return (
         <div className={styles.NavBar}>

@@ -65,13 +65,26 @@
 }
 
 .leftImg {
-    width: 60vw;
+    width: 60%;
 }
 
 .rightImg {
     object-fit: cover; 
-    width: 40vw;
+    width: 40%;
     filter: brightness(80%) grayscale(40%);
+}
+
+.leftPlaceholder {
+    background-color: #e0e0e0; 
+    width: 60%; 
+    height: 600px; 
+    display: block;
+}
+.rightPlaceholder {
+    background-color: #e0e0e0; 
+    width: 40%; 
+    height: 600px; 
+    display: block;
 }
 
 .booking {

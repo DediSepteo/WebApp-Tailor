@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IoLocationSharp } from "react-icons/io5";
 import { AiFillClockCircle } from "react-icons/ai";
 import { IoMail } from "react-icons/io5";

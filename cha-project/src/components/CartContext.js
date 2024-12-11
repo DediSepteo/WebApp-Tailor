@@ -4,9 +4,11 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
+    console.log(cart)
 
     // Function to add a new item to the cart
     const addToCart = async (newItem) => {
+        console.log(newItem)
         // Check if the item already exists in the cart
         const existingItem = cart.find(item => item.id === newItem.product_id);
 

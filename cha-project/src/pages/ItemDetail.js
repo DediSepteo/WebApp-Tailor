@@ -6,8 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import { CartContext } from '../components/CartContext'
 
 export const ItemDetail = () => {
-    const { cart } = useContext(CartContext);
-    console.log(cart)
+    const { cart, setCart } = useContext(CartContext);
     const location = useLocation();
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
     const [selectedImage, setSelectedImage] = useState(null);
@@ -39,6 +38,8 @@ export const ItemDetail = () => {
             quantity: parseInt(quantity),
         };
 
+        setCart([...cart, newItem])
+
         // // Check if item already exists in the cart
         // const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
 
@@ -54,8 +55,8 @@ export const ItemDetail = () => {
         // addToCart(newItem)
 
         // Reset values after submit
-        setQuantity(1);
-        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
+        // setQuantity(1);
+        // console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
 
     // Handle quantity increase
@@ -123,7 +124,7 @@ export const ItemDetail = () => {
     // if (!item) {
     //     return <div>Item not found</div>;
     // }
-    console.log(item)
+    // console.log(item)
     return (
         <main className={styles.main}>
             <div className={styles.backContainer}>

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import styles from '../styles/ItemDetail.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
-import { CartContext } from '../components/CartContext'
+import { CartContext } from '../components/CartContext';
+
 
 export const ItemDetail = () => {
-    const { cart, setCart } = useContext(CartContext);
     const location = useLocation();
+    const { setCart } = useContext(CartContext)
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
     const [selectedImage, setSelectedImage] = useState(null);
     const [addedToCart, setAddedToCart] = useState(false);
@@ -38,25 +39,23 @@ export const ItemDetail = () => {
             quantity: parseInt(quantity),
         };
 
-        setCart([...cart, newItem])
+        // Check if item already exists in the cart
+        const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
 
-        // // Check if item already exists in the cart
-        // const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
+        if (existingItemIndex >= 0) {
+            // If item exists, update its quantity
+            existingCart[existingItemIndex].quantity += newItem.quantity;
+        } else {
+            // Otherwise, add the new item
+            existingCart.push(newItem);
+        }
 
-        // if (existingItemIndex >= 0) {
-        //     // If item exists, update its quantity
-        //     existingCart[existingItemIndex].quantity += newItem.quantity;
-        // } else {
-        //     // Otherwise, add the new item
-        //     existingCart.push(newItem);
-        // }
-
-        // localStorage.setItem('cart', JSON.stringify(existingCart));
-        // addToCart(newItem)
+        localStorage.setItem('cart', JSON.stringify(existingCart));
+        setCart(existingCart)
 
         // Reset values after submit
-        // setQuantity(1);
-        // console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
+        setQuantity(1);
+        console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
 
     // Handle quantity increase
@@ -124,7 +123,7 @@ export const ItemDetail = () => {
     // if (!item) {
     //     return <div>Item not found</div>;
     // }
-    // console.log(item)
+    console.log(item)
     return (
         <main className={styles.main}>
             <div className={styles.backContainer}>

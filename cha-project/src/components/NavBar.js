@@ -8,8 +8,8 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { PiArrowBendUpRightBold } from "react-icons/pi";
 import { jwtDecode } from "jwt-decode";
+import { CartContext } from "./CartContext";
 import styles from "../styles/NavBar.module.css";
-import { CartContext } from '../components/CartContext';
 
 // Sample cartItems data
 
@@ -36,54 +36,53 @@ const NavBar = () => {
 
 
     // Side cart states
-    // const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
+    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
-    // const [cart, setCart] = useState([]);
     const { cart, setCart } = useContext(CartContext);
-    const [quantities, setQuantities] = useState([])
     const token = sessionStorage.getItem('token');
 
     useEffect(() => {
-        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-        console.log(localStorageCart, 'cart token');
+        console.log("Updating cart")
+        setCart()
+        // const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        // console.log(localStorageCart, 'cart token');
 
-        // Extract product IDs and quantities from local storage
-        const itemIds = localStorageCart.map(item => item.id);
-        const quantities = localStorageCart.map(item => item.quantity);
+        // // Extract product IDs and quantities from local storage
+        // const itemIds = localStorageCart.map(item => item.id);
+        // const quantities = localStorageCart.map(item => item.quantity);
 
-        if (itemIds.length > 0) {
-            // Fetch product details for all IDs
-            const fetchPromises = itemIds.map(id =>
-                fetch(`http://localhost:3000/api/product/${id}`)
-                    .then(response => {
-                        console.log("READIASDJAISDI")
-                        if (!response.ok) {
-                            throw new Error(`Failed to fetch product with id ${id}`);
-                        }
-                        return response.json();
-                    })
-            );
+        // if (itemIds.length > 0) {
+        //     // Fetch product details for all IDs
+        //     const fetchPromises = itemIds.map(id =>
+        //         fetch(`http://localhost:3000/api/product/${id}`)
+        //             .then(response => {
+        //                 if (!response.ok) {
+        //                     throw new Error(`Failed to fetch product with id ${id}`);
+        //                 }
+        //                 return response.json();
+        //             })
+        //     );
 
-            Promise.all(fetchPromises)
-                .then(products => {
-                    // Merge product details with quantities
-                    const updatedCart = products.map((product, index) => ({
-                        ...product[0], // Assuming the API returns an array with one product
-                        quantity: quantities[index],
-                    }));
-                    setCart(updatedCart);
-                    console.log('Updated cart data:', updatedCart);
-                })
-                .catch(error => {
-                    console.error("Error fetching product data:", error);
-                });
-        } else {
-            console.log("No items in cart.");
-            setCart([]);
-        }
+        //     Promise.all(fetchPromises)
+        //         .then(products => {
+        //             // Merge product details with quantities
+        //             const updatedCart = products.map((product, index) => ({
+        //                 ...product[0], // Assuming the API returns an array with one product
+        //                 quantity: quantities[index],
+        //             }));
+        //             setCart(updatedCart);
+        //             console.log('Updated cart data:', updatedCart);
+        //         })
+        //         .catch(error => {
+        //             console.error("Error fetching product data:", error);
+        //         });
+        // } else {
+        //     console.log("No items in cart.");
+        //     setCart([]);
+        // }
 
         setQuantities(quantities); // Update quantities in state
         setLastValidQuantities(quantities); // Update last valid quantities
@@ -334,8 +333,7 @@ const NavBar = () => {
                     <table className={styles.tableContent}>
                         <tbody>
                             {cart.map((item, index) => {
-                                console.log(item.price)
-                                const price = item.price ? Number(item.price).toFixed(2) : "0.00";
+                                console.log(item)
                                 return (
                                     <tr key={index}>
                                         <td className={styles.productRow}>
@@ -347,7 +345,7 @@ const NavBar = () => {
                                             <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
                                                 <p className={styles.productName}>{item.name}</p>
                                                 <p className={styles.productPrice}>{item.description}</p>
-                                                <p className={styles.productPrice}>₱{price}</p>
+                                                <p className={styles.productPrice}>₱{item.price.toFixed(2)}</p>
                                             </div>
                                         </td>
                                         <td>
@@ -379,8 +377,8 @@ const NavBar = () => {
                                                 onClick={() => handleRemoveItem(index)}
                                             />
                                         </td>
-                                    </tr>
-                                )
+                                    </tr>)
+
                             })}
                         </tbody>
                     </table>

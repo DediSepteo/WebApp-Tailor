@@ -30,7 +30,7 @@ router.get('/recent', (req, res) => {
 router.get('/:product_id', (req, res) => {
     const product_id = req.params.product_id;
 
-    productModel.getProductId(product_id, (error, results) => {
+    productModel.getProductById(product_id, (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Error fetching products' });
         }

@@ -1,52 +1,63 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState([]);
-    console.log(cart)
+    const [cart, setCart] = useState(() => {
+        const localStorageCart = localStorage.getItem('cart');
+        return localStorageCart ? JSON.parse(localStorageCart) : [];
+    });
+    const [updatedCartDetails, setUpdatedCartDetails] = useState([]);
 
-    // Function to add a new item to the cart
-    const addToCart = async (newItem) => {
-        console.log(newItem)
-        // Check if the item already exists in the cart
-        const existingItem = cart.find(item => item.id === newItem.product_id);
+    // Function to fetch detailed cart data
+    const updateCartDetails = async () => {
+        console.log("Updating cart");
+        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+        console.log(localStorageCart, 'cart token');
 
-        if (existingItem) {
-            // If item exists, just update the quantity
-            setCart((prevCart) =>
-                prevCart.map(item =>
-                    item.id === newItem.product_id
-                        ? { ...item, quantity: item.quantity + newItem.quantity }
-                        : item
-                )
-            );
-        } else {
-            // If it's a new item, fetch the product data and add it to the cart
-            const response = await fetch(`http://localhost:3000/api/product/${newItem.product_id}`);
+        // Extract product IDs and quantities from local storage
+        const itemIds = localStorageCart.map(item => item.id);
+        const quantities = localStorageCart.map(item => item.quantity);
 
-            if (response.ok) {
-                const product = await response.json();
+        if (itemIds.length > 0) {
+            try {
+                // Fetch product details for all IDs
+                const fetchPromises = itemIds.map(id =>
+                    fetch(`http://localhost:3000/api/product/${id}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Failed to fetch product with id ${id}`);
+                            }
+                            return response.json();
+                        })
+                );
 
-                // If the response is an array, get the first item, otherwise use the product directly
-                const productData = Array.isArray(product) ? product[0] : product;
+                const products = await Promise.all(fetchPromises);
 
-                // Add the product data along with quantity to the cart
-                setCart(prevCart => [
-                    ...prevCart,
-                    {
-                        ...productData,
-                        quantity: newItem.quantity,
-                    }
-                ]);
-            } else {
-                console.error('Error fetching product data');
+                // Merge product details with quantities
+                const updatedCart = products.map((product, index) => ({
+                    ...product[0], // Assuming the API returns an array with one product
+                    quantity: quantities[index],
+                }));
+                setUpdatedCartDetails(updatedCart);
+                console.log('Updated cart data:', updatedCart);
+            } catch (error) {
+                console.error("Error fetching product data:", error);
             }
+        } else {
+            console.log("No items in cart.");
+            setUpdatedCartDetails([]);
         }
     };
 
+    // Update cart details whenever the cart state changes
+    useEffect(() => {
+        console.log("updating")
+        updateCartDetails();
+    }, [cart]);
+
     return (
-        <CartContext.Provider value={{ cart, setCart, addToCart }}>
+        <CartContext.Provider value={{ cart, setCart, updatedCartDetails }}>
             {children}
         </CartContext.Provider>
     );

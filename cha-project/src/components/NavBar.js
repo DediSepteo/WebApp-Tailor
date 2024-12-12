@@ -36,55 +36,16 @@ const NavBar = () => {
 
 
     // Side cart states
-    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
-    const { cart, setCart } = useContext(CartContext);
+    const { setCart, quantities, setQuantities } = useContext(CartContext);
+    const cart = useContext(CartContext).updatedCart
     const token = sessionStorage.getItem('token');
 
     useEffect(() => {
-        console.log("Updating cart")
-        setCart()
-        // const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-        // console.log(localStorageCart, 'cart token');
-
-        // // Extract product IDs and quantities from local storage
-        // const itemIds = localStorageCart.map(item => item.id);
-        // const quantities = localStorageCart.map(item => item.quantity);
-
-        // if (itemIds.length > 0) {
-        //     // Fetch product details for all IDs
-        //     const fetchPromises = itemIds.map(id =>
-        //         fetch(`http://localhost:3000/api/product/${id}`)
-        //             .then(response => {
-        //                 if (!response.ok) {
-        //                     throw new Error(`Failed to fetch product with id ${id}`);
-        //                 }
-        //                 return response.json();
-        //             })
-        //     );
-
-        //     Promise.all(fetchPromises)
-        //         .then(products => {
-        //             // Merge product details with quantities
-        //             const updatedCart = products.map((product, index) => ({
-        //                 ...product[0], // Assuming the API returns an array with one product
-        //                 quantity: quantities[index],
-        //             }));
-        //             setCart(updatedCart);
-        //             console.log('Updated cart data:', updatedCart);
-        //         })
-        //         .catch(error => {
-        //             console.error("Error fetching product data:", error);
-        //         });
-        // } else {
-        //     console.log("No items in cart.");
-        //     setCart([]);
-        // }
-
-        setQuantities(quantities); // Update quantities in state
+        console.log("cart", cart)
         setLastValidQuantities(quantities); // Update last valid quantities
     }, []);
 

@@ -3,21 +3,30 @@ import React, { createContext, useState, useEffect } from 'react';
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState(() => {
-        const localStorageCart = localStorage.getItem('cart');
-        return localStorageCart ? JSON.parse(localStorageCart) : [];
-    });
-    const [updatedCartDetails, setUpdatedCartDetails] = useState([]);
+    const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
+    console.log(localStorageCart)
+    const [quantities, setQuantities] = useState([]);
+    const [updatedCart, setUpdatedCart] = useState([])
 
     // Function to fetch detailed cart data
-    const updateCartDetails = async () => {
+    const updateCartDetails = async (newItem) => {
         console.log("Updating cart");
-        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-        console.log(localStorageCart, 'cart token');
-
         // Extract product IDs and quantities from local storage
-        const itemIds = localStorageCart.map(item => item.id);
-        const quantities = localStorageCart.map(item => item.quantity);
+        var itemIds = localStorageCart.map(item => item.id);
+        var itemQuantities = localStorageCart.map(item => item.quantity);
+
+        if (newItem) {
+            if (itemIds.includes(newItem.id)) {
+                const matchingIndex = itemIds.findIndex(item => item === newItem.id)
+                itemQuantities[matchingIndex] += newItem.quantity
+            }
+            else {
+                itemIds.push(newItem.id)
+                itemQuantities.push(newItem.quantity)
+            }
+
+        }
+
 
         if (itemIds.length > 0) {
             try {
@@ -37,27 +46,25 @@ export const CartProvider = ({ children }) => {
                 // Merge product details with quantities
                 const updatedCart = products.map((product, index) => ({
                     ...product[0], // Assuming the API returns an array with one product
-                    quantity: quantities[index],
+                    quantity: itemQuantities[index],
                 }));
-                setUpdatedCartDetails(updatedCart);
+                setUpdatedCart(updatedCart)
+                setQuantities(itemQuantities)
                 console.log('Updated cart data:', updatedCart);
             } catch (error) {
                 console.error("Error fetching product data:", error);
             }
         } else {
-            console.log("No items in cart.");
-            setUpdatedCartDetails([]);
+            console.log("No items in cart.");;
         }
     };
 
-    // Update cart details whenever the cart state changes
     useEffect(() => {
-        console.log("updating")
-        updateCartDetails();
-    }, [cart]);
+        updateCartDetails()
+    }, [])
 
     return (
-        <CartContext.Provider value={{ cart, setCart, updatedCartDetails }}>
+        <CartContext.Provider value={{ updatedCart, updateCartDetails, quantities, setQuantities }}>
             {children}
         </CartContext.Provider>
     );

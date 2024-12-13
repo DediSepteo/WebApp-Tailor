@@ -52,3 +52,8 @@
     font-family: "Inter";
     src: local("Inter"), url(../fonts/Inter-VariableFont_opsz,wght.ttf) format("truetype");
 }
+
+@font-face {
+    font-family: "FrankRuhLibre";
+    src: local("FrankRuhLibre"), url(../fonts/FrankRuhlLibre-VariableFont_wght.ttf) format("truetype");
+}

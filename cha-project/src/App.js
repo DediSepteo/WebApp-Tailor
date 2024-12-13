@@ -41,6 +41,7 @@ import OrderDetailPage from './pages/OrderDetailPage'
 import DeactivateOrganization from './pages/DeactivateOrg';
 import ProtectAdminRoute from './components/ProtectAdminRoute';
 import ProtectTempAccRoute from './components/ProtectTempAccRoute';
+import { SnapStitchHome } from './pages/SnapStitchHome';
 
 
 const AppContent = () => {
@@ -76,7 +77,7 @@ const AppContent = () => {
     return (
         <CartProvider>
 
-            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
             <ScrollTop />
             <Routes>
@@ -153,10 +154,11 @@ const AppContent = () => {
                 <Route path="/snap/login" element={<SnapLogin />} />
                 <Route path="/snap/register" element={<SnapRegister />} />
                 <Route path="/snap" element={<CreateEmployee />} />
+                <Route path="/snap/home" element={<SnapStitchHome />} />
 
             </Routes>
 
-            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer isContentShort={isContentShort} />}
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin") || location.pathname.includes("snap")) && <Footer isContentShort={isContentShort} />}
 
         </CartProvider>
     );

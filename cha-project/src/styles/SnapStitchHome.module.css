@@ -1,0 +1,41 @@
+.header {
+    background-color: #C7E1D4;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.brand {
+    font-family: 'FrankRuhLibre';
+    color: #1C2D5B;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+.navBar {
+    display: flex;
+    width: 60%;
+    justify-content: space-between;
+}
+
+.SnapStitchLogo {
+    height: 1.5em;
+    width: auto;
+    margin-right: 0.2em;
+}
+
+
+.contentHead {
+    font-family: "Felgine";
+    font-size: 4.5em;
+}
+
+.contentDesc {
+    font-family: "Noto Serif TC";
+}
+
+.learnMoreBtn {
+    width: 15%;
+}

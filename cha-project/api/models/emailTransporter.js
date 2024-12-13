@@ -3,8 +3,7 @@ require('dotenv').config();
 
 // Configure the transporter
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email', // Use 'host' instead of 'service' for Ethereal
-    port: 587, // 587 for TLS (non-secure), 465 for SSL (secure)
+    host: 'smtp.gmail.com', 
     auth: {
         user: process.env.EMAIL_NAME, // Ethereal email from .env
         pass: process.env.EMAIL_PASS  // Ethereal password from .env

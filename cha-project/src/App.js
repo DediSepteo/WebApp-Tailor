@@ -47,7 +47,7 @@ const AppContent = () => {
     return (
         <>
 
-            {!(location.pathname === '/Login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
             <ScrollTop />
             <Routes>
@@ -127,7 +127,7 @@ const AppContent = () => {
 
             </Routes>
 
-            {!(location.pathname === '/Login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin")) && <Footer />}
 
         </>
     );

@@ -11,13 +11,13 @@
     display:flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2em;
+    font-size: 2em;
 }
 
 .navBar {
     display: flex;
     width: 60%;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .SnapStitchLogo {
@@ -26,14 +26,16 @@
     margin-right: 0.2em;
 }
 
-
 .contentHead {
     font-family: "Felgine";
-    font-size: 4.5em;
+    font-size: 4em;
+    line-height: 70px;
 }
 
 .contentDesc {
     font-family: "Noto Serif TC";
+    font-weight: 600;
+    font-size: 2em  
 }
 
 .learnMoreBtn {

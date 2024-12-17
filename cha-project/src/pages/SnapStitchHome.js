@@ -12,18 +12,19 @@ export const SnapStitchHome = () => {
                         <img src={require("../assets/SnapstitchLogo.png")} className={styles.SnapStitchLogo} />
                         SnapStitch
                     </p>
-                    <p>Start Scanning</p>
                 </div>
-                <div style={{ display: 'flex', flexDirection: "row" }}>
+                <div style={{ display: 'flex', flexDirection: "row", justifyContent: "space-evenly", width: "70%", }}>
                     <img src={require("../assets/phoneBodyScan.png")} />
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div style={{ textAlign: "start" }}>
                         <pre className={styles.contentHead}>
-                            Find your {"\n"}
-                            perfect fit with the     {"\n"}
+                            Find your<br />
+                            perfect fit with the<br />
                             press of a button
                         </pre>
                         <pre className={styles.contentDesc}>
-                            Obtain your body measurements with near perfect accuracy, tailored specifically for your suits
+                            Obtain your body measurements {"\n"}
+                            with near perfect accuracy, {"\n"}
+                            tailored specifically for your suits
                         </pre>
                         <button className={styles.learnMoreBtn}>
                             Learn more
@@ -34,11 +35,10 @@ export const SnapStitchHome = () => {
             <div className={styles.fabrication}>
                 <p className={styles.fabHead}>Fabrication For You</p>
                 <p className={styles.fabSubHead}>
-                    Can't figure out your perfect sizing?<br />Learn more about SnapStitch!
+                    We deeply value and protect your privacy<br />No photos will be taken at any point during the process, ensuring your peace of mind and maintaining your confidentiality throughout.
                 </p>
                 <div className={styles.fabBtnDiv}>
                     <Link to="/Shop1" className={styles.fabBtn}>
-
                         Learn More
                     </Link> {/*link to corporate shop for the time being*/}
                 </div>

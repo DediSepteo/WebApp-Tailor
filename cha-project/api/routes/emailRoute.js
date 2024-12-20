@@ -13,8 +13,9 @@ router.post('/', (req, res) => {
     }
 
     const mailOptions = {
-        from: email, // Sender's email address
-        to: "joel.schneider@ethereal.email", // Your receiving email address
+        from: process.env.EMAIL_NAME, // Use your authenticated email
+        to: process.env.EMAIL_NAME,   // Your receiving email address
+        replyTo: email,               // User's email for replies
         subject: subject,
         text: `You received a new message from ${name} (${email}):\n\n${message}`
     };

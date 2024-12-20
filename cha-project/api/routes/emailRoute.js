@@ -3,6 +3,8 @@ const router = express.Router();
 const { transporter, sendResetEmail } = require('../models/emailTransporter');
 require('dotenv').config();
 const organization = require('../models/organizationModel')
+const jwt = require('jsonwebtoken');
+
 
 router.post('/', (req, res) => {
     const { name, email, subject, message } = req.body;

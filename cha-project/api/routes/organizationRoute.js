@@ -289,6 +289,33 @@ router.put("/:id", (req, res) => {
 //     });
 // });
 
+router.post('/reset-password', async (req, res) => {
+    const { token, password } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const email = decoded.email;
+
+        console.log('Decoded Token:', decoded);
+        console.log('type', typeof (password))
+
+
+        if (!email) {
+            return res.status(400).json({ error: 'Invalid token: email not found' });
+        }
+
+        // Update the user's password in the database (ensure hashing!)
+        const hashedPassword = await bcrypt.hash(password, 10); // Replace bcrypt if not using
+        await organizationModel.updatePassword(email, hashedPassword);
+
+        res.status(200).json({ message: 'Password reset successfully!' });
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(400).json({ error: 'Invalid or expired token' });
+    }
+});
+
+
 
 
 module.exports = router;

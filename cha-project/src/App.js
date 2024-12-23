@@ -6,7 +6,6 @@ import Header from './components/Header';
 import Footer from './components/Footer'
 import NavBar from './components/NavBar';
 import ScrollTop from './components/ScrollTop';
-import ResetPassword from './components/resetPassword';
 import AdminHomePage from './pages/AdminHomePage'
 import AdminOrgPage from './pages/AdminOrgPage'
 import AdminProductPage from './pages/AdminProductPage';
@@ -27,6 +26,7 @@ import { Contact } from './pages/Contact';
 import { SnapLogin } from './pages/SnapStitchLogin'
 import { SnapRegister } from './pages/SnapStitchRegister'
 import { CartProvider } from '../src/components/CartContext'
+import ResetPassword from './components/resetPassword';
 import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
 import AdminOrderPage from './pages/AdminOrderPage';
@@ -92,7 +92,7 @@ const AppContent = () => {
                 <Route path="/admin/login" element={<AdminLogin />} />
 
                 {/* reset password */}
-                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                 {/* Protect the following admin routes */}
                 {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />

@@ -172,6 +172,27 @@ const Organization = {
             callback(null, results);
         });
     },
+
+    updatePassword: async (email, hashedPassword) => {
+        const query = `UPDATE organization SET password = ? WHERE email = ?`;
+        const values = [hashedPassword, email];
+
+        try {
+            const result = await db.query(query, values);
+
+            console.log('Update Result:', result);
+
+            if (result.affectedRows === 0) {
+                throw new Error('No user found with the specified email');
+            }
+            //qwerty123
+
+            return result; // Return the result of the update query
+        } catch (error) {
+            console.error('Error updating password:', error);
+            throw error;
+        }
+    },
 };
 
 module.exports = Organization;

@@ -1,7 +1,6 @@
 import React from 'react';
 import '../styles/landing-page.css';
 import '../styles/fonts.css';
-import { Link } from 'react-router-dom';
 
 const NewLandingPage = () => {
     return (

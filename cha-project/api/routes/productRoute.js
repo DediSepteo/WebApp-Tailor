@@ -30,7 +30,7 @@ router.get('/recent', (req, res) => {
 router.get('/:product_id', (req, res) => {
     const product_id = req.params.product_id;
 
-    productModel.getProductId(product_id, (error, results) => {
+    productModel.getProductById(product_id, (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Error fetching products' });
         }
@@ -65,20 +65,15 @@ router.get('/count', (req, res) => {
 
 router.post('/register/:org_id', async (req, res) => {
     const productData = req.body
+    const org_id = req.params.org_id
     const isBulk = Array.isArray(productData)
 
     if (isBulk) {
-        const org_id = req.params.org_id
         try {
-            productData.map((product) => {
-                const { name, price, description, image } = product
-                productModel.createProduct(name, org_id, price, description, (err, results) => {
-                    if (err) {
-                        console.error('Error creating product:', err);
-                        return res.status(500).send('Error creating product');
-                    }
-                })
-            })
+            await Promise.all(productData.map(async (product) => {
+                const { name, price, description, image } = product;
+                await productModel.createProduct(name, org_id, price, description);
+            }));
             return res.status(201).send("Products registered successfully")
         }
         catch {
@@ -89,7 +84,6 @@ router.post('/register/:org_id', async (req, res) => {
     }
     else {
         const name = productData.name
-        const org_id = productData.org_id
         const price = productData.price
         const description = productData.description
         productModel.createProduct(name, org_id, price, description, (err, results) => {
@@ -101,7 +95,7 @@ router.post('/register/:org_id', async (req, res) => {
             return res.status(201).json({ message: 'Product created successfully', data: results });
 
         })
-    } ``
+    }
 })
 
 router.put("/:id", (req, res) => {

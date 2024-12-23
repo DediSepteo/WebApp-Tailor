@@ -3,7 +3,7 @@ const db = require('./dbconnection'); // Import the MySQL connection from dbconn
 
 const Product = {
     // Get product id
-    getProductId: (product_id, callback) => {
+    getProductById: (product_id, callback) => {
         const query = 'SELECT * FROM products WHERE product_id = ?';
         db.query(query, [product_id], (err, results) => {
             if (err) {

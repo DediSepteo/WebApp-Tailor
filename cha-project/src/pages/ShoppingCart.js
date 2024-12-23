@@ -84,6 +84,7 @@ export const ShoppingCart = () => {
         else {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
+            const source = decodedToken.source
             console.log(quantities)
             quantities.forEach((quantity, index) => {
                 cart[index].qty = quantity
@@ -91,7 +92,8 @@ export const ShoppingCart = () => {
             fetch("http://localhost:3000/api/payment/checkoutSes", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Source": source
                 },
                 body: JSON.stringify({
                     cart: cart,

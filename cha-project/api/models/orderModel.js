@@ -112,7 +112,7 @@ const orders = {
     },
 
     getMeasurements: (id, callback) => {
-        const query = `SELECT measurement, p.name as product_name, m.name as employee_name, p.product_id, address
+        const query = `SELECT measurement, p.name as product_name, m.name as employee_name, p.product_id, address, qty
                         FROM measurements m INNER JOIN products p ON m.product_id = p.product_id WHERE order_id = ?`
         db.query(query, [id], (err, results) => {
             if (err) {

@@ -15,11 +15,6 @@ export const Shop1Item = () => {
 
     //const filteredItems = options.filter(item => item.company === company); idk whats this lol @jav
 
-    const toDetails = (data) => {
-        navigate(`/Shop1/${data.name}`, { state: { data: data } })
-    }
-
-
     useEffect(() => {
         // Retrieve token from sessionStorage
         const token = sessionStorage.getItem('token');
@@ -84,7 +79,7 @@ export const Shop1Item = () => {
                             <p className={styles.categoryPrice}>₱{item.price}</p>
                         </div>
                     </Link>
-                )) : <p>No products available.</p>}
+                )) : <div style={{ height: "40vh" }}>No products available.</div>}
             </div>
         </main>
     );

@@ -33,11 +33,11 @@ const CreateProduct = () => {
             alert("Price cannot be zero or negative")
             return
         }
+        // Image not implemented yet
         const body = {
             "name": prodName,
             "price": prodPrice,
             "description": prodDesc,
-            "org_id": org_id
         }
         const values = Object.values(body)
         const requiredValues = values.map((value) => { return value.trim() })
@@ -46,9 +46,7 @@ const CreateProduct = () => {
             return false
         }
         const token = sessionStorage.getItem("authToken")
-        if (!body.org_id)
-            alert("Error with organization")
-        else if (!token)
+        if (!token)
             alert("Error retrieving token")
         else {
             handleRegister(token, body)
@@ -58,7 +56,7 @@ const CreateProduct = () => {
 
     const handleRegister = async (token, body) => {
         try {
-            const response = await fetch("http://localhost:3000/api/product/register", {
+            const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +69,7 @@ const CreateProduct = () => {
             }
 
             alert("Product created!")
-            navigate(`/admin/${type}/products`)
+            navigate(-1)
         }
 
         catch (error) {

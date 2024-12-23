@@ -1,45 +1,10 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProfileSideNavBar from '../components/ProfileSideNavBar';
 import EditProfileInfo from '../components/EditProfileInfo';
 import { Link } from 'react-router-dom';
 import styles from '../styles/Profile.module.css';
 import { jwtDecode } from 'jwt-decode';
 import { FaUserCircle } from "react-icons/fa";
-
-const orders = [
-    {
-        order_id: "1234567890",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "asfghjjkp",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "1234567890",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "asfghjjkp",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "1234567890",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "asfghjjkp",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "1234567890",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    {
-        order_id: "asfghjjkp",
-        order_description: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    }
-]
 
 export const Profile = () => {
     const [userDetails, setUserDetails] = useState({
@@ -51,6 +16,7 @@ export const Profile = () => {
         userAddress1: null,
         maskedPassword: 'No password set',
     });
+    const [pendingOrders, setPendingOrders] = useState([]);
     const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
     const [fieldToEdit, setFieldToEdit] = useState(null);
 
@@ -59,7 +25,7 @@ export const Profile = () => {
     };
 
     useEffect(() => {
-        const fetchAndSetUserDetails = () => {
+        const fetchAndSetUserDetails = async () => {
             const token = sessionStorage.getItem('token') || localStorage.getItem('token');
             if (token) {
                 try {
@@ -73,8 +39,25 @@ export const Profile = () => {
                         userAddress1: decodedToken.address,
                         userPhone: decodedToken.org_phone,
                     }));
+
+                    const response = await fetch(`http://localhost:3000/api/org/pending-orders/${decodedToken.org_id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Pending orders:', data);
+                    setPendingOrders(data);
+
                 } catch (error) {
-                    console.error('Invalid token:', error);
+                    console.error('Error fetching user details or pending orders:', error);
                 }
             }
 
@@ -129,14 +112,19 @@ export const Profile = () => {
                             </div>
                         </div>
                         <div className={styles.userFullInfo}>
-                            {[
-                                { title: 'Your Name', value: userName, field: 'name' },
-                                { title: 'Email', value: userEmail, field: 'email' },
-                                { title: 'Phone Number', value: userPhone, field: 'phone' },
-                                { title: 'Address', value: userAddress1, field: 'address_line1' },
-                                { title: 'Industry', value: orgIndustry, field: 'industry' },
-                                { title: 'Password', value: maskedPassword, field: 'password' },
-                            ].map(({ title, value, field }) => (
+                            {[{
+                                title: 'Your Name', value: userName, field: 'name'
+                            }, {
+                                title: 'Email', value: userEmail, field: 'email'
+                            }, {
+                                title: 'Phone Number', value: userPhone, field: 'phone'
+                            }, {
+                                title: 'Address', value: userAddress1, field: 'address_line1'
+                            }, {
+                                title: 'Industry', value: orgIndustry, field: 'industry'
+                            }, {
+                                title: 'Password', value: maskedPassword, field: 'password'
+                            }].map(({ title, value, field }) => (
                                 <div key={field} style={{ margin: '10px 0' }}>
                                     <span className={styles.title}>{title}: </span>
                                     <div className={styles.infoRow}>
@@ -152,12 +140,16 @@ export const Profile = () => {
                             <div className={styles.sectionTitle}>Pending Orders</div>
                         </div>
                         <div className={styles.deliveryDetailsContent}>
-                            {orders.map((item, index) => (
-                                <Link to={""} className={styles.deliveryItems} key={index}>
+                            {pendingOrders.length > 0 ? pendingOrders.map((item, index) => (
+                                <Link to={"#"} className={styles.deliveryItems} key={index}>
                                     Order ID: {item.order_id}
-                                    <p className={styles.itemDescription}>{item.order_description}</p>
+                                    <p className={styles.itemDescription}>
+                                        Product: {item.product_name},
+                                        Quantity: {item.quantity},
+                                        Status: {item.status}
+                                    </p>
                                 </Link>
-                            ))}
+                            )) : <p>No pending orders available</p>}
                         </div>
                     </section>
                 </div>

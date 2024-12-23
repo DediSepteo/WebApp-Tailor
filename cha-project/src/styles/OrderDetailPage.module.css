@@ -19,7 +19,7 @@
 
 .card {
     gap: 1em;   
-    min-width: 15%;
+    min-width: 20%;
     display: inline-block;
     font-size: 80%;
     font-family: Inter;

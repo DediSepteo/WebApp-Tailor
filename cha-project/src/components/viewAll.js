@@ -18,6 +18,9 @@ const ViewAll = ({ category, type, isReady }) => {
 
     const navigate = useNavigate()
 
+    const token = sessionStorage.getItem("authToken")
+
+
     const toggleDeletePopUp = (id) => {
         setItemDeleteID(id)
         setShowDeletePopup(!showDeletePopup); // Show popup when you want
@@ -42,6 +45,7 @@ const ViewAll = ({ category, type, isReady }) => {
             try {
                 const response = await fetch(`${deleteLink}/${itemDeleteID}`, {
                     method: category == "Organization" ? "PUT" : "DELETE",
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
 
                 if (response.ok) {
@@ -107,6 +111,14 @@ const ViewAll = ({ category, type, isReady }) => {
                                 return newItem
                             })
                             setOrgStatus(statusData)
+                            setData(formattedData)
+                        }
+                        else if (category == "Order") {
+                            const formattedData = response.map((item) => {
+                                console.log(item)
+                                const newItem = { ...item, measurementNo: `${item.measurementNo}/${item.qty}` }
+                                return newItem
+                            })
                             setData(formattedData)
                         }
                         else {

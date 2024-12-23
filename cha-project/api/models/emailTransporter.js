@@ -3,12 +3,10 @@ require('dotenv').config();
 
 // Configure the transporter
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email', // Use 'host' instead of 'service' for Ethereal
-    port: 587, // 587 for TLS (non-secure), 465 for SSL (secure)
-    secure: false, // Set to true for port 465
+    host: 'smtp.gmail.com',
     auth: {
-        user: process.env.EMAIL_NAME, // Ethereal email from .env
-        pass: process.env.EMAIL_PASS  // Ethereal password from .env
+        user: process.env.EMAIL_NAME,
+        pass: process.env.EMAIL_PASS
     }
 });
 
@@ -21,4 +19,27 @@ transporter.verify((error, success) => {
     }
 });
 
-module.exports = transporter;
+// Send the email
+const sendResetEmail = async (email, resetUrl) => {
+    const mailOptions = {
+        from: process.env.EMAIL_NAME,
+        to: email,
+        subject: 'Password Reset Request',
+        html: `
+        <p>You requested a password reset. Click the link below to reset your password:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+      `,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+    } catch (err) {
+        console.error("Error sending email:", err);
+        throw new Error('Failed to send reset email');
+    }
+};
+
+module.exports = {
+    transporter,
+    sendResetEmail
+};

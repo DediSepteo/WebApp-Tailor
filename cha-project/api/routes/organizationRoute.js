@@ -31,9 +31,9 @@ router.post(`/gen-link`, (req, res) => {
         }
         const jwtLinkToken = jwt.sign({ orgID }, JWT_SECRET);
         // Generate the link based on orgID
-        const generatedLink = `http:/localhost:3001/snap/login?t=${jwtLinkToken}`; // Replace with actual link generation logic
+        const generatedLink = `http:/localhost:3001/snap/login?t=${jwtLinkToken}`;
 
-        res.json({ link: generatedLink }); // Send the generated link back to the client
+        res.json({ link: generatedLink });
     });
 });
 
@@ -86,6 +86,20 @@ router.get('/count', (req, res) => {
         res.json({ results });
     });
 });
+
+router.get('/email', (req, res) => {
+    const email = req.headers.email
+    organizationModel.getOrgByEmail(email, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching organization data' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No organization found for this company' });
+        }
+        return res.json(results);
+    });
+})
 
 router.get('/:id', (req, res) => {
     const id = req.params.id;
@@ -287,6 +301,33 @@ router.get("/pending-orders/:id", (req, res) => {
 //         return res.status(200).send('Organization deleted successfully');
 //     });
 // });
+
+router.post('/reset-password', async (req, res) => {
+    const { token, password } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const email = decoded.email;
+
+        console.log('Decoded Token:', decoded);
+        console.log('type', typeof (password))
+
+
+        if (!email) {
+            return res.status(400).json({ error: 'Invalid token: email not found' });
+        }
+
+        // Update the user's password in the database (ensure hashing!)
+        const hashedPassword = await bcrypt.hash(password, 10); // Replace bcrypt if not using
+        await organizationModel.updatePassword(email, hashedPassword);
+
+        res.status(200).json({ message: 'Password reset successfully!' });
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(400).json({ error: 'Invalid or expired token' });
+    }
+});
+
 
 
 

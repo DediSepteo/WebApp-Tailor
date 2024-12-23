@@ -8,11 +8,17 @@ const DeactivateOrganization = () => {
     const [dropDownInput, setDropDownInput] = useState([])
     const [orgID, setOrgID] = useState("")
 
+    const token = sessionStorage.getItem("authToken")
+
     const navigate = useNavigate()
 
     const fetchOrgNames = () => {
         const type = window.location.href.includes("corporate") ? "corporate" : "government"
-        fetch(`http://localhost:3000/api/org/names?type=${type}`)
+        fetch(`http://localhost:3000/api/org/names?type=${type}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => response.json())
             .then(orgs => {
                 const options = orgs.map((org) => ({
@@ -29,6 +35,9 @@ const DeactivateOrganization = () => {
         try {
             const response = await fetch(`http://localhost:3000/api/org/deactivate/${orgID}`, {
                 method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (!response.ok) {

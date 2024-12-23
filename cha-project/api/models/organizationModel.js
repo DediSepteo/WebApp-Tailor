@@ -52,8 +52,18 @@ const Organization = {
         })
     },
 
-    getOrgPass: (email, callback) => {
-        const query = 'SELECT * FROM ORGANIZATION WHERE email = ?';
+    // getOrgPass: (email, callback) => {
+    //     const query = 'SELECT * FROM ORGANIZATION WHERE email = ?';
+    //     db.query(query, [email], (err, results) => {
+    //         if (err) {
+    //             return callback(err, null);
+    //         }
+    //         callback(null, results)
+    //     })
+    // },
+
+    getOrgByEmail: (email, callback) => {
+        const query = 'SELECT org_id, email, industry, name, address_line1, phone FROM ORGANIZATION WHERE email = ? AND status = "active"';
         db.query(query, [email], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -63,7 +73,7 @@ const Organization = {
     },
 
     getOrgPassById: (org_id, callback) => {
-        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ?';
+        const query = 'SELECT * FROM ORGANIZATION WHERE org_id = ? AND status = "active"';
         db.query(query, [org_id], (err, results) => {
             console.log('Query executed:', query);
             console.log('Query parameters:', org_id);
@@ -164,8 +174,40 @@ const Organization = {
             }
             callback(null, results);
         });
-    }
-    
+    },
+
+    getOrgByEmail: (email, callback) => {
+        const query = 'SELECT * FROM organization WHERE email = ?';
+      
+        db.query(query, [email], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
+    updatePassword: async (email, hashedPassword) => {
+        const query = `UPDATE organization SET password = ? WHERE email = ?`;
+        const values = [hashedPassword, email];
+
+        try {
+            const result = await db.query(query, values);
+
+            console.log('Update Result:', result);
+
+            if (result.affectedRows === 0) {
+                throw new Error('No user found with the specified email');
+            }
+            //qwerty123
+
+            return result; // Return the result of the update query
+        } catch (error) {
+            console.error('Error updating password:', error);
+            throw error;
+        }
+    },
+  
 };
 
 module.exports = Organization;

@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../styles/ItemDetail.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
+import { CartContext } from '../components/CartContext';
 
 
 export const ItemDetail = () => {
     const location = useLocation();
+    const { updateCartDetails } = useContext(CartContext)
     const item = location.state?.data; // Ensure you use optional chaining or check if state exists
     const [selectedImage, setSelectedImage] = useState(null);
     const [addedToCart, setAddedToCart] = useState(false);
@@ -14,6 +16,8 @@ export const ItemDetail = () => {
     const [isEditing, setIsEditing] = useState(false); // To track if in editing mode
     const [lastValidQuantity, setLastValidQuantity] = useState(1); // Track last valid quantity
     const intervalRef = useRef(null); // Reference for auto increment/decrement
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (addedToCart) {
@@ -23,6 +27,11 @@ export const ItemDetail = () => {
             return () => clearTimeout(timer); // Cleanup on unmount
         }
     }, [addedToCart]);
+
+    useEffect(() => {
+        if (!item)
+            navigate(-1)
+    })
 
     const defaultImage = "https://placehold.co/430x640"
 
@@ -34,7 +43,7 @@ export const ItemDetail = () => {
         const newItem = {
             id: item.product_id,
             // Ensure that quantity is a number, if user types value, data will be string
-            quantity: parseInt(quantity),
+            quantity: quantity
         };
 
         // Check if item already exists in the cart
@@ -49,8 +58,7 @@ export const ItemDetail = () => {
         }
 
         localStorage.setItem('cart', JSON.stringify(existingCart));
-
-        // Reset values after submit
+        updateCartDetails(newItem)
         setQuantity(1);
         console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
@@ -96,7 +104,7 @@ export const ItemDetail = () => {
 
         // If the input is a valid number, update the last valid quantity
         if (!isNaN(value) && value >= 1 && value <= 50) {
-            setLastValidQuantity(parseInt(value, 10));
+            setLastValidQuantity(value, 10);
         }
     };
 
@@ -110,17 +118,16 @@ export const ItemDetail = () => {
     const handleBlur = () => {
         // On blur, if the value is invalid, revert to the last valid quantity
         if (isNaN(quantity) || quantity < 1 || quantity > 50) {
-            setQuantity(lastValidQuantity); // Restore last valid quantity
+            setQuantity(parseInt(lastValidQuantity)); // Restore last valid quantity
         } else {
             setLastValidQuantity(quantity); // If valid, update last valid quantity
         }
         setIsEditing(false); // Exit editing mode
     };
 
-    // if (!item) {
-    //     return <div>Item not found</div>;
-    // }
-    console.log(item)
+    if (!item) {
+        return <div></div>
+    }
     return (
         <main className={styles.main}>
             <div className={styles.backContainer}>

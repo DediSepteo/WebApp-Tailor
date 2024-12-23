@@ -51,6 +51,9 @@
 
 .userDetails {
     width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .deliveryDetails {
@@ -155,4 +158,23 @@
     font-size: 0.8em;
     color: gray;
     margin-bottom: 0;
+}
+
+.createTempAccount {
+    display: flex;
+    flex-direction: column;
+    border: 1.6px solid #D9D9D9;
+    border-radius: 7px;
+    padding: 20px 25px;
+}
+.createBtn {
+    font-family: "Montserrat";
+    margin-left:auto;
+    width: 30%;
+    color: white;
+    background-color: #28A197;
+    border: none;
+    border-radius: 15px;
+    padding: 0.5em;
+    cursor: pointer;
 }

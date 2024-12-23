@@ -22,6 +22,8 @@ const CreateOrganization = () => {
 
     const navigate = useNavigate();
 
+    const token = sessionStorage.getItem("authToken")
+
     const toggleError = () => {
         setShowError(!showError);
     };
@@ -91,6 +93,7 @@ const CreateOrganization = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     "name": orgName,

@@ -18,6 +18,8 @@ const AdminPage = () => {
     const [isExpanded, setIsExpanded] = useState([]);
     const [orgStatus, setOrgStatus] = useState({})
 
+    const token = sessionStorage.getItem("authToken")
+
 
     const navigate = useNavigate()
 
@@ -31,6 +33,9 @@ const AdminPage = () => {
         try {
             const response = await fetch(link, {
                 method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+                }
             });
 
             if (response.ok) {
@@ -68,23 +73,26 @@ const AdminPage = () => {
     const splitPhoneNumber = (phoneNumber, countryCode) => {
         const parsed = parsePhoneNumberFromString(phoneNumber, countryCode);
         if (parsed) {
-            console.log(`+${parsed.countryCallingCode} ${parsed.nationalNumber}`)
             return `+${parsed.countryCallingCode} ${parsed.nationalNumber}`
         } else {
-            console.log(phoneNumber, countryCode)
+            console.error("Could not find country calling code from phone number")
+            return phoneNumber
         }
     }
 
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/org/recent?type=${type}&limit=5`)
+        fetch(`http://localhost:3000/api/org/recent?type=${type}&limit=5`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Adding Authorization Bearer Token
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 var statusData = {}
                 // Format data to change country code to country, phone number to separate prefix from number
                 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
                 data.forEach((item) => {
-                    console.log(item)
                     statusData[item.id] = item.status == "active"
                 })
                 const formattedData = data.map((item) => {

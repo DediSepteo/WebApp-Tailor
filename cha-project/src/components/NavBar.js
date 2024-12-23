@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
@@ -8,6 +8,7 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { PiArrowBendUpRightBold } from "react-icons/pi";
 import { jwtDecode } from "jwt-decode";
+import { CartContext } from "./CartContext";
 import styles from "../styles/NavBar.module.css";
 
 // Sample cartItems data
@@ -25,60 +26,26 @@ const NavBar = () => {
     const [sideCartOpen, setSideCartOpen] = useState(false); // State for the side cart
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [userName, setUserName] = useState(null);
+    const [isTempAccount, setIsTempAccount] = useState(false)
     const navigate = useNavigate(); // Initialize navigate
 
     // Side cart states
     // Load cart from localStorage (Assume it's an array of { id, size, color, quantity })
     const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
 
+
+
     // Side cart states
-    const [quantities, setQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
-    const [cart, setCart] = useState([]);
-
+    const { setCart, quantities, setQuantities } = useContext(CartContext);
+    const cart = useContext(CartContext).updatedCart
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
-        const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-        console.log(localStorageCart, 'cart token');
-
-        // Extract product IDs and quantities from local storage
-        const itemIds = localStorageCart.map(item => item.id);
-        const quantities = localStorageCart.map(item => item.quantity);
-
-        if (itemIds.length > 0) {
-            // Fetch product details for all IDs
-            const fetchPromises = itemIds.map(id =>
-                fetch(`http://localhost:3000/api/product/${id}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Failed to fetch product with id ${id}`);
-                        }
-                        return response.json();
-                    })
-            );
-
-            Promise.all(fetchPromises)
-                .then(products => {
-                    // Merge product details with quantities
-                    const updatedCart = products.map((product, index) => ({
-                        ...product[0], // Assuming the API returns an array with one product
-                        quantity: quantities[index],
-                    }));
-                    setCart(updatedCart);
-                    console.log('Updated cart data:', updatedCart);
-                })
-                .catch(error => {
-                    console.error("Error fetching product data:", error);
-                });
-        } else {
-            console.log("No items in cart.");
-            setCart([]);
-        }
-
-        setQuantities(quantities); // Update quantities in state
+        console.log("cart", cart)
         setLastValidQuantities(quantities); // Update last valid quantities
     }, []);
 
@@ -225,10 +192,13 @@ const NavBar = () => {
     }, [editingIndex]);
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
+                const source = decodedToken.source
+                if (source == "temporary") {
+                    setIsTempAccount(true)
+                }
                 setUserName(decodedToken.org_name); // Ensure your token has a 'name' field
             } catch (error) {
                 console.error('Invalid token:', error);
@@ -323,51 +293,54 @@ const NavBar = () => {
                 <div className={styles.contentWrapper}>
                     <table className={styles.tableContent}>
                         <tbody>
-                            {cart.map((item, index) => (
-                                <tr key={index}>
-                                    <td className={styles.productRow}>
-                                        <img
-                                            src="https://placehold.co/430x640" // Replace with item.image_url if available
-                                            alt={item.name}
-                                            className={styles.productImage}
-                                        />
-                                        <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
-                                            <p className={styles.productName}>{item.name}</p>
-                                            <p className={styles.productPrice}>{item.description}</p>
-                                            <p className={styles.productPrice}>₱{item.price.toFixed(2)}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={styles.quantityContainer}>
-                                            <div className={styles.quantityBox}>
-                                                <button
-                                                    className={styles.quantityButton}
-                                                    onClick={() => decreaseQuantity(index)}
-                                                >
-                                                    -
-                                                </button>
+                            {cart.map((item, index) => {
+                                console.log(item)
+                                return (
+                                    <tr key={index}>
+                                        <td className={styles.productRow}>
+                                            <img
+                                                src="https://placehold.co/430x640" // Replace with item.image_url if available
+                                                alt={item.name}
+                                                className={styles.productImage}
+                                            />
+                                            <div style={{ marginLeft: '5px' }} className={styles.productDetailsWrapper}>
+                                                <p className={styles.productName}>{item.name}</p>
+                                                <p className={styles.productPrice}>{item.description}</p>
+                                                <p className={styles.productPrice}>₱{item.price.toFixed(2)}</p>
                                             </div>
-                                            <div className={styles.quantityRectangle}>
-                                                <span>{quantities[index]}</span>
+                                        </td>
+                                        <td>
+                                            <div className={styles.quantityContainer}>
+                                                <div className={styles.quantityBox}>
+                                                    <button
+                                                        className={styles.quantityButton}
+                                                        onClick={() => decreaseQuantity(index)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                </div>
+                                                <div className={styles.quantityRectangle}>
+                                                    <span>{quantities[index]}</span>
+                                                </div>
+                                                <div className={styles.quantityBox}>
+                                                    <button
+                                                        className={styles.quantityButton}
+                                                        onClick={() => increaseQuantity(index)}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className={styles.quantityBox}>
-                                                <button
-                                                    className={styles.quantityButton}
-                                                    onClick={() => increaseQuantity(index)}
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className={styles.iconWrapper}>
-                                        <IoClose
-                                            className={styles.closeIcon}
-                                            onClick={() => handleRemoveItem(index)}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className={styles.iconWrapper}>
+                                            <IoClose
+                                                className={styles.closeIcon}
+                                                onClick={() => handleRemoveItem(index)}
+                                            />
+                                        </td>
+                                    </tr>)
+
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -405,7 +378,16 @@ const NavBar = () => {
                 <div className={styles.sideDiv}>
                     {userName ? (
                         <div className={styles.userContainer}>
-                            <NavLink className={styles.icons} to="/profile"><FaRegUser /></NavLink>
+                            {isTempAccount ? (
+                                <div className={styles.icons} style={{ cursor: "default" }}>
+                                    <FaRegUser />
+                                </div>
+                            ) : (
+                                <NavLink className={styles.icons} to="/profile">
+                                    <FaRegUser />
+                                </NavLink>
+                            )}
+
                             <Link to="/profile" className={styles.userName}>{userName}</Link>
 
                             <button onClick={handleLogout} className={styles.logoutButton}>
@@ -418,8 +400,9 @@ const NavBar = () => {
                             <span className={styles.loginText}>Login / Register</span>
                         </NavLink>
                     )}
-                    <span className={styles.icons}><IoSearch /></span>
-                    <span className={styles.icons} onClick={toggleSideCart} id="cart"><MdOutlineShoppingCart /></span>
+                    {token && (
+                        <span className={styles.icons} onClick={toggleSideCart} id="cart"><MdOutlineShoppingCart /></span>
+                    )}
                     <FaBars className={`${styles.colNavbar} ${styles.icons}`} id="sideNavIcon" onClick={toggleSideNav} />
                 </div>
             </nav>

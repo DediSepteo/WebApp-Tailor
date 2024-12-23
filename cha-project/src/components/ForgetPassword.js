@@ -4,6 +4,8 @@ import { IoClose } from "react-icons/io5";
 
 const ForgotPasswordPopup = ({ isVisible, onClose }) => {
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const [mouseDownInside, setMouseDownInside] = useState(false);
 
   const handleMouseDown = (e) => {
@@ -21,10 +23,31 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
     setMouseDownInside(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Password reset requested for:', email);
-    onClose();
+
+    try {
+      const response = await fetch('http://localhost:3000/api/contact/password-reset-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setMessage(result.message); // Display success message
+        setError('');
+        setEmail(''); // Clear email field
+      } else {
+        setMessage('');
+        setError(result.error || 'Failed to send reset email');
+      }
+    } catch (err) {
+      setMessage('');
+      setError('An unexpected error occurred. Please try again later.');
+    }
   };
 
   if (!isVisible) return null;
@@ -32,8 +55,6 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
   return (
     <div
       className={styles.popupOverlay}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
     >
       <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.forgetPasswordTop}>
@@ -52,6 +73,9 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
           />
           <button className={styles.forgetPasswordButton} type="submit">Submit</button>
         </form>
+        {/* Display success or error message */}
+        {message && <div className={styles.successMessage}>{message}</div>}
+        {error && <div className={styles.errorMessage}>{error}</div>}
       </div>
     </div>
   );

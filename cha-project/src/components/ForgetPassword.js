@@ -55,8 +55,6 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
   return (
     <div
       className={styles.popupOverlay}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
     >
       <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.forgetPasswordTop}>

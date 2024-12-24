@@ -82,9 +82,6 @@ export const ShoppingCart = () => {
             navigate("/login")
         }
         else {
-            const decodedToken = jwtDecode(token);
-            const org_id = decodedToken.org_id;
-            const source = decodedToken.source
             console.log(quantities)
             quantities.forEach((quantity, index) => {
                 cart[index].qty = quantity
@@ -93,11 +90,10 @@ export const ShoppingCart = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Source": source
+                    "Token": token
                 },
                 body: JSON.stringify({
-                    cart: cart,
-                    org_id: org_id,
+                    cart: cart
                 })
             })
                 .then(response => response.json())

@@ -216,6 +216,7 @@ body {
 .closeIcon {
   font-size: 24px;
   color: #28A197;
+  cursor: pointer;
 }
 
 .forgetPasswordButton {

@@ -1,6 +1,11 @@
 .mainContainer {
   background-color: #28a197;
   padding: 5% 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 5%;
 }
 
 .title {
@@ -11,80 +16,124 @@
   margin-bottom: 1vh;
 }
 
+.leftSection {
+  flex: 1;
+  padding: 20px;
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.leftSection h2 {
+  font-size: 2.5em;
+  font-family: "Noto Serif TC";
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.leftSection p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #f0f0f0;
+}
+
+.rightSection {
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .inputTitle {
   display: flex;
   flex-direction: row;
   align-items: center;
   font-family: "Noto Serif TC";
   font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .inputTitle span {
-  color: #ffffff;
+  color: #333333;
 }
 
 .inputTitle p {
   color: rgb(173, 0, 0);
+  margin-left: 5px;
 }
 
-.inputField {
-  width: 99.5%;
-  height: 42px;
+.inputField,
+.textArea {
+  width: 95%;
+  padding: 10px;
   font-size: 16px;
-  margin-bottom: 1vh;
+  margin-bottom: 1.5vh;
   font-family: "Tahoma", "Arial";
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.inputField:focus,
+.textArea:focus {
+  outline: none;
+  border: 1px solid #28a197;
+  box-shadow: 0 0 5px rgba(40, 161, 151, 0.5);
 }
 
 .textArea {
-  width: 99.5%;
-  height: 40vh;
-  font-size: 16px;
+  height: 150px;
   resize: none;
-  font-family: "Tahoma", "Arial";
 }
 
 .submitButton {
-  display: block;
   background-color: #000000;
   color: white;
   font-family: "Noto Serif TC";
   font-weight: 600;
   font-size: 1em;
-  height: 42px;
-  width: 15vw;
+  padding: 12px 20px;
   border: none;
-  margin-right: 0;
-  margin-left: auto;
-  margin-top: 2vh;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.submitButton:hover {
+  background-color: #444444;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
 .successMessage {
   color: green;
   font-weight: bold;
   margin-top: 10px;
+  text-align: center;
 }
 
 .errorMessage {
   color: red;
   font-weight: bold;
   margin-top: 10px;
+  text-align: center;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .mainContainer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .title {
     font-size: 2.5em;
+    text-align: center;
   }
+
   .submitButton {
-    display: block;
-    background-color: #1c2d5b;
-    font-family: "Noto Serif TC";
-    font-weight: 600;
-    color: white;
-    padding: 0.7em;
-    width: 30vw;
-    border: none;
-    margin-right: 0;
-    margin-left: auto;
+    width: 100%;
     margin-top: 2vh;
   }
 }

@@ -23,6 +23,13 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
     setMouseDownInside(false);
   };
 
+  const handleClose = () => {
+    setMessage(''); // Clear success message
+    setError(''); // Clear error message
+    setEmail(''); // Clear email field
+    onClose(); // Call the parent-provided close handler
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -40,6 +47,7 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
         setMessage(result.message); // Display success message
         setError('');
         setEmail(''); // Clear email field
+
       } else {
         setMessage('');
         setError(result.error || 'Failed to send reset email');
@@ -59,7 +67,8 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
       <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.forgetPasswordTop}>
           <p className={styles.forgetPasswordTitle}>Reset Your Password</p>
-          <IoClose className={styles.closeIcon} onClick={onClose} />
+          <IoClose className={styles.closeIcon} onClick={handleClose} />
+
         </div>
         <form onSubmit={handleSubmit}>
           <input
@@ -74,8 +83,16 @@ const ForgotPasswordPopup = ({ isVisible, onClose }) => {
           <button className={styles.forgetPasswordButton} type="submit">Submit</button>
         </form>
         {/* Display success or error message */}
-        {message && <div className={styles.successMessage}>{message}</div>}
-        {error && <div className={styles.errorMessage}>{error}</div>}
+        {message && (
+          <div style={{ color: 'green', textAlign: 'center', margin: '10px 0' }}>
+            {message}
+          </div>
+        )}
+        {error && (
+          <div style={{ color: 'red', textAlign: 'center', margin: '10px 0' }}>
+            {error}
+          </div>
+        )}
       </div>
     </div>
   );

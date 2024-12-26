@@ -263,17 +263,30 @@ router.put("/deactivate/:id", (req, res) => {
 })
 
 
-router.put("/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const data = req.body
-    if (!Object.keys(data).length)
-        return res.status(500).send("Empty body")
-    organizationModel.updateOrg(id, data, (err, results) => {
+// router.put("/:id", (req, res) => {
+//     const id = Number(req.params.id)
+//     const data = req.body
+//     if (!Object.keys(data).length)
+//         return res.status(500).send("Empty body")
+//     organizationModel.updateOrg(id, data, (err, results) => {
+//         if (err) {
+//             console.error("Failed to update organization", err)
+//             return res.status(500).send("Error updating organization")
+//         }
+//         return res.status(200).send("Organization updated successfully")
+//     })
+// })
+
+router.get("/pending-orders/:id", (req, res) => {
+    console.log(`Received request for orgId: ${req.params.id}`);
+    const orgID = req.params.id;
+
+    organizationModel.getRecentOrgOrders(orgID, (err, results) => {
         if (err) {
-            console.error("Failed to update organization", err)
-            return res.status(500).send("Error updating organization")
+            return res.status(500).json({ error: 'Error fetching pending orders', details: err });
         }
-        return res.status(200).send("Organization updated successfully")
+        console.log('Fetched pending orders:', results);
+        res.status(200).json(results);
     })
 })
 

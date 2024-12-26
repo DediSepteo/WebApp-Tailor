@@ -42,6 +42,7 @@ import DeactivateOrganization from './pages/DeactivateOrg';
 import ProtectAdminRoute from './components/ProtectAdminRoute';
 import ProtectTempAccRoute from './components/ProtectTempAccRoute';
 import { SnapStitchHome } from './pages/SnapStitchHome';
+import { OrderCompleted } from './pages/OrderCompleted';
 
 
 const AppContent = () => {
@@ -77,7 +78,7 @@ const AppContent = () => {
     return (
         <CartProvider>
 
-            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
             <ScrollTop />
             <Routes>
@@ -89,7 +90,7 @@ const AppContent = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
-                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/success" element={<OrderCompleted />} />
 
                 {/* reset password */}
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -158,7 +159,7 @@ const AppContent = () => {
 
             </Routes>
 
-            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin") || location.pathname.includes("snap")) && <Footer isContentShort={isContentShort} />}
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && <Footer isContentShort={isContentShort} />}
 
         </CartProvider>
     );

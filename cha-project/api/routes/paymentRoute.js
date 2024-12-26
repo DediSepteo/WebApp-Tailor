@@ -1,15 +1,17 @@
 
-
+const jwt = require('jsonwebtoken')
 const express = require('express');
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET
 const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY
 
 
 // Incomplete as payment account is unactivated
 router.post("/checkoutSes", async (req, res) => {
+    const token = req.headers.token
+    console.log(token)
+    const { org_id, source } = jwt.verify(token, JWT_SECRET)
     const cart = req.body.cart
-    const org_id = req.body.org_id
-    const source = req.headers.source
     const org_data = await fetch(`http://localhost:3000/api/org/${org_id}`)
         .then(response => {
             if (!response.ok) {
@@ -45,6 +47,7 @@ router.post("/checkoutSes", async (req, res) => {
                     email: org_data.email
                 },
                 cancel_url: "http://localhost:3001/shoppingcart",
+                success_url: `http://localhost:3001/success?token=${token}`,
                 send_email_receipt: true,
                 show_description: true,
                 show_line_items: true,

@@ -18,12 +18,10 @@ export const ShoppingCart = () => {
 
     useEffect(() => {
         const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-        console.log(localStorageCart, 'cart token');
 
         // Get all item IDs and quantities from localStorageCart
         const itemIds = localStorageCart.map(item => item.id);
         const initialQuantities = localStorageCart.map(item => item.quantity || 1);
-        console.log(itemIds, 'this is the itemid')
 
         if (itemIds.length > 0) {
             // Map over each item ID to create a fetch request for each item
@@ -44,13 +42,11 @@ export const ShoppingCart = () => {
                         return product[0]
                     })
                     setCart(updatedProducts); // Set the cart with all fetched products
-                    console.log(products, 'cart data');
                 })
                 .catch(error => {
                     console.error("Error fetching product data:", error);
                 });
         } else {
-            console.log("No items in cart.");
             setCart([]); // Clear cart data if no items are present
         }
 
@@ -62,7 +58,7 @@ export const ShoppingCart = () => {
         setLastValidQuantities(initialQuantities); // Initialize last valid quantities
     }, []);
 
-    // Function to calculate subtotal
+
     const calculateSubtotal = () => {
         return cart.reduce((total, item, index) => {
             return total + item.price * quantities[index];
@@ -86,6 +82,66 @@ export const ShoppingCart = () => {
             quantities.forEach((quantity, index) => {
                 cart[index].qty = quantity
             })
+            // Temporary create order when checkout, remember to remove
+            const products = cart.map(item => ({
+                id: item.product_id, // Use the correct key for product ID in your cart
+                quantity: item.quantity   // Use the correct key for quantity
+            }));
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            if (token) {
+                const decodedToken = jwtDecode(token);
+                const org_id = decodedToken.org_id;
+
+                const orderData = cart.map((item, index) => ({
+                    id: item.product_id,
+                    quantity: quantities[index],
+                }));
+
+                console.log(products, "sdjksjjs")
+                console.log(orderData, "sajdjsjsj")
+
+                const totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0);
+
+                const newOrder = {
+                    org_id: org_id,
+                    qty: totalQuantity, // Total quantity extracted from orderData
+                    subtotal: calculateSubtotal(),
+                    status: "Awaiting Measurements",
+                    date: new Date().toISOString().slice(0, 10), // Current date in YYYY-MM-DD format
+                    orderData
+                };
+
+                console.log("Prepared newOrder object:", newOrder); // Log here for debugging
+
+                fetch('http://localhost:3000/api/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newOrder),
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Failed to create order');
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        console.log('Order created with ID:', data.orderId);
+                        // (NOTE) After payment goes through, only then clear cart
+                        localStorage.removeItem('cart');
+                        setCart([]);
+                        alert('Order successfully created!');
+                    })
+                    .catch((error) => {
+                        console.error('Error during checkout:', error);
+                        console.log("Failed newOrder object:", newOrder); // Log again for troubleshooting
+                        alert('There was a problem creating your order.');
+                    });
+            } else {
+                console.error("No token found. Please log in.");
+                alert("Please log in to proceed with checkout.");
+            }
             fetch("http://localhost:3000/api/payment/checkoutSes", {
                 method: "POST",
                 headers: {
@@ -131,7 +187,7 @@ export const ShoppingCart = () => {
                     org_id: org_id,
                     qty: totalQuantity, // Total quantity extracted from orderData
                     subtotal: calculateSubtotal(),
-                    status: "Awaiting Measurement",
+                    status: "Awaiting Measurements",
                     date: new Date().toISOString().slice(0, 10), // Current date in YYYY-MM-DD format
                     orderData
                 };

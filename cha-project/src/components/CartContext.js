@@ -23,9 +23,7 @@ export const CartProvider = ({ children }) => {
                 itemIds.push(newItem.id)
                 itemQuantities.push(newItem.quantity)
             }
-
         }
-
 
         if (itemIds.length > 0) {
             try {
@@ -63,7 +61,7 @@ export const CartProvider = ({ children }) => {
     }, [])
 
     return (
-        <CartContext.Provider value={{ updatedCart, updateCartDetails, quantities, setQuantities }}>
+        <CartContext.Provider value={{ updatedCart, setUpdatedCart, updateCartDetails, quantities, setQuantities }}>
             {children}
         </CartContext.Provider>
     );

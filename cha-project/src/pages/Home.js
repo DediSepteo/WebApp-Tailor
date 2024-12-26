@@ -71,14 +71,14 @@ export const Home = () => {
             </div>
             <div className={styles.booking}>
                 <pre className={styles.bookHead}>
-                    Book a consultation with us for your{"\n"}tailoring needs
+                    Contact us about your{"\n"}tailoring needs
                 </pre>
                 <pre className={styles.bookDesc}>
                     We are more than happy to assist and share with you our{"\n"}garments and the people behind them.
                 </pre>
-                <button className={styles.bookingButton}>
-                    Book Now
-                </button>
+                <Link className={styles.bookingButton} to="/Contact">
+                    Contact Now
+                </Link>
             </div>
             <div className={styles.fabrication}>
                 <p className={styles.fabHead}>Fabrication For You</p>

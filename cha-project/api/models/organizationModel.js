@@ -167,7 +167,7 @@ const Organization = {
         const query = `SELECT o.order_id, o.status, o.date, o.subtotal, p.name AS product_name, op.qty AS quantity FROM Orders o INNER JOIN 
         Order_Products op ON o.order_id = op.order_id INNER JOIN Products p ON op.product_id = p.product_id WHERE o.org_id = ? AND 
         (o.status = 'Awaiting Measurements' OR o.status = 'Ready') ORDER BY o.date DESC`;
-        
+
         db.query(query, [org_id], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -178,7 +178,7 @@ const Organization = {
 
     getOrgByEmail: (email, callback) => {
         const query = 'SELECT * FROM organization WHERE email = ?';
-      
+
         db.query(query, [email], (err, results) => {
             if (err) {
                 return callback(err, null);
@@ -207,7 +207,7 @@ const Organization = {
             throw error;
         }
     },
-  
+
 };
 
 module.exports = Organization;

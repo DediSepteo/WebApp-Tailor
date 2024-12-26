@@ -24,16 +24,17 @@
 }
 
 .leftSection h2 {
-  font-size: 2.5em;
+  font-size: 2.7em;
   font-family: "Noto Serif TC";
   font-weight: bold;
   margin-bottom: 20px;
 }
 
 .leftSection p {
-  font-size: 1.2em;
+  font-size: 1.5em;
   line-height: 1.6;
   color: #f0f0f0;
+  font-family: "Noto-Serif-TC";
 }
 
 .rightSection {
@@ -119,6 +120,9 @@
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
+}
+
+.p {
 }
 
 @media (max-width: 768px) {

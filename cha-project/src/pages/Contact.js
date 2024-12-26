@@ -59,7 +59,7 @@ export const Contact = () => {
             {/* Left Section */}
             <div className={styles.leftSection}>
                 <h2>Get in Touch</h2>
-                <p>
+                <p className = {styles.p}>
                     Are you interested in partnering with us to onboard your company uniforms,
                     or would you like to learn more about our services? Our dedicated sales team
                     is here to assist you with any inquiries or provide detailed information

@@ -25,7 +25,7 @@ import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { SnapLogin } from './pages/SnapStitchLogin'
 import { SnapRegister } from './pages/SnapStitchRegister'
-import { CartProvider } from '../src/components/CartContext'
+import { CartProvider } from './components/CartContext'
 import ResetPassword from './components/resetPassword';
 import CreateEmployee from './pages/RegisterEmp'
 import AdminLogin from './pages/AdminLogin'
@@ -42,6 +42,9 @@ import DeactivateOrganization from './pages/DeactivateOrg';
 import ProtectAdminRoute from './components/ProtectAdminRoute';
 import ProtectTempAccRoute from './components/ProtectTempAccRoute';
 import { SnapStitchHome } from './pages/SnapStitchHome';
+import { OrderCompleted } from './pages/OrderCompleted';
+import { AdminNotFoundPage } from './pages/AdminNotFoundPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 
 const AppContent = () => {
@@ -77,10 +80,11 @@ const AppContent = () => {
     return (
         <CartProvider>
 
-            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
             <ScrollTop />
             <Routes>
+                <Route path="*" element={<NotFoundPage />} />
                 <Route path="/" element={<NewLandingPage />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -89,7 +93,7 @@ const AppContent = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
-                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/success" element={<OrderCompleted />} />
 
                 {/* reset password */}
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -111,44 +115,40 @@ const AppContent = () => {
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
 
                 {/* Protect the following admin routes */}
-                {/*
-                <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
-
-                {/* <Route path="/Customer" element={<Customer />} /> */}
+                <Route path="/admin/*" element={<ProtectAdminRoute element={<AdminNotFoundPage />} />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 {/* <Route path="/admin/dashboard" element={<AdminHomePage />} /> */}
                 <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
-                <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
-                <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
-                <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
-                <Route path="/admin/corporate/orgs/deactivate" element={<DeactivateOrganization />} />
-                <Route path="/admin/corporate/view-orgs" element={<ViewAllOrg type="corporate" />} />
-                <Route path="/admin/corporate/products" element={<AdminProductPage />} />
-                <Route path="/admin/corporate/products/register" element={<RegisterProduct />} />
-                <Route path="/admin/corporate/products/registerBulk" element={<RegisterProductBulk />} />
-                <Route path="/admin/corporate/view-products" element={<ViewAllProduct type="corporate" />} />
-                <Route path="/admin/corporate/orders" element={<AdminOrderPage />} />
-                <Route path="/admin/corporate/view-ready-orders" element={<ViewAllOrder type="corporate" isReady={true} />} />
-                <Route path="/admin/corporate/view-orders" element={<ViewAllOrder type="corporate" />} />
-                <Route path="/admin/corporate/orders/detail" element={<OrderDetailPage />} />
-                <Route path="/admin/edit" element={<EditInfo />} />
+                <Route path="/admin/dashboard/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder />} />} />
+                <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
+                <Route path="/admin/corporate/orgs/deactivate" element={<ProtectAdminRoute element={<DeactivateOrganization />} />} />
+                <Route path="/admin/corporate/view-orgs" element={<ProtectAdminRoute element={<ViewAllOrg type="corporate" />} />} />
+                <Route path="/admin/corporate/products" element={<ProtectAdminRoute element={<AdminProductPage />} />} />
+                <Route path="/admin/corporate/products/register" element={<ProtectAdminRoute element={<RegisterProduct />} />} />
+                <Route path="/admin/corporate/products/registerBulk" element={<ProtectAdminRoute element={<RegisterProductBulk />} />} />
+                <Route path="/admin/corporate/view-products" element={<ProtectAdminRoute element={<ViewAllProduct type="corporate" />} />} />
+                <Route path="/admin/corporate/orders" element={<ProtectAdminRoute element={<AdminOrderPage />} />} />
+                <Route path="/admin/corporate/view-ready-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="corporate" isReady={true} />} />} />
+                <Route path="/admin/corporate/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="corporate" />} />} />
+                <Route path="/admin/corporate/orders/detail" element={<ProtectAdminRoute element={<OrderDetailPage />} />} />
+                <Route path="/admin/edit" element={<ProtectAdminRoute element={<EditInfo />} />} />
+                <Route path="/admin/order-details" element={<ProtectAdminRoute element={<OrderDetailPage />} />} />
 
-                <Route path="/admin/order-details" element={<OrderDetailPage />} />
+                {/* Government pages */}
+                <Route path="/admin/government/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
+                <Route path="/admin/government/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
+                <Route path="/admin/government/orgs/deactivate" element={<ProtectAdminRoute element={<DeactivateOrganization />} />} />
+                <Route path="/admin/government/orgs/view-orgs" element={<ProtectAdminRoute element={<ViewAllOrg type="government" />} />} />
+                <Route path="/admin/government/products" element={<ProtectAdminRoute element={<AdminProductPage />} />} />
+                <Route path="/admin/government/products/register" element={<ProtectAdminRoute element={<RegisterProduct />} />} />
+                <Route path="/admin/government/products/registerBulk" element={<ProtectAdminRoute element={<RegisterProductBulk />} />} />
+                <Route path="/admin/government/view-orgs" element={<ProtectAdminRoute element={<ViewAllOrg type="government" />} />} />
+                <Route path="/admin/government/view-products" element={<ProtectAdminRoute element={<ViewAllProduct type="government" />} />} />
+                <Route path="/admin/government/orders" element={<ProtectAdminRoute element={<AdminOrderPage />} />} />
+                <Route path="/admin/government/view-ready-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="government" isReady={true} />} />} />
+                <Route path="/admin/government/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="government" />} />} />
 
-                {/* govt page */}
-                <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
-                <Route path="/admin/government/orgs/register" element={<RegisterOrg />} />
-                <Route path="/admin/government/orgs/deactivate" element={<DeactivateOrganization />} />
-                <Route path="/admin/government/orgs/view-orgs" element={<ViewAllOrg type="government" />} />
-                <Route path="/admin/government/products" element={<AdminProductPage />} />
-                <Route path="/admin/government/products/register" element={<RegisterProduct />} />
-                <Route path="/admin/government/products/registerBulk" element={<RegisterProductBulk />} />
-                <Route path="/admin/government/view-orgs" element={<ViewAllOrg type="government" />} />
-                <Route path="/admin/government/view-products" element={<ViewAllProduct type="government" />} />
-                <Route path="/admin/government/orders" element={<AdminOrderPage />} />
-                <Route path="/admin/government/view-ready-orders" element={<ViewAllOrder type="government" isReady={true} />} />
-                <Route path="/admin/government/view-orders" element={<ViewAllOrder type="government" />} />
 
 
                 <Route path="/snap/login" element={<SnapLogin />} />
@@ -158,7 +158,7 @@ const AppContent = () => {
 
             </Routes>
 
-            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin") || location.pathname.includes("snap")) && <Footer isContentShort={isContentShort} />}
+            {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && <Footer isContentShort={isContentShort} />}
 
         </CartProvider>
     );

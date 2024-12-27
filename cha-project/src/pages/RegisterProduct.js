@@ -26,6 +26,13 @@ const CreateProduct = () => {
         setShowError(!showError); // Show popup when you want
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProdImg(file);
+        }
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -38,8 +45,10 @@ const CreateProduct = () => {
             "name": prodName,
             "price": prodPrice,
             "description": prodDesc,
+            "image": prodImg
         }
-        const values = Object.values(body)
+        console.log(body.image, "AAAAAAA")
+        const values = [prodName, prodPrice, prodDesc]
         const requiredValues = values.map((value) => { return value.trim() })
         if (requiredValues.includes("")) {
             setShowError(true)
@@ -56,16 +65,38 @@ const CreateProduct = () => {
 
     const handleRegister = async (token, body) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(body)
-            })
+            const response = await Promise.all([
+                fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(body)
+                }),
+                fetch(`http://localhost:3000/api/image/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ imageUrl: body.imageUrl })
+                }),
+            ])
+            console.log(response)
+            // const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(body)
+            // })
+            // if (!response.ok) {
+            //     throw new Error('Error creating product');
+            // }
             if (!response.ok) {
-                throw new Error('Error creating product');
+                throw new Error('Error creating product')
             }
 
             alert("Product created!")
@@ -142,7 +173,7 @@ const CreateProduct = () => {
             fieldType: 'upload',
             label: 'Product Image',
             value: prodImg,
-            onChange: (e) => setProdImg(e.target.value),
+            onChange: (e) => handleImageChange(e),
             required: true,
         },
     ];

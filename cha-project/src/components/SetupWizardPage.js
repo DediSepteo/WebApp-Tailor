@@ -97,7 +97,7 @@ const SetupWizardPage = ({ title, fields, onSubmit, isCancel }) => {
                                     <input
                                         type="file"
                                         onChange={field.onChange}
-                                        accept="image/png, image/jpeg"
+                                        accept="image/*"
                                     />
                                 )}
                                 {field.fieldType === 'tableInput' && (

@@ -31,7 +31,7 @@ export const Login = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Invalid credentials');
+                throw new Error('Email or Password is wrong.');
             }
 
             const data = await response.json();
@@ -67,7 +67,11 @@ export const Login = () => {
                 </div>
                 <p className={styles.title}>Sign In</p>
                 <form onSubmit={handleSubmit} className={styles.form}>
-                    {error && <p className={styles.error}>{error}</p>}
+                    {error && (
+                        <p style={{ color: 'red', textAlign: 'center', margin: '10px 0' }}>
+                            {error}
+                        </p>
+                    )}
                     <div className={styles.inputContainer}>
                         <input
                             type="email"

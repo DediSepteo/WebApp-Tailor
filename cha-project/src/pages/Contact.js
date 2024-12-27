@@ -56,62 +56,73 @@ export const Contact = () => {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.title}>Contact Us</div>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.inputTitle}>
-                    <span>Name</span>
-                    <p>*</p>
-                </div>
-                <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className={styles.inputField}
-                />
-                <div className={styles.inputTitle}>
-                    <span>Email Address</span>
-                    <p>*</p>
-                </div>
-                <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className={styles.inputField}
-                />
-                <div className={styles.inputTitle}>
-                    <span>Subject</span>
-                    <p>*</p>
-                </div>
-                <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className={styles.inputField}
-                />
-                <div className={styles.inputTitle}>
-                    <span>Message</span>
-                    <p>*</p>
-                </div>
-                <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    className={styles.textArea}
-                />
-                <button className={styles.submitButton} type="submit">
-                    Submit
-                </button>
-            </form>
-            {/* Display response or error message */}
-            {responseMessage && <div className={styles.successMessage}>{responseMessage}</div>}
-            {error && <div className={styles.errorMessage}>{error}</div>}
+            {/* Left Section */}
+            <div className={styles.leftSection}>
+                <h2>Get in Touch</h2>
+                <p>
+                    Are you interested in partnering with us to onboard your company uniforms,
+                    or would you like to learn more about our services? Our dedicated sales team
+                    is here to assist you with any inquiries or provide detailed information
+                    tailored to your needs. Reach out to us today, and we’ll respond promptly
+                    to help you take the next step.
+                </p>
+            </div>
+
+            {/* Right Section (Form) */}
+            <div className={styles.rightSection}>
+                <h2>Contact Us</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.inputGroup}>
+                        <label>Name *</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label>Email Address *</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label>Subject *</label>
+                        <input
+                            type="text"
+                            name="subject"
+                            value={formData.subject}
+                            onChange={handleChange}
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label>Message *</label>
+                        <textarea
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            required
+                            className={styles.textArea}
+                        />
+                    </div>
+                    <button type="submit" className={styles.submitButton}>
+                        Submit
+                    </button>
+                </form>
+                {/* Response or Error Message */}
+                {responseMessage && <div className={styles.successMessage}>{responseMessage}</div>}
+                {error && <div className={styles.errorMessage}>{error}</div>}
+            </div>
         </div>
     );
 };

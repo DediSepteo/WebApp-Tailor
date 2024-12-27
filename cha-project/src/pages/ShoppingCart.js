@@ -85,7 +85,6 @@ export const ShoppingCart = () => {
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
             const source = decodedToken.source
-            console.log(quantities)
             quantities.forEach((quantity, index) => {
                 cart[index].qty = quantity
             })
@@ -354,7 +353,7 @@ export const ShoppingCart = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className={styles.regRow}>{`$${item.price.toFixed(2)}`}</td>
+                                    <td className={styles.regRow}>{`₱${item.price.toFixed(2)}`}</td>
                                     <td className={styles.regRow}>
                                         <div className={styles.quantityContainer}>
                                             <div className={styles.quantityBox}
@@ -389,7 +388,7 @@ export const ShoppingCart = () => {
                                         </div>
                                     </td>
                                     <td className={styles.regRow}>
-                                        {`$${(item.price * quantities[index]).toFixed(2)}`}
+                                        {`₱${(item.price * quantities[index]).toFixed(2)}`}
                                     </td>
                                     <td className={styles.iconWrapper}>
                                         <IoClose className={styles.closeIcon} onClick={() => handleRemoveItem(index)} />
@@ -403,15 +402,15 @@ export const ShoppingCart = () => {
                     <table className={styles.totalSum}>
                         <tr>
                             <td>Subtotal:</td>
-                            <td>{`$${subtotal.toFixed(2)}`}</td>
+                            <td>{`₱${subtotal.toFixed(2)}`}</td>
                         </tr>
                         <tr>
                             <td>Delivery:</td>
-                            <td>{`$${deliveryCharge.toFixed(2)}`}</td>
+                            <td>{`₱${deliveryCharge.toFixed(2)}`}</td>
                         </tr>
                         <tr>
                             <td>Grand Total:</td>
-                            <td>{`$${grandTotal.toFixed(2)}`}</td>
+                            <td>{`₱${grandTotal.toFixed(2)}`}</td>
                         </tr>
                     </table>
                     <button className={styles.checkoutBtn} onClick={handleCheckout}>Checkout</button>

@@ -38,9 +38,6 @@ export const Login = () => {
             console.log(data)
             sessionStorage.setItem('token', data.token) || localStorage.setItem('token', data.token); // Save the token in session
 
-            // Store password length in localStorage
-            localStorage.setItem('passwordLength', inputs.password.length);
-
             navigate('/Home'); // Redirect to Home page
         } catch (error) {
             console.error('Login failed:', error);
@@ -111,11 +108,11 @@ export const Login = () => {
                         </Link>
                     </div>
                     <button className={styles.submitButton} type="submit">Sign In</button>
-                    <div className={styles.separator}>or</div>
+                    {/* <div className={styles.separator}>or</div>
                     <button className={styles.googleButton}>
                         <FcGoogle className={styles.googleIcon} />
                         Sign In With Google
-                    </button>
+                    </button> */}
                     <p style={{ fontFamily: 'Montserrat-Regular' }}>
                         Don't have an account?
                         <Link to="/register" className={styles.anchor} style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>

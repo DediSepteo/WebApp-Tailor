@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
         to: process.env.EMAIL_NAME,   // Your receiving email address
         replyTo: email,               // User's email for replies
         subject: subject,
-        text: `You received a new message from ${name} (${email}):\n\n${message}`
+        text: `You received a new message from, ${name} (${email}):\n\n${message}`
     };
 
     transporter.sendMail(mailOptions, (err, info) => {

@@ -176,6 +176,39 @@ const Organization = {
         });
     },
 
+    getAllOrders: (org_id, callback) => {
+        const query = `
+        SELECT 
+            o.order_id, 
+            o.date, 
+            o.subtotal, 
+            o.status, 
+            org.address_line1, 
+            op.qty, 
+            p.name, 
+            p.description, 
+            p.price,
+            (op.qty * p.price) AS total_price
+        FROM 
+            orders o
+        JOIN 
+            organization org ON o.org_id = org.org_id
+        JOIN 
+            order_products op ON o.order_id = op.order_id
+        JOIN 
+            products p ON op.product_id = p.product_id
+        WHERE 
+            o.org_id = ?
+    `;
+
+        db.query(query, [org_id], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, results);
+        });
+    },
+
     getOrgByEmail: (email, callback) => {
         const query = 'SELECT * FROM organization WHERE email = ?';
 

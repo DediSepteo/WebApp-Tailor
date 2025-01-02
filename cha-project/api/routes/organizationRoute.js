@@ -290,6 +290,19 @@ router.get("/pending-orders/:id", (req, res) => {
     })
 })
 
+router.get("/all-orders/:id", (req, res) => {
+    console.log(`Received request for orgId: ${req.params.id}`);
+    const orgID = req.params.id;
+
+    organizationModel.getAllOrders(orgID, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching all orders', details: err });
+        }
+        console.log('Fetched all orders:', results);
+        res.status(200).json(results);
+    })
+})
+
 // router.delete('/:id', (req, res) => {
 //     const orgID = req.params.id;
 //     console.log(orgID)

@@ -1,0 +1,92 @@
+.mainContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-family: "Montserrat";
+}
+
+/* Sidebar Navigation */
+.profileSideNav {
+    max-width: 17vw;
+    flex: 0 0 17vw;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px 50px 10px 50px
+}
+
+.pageTitle {
+    font-size: 1.5em;
+    font-weight: 450;
+}
+
+.mainContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-family: "Montserrat";
+}
+
+/* Sidebar Navigation */
+.profileSideNav {
+    max-width: 17vw;
+    flex: 0 0 17vw;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px 50px 10px 50px;
+}
+
+.pageTitle {
+    font-size: 1.5em;
+    font-weight: 450;
+}
+
+/* Tab Container */
+.tabContainer {
+    display: inline-flex;
+    margin-bottom: 20px;
+    background-color: #F3F3F2;
+    border-radius: 5px;
+    padding: 5px 2px
+}
+
+/* Tab Button */
+.tabButton {
+    padding: 10px 20px;
+    margin: 0 3px;
+    cursor: pointer;
+    border: none;
+    background-color: #F3F3F2;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    color: #898F98;
+    font-family: "Montserrat";
+}
+
+.tabButton:hover {
+    background-color: #FFFFFF;
+     color: #000000;
+}
+
+/* Active Tab */
+.activeTab {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+/* Tab Content */
+.tabContent {
+    padding: 20px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    background-color: #FFFFFF
+}
+

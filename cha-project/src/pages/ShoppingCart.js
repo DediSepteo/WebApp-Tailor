@@ -346,7 +346,7 @@ export const ShoppingCart = () => {
                                             <p className={styles.productName}>{item.name}</p>
                                             <p className={styles.productDetails}>{item.detail}</p>
                                             <div style={{ marginTop: '5px' }}>
-                                                <p className={styles.productDetails}>Description: {item.description}</p>
+                                                <p className={styles.productDetails}>{item.description}</p>
                                             </div>
                                         </div>
                                     </td>

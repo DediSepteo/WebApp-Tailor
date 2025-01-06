@@ -65,7 +65,7 @@ const AppContent = () => {
     // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
     useEffect(() => {
         const pathname = location.pathname.toLowerCase()
-        if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('shop')) {
+        if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('orderhistory') || pathname.includes('shop')) {
             setIsContentShort(false)
         }
         else {

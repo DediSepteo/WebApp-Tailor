@@ -290,6 +290,42 @@ router.get("/pending-orders/:id", (req, res) => {
     })
 })
 
+router.get("/all-orders/:id", (req, res) => {
+    const orgID = req.params.id;
+
+    organizationModel.getAllOrders(orgID, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching all orders', details: err });
+        }
+        console.log('Fetched all orders:', results);
+        res.status(200).json(results);
+    })
+})
+
+router.get("/ongoing-orders/:id", (req, res) => {
+    const orgID = req.params.id;
+
+    organizationModel.getOngoingOrders(orgID, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching ongoing orders', details: err });
+        }
+        console.log('Fetched ongoing orders:', results);
+        res.status(200).json(results);
+    })
+})
+
+router.get("/cancelled-orders/:id", (req, res) => {
+    const orgID = req.params.id;
+
+    organizationModel.getCancelledOrders(orgID, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching cancelled orders', details: err });
+        }
+        console.log('Fetched cancelled orders:', results);
+        res.status(200).json(results);
+    })
+})
+
 // router.delete('/:id', (req, res) => {
 //     const orgID = req.params.id;
 //     console.log(orgID)

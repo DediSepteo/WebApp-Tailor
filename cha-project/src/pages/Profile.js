@@ -206,16 +206,42 @@ export const Profile = () => {
                             <div className={styles.sectionTitle}>Pending Orders</div>
                         </div>
                         <div className={styles.deliveryDetailsContent}>
-                            {pendingOrders.length > 0 ? pendingOrders.map((item, index) => (
-                                <Link to={"#"} className={styles.deliveryItems} key={index}>
-                                    Order ID: {item.order_id}
-                                    <p className={styles.itemDescription}>
-                                        Product: {item.product_name},
-                                        Quantity: {item.quantity},
-                                        Status: {item.status}
-                                    </p>
-                                </Link>
-                            )) : <p>No pending orders available</p>}
+                            {pendingOrders.length > 0 ? (
+                                Object.entries(
+                                    pendingOrders.reduce((acc, item) => {
+                                        const { order_id, status, product_name, quantity } = item;
+                                        if (!acc[order_id]) {
+                                            acc[order_id] = { status, products: [] };
+                                        }
+                                        acc[order_id].products.push(`${product_name} x ${quantity}`);
+                                        return acc;
+                                    }, {})
+                                )
+                                    // Ensure the order is preserved based on the order_id in the original array
+                                    .sort(([a], [b]) => pendingOrders.findIndex(order => order.order_id === a) - pendingOrders.findIndex(order => order.order_id === b))
+                                    .map(([order_id, { status, products }]) => (
+                                        <Link to={"#"} className={styles.deliveryItems} key={order_id}>
+                                            <div className={styles.orderItemHead}>
+                                                <div>Order ID: {order_id}</div>
+                                                <div
+                                                    className={`${styles.statusIndicator} ${status === "Ready"
+                                                            ? styles.statusReady
+                                                            : status === "Awaiting Measurements"
+                                                                ? styles.statusAwaitingMeasurements
+                                                                : ""
+                                                        }`}
+                                                >
+                                                    {status}
+                                                </div>
+                                            </div>
+                                            <div className={styles.itemDescription}>
+                                                {products.join(", ")}
+                                            </div>
+                                        </Link>
+                                    ))
+                            ) : (
+                                <p>No pending orders available</p>
+                            )}
                         </div>
                     </section>
                 </div>

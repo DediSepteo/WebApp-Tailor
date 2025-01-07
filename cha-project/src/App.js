@@ -48,32 +48,32 @@ import { OrderCompleted } from './pages/OrderCompleted';
 const AppContent = () => {
     const location = useLocation();
 
-    const [isContentShort, setIsContentShort] = useState(false);
-    console.log("part 1")
-    const updateFooterPosition = (value) => {
-        if (value) {
-            setIsContentShort(value)
-        }
-        else {
-            const contentHeight = document.body.scrollHeight;
-            const windowHeight = window.innerHeight;
-            console.log(contentHeight, windowHeight)
-            setIsContentShort(contentHeight < windowHeight);
-        }
-    };
- 
-    // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
-    useEffect(() => {
-        const pathname = location.pathname.toLowerCase()
-        if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('orderhistory') || pathname.includes('shop')) {
-            setIsContentShort(false)
-        }
-        else {
-            updateFooterPosition();
-        }
-        console.log("part 2")
+    // const [isContentShort, setIsContentShort] = useState(false);
+    // console.log("part 1")
+    // const updateFooterPosition = (value) => {
+    //     if (value) {
+    //         setIsContentShort(value)
+    //     }
+    //     else {
+    //         const contentHeight = document.body.scrollHeight;
+    //         const windowHeight = window.innerHeight;
+    //         console.log(contentHeight, windowHeight)
+    //         setIsContentShort(contentHeight < windowHeight);
+    //     }
+    // };
 
-    }, [location]);
+    // // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
+    // useEffect(() => {
+    //     const pathname = location.pathname.toLowerCase()
+    //     if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('orderhistory') || pathname.includes('shop')) {
+    //         setIsContentShort(false)
+    //     }
+    //     else {
+    //         updateFooterPosition();
+    //     }
+    //     console.log("part 2")
+
+    // }, [location]);
 
 
 

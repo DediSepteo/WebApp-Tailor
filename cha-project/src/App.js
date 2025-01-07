@@ -85,14 +85,14 @@ const AppContent = () => {
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
-                <Route path="/home" element={<Home />} />
+                {/* <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
-                <Route path="/success" element={<OrderCompleted />} />
+                <Route path="/success" element={<OrderCompleted />} /> */}
 
                 {/* reset password */}
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -121,7 +121,7 @@ const AppContent = () => {
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 {/* <Route path="/admin/dashboard" element={<AdminHomePage />} /> */}
-                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
@@ -135,12 +135,12 @@ const AppContent = () => {
                 <Route path="/admin/corporate/view-ready-orders" element={<ViewAllOrder type="corporate" isReady={true} />} />
                 <Route path="/admin/corporate/view-orders" element={<ViewAllOrder type="corporate" />} />
                 <Route path="/admin/corporate/orders/detail" element={<OrderDetailPage />} />
-                <Route path="/admin/edit" element={<EditInfo />} />
+                <Route path="/admin/edit" element={<EditInfo />} /> */}
 
                 <Route path="/admin/order-details" element={<OrderDetailPage />} />
 
                 {/* govt page */}
-                <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
+                {/* <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/government/orgs/register" element={<RegisterOrg />} />
                 <Route path="/admin/government/orgs/deactivate" element={<DeactivateOrganization />} />
                 <Route path="/admin/government/orgs/view-orgs" element={<ViewAllOrg type="government" />} />
@@ -151,13 +151,13 @@ const AppContent = () => {
                 <Route path="/admin/government/view-products" element={<ViewAllProduct type="government" />} />
                 <Route path="/admin/government/orders" element={<AdminOrderPage />} />
                 <Route path="/admin/government/view-ready-orders" element={<ViewAllOrder type="government" isReady={true} />} />
-                <Route path="/admin/government/view-orders" element={<ViewAllOrder type="government" />} />
+                <Route path="/admin/government/view-orders" element={<ViewAllOrder type="government" />} /> */}
 
 
-                <Route path="/snap/login" element={<SnapLogin />} />
+                {/* <Route path="/snap/login" element={<SnapLogin />} />
                 <Route path="/snap/register" element={<SnapRegister />} />
                 <Route path="/snap" element={<CreateEmployee />} />
-                <Route path="/snap/home" element={<SnapStitchHome />} />
+                <Route path="/snap/home" element={<SnapStitchHome />} /> */}
 
             </Routes>
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client';    
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+console.log("A")
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // For some reason React.StrictMode makes every page call twice

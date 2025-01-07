@@ -3,6 +3,8 @@ import '../styles/landing-page.css';
 import '../styles/fonts.css';
 
 const NewLandingPage = () => {
+    console.log("part 3")
+
     return (
         <div className="container-fluid">
             <img

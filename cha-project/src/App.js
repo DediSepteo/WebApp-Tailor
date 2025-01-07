@@ -49,7 +49,7 @@ const AppContent = () => {
     const location = useLocation();
 
     const [isContentShort, setIsContentShort] = useState(false);
-
+    console.log("part 1")
     const updateFooterPosition = (value) => {
         if (value) {
             setIsContentShort(value)
@@ -61,7 +61,7 @@ const AppContent = () => {
             setIsContentShort(contentHeight < windowHeight);
         }
     };
-
+ 
     // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
     useEffect(() => {
         const pathname = location.pathname.toLowerCase()
@@ -71,6 +71,8 @@ const AppContent = () => {
         else {
             updateFooterPosition();
         }
+        console.log("part 2")
+
     }, [location]);
 
 

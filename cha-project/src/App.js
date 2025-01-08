@@ -90,7 +90,7 @@ const AppContent = () => {
         <>
             {/* // <CartProvider> */}
 
-            {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
+            {/* {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && (location.pathname === '/' ? <Header /> : <NavBar />)} */}
 
             <ScrollTop />
             <Routes>
@@ -109,23 +109,23 @@ const AppContent = () => {
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                 {/* Protect the following admin routes */}
-                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
 
                 {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
-                <Route path="/Shop1" element={<Shop1Item />} />
+                {/* <Route path="/Shop1" element={<Shop1Item />} /> */}
                 {/* Shop2 Temporary Path to access Government shop */}
-                <Route path="/Shop2" element={<GovtShop />} />
-                <Route path="/Shop2/:company" element={<Shop2Item />} />
+                {/* <Route path="/Shop2" element={<GovtShop />} /> */}
+                {/* <Route path="/Shop2/:company" element={<Shop2Item />} /> */}
 
 
-                <Route path="/Shop1/:name" element={<ItemDetail />} />
+                {/* <Route path="/Shop1/:name" element={<ItemDetail />} /> */}
 
-                <Route path="/shoppingcart" element={<ShoppingCart />} />
+                {/* <Route path="/shoppingcart" element={<ShoppingCart />} /> */}
 
                 {/* Protect the following admin routes */}
-                <Route path="/admin/*" element={<ProtectAdminRoute element={<AdminNotFoundPage />} />} />
+                {/* <Route path="/admin/*" element={<ProtectAdminRoute element={<AdminNotFoundPage />} />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
@@ -143,10 +143,10 @@ const AppContent = () => {
                 <Route path="/admin/corporate/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="corporate" />} />} />
                 <Route path="/admin/corporate/orders/detail" element={<ProtectAdminRoute element={<OrderDetailPage />} />} />
                 <Route path="/admin/edit" element={<ProtectAdminRoute element={<EditInfo />} />} />
-                <Route path="/admin/order-details" element={<ProtectAdminRoute element={<OrderDetailPage />} />} />
+                <Route path="/admin/order-details" element={<ProtectAdminRoute element={<OrderDetailPage />} />} /> */}
 
                 {/* Government pages */}
-                <Route path="/admin/government/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
+                {/* <Route path="/admin/government/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
                 <Route path="/admin/government/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
                 <Route path="/admin/government/orgs/deactivate" element={<ProtectAdminRoute element={<DeactivateOrganization />} />} />
                 <Route path="/admin/government/orgs/view-orgs" element={<ProtectAdminRoute element={<ViewAllOrg type="government" />} />} />
@@ -157,7 +157,7 @@ const AppContent = () => {
                 <Route path="/admin/government/view-products" element={<ProtectAdminRoute element={<ViewAllProduct type="government" />} />} />
                 <Route path="/admin/government/orders" element={<ProtectAdminRoute element={<AdminOrderPage />} />} />
                 <Route path="/admin/government/view-ready-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="government" isReady={true} />} />} />
-                <Route path="/admin/government/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="government" />} />} />
+                <Route path="/admin/government/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder type="government" />} />} /> */}
 
 
 

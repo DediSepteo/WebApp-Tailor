@@ -15,7 +15,6 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
 import { OrderHistory } from './pages/OrderHistory';
-import { CorporateShop } from './pages/CorporateShop';
 import { Shop1Item } from './pages/Shop1Item';
 import { GovtShop } from './pages/GovtShop';
 import { Shop2Item } from './pages/Shop2Item';
@@ -48,32 +47,42 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 
 const AppContent = () => {
+    console.log("part 1")
     const location = useLocation();
 
     const [isContentShort, setIsContentShort] = useState(false);
 
     const updateFooterPosition = (value) => {
         if (value) {
-            setIsContentShort(value)
-        }
-        else {
+            setIsContentShort(value);
+        } else {
             const contentHeight = document.body.scrollHeight;
             const windowHeight = window.innerHeight;
-            console.log(contentHeight, windowHeight)
-            setIsContentShort(contentHeight < windowHeight);
+
+            if (isContentShort !== (contentHeight < windowHeight)) {
+                console.log(contentHeight, windowHeight);
+                setIsContentShort(contentHeight < windowHeight);
+            }
         }
     };
 
     // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
     useEffect(() => {
-        const pathname = location.pathname.toLowerCase()
-        if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('shop')) {
-            setIsContentShort(false)
-        }
-        else {
+        console.log("part 2");
+
+        const pathname = location.pathname.toLowerCase();
+        if (
+            pathname.includes("home") ||
+            pathname.includes("profile") ||
+            pathname.includes("orderhistory") ||
+            pathname.includes("shop")
+        ) {
+            setIsContentShort(false);
+        } else {
             updateFooterPosition();
         }
-    }, [location]);
+    }, [location, updateFooterPosition]);
+
 
 
 
@@ -100,9 +109,9 @@ const AppContent = () => {
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                 {/* Protect the following admin routes */}
-                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
 
                 {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
                 <Route path="/Shop1" element={<Shop1Item />} />
@@ -118,7 +127,7 @@ const AppContent = () => {
                 {/* Protect the following admin routes */}
                 <Route path="/admin/*" element={<ProtectAdminRoute element={<AdminNotFoundPage />} />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
-                {/* <Route path="/admin/dashboard" element={<AdminHomePage />} /> */}
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/dashboard/view-orders" element={<ProtectAdminRoute element={<ViewAllOrder />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />

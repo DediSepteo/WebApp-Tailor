@@ -24,16 +24,17 @@
 }
 
 .leftSection h2 {
-  font-size: 2.5em;
+  font-size: 2.7em;
   font-family: "Noto Serif TC";
   font-weight: bold;
   margin-bottom: 20px;
 }
 
 .leftSection p {
-  font-size: 1.2em;
+  font-size: 1.5em;
   line-height: 1.6;
   color: #f0f0f0;
+  font-family: "Noto-Serif-TC";
 }
 
 .rightSection {
@@ -42,6 +43,7 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: "Noto Serif TC";
 }
 
 .inputTitle {
@@ -49,7 +51,7 @@
   flex-direction: row;
   align-items: center;
   font-family: "Noto Serif TC";
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 5px;
 }
 
@@ -119,6 +121,9 @@
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
+}
+
+.p {
 }
 
 @media (max-width: 768px) {

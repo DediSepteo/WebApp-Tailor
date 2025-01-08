@@ -79,7 +79,20 @@ export const Shop1Item = () => {
                             <p className={styles.categoryPrice}>₱{item.price}</p>
                         </div>
                     </Link>
-                )) : <div style={{ height: "40vh" }}>No products available.</div>}
+                )) : <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "40vh",
+                        fontSize: "2em",
+                        fontWeight: "bold",
+                        color: "#333",
+                    }}
+                >
+                    No products available.
+                </div>
+                }
             </div>
         </main>
     );

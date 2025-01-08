@@ -11,10 +11,28 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 const ViewAll = ({ category, type, isReady }) => {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [rowsPerPage] = useState(6); // Display 6 rows per page
+    const [rowsPerPage, setRowsPerPage] = useState(6); // Display 6 rows per page
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [itemDeleteID, setItemDeleteID] = useState("")
     const [orgStatus, setOrgStatus] = useState({})
+
+    useEffect(() => {
+        const updateRowsPerPage = () => {
+            const screenHeight = window.innerHeight;
+            if (screenHeight < 600) {
+                setRowsPerPage(4);
+            } else if (screenHeight < 800) {
+                setRowsPerPage(6);
+            } else {
+                setRowsPerPage(8);
+            }
+        };
+
+        updateRowsPerPage();
+        window.addEventListener("resize", updateRowsPerPage);
+
+        return () => window.removeEventListener("resize", updateRowsPerPage);
+    }, []);
 
     const navigate = useNavigate()
 

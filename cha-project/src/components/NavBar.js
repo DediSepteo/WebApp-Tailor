@@ -40,7 +40,7 @@ const NavBar = () => {
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
-    const { setCart, quantities, setQuantities } = useContext(CartContext);
+    const { setUpdatedCart, quantities, setQuantities } = useContext(CartContext);
     const cart = useContext(CartContext).updatedCart
     const token = sessionStorage.getItem('token');
 
@@ -74,7 +74,7 @@ const NavBar = () => {
 
     const handleRemoveItem = (index) => {
         const updatedCart = cart.filter((_, i) => i !== index);
-        setCart(updatedCart);
+        setUpdatedCart(updatedCart);
         // Transform `updatedCart` back to the original structure for localStorage
         const updatedLocalStorageCart = updatedCart.map(item => ({
             id: item.product_id || item.id,

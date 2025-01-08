@@ -76,6 +76,7 @@ CREATE TABLE admin (
     PRIMARY KEY (admin_id)
 );
 
+/* Password is 1234 */ 
 INSERT INTO admin(email, role, password) VALUES("a@a.com", "admin", "$2b$10$5rMHCwoIcyu/dbTvZ5JC8unnynnTdzABTVQzVrBDXUdUw8g62QybK");
 
 CREATE TABLE TempAccount (

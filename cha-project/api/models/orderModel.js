@@ -157,8 +157,8 @@ const orders = {
 
             // Prepare data for bulk insertion
             const orderProductsData = orderData.map(orderData => [
-                orderId, // order_id
                 orderData.id, // product_id
+                orderId, // order_id
                 orderData.quantity // qty
             ]);
 

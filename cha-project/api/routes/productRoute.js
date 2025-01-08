@@ -71,7 +71,7 @@ router.post('/register/:org_id', async (req, res) => {
     if (isBulk) {
         try {
             await Promise.all(productData.map(async (product) => {
-                const { name, price, description, image } = product;
+                const { name, price, description } = product;
                 await productModel.createProduct(name, org_id, price, description);
             }));
             return res.status(201).send("Products registered successfully")

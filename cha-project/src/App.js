@@ -94,19 +94,19 @@ const AppContent = () => {
 
             <ScrollTop />
             <Routes>
-                <Route path="*" element={<NotFoundPage />} />
+                {/* <Route path="*" element={<NotFoundPage />} />
                 <Route path="/" element={<NewLandingPage />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
-                {/* <Route path="/register" element={<Register />} /> */}
-                <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
+                <Route path="/register" element={<Register />} /> */}
+                {/* <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
-                <Route path="/success" element={<OrderCompleted />} />
+                <Route path="/success" element={<OrderCompleted />} /> */}
 
                 {/* reset password */}
-                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                {/* <Route path="/reset-password/:token" element={<ResetPassword />} /> */}
 
                 {/* Protect the following admin routes */}
                 {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />

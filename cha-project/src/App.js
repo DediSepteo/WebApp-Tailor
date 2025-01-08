@@ -15,7 +15,6 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
 import { OrderHistory } from './pages/OrderHistory';
-import { CorporateShop } from './pages/CorporateShop';
 import { Shop1Item } from './pages/Shop1Item';
 import { GovtShop } from './pages/GovtShop';
 import { Shop2Item } from './pages/Shop2Item';
@@ -46,34 +45,42 @@ import { OrderCompleted } from './pages/OrderCompleted';
 
 
 const AppContent = () => {
+    console.log("part 1")
     const location = useLocation();
 
-    // const [isContentShort, setIsContentShort] = useState(false);
-    // console.log("part 1")
-    // const updateFooterPosition = (value) => {
-    //     if (value) {
-    //         setIsContentShort(value)
-    //     }
-    //     else {
-    //         const contentHeight = document.body.scrollHeight;
-    //         const windowHeight = window.innerHeight;
-    //         console.log(contentHeight, windowHeight)
-    //         setIsContentShort(contentHeight < windowHeight);
-    //     }
-    // };
+    const [isContentShort, setIsContentShort] = useState(false);
 
-    // // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
-    // useEffect(() => {
-    //     const pathname = location.pathname.toLowerCase()
-    //     if (pathname.includes("home") || pathname.includes('profile') || pathname.includes('orderhistory') || pathname.includes('shop')) {
-    //         setIsContentShort(false)
-    //     }
-    //     else {
-    //         updateFooterPosition();
-    //     }
-    //     console.log("part 2")
+    const updateFooterPosition = (value) => {
+        if (value) {
+            setIsContentShort(value);
+        } else {
+            const contentHeight = document.body.scrollHeight;
+            const windowHeight = window.innerHeight;
 
-    // }, [location]);
+            if (isContentShort !== (contentHeight < windowHeight)) {
+                console.log(contentHeight, windowHeight);
+                setIsContentShort(contentHeight < windowHeight);
+            }
+        }
+    };
+
+    // No way to wait individual element to load first, so hardcode paths that have images / content that have absolute position    
+    useEffect(() => {
+        console.log("part 2");
+
+        const pathname = location.pathname.toLowerCase();
+        if (
+            pathname.includes("home") ||
+            pathname.includes("profile") ||
+            pathname.includes("orderhistory") ||
+            pathname.includes("shop")
+        ) {
+            setIsContentShort(false);
+        } else {
+            updateFooterPosition();
+        }
+    }, [location, updateFooterPosition]);
+
 
 
 
@@ -85,22 +92,22 @@ const AppContent = () => {
             <ScrollTop />
             <Routes>
                 <Route path="/" element={<NewLandingPage />} />
-                {/* <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
-                <Route path="/success" element={<OrderCompleted />} /> */}
+                <Route path="/success" element={<OrderCompleted />} />
 
                 {/* reset password */}
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                 {/* Protect the following admin routes */}
-                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
 
                 {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
                 <Route path="/Shop1" element={<Shop1Item />} />
@@ -114,14 +121,14 @@ const AppContent = () => {
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
 
                 {/* Protect the following admin routes */}
-                {/*
+
                 <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} /> */}
+                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
 
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
-                {/* <Route path="/admin/dashboard" element={<AdminHomePage />} /> */}
-                {/* <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
+                <Route path="/admin/dashboard" element={<AdminHomePage />} />
+                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/corporate/orgs/register" element={<RegisterOrg />} />
@@ -135,12 +142,12 @@ const AppContent = () => {
                 <Route path="/admin/corporate/view-ready-orders" element={<ViewAllOrder type="corporate" isReady={true} />} />
                 <Route path="/admin/corporate/view-orders" element={<ViewAllOrder type="corporate" />} />
                 <Route path="/admin/corporate/orders/detail" element={<OrderDetailPage />} />
-                <Route path="/admin/edit" element={<EditInfo />} /> */}
+                <Route path="/admin/edit" element={<EditInfo />} />
 
                 <Route path="/admin/order-details" element={<OrderDetailPage />} />
 
                 {/* govt page */}
-                {/* <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
+                <Route path="/admin/government/orgs" element={<AdminOrgPage />} />
                 <Route path="/admin/government/orgs/register" element={<RegisterOrg />} />
                 <Route path="/admin/government/orgs/deactivate" element={<DeactivateOrganization />} />
                 <Route path="/admin/government/orgs/view-orgs" element={<ViewAllOrg type="government" />} />
@@ -151,13 +158,13 @@ const AppContent = () => {
                 <Route path="/admin/government/view-products" element={<ViewAllProduct type="government" />} />
                 <Route path="/admin/government/orders" element={<AdminOrderPage />} />
                 <Route path="/admin/government/view-ready-orders" element={<ViewAllOrder type="government" isReady={true} />} />
-                <Route path="/admin/government/view-orders" element={<ViewAllOrder type="government" />} /> */}
+                <Route path="/admin/government/view-orders" element={<ViewAllOrder type="government" />} />
 
 
-                {/* <Route path="/snap/login" element={<SnapLogin />} />
+                <Route path="/snap/login" element={<SnapLogin />} />
                 <Route path="/snap/register" element={<SnapRegister />} />
                 <Route path="/snap" element={<CreateEmployee />} />
-                <Route path="/snap/home" element={<SnapStitchHome />} /> */}
+                <Route path="/snap/home" element={<SnapStitchHome />} />
 
             </Routes>
 

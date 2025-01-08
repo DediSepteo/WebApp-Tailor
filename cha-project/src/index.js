@@ -7,7 +7,6 @@ import reportWebVitals from './reportWebVitals';
 console.log("A")
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    // For some reason React.StrictMode makes every page call twice
 
     // <React.StrictMode>
     <App></App>

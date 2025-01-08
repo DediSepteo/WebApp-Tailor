@@ -78,7 +78,8 @@ const AppContent = () => {
 
 
     return (
-        <CartProvider>
+        <>
+            {/* // <CartProvider> */}
 
             {!(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/shoppingcart' || location.pathname === "/profile" || location.pathname === "/orderhistory" || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && (location.pathname === '/' ? <Header /> : <NavBar />)}
 
@@ -90,7 +91,7 @@ const AppContent = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                {/* <Route path="/register" element={<Register />} /> */}
                 <Route path="/profile" element={<ProtectTempAccRoute element={<Profile />} />} />
                 <Route path="/orderhistory" element={<OrderHistory />} />
                 <Route path="/success" element={<OrderCompleted />} />
@@ -159,8 +160,8 @@ const AppContent = () => {
             </Routes>
 
             {!(location.pathname === '/login' || location.pathname === "/" || location.pathname === '/register' || location.pathname.includes("admin") || location.pathname.includes("snap") || location.pathname.includes("success")) && <Footer isContentShort={isContentShort} />}
-
-        </CartProvider>
+            {/* </CartProvider > */}
+        </>
     );
 };
 

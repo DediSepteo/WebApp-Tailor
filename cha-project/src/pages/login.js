@@ -119,7 +119,7 @@ export const Login = () => {
                     </button> */}
                     <p style={{ fontFamily: 'Montserrat-Regular' }}>
                         Don't have an account?
-                        <Link to="/register" className={styles.anchor} style={{ marginLeft: '4px', fontWeight: 'bold' }}>Sign Up</Link>
+                        <Link to="/contact" className={styles.anchor} style={{ marginLeft: '4px', fontWeight: 'bold' }}>Contact Us!</Link>
                     </p>
                 </form>
                 <ForgotPassword isVisible={isPopupVisible} onClose={hidePopup} />

@@ -128,7 +128,7 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-                <div className={styles.tools}>
+                {/* <div className={styles.tools}>
                     <div className={styles.activity}>
                         <div className={styles.actHead}>
                             <span style={{ paddingLeft: '1.5em' }}>Recent Activity</span>
@@ -149,7 +149,7 @@ const AdminPage = () => {
                             <NavLink className={styles.view}>View</NavLink>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className={styles.orderHist}>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "1em" }}>

@@ -12,7 +12,6 @@ This project is a comprehensive tailoring web application designed to serve both
 - [Folder Structure](#folder-structure)
 - [Environment Variables](#environment-variables)
 - [Usage](#usage)
-- [API Routes](#api-routes)
 - [License](#license)
 
 ---
@@ -136,23 +135,6 @@ npm run build
 
 ---
 
-## API Routes
-
-### Authentication
-- `POST /api/login`: Authenticate users (Admin/Employee).
-- `POST /api/register`: Register new users.
-
-### Orders
-- `GET /api/orders`: Get all orders.
-- `POST /api/orders`: Create a new order.
-
-### Products
-- `GET /api/products`: Retrieve available products.
-- `POST /api/products`: Add new products.
-
-_For a complete list of routes and details, refer to the backend documentation._
-
----
 
 ## License
 

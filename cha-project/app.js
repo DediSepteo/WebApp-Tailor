@@ -13,6 +13,7 @@ const productRouter = require('./api/routes/productRoute')
 const paymentRouter = require('./api/routes/paymentRoute')
 const contactRoutes = require('./api/routes/emailRoute'); // Adjust the path
 const tempAccountRoute = require('./api/routes/tempAccountRoute')
+const imageRoute = require('./api/routes/imageRoute')
 
 
 // Middleware
@@ -30,6 +31,7 @@ app.use('/api/product', productRouter)
 app.use('/api/payment', paymentRouter)
 app.use('/api/contact', contactRoutes)
 app.use('/api/temp', tempAccountRoute)
+app.use('/api/image', imageRoute)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

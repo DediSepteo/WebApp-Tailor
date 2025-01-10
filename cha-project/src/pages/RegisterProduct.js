@@ -10,7 +10,7 @@ const CreateProduct = () => {
     const [prodPrice, setProdPrice] = useState('');
     const [org_id, setOrg_id] = useState('');
     const [prodDesc, setProdDesc] = useState('');
-    const [prodImg, setProdImg] = useState('');
+    const [prodImg, setProdImg] = useState([]);
     const [dropDownInput, setDropDownInput] = useState([])
 
     const [showPopup, setShowPopup] = useState(false);
@@ -26,6 +26,13 @@ const CreateProduct = () => {
         setShowError(!showError); // Show popup when you want
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProdImg(file);
+        }
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -39,7 +46,7 @@ const CreateProduct = () => {
             "price": prodPrice,
             "description": prodDesc,
         }
-        const values = Object.values(body)
+        const values = [prodName, prodPrice, prodDesc]
         const requiredValues = values.map((value) => { return value.trim() })
         if (requiredValues.includes("")) {
             setShowError(true)
@@ -51,21 +58,64 @@ const CreateProduct = () => {
         else {
             handleRegister(token, body)
         }
-
     }
 
     const handleRegister = async (token, body) => {
+        const formData = new FormData();
+        formData.append('file', prodImg);
+        formData.append('upload_preset', 'unsigned')
+        fetch(`https://api.cloudinary.com/v1_1/dvsulshfj/image/upload`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                const image_url = data.secure_url
+                const response = fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(body)
+                })
+                if (!response.ok) {
+                    throw new Error('Error creating product');
+                }
+            });
         try {
-            const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(body)
-            })
+            // const response = await Promise.all([
+            //     fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${token}`
+            //         },
+            //         body: JSON.stringify(body)
+            //     }),
+            //     fetch(`http://localhost:3000/api/image/upload`, {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${token}`
+            //         }
+            //     }),
+            // ])
+            // console.log(response)
+            // const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(body)
+            // })
+            // if (!response.ok) {
+            //     throw new Error('Error creating product');
+            // }
             if (!response.ok) {
-                throw new Error('Error creating product');
+                throw new Error('Error creating product')
             }
 
             alert("Product created!")
@@ -74,7 +124,7 @@ const CreateProduct = () => {
 
         catch (error) {
             console.error('Error creating product');
-            alert("Failed to connect to backend")
+            // alert("Failed to connect to backend")    
         }
     }
     const fetchOrgNames = () => {
@@ -142,7 +192,7 @@ const CreateProduct = () => {
             fieldType: 'upload',
             label: 'Product Image',
             value: prodImg,
-            onChange: (e) => setProdImg(e.target.value),
+            onChange: (e) => handleImageChange(e),
             required: true,
         },
     ];

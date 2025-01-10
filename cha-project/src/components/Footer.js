@@ -21,7 +21,7 @@ const Footer = ({ isContentShort }) => {
                     </div>
                 </div>
             </div>
-            <div className={styles.support}>
+            {/* <div className={styles.support}>
                 <ul>
                     <li className={styles.listHeader}>Support</li>
                     <li>Help center</li>
@@ -30,10 +30,10 @@ const Footer = ({ isContentShort }) => {
                     <li>Privacy Policy</li>
                     <li>Status</li>
                 </ul>
-            </div>
+            </div> */}
             <div className={styles.contact}>
                 <ul>
-                    <li className={styles.listHeader}>Contact Us</li>
+                    <li className={styles.listHeader}>Contact Information</li>
                     <li><IoLocationSharp className={styles.icons} />123 Sunshine Street, Level 5, Singapore 456789</li>
                     <li><AiFillClockCircle className={styles.icons} />Mon - Fri: 11am - 8pm | Sat: 11am - 6pm</li>
                     <li><IoMail className={styles.icons} />queuecut@snapstitch.com</li>

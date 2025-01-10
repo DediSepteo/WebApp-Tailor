@@ -17,16 +17,20 @@ export const CartProvider = ({ children }) => {
             // Extract product IDs and quantities
             let itemIds = localStorageCart.map(item => item.id);
             let itemQuantities = localStorageCart.map(item => item.quantity);
+            let itemImages = localStorageCart.map(item => item.image)
 
             // Add newItem if provided
             if (newItem) {
+                const addedItemImage = newItem.image
                 const existingIndex = itemIds.findIndex(id => id === newItem.id);
+                console.log(existingIndex)
 
                 if (existingIndex >= 0) {
                     itemQuantities[existingIndex] += newItem.quantity;
                 } else {
                     itemIds.push(newItem.id);
                     itemQuantities.push(newItem.quantity);
+                    itemImages.push(addedItemImage)
                 }
 
                 // Update localStorage with new cart data
@@ -35,6 +39,7 @@ export const CartProvider = ({ children }) => {
                     JSON.stringify(itemIds.map((id, index) => ({
                         id,
                         quantity: itemQuantities[index],
+                        image: itemImages[index]
                     })))
                 );
             }
@@ -57,6 +62,7 @@ export const CartProvider = ({ children }) => {
                 const updatedCart = products.map((product, index) => ({
                     ...product[0], // Assuming the API returns an array with one product
                     quantity: itemQuantities[index],
+                    image: itemImages[index]
                 }));
 
                 setUpdatedCart(updatedCart);

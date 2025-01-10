@@ -10,7 +10,7 @@ const CreateProduct = () => {
     const [prodPrice, setProdPrice] = useState('');
     const [org_id, setOrg_id] = useState('');
     const [prodDesc, setProdDesc] = useState('');
-    const [prodImg, setProdImg] = useState([]);
+    const [prodImg, setProdImg] = useState("");
     const [dropDownInput, setDropDownInput] = useState([])
 
     const [showPopup, setShowPopup] = useState(false);
@@ -61,18 +61,67 @@ const CreateProduct = () => {
     }
 
     const handleRegister = async (token, body) => {
-        const formData = new FormData();
-        formData.append('file', prodImg);
-        formData.append('upload_preset', 'unsigned')
-        fetch(`https://api.cloudinary.com/v1_1/dvsulshfj/image/upload`, {
-            method: 'POST',
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                const image_url = data.secure_url
-                const response = fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+        try {
+            console.log(prodImg)
+            if (prodImg) {
+                /* Image will be replaced if product already registered */
+                // const imagePath = `images/${org_id}/${prodName}`
+                // await fetch(`http://localhost:3000/api/image?imagePath=${imagePath}`, {
+                //     headers: {
+                //         'Authorization': `Bearer ${token}`
+                //     },
+                // })
+                //     .then((response) => response.json())
+                //     .then((data) => {
+                //         if (data.url) {
+                //             alert("Product with this name already exists for this organization.")
+                //             return
+                //         }
+                //         else {
+                const formData = new FormData()
+                formData.append("image", prodImg)
+                formData.append("org_id", org_id)
+                formData.append('name', prodName)
+                fetch(`http://localhost:3000/api/image/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            return response.json().then((error) => {
+                                alert(error.message)
+                            })
+                        }
+                    })
+                    .then(() => {
+                        fetch(`http://localhost:3000/api/product/register/${org_id}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(body)
+                        })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    return response.json().then((error) => {
+                                        alert(error.message)
+                                    })
+                                }
+                                else {
+                                    alert("Product created!")
+                                    navigate(-1)
+                                }
+                            })
+                    });
+                // }
+                // })
+            }
+            else {
+                fetch(`http://localhost:3000/api/product/register/${org_id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -80,52 +129,24 @@ const CreateProduct = () => {
                     },
                     body: JSON.stringify(body)
                 })
-                if (!response.ok) {
-                    throw new Error('Error creating product');
-                }
-            });
-        try {
-            // const response = await Promise.all([
-            //     fetch(`http://localhost:3000/api/product/register/${org_id}`, {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Authorization': `Bearer ${token}`
-            //         },
-            //         body: JSON.stringify(body)
-            //     }),
-            //     fetch(`http://localhost:3000/api/image/upload`, {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Authorization': `Bearer ${token}`
-            //         }
-            //     }),
-            // ])
-            // console.log(response)
-            // const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': `Bearer ${token}`
-            //     },
-            //     body: JSON.stringify(body)
-            // })
-            // if (!response.ok) {
-            //     throw new Error('Error creating product');
-            // }
-            if (!response.ok) {
-                throw new Error('Error creating product')
+                    .then((response) => {
+                        if (!response.ok) {
+                            return response.json().then((error) => {
+                                alert(error.message)
+                            })
+                        }
+                        else {
+                            alert("Product created!")
+                            navigate(-1)
+                        }
+                    })
             }
 
-            alert("Product created!")
-            navigate(-1)
         }
-
         catch (error) {
             console.error('Error creating product');
-            // alert("Failed to connect to backend")    
         }
+
     }
     const fetchOrgNames = () => {
         fetch(`http://localhost:3000/api/org/names?type=${type}`)

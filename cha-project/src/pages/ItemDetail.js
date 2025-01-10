@@ -31,6 +31,9 @@ export const ItemDetail = () => {
     useEffect(() => {
         if (!item)
             navigate(-1)
+        else {
+            setSelectedImage(item.image)
+        }
     })
 
     const defaultImage = "https://placehold.co/430x640"
@@ -38,27 +41,27 @@ export const ItemDetail = () => {
     const handleAddToCart = () => {
         setAddedToCart(true);
 
-        const existingCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        // const existingCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
         const newItem = {
             id: item.product_id,
             // Ensure that quantity is a number, if user types value, data will be string
-            quantity: quantity
+            quantity: quantity,
         };
 
-        // Check if item already exists in the cart
-        const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
+        // // Check if item already exists in the cart
+        // const existingItemIndex = existingCart.findIndex(cartItem => cartItem.id === newItem.id);
 
-        if (existingItemIndex >= 0) {
-            // If item exists, update its quantity
-            existingCart[existingItemIndex].quantity += newItem.quantity;
-        } else {
-            // Otherwise, add the new item
-            existingCart.push(newItem);
-        }
+        // if (existingItemIndex >= 0) {
+        //     // If item exists, update its quantity
+        //     existingCart[existingItemIndex].quantity += newItem.quantity;
+        // } else {
+        //     // Otherwise, add the new item
+        //     existingCart.push(newItem);
+        // }
 
-        localStorage.setItem('cart', JSON.stringify(existingCart));
-        updateCartDetails(newItem)
+        // localStorage.setItem('cart', JSON.stringify(existingCart));
+        updateCartDetails({ ...newItem, image: item.image || defaultImage })
         setQuantity(1);
         console.log('Cart after adding item:', JSON.parse(localStorage.getItem('cart'))); // For checking
     };
@@ -139,7 +142,9 @@ export const ItemDetail = () => {
             <div className={styles.mainContainer}>
                 <div className={styles.imageContainer}>
                     <div className={styles.thumbnailContainer}>
-                        {/* {item.image.map((image, index) => (
+
+                        { // Used to swap images, currently only able to upload one image per product
+                        /* {item.image.map((image, index) => (
                             <div
                                 key={index}
                                 className={styles.thumbnail}
@@ -153,7 +158,7 @@ export const ItemDetail = () => {
                             className={styles.thumbnail}
                             onClick={() => setSelectedImage(1)}
                         >
-                            <img src={"https://placehold.co/430x640"} alt={`Thumbnail ${1}`} className={styles.thumbnailImage} />
+                            <img src={selectedImage} alt={`Thumbnail ${1}`} className={styles.thumbnailImage} />
                         </div>
                     </div>
                     <div className={styles.imageWrapper}>

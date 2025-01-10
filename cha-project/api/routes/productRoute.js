@@ -72,11 +72,23 @@ router.post('/register/:org_id', async (req, res) => {
         try {
             await Promise.all(productData.map(async (product) => {
                 const { name, price, description } = product;
-                await productModel.createProduct(name, org_id, price, description);
+                productModel.createProduct(name, org_id, price, description, (err, results) => {
+                    if (err) {
+                        if (err.code === 'ER_DUP_ENTRY') {
+                            console.error('Error: Product with this name already exists for this organization.');
+                            return res.status(400).json({ message: 'Product with this name already exists for this organization.' });
+                        }
+                        else {
+                            console.error('Error creating product:', err);
+                            return res.status(500).send('Error creating product');
+                        }
+
+                    }
+                });
             }));
             return res.status(201).send("Products registered successfully")
         }
-        catch {
+        catch (error) {
             console.error('Error during product registration:', error);
             return res.status(500).send('Error registering products');
         }
@@ -88,8 +100,15 @@ router.post('/register/:org_id', async (req, res) => {
         const description = productData.description
         productModel.createProduct(name, org_id, price, description, (err, results) => {
             if (err) {
-                console.error('Error creating product:', err);
-                return res.status(500).send('Error creating product');
+                if (err.code === 'ER_DUP_ENTRY') {
+                    console.error('Error: Product with this name already exists for this organization.');
+                    return res.status(400).json({ message: 'Product with this name already exists for this organization.' });
+                }
+                else {
+                    console.error('Error creating product:', err);
+                    return res.status(500).send('Error creating product');
+                }
+
             }
             res.setHeader('Content-Type', 'application/json');
             return res.status(201).json({ message: 'Product created successfully', data: results });

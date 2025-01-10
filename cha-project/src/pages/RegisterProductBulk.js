@@ -86,7 +86,30 @@ const CreateProductBulk = () => {
             if (!token)
                 alert("Error retrieving token")
             else {
-                console.log(org_id)
+                const formData = new FormData()
+                formData.append("org_id", org_id)
+                console.log(prodList)
+                prodList.map((product) => {
+                    formData.append("image", product.image)
+                    formData.append('name', product.name)
+                })
+                await fetch(`http://localhost:3000/api/image/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            return response.json().then((error) => {
+                                alert(error.message)
+                            })
+                        }
+                        else {
+                            alert("Images stored in S3")
+                        }
+                    })
                 const response = await fetch(`http://localhost:3000/api/product/register/${org_id}`, {
                     method: 'POST',
                     headers: {

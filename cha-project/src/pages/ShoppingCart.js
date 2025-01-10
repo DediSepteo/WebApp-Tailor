@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/ShoppingCart.module.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { jwtDecode } from 'jwt-decode';
+import { CartContext } from "../components/CartContext"
 
 
 export const ShoppingCart = () => {
@@ -14,6 +15,7 @@ export const ShoppingCart = () => {
     const [editingIndex, setEditingIndex] = useState(null); // Track the current editing input
     const intervalRef = useRef(null); // Reference for interval
     const inputRef = useRef(null); // Reference to the current input element
+    const { updateCartDetails } = useContext(CartContext)
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
@@ -22,6 +24,7 @@ export const ShoppingCart = () => {
         // Get all item IDs and quantities from localStorageCart
         const itemIds = localStorageCart.map(item => item.id);
         const initialQuantities = localStorageCart.map(item => item.quantity || 1);
+        const itemImages = localStorageCart.map(item => item.image)
 
         if (itemIds.length > 0) {
             // Map over each item ID to create a fetch request for each item
@@ -37,9 +40,8 @@ export const ShoppingCart = () => {
             // Wait for all fetch requests to complete
             Promise.all(fetchPromises)
                 .then(products => {
-                    const updatedProducts = products.map((product) => {
-                        console.log(product[0], "A ")
-                        return product[0]
+                    const updatedProducts = products.map((product, i) => {
+                        return { ...product[0], image: itemImages[i] }
                     })
                     setCart(updatedProducts); // Set the cart with all fetched products
                 })
@@ -78,6 +80,7 @@ export const ShoppingCart = () => {
             navigate("/login")
         }
         else {
+            console.log(token)
             const decodedToken = jwtDecode(token);
             const org_id = decodedToken.org_id;
             const source = decodedToken.source
@@ -85,10 +88,6 @@ export const ShoppingCart = () => {
                 cart[index].qty = quantity
             })
             // Temporary create order when checkout, remember to remove
-            const products = cart.map(item => ({
-                id: item.product_id, // Use the correct key for product ID in your cart
-                quantity: item.quantity   // Use the correct key for quantity
-            }));
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             if (token) {
                 const decodedToken = jwtDecode(token);
@@ -96,10 +95,9 @@ export const ShoppingCart = () => {
 
                 const orderData = cart.map((item, index) => ({
                     id: item.product_id,
-                    quantity: quantities[index],
+                    quantity: item.qty,
+                    image: item.image
                 }));
-
-                console.log(products, "sdjksjjs")
                 console.log(orderData, "sajdjsjsj")
 
                 const totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0);
@@ -164,67 +162,7 @@ export const ShoppingCart = () => {
                 })
                 .catch(error => console.error("Error:", error));
         }
-        // When payment goes through (Waiting for cha to create paymongo account)
-        if (false) {
-            const products = cart.map(item => ({
-                id: item.product_id, // Use the correct key for product ID in your cart
-                quantity: item.quantity   // Use the correct key for quantity
-            }));
-            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-            if (token) {
-                const decodedToken = jwtDecode(token);
-                const org_id = decodedToken.org_id;
 
-                const orderData = cart.map((item, index) => ({
-                    id: item.product_id,
-                    quantity: quantities[index],
-                }));
-
-                console.log(products, "sdjksjjs")
-                console.log(orderData, "sajdjsjsj")
-
-                const totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0);
-
-                const newOrder = {
-                    org_id: org_id,
-                    qty: totalQuantity, // Total quantity extracted from orderData
-                    subtotal: calculateSubtotal(),
-                    status: "Awaiting Measurements",
-                    date: new Date().toISOString().slice(0, 10), // Current date in YYYY-MM-DD format
-                    orderData
-                };
-
-                console.log("Prepared newOrder object:", newOrder); // Log here for debugging
-
-                fetch('http://localhost:3000/api/order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(newOrder),
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error('Failed to create order');
-                        }
-                        return response.json();
-                    })
-                    .then((data) => {
-                        console.log('Order created with ID:', data.orderId);
-                        localStorage.removeItem('cart');
-                        setCart([]);
-                        alert('Order successfully created!');
-                    })
-                    .catch((error) => {
-                        console.error('Error during checkout:', error);
-                        console.log("Failed newOrder object:", newOrder); // Log again for troubleshooting
-                        alert('There was a problem creating your order.');
-                    });
-            } else {
-                console.error("No token found. Please log in.");
-                alert("Please log in to proceed with checkout.");
-            }
-        }
     };
 
     console.log("Cart:", cart);
@@ -248,18 +186,30 @@ export const ShoppingCart = () => {
     }, [quantities]);
 
     const handleRemoveItem = (index) => {
-        // Remove the item from the cart
+        // // Remove the item from the cart
+        // const updatedCart = cart.filter((_, i) => i !== index);
+        // setCart(updatedCart);
+
+        // const updatedQuantities = quantities.filter((_, i) => i !== index);
+        // setQuantities(updatedQuantities);
+
+        // const updatedLocalStorageCart = updatedCart.map((item, idx) => ({
+        //     id: item.product_id || item.id,
+        //     quantity: updatedQuantities[idx],
+        //     image: item.image
+        // }));
+        // localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
+
         const updatedCart = cart.filter((_, i) => i !== index);
         setCart(updatedCart);
-
-        const updatedQuantities = quantities.filter((_, i) => i !== index);
-        setQuantities(updatedQuantities);
-
-        const updatedLocalStorageCart = updatedCart.map((item, idx) => ({
+        // Transform `updatedCart` back to the original structure for localStorage
+        const updatedLocalStorageCart = updatedCart.map(item => ({
             id: item.product_id || item.id,
-            quantity: updatedQuantities[idx],
+            quantity: item.quantity,
+            image: item.image
         }));
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
+        updateCartDetails()
     };
 
 
@@ -399,7 +349,7 @@ export const ShoppingCart = () => {
                             {cart.map((item, index) => (
                                 <tr key={index}>
                                     <td className={styles.productRow}>
-                                        <img src="https://placehold.co/430x640" alt={item.name} className={styles.productImage} />
+                                        <img src={item.image} alt={item.name} className={styles.productImage} />
                                         <div style={{ marginLeft: '10px' }}>
                                             <p className={styles.productName}>{item.name}</p>
                                             <p className={styles.productDetails}>{item.detail}</p>

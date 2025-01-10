@@ -104,11 +104,7 @@ const AppContent = () => {
                 {/* reset password */}
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-                {/* Protect the following admin routes */}
-                <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
-                <Route path="/admin/corporate/orgs" element={<ProtectAdminRoute element={<AdminOrgPage />} />} />
-                <Route path="/admin/corporate/orgs/register" element={<ProtectAdminRoute element={<RegisterOrg />} />} />
-
+                
                 {/* <Route path="/Shop1/" element={<CorporateShop />} /> */}
                 <Route path="/Shop1" element={<Shop1Item />} />
                 {/* Shop2 Temporary Path to access Government shop */}
@@ -127,7 +123,6 @@ const AppContent = () => {
 
                 {/* <Route path="/Customer" element={<Customer />} /> */}
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin/dashboard" element={<AdminHomePage />} />
                 <Route path="/admin/dashboard" element={<ProtectAdminRoute element={<AdminHomePage />} />} />
                 <Route path="/admin/dashboard/view-orders" element={<ViewAllOrder />} />
                 <Route path="/admin/corporate/orgs" element={<AdminOrgPage />} />

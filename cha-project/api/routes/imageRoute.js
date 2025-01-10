@@ -1,76 +1,145 @@
 const express = require('express');
-const cloudinary = require('cloudinary')
-const crypto = require('crypto-js')
+const fs = require("fs");
+const path = require("path");
+require('dotenv').config();
+
 const multer = require('multer');
-const { CLOUDINARY_NAME, CLOUDINARY_KEY, CLOUDINARY_SECRET } = process.env
+const upload = multer()
 
-const upload = multer({ dest: "uploads" })
+const {
+    PutObjectCommand,
+    S3Client,
+    S3ServiceException,
+    GetObjectCommand,
+    HeadObjectCommand
+} = require("@aws-sdk/client-s3")
 
-// cloudinary.config({
-//     cloud_name: CLOUDINARY_NAME,
-//     api_key: CLOUDINARY_KEY,
-//     api_secret: CLOUDINARY_SECRET
-// })
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 
 
-const router = express.Router();
-/* Using Cloudflare
-router.post('/upload', async (req, res) => {
-    // const { imageUrl, metadata } = req.body
-    const { imageUrl } = req.body
+const router = express.Router()
 
-    const formData = new URLSearchParams();
-    formData.append('url', imageUrl);
-    // formData.append('metadata', JSON.stringify(metadata));
-    formData.append('requireSignedURLs', 'false');
+router.get('/', async (req, res) => {
     try {
-        const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/images/v1`, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${ClOUDFLARE_TOKEN}`,
+        const imagePath = req.query.imagePath
+        console.log(imagePath)
+        const s3Client = new S3Client({
+            region: 'ap-southeast-2', // Replace with your region
+            credentials: {
+                accessKeyId: process.env.AWS_ADMIN_KEY_ID,
+                secretAccessKey: process.env.AWS_ADMIN_SECRET_KEY,
             },
-            body: formData
-        })
-        if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
-        }
+        });
 
-        const data = await response.json();
-        res.json(data);
+        const command = new GetObjectCommand({
+            Bucket: process.env.BUCKET_NAME,
+            Key: imagePath,
+        });
+
+        const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+        return res.status(200).json({ url: url })
     }
     catch (error) {
-        console.error('Error uploading image:', error);
-        res.status(500).json({ error: 'Failed to upload image' });
+        console.error('Error fetching image from S3:', error);
     }
-});
-*/
-
-router.post('/upload', upload.single('image'), async (req, res) => {
-    const image = req.file
-
-    const timestamp = Math.floor(Date.now() / 1000); // Current timestamp
-
-    const stringToSign = `timestamp=${timestamp}&upload_preset=ml_default${CLOUDINARY_SECRET}`;
-
-    const signature = crypto.SHA1(stringToSign).toString()
-
-
-    const formData = new FormData();
-    // formData.append('timestamp', timestamp)
-    formData.append('file', image);
-    formData.append('upload_preset', 'unsigned')
-    // formData.append('api_key', CLOUDINARY_KEY)
-    // formData.append('signature', signature)
-
-    // Upload image to Cloudinary or your backend
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
-        method: 'POST',
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data)
-        });
 })
 
+router.post('/upload', upload.array('image', 10), async (req, res) => {
+    const images = req.files
+    var { name, org_id } = req.body
+    console.log(name)
+    console.log(images)
+    if (!Array.isArray(name)) {
+        name = [name];
+    }
+    if (!Array.isArray(org_id)) {
+        org_id = [org_id];
+    }
+    console.log(name.length, images.length)
+    if (name.length !== images.length) {
+        return res.status(400).json({ message: 'Number of names or org_ids does not match number of uploaded images' });
+    }
+
+    const client = new S3Client({
+        region: "ap-southeast-2",
+        credentials: { accessKeyId: process.env.AWS_ADMIN_KEY_ID, secretAccessKey: process.env.AWS_ADMIN_SECRET_KEY }
+    });
+
+    const filesToUpload = images.length ? images : [req.file];
+
+    try {
+        const uploadPromises = filesToUpload.map((image, index) => {
+
+            const imagePath = `images/${org_id}/${name[index]}`
+
+            const command = new PutObjectCommand({
+                Bucket: process.env.BUCKET_NAME,
+                Key: imagePath,
+                Body: image.buffer,
+                ContentType: 'image/png'
+            });
+            return client.send(command);
+        })
+        await Promise.all(uploadPromises);
+        return res.status(200).json({ message: 'Image uploaded successfully' });
+    } catch (caught) {
+        console.log(caught)
+        if (
+            caught instanceof S3ServiceException &&
+            caught.name === "EntityTooLarge"
+        ) {
+            console.error(
+                `Error from S3 while uploading object to ${process.env.BUCKET_NAME}. \
+    The object was too large. To upload objects larger than 5GB, use the S3 console (160GB max) \
+    or the multipart upload API (5TB max).`,
+            );
+        } else if (caught instanceof S3ServiceException) {
+            console.error(
+                `Error from S3 while uploading object to ${process.env.BUCKET_NAME}.  ${caught.name}: ${caught.message}`,
+            );
+        } else {
+            throw caught;
+        }
+        return res.status(400).json({ message: 'Failed to upload image' });
+    }
+})
+
+
+// router.post('/upload', upload.single('image'), async (req, res) => {
+//     const image = req.file
+//     const { name, org_id } = req.body
+//     const imagePath = `images/${org_id}/${name}`
+//     console.log(imagePath)
+//     const client = new S3Client({ region: "ap-southeast-2", credentials: { accessKeyId: process.env.AWS_ADMIN_KEY_ID, secretAccessKey: process.env.AWS_ADMIN_SECRET_KEY } });
+//     const command = new PutObjectCommand({
+//         Bucket: process.env.BUCKET_NAME,
+//         Key: imagePath,
+//         Body: image.buffer,
+//         ContentType: 'image/png'
+//     });
+
+//     try {
+//         await client.send(command);
+//         return res.status(200).json({ message: 'Image uploaded successfully' });
+//     } catch (caught) {
+//         console.log(caught)
+//         if (
+//             caught instanceof S3ServiceException &&
+//             caught.name === "EntityTooLarge"
+//         ) {
+//             console.error(
+//                 `Error from S3 while uploading object to ${process.env.BUCKET_NAME}. \
+//     The object was too large. To upload objects larger than 5GB, use the S3 console (160GB max) \
+//     or the multipart upload API (5TB max).`,
+//             );
+//         } else if (caught instanceof S3ServiceException) {
+//             console.error(
+//                 `Error from S3 while uploading object to ${process.env.BUCKET_NAME}.  ${caught.name}: ${caught.message}`,
+//             );
+//         } else {
+//             throw caught;
+//         }
+//         return res.status(400).json({ message: 'Failed to upload image' });
+//     }
+// })
 module.exports = router;

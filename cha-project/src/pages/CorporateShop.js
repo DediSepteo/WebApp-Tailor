@@ -78,6 +78,19 @@ export const CorporateShop = () => {
             fetch(`http://localhost:3000/api/product/org/${org_id}`)
                 .then(response => response.json())
                 .then(data => {
+                    data.map((item) => {
+                        const imagePath = `/images/${org_id}/${item.name}`
+                        fetch(`http://localhost:3000/api/image?imagePath=${imagePath}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
+                        })
+                            .then((response => response.json()))
+                            .then((data) => {
+                                return ({ ...item, image: data.url })
+                            })
+                    })
+                    console.log(data)
                     setCategories(data);  // Set categories based on fetched data
                 })
                 .catch(error => {

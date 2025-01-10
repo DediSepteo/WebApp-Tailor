@@ -1,4 +1,4 @@
-CREATE TABLE Organization (
+	CREATE TABLE Organization (
     org_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(125) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -35,12 +35,14 @@ CREATE TABLE `Orders` (
 );
 
 CREATE TABLE Products (
-    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT AUTO_INCREMENT,
     org_id INT, 
     price DECIMAL(10, 2) NOT NULL,
     description TEXT,
     name varchar(255) NOT NULL,
     status varchar(255) NOT NULL,
+    PRIMARY KEY (product_id), 
+    UNIQUE KEY org_name_unique (org_id, name),
     Foreign Key (org_id) References Organization(org_id)
 );	
 
@@ -68,27 +70,16 @@ CREATE TABLE Measurements (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE admin (
-	admin_id INT AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    role VARCHAR(25) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    PRIMARY KEY (admin_id)
-);
-
-/* Password is 1234 */ 
-INSERT INTO admin(email, role, password) VALUES("a@a.com", "admin", "$2b$10$5rMHCwoIcyu/dbTvZ5JC8unnynnTdzABTVQzVrBDXUdUw8g62QybK");
-
 CREATE TABLE TempAccount (
 	account_id INT AUTO_INCREMENT,
-    org_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
+	org_id INT,
+	name VARCHAR(35) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     createdAt DATETIME NOT NULL,
-    status VARCHAR(35) NOT NULL,
+    status varchar(15) NOT NULL,
     PRIMARY KEY (account_id, org_id),
-    FOREIGN KEY (org_id) REFERENCES organization(org_id)
+    FOREIGN KEY (org_id) REFERENCES Organization(org_id)
 );
 
 -- Insert data into Organization (20 entries)
@@ -234,10 +225,12 @@ INSERT INTO Measurements (order_id, name, address, measurement, product_id, qty,
 (19, 'Grace Sison', '101 Garden St, Baguio', '{"Bust girth": "55.70 cm", "Under bust girth": "47.50 cm", "Upper chest girth": "61.80 cm", "Waist girth": "56.20 cm", "Upper hip girth": "65.30 cm", "Hip girth": "71.50 cm", "Upper arm girth": "33.80 cm"}', 19, 4, 2600, 'Baguio', 639176543876),
 (20, 'Ethan Cruz', '202 Summit Ave, Davao City', '{"Bust girth": "59.20 cm", "Under bust girth": "51.00 cm", "Upper chest girth": "66.00 cm", "Waist girth": "60.70 cm", "Upper hip girth": "69.00 cm", "Hip girth": "76.20 cm", "Upper arm girth": "36.50 cm"}', 20, 3, 8002, 'Davao City', 639189874567);
 
+
+
+
 UPDATE organization
 SET country = "PH"
 WHERE country = 'Philippines';
-
 
 
 

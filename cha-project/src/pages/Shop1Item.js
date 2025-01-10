@@ -11,9 +11,7 @@ export const Shop1Item = () => {
     const [companyFromSession, setCompanyFromSession] = useState('');
 
     const navigate = useNavigate()
-    const item = [];
 
-    //const filteredItems = options.filter(item => item.company === company); idk whats this lol @jav
 
     useEffect(() => {
         // Retrieve token from sessionStorage
@@ -30,9 +28,23 @@ export const Shop1Item = () => {
                 // Fetch products using the org_name
                 fetch(`http://localhost:3000/api/product/org/${org_id}`)
                     .then(response => response.json())
-                    .then(data => {
-                        setProducts(data);  // Store fetched products
-                        console.log(data)
+                    .then(async data => {
+                        const updatedData = await Promise.all(
+                            data.map(async (item) => {
+                                const imagePath = `images/${org_id}/${item.name}`;
+                                const response = await fetch(`http://localhost:3000/api/image?imagePath=${imagePath}`, {
+                                    headers: {
+                                        'Authorization': `Bearer ${token}`,
+                                    },
+                                });
+
+                                const imageData = await response.json();
+
+                                return { ...item, image: imageData.url };
+                            })
+                        );
+                        console.log(updatedData)
+                        setProducts(updatedData);  // Store fetched products
                     })
                     .catch(error => {
                         console.error('Error fetching products:', error);

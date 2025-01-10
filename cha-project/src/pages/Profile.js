@@ -70,13 +70,6 @@ export const Profile = () => {
                 }
             }
 
-            const passwordLength = localStorage.getItem('passwordLength');
-            if (passwordLength) {
-                setUserDetails((prevDetails) => ({
-                    ...prevDetails,
-                    maskedPassword: '*'.repeat(Number(passwordLength)),
-                }));
-            }
         };
 
         fetchAndSetUserDetails();
@@ -225,10 +218,10 @@ export const Profile = () => {
                                                 <div>Order ID: {order_id}</div>
                                                 <div
                                                     className={`${styles.statusIndicator} ${status === "Ready"
-                                                            ? styles.statusReady
-                                                            : status === "Awaiting Measurements"
-                                                                ? styles.statusAwaitingMeasurements
-                                                                : ""
+                                                        ? styles.statusReady
+                                                        : status === "Awaiting Measurements"
+                                                            ? styles.statusAwaitingMeasurements
+                                                            : ""
                                                         }`}
                                                 >
                                                     {status}

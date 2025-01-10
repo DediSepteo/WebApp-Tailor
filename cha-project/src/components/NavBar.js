@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, useNavigate, Link } from "react-router-dom";
-import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegUser, FaBars } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { PiArrowBendUpRightBold } from "react-icons/pi";
 import { jwtDecode } from "jwt-decode";
@@ -32,8 +30,6 @@ const NavBar = () => {
     // Side cart states
     // Load cart from localStorage (Assume it's an array of { id, size, color, quantity })
     const localStorageCart = JSON.parse(localStorage.getItem('cart') || "[]");
-
-
 
     // Side cart states
     const [lastValidQuantities, setLastValidQuantities] = useState(localStorageCart.map(item => item.quantity));
@@ -79,6 +75,7 @@ const NavBar = () => {
         const updatedLocalStorageCart = updatedCart.map(item => ({
             id: item.product_id || item.id,
             quantity: item.quantity,
+            image: item.image
         }));
         console.log(localStorage.getItem('cart'), "sjkadjka")
         localStorage.setItem('cart', JSON.stringify(updatedLocalStorageCart));
@@ -299,7 +296,7 @@ const NavBar = () => {
                                     <tr key={index}>
                                         <td className={styles.productRow}>
                                             <img
-                                                src="https://placehold.co/430x640" // Replace with item.image_url if available
+                                                src={item.image}// Replace with item.image_url if available
                                                 alt={item.name}
                                                 className={styles.productImage}
                                             />

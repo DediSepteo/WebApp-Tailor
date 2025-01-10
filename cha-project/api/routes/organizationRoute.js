@@ -152,8 +152,11 @@ router.post('/register', async (req, res) => {
         phone,
         (err, results) => {
             if (err) {
+                if (err.errno == 1062) {
+                    return res.status(400).json({ message: "Organization with email already exists" });
+                }
                 console.error('Error creating organization:', err);
-                return res.status(500).send('Error creating organization');
+                return res.status(500).json({ message: "Failed to create organization" });
             }
             res.setHeader('Content-Type', 'application/json');
             return res.status(201).json({ message: 'Organization created successfully', data: results });

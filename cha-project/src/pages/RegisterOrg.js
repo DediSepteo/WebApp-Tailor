@@ -111,12 +111,46 @@ const CreateOrganization = () => {
                 }),
             })
                 .then(response => {
-                    if (!response.ok) throw new Error('Error creating organization');
+                    if (!response.ok) {
+                        return response.json().then((error) => {
+                            if (error.message) {
+                                alert(error.message)
+                            }
+                            else {
+                                alert("Something went wrong")
+                            }
+                            throw new Error("Failed to create organization");
+                        })
+                    }
                     return response.json();
                 })
-                .then(response => {
+                .then(async response => {
                     if (orgProducts.length) {
-                        fetch(`http://localhost:3000/api/product/register/${response.data.insertId}`, {
+                        const org_id = response.data.insertId
+                        const formData = new FormData()
+                        formData.append("org_id", org_id)
+                        orgProducts.map((product) => {
+                            formData.append("image", product.image)
+                            formData.append('name', product.name)
+                        })
+                        await fetch(`http://localhost:3000/api/image/upload`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: formData
+                        })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    return response.json().then((error) => {
+                                        alert(error.message)
+                                    })
+                                }
+                                else {
+                                    alert("Images stored in S3")
+                                }
+                            })
+                        fetch(`http://localhost:3000/api/product/register/${org_id}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -124,7 +158,16 @@ const CreateOrganization = () => {
                             body: JSON.stringify(orgProducts),
                         })
                             .then(productResponse => {
-                                if (!productResponse.ok) throw new Error('Error creating products for organization');
+                                if (!productResponse.ok)
+                                    return productResponse.json().then((error) => {
+                                        if (error.message) {
+                                            alert(error.message)
+                                        }
+                                        else {
+                                            alert("Something went wrong")
+                                        }
+                                        throw new Error('Error creating products for organization');
+                                    })
                                 alert("Organization created and products registered!");
                                 navigate(-1);
                             });
@@ -134,8 +177,7 @@ const CreateOrganization = () => {
                     }
                 });
         } catch (error) {
-            console.error('Error creating organization');
-            alert("Failed to connect to backend")
+            throw new Error('Error creating organization');
         }
     };
 
